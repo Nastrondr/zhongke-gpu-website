@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>联系销售 - 中科融算网 AI算力平台官网</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/icons.js"></script>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <header class="header">
+      <div class="container">
+        <nav class="nav">
+          <a href="index.html" class="logo">
+            <img src="images/logo2.png" alt="中科融算网">
+          </a>
+          <button class="nav-toggle">☰</button>
+          <ul class="nav-menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html">产品与服务</a></li>
+            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="resources.html">资源中心</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html" class="active">联系销售</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="#" class="login-btn">登录</a>
+            <a href="#" class="login-btn">注册</a>
+            <a href="contact.html" class="quote-btn">获取报价</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 英雄区域 -->
+    <section class="hero hero-contact">
+      <div class="container" style="position: relative; z-index: 2;">
+        <h1>联系销售</h1>
+        <h2>我们随时为您提供专业的算力解决方案</h2>
+        <p>如果您对我们的产品和服务感兴趣，或有任何问题，请随时与我们联系</p>
+      </div>
+    </section>
+    
+    <!-- 联系信息 -->
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>联系方式</h2>
+          <p>我们提供多种联系方式，您可以选择最适合您的方式与我们取得联系</p>
+        </div>
+        <div class="grid grid-cols-2">
+          <div class="card">
+            <h3>联系信息</h3>
+            <p><strong>电话:</strong> 400-123-4567</p>
+            <p><strong>邮箱:</strong> contact@zhongke-gpu.com</p>
+            <p><strong>地址:</strong> 北京市海淀区中关村科技园区</p>
+            <p><strong>工作时间:</strong> 周一至周五 9:00-18:00</p>
+          </div>
+          <div class="card">
+            <h3>在线咨询</h3>
+            <p>请填写以下表单，我们的销售团队将尽快与您联系</p>
+            <form>
+              <div style="margin-bottom: 16px;">
+                <label for="name" style="display: block; margin-bottom: 8px;">姓名</label>
+                <input type="text" id="name" name="name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;" placeholder="请输入您的姓名">
+              </div>
+              <div style="margin-bottom: 16px;">
+                <label for="email" style="display: block; margin-bottom: 8px;">邮箱</label>
+                <input type="email" id="email" name="email" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;" placeholder="请输入您的邮箱">
+              </div>
+              <div style="margin-bottom: 16px;">
+                <label for="phone" style="display: block; margin-bottom: 8px;">电话</label>
+                <input type="tel" id="phone" name="phone" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;" placeholder="请输入您的电话">
+              </div>
+              <div style="margin-bottom: 16px;">
+                <label for="message" style="display: block; margin-bottom: 8px;">留言</label>
+                <textarea id="message" name="message" rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;" placeholder="请输入您的留言"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">提交</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <div id="root"></div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>中科融算网</h3>
+            <p>专注于AI算力平台建设，为企业提供高性能、高可靠性的算力服务</p>
+          </div>
+          <div>
+            <h4 class="footer-title">产品与服务</h4>
+            <ul class="footer-links">
+              <li><a href="products.html">GPU服务器</a></li>
+              <li><a href="products.html">AI训练平台</a></li>
+              <li><a href="products.html">云算力服务</a></li>
+              <li><a href="products.html">定制化解决方案</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">支持与资源</h4>
+            <ul class="footer-links">
+              <li><a href="resources.html">技术文档</a></li>
+              <li><a href="resources.html">API文档</a></li>
+              <li><a href="resources.html">常见问题</a></li>
+              <li><a href="resources.html">技术支持</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4 class="footer-title">联系方式</h4>
+            <p>电话: 400-123-4567</p>
+            <p>邮箱: contact@zhongke-gpu.com</p>
+            <p>地址: 北京市海淀区中关村科技园区</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 中科融算网. 保留所有权利.</p>
+          <p style="margin-top: 10px;">邮箱: contact@zhongke-gpu.com | 电话: 400-123-4567 | 企业微信: zhongke-gpu</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

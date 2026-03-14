@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>裸金属GPU租赁 - 中科融算网 AI算力平台官网</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/icons.js"></script>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <header class="header">
+      <div class="container">
+        <nav class="nav">
+          <a href="index.html" class="logo">
+            <img src="images/logo2.png" alt="中科融算网">
+          </a>
+          <button class="nav-toggle">☰</button>
+          <ul class="nav-menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html" class="active">产品与服务</a></li>
+            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="resources.html">资源中心</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系销售</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="#" class="login-btn">登录</a>
+            <a href="#" class="login-btn">注册</a>
+            <a href="contact.html" class="quote-btn">获取报价</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 产品详情 -->
+    <section style="padding: 80px 0;">
+      <div class="container">
+        <div style="display: flex; align-items: center; margin-bottom: 40px; margin-top: 20px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+          <a href="products.html" class="btn btn-secondary" style="margin-right: 24px;">
+            ← 返回产品与服务
+          </a>
+          <div class="section-title" style="flex: 1; margin-left: 40px; text-align: center;">
+            <h2>裸金属GPU租赁</h2>
+            <p>独享物理服务器，高性能训练环境，企业级稳定资源</p>
+          </div>
+        </div>
+        <style>
+          /* 表格样式 */
+          .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          }
+          
+          .comparison-table th,
+          .comparison-table td {
+            padding: 24px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          
+          .comparison-table th {
+            background-color: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+          }
+          
+          .comparison-table tr:hover {
+            background-color: rgba(0, 102, 255, 0.02);
+          }
+        </style>
+        <div class="grid grid-cols-2">
+          <div>
+            <h3>产品特点</h3>
+            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+              <li>独享物理服务器，无虚拟化开销</li>
+              <li>配备最新一代GPU，提供强大计算能力</li>
+              <li>高速网络连接，支持多机分布式训练</li>
+              <li>企业级安全保障，数据隔离</li>
+              <li>7*24小时技术支持</li>
+            </ul>
+            <h3>适用场景</h3>
+            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+              <li>大规模AI模型训练</li>
+              <li>高性能计算任务</li>
+              <li>对延迟要求高的应用</li>
+              <li>企业级生产环境</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>配置选项</h3>
+            <p><strong>GPU型号:</strong> NVIDIA A100, H100, RTX 4090, L40等</p>
+            <p><strong>CPU:</strong> Intel Xeon或AMD EPYC系列</p>
+            <p><strong>内存:</strong> 128GB-1TB</p>
+            <p><strong>存储:</strong> SSD/NVMe 1TB+</p>
+            <p><strong>网络:</strong> 10G/25G/100G</p>
+            <a href="contact.html" class="btn btn-primary" style="margin-top: 24px; display: inline-block;">获取报价</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- GPU型号详细参数 -->
+    <section class="section-gray">
+      <div class="container">
+        <div class="section-title">
+          <h2>GPU型号详细参数</h2>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>GPU型号</th>
+              <th>显存</th>
+              <th>CUDA核心</th>
+              <th>FP32性能</th>
+              <th>适用场景</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A100</td>
+              <td>40GB/80GB</td>
+              <td>6912</td>
+              <td>19.5 TFLOPS</td>
+              <td>大规模AI训练、科学计算</td>
+            </tr>
+            <tr>
+              <td>H100</td>
+              <td>80GB</td>
+              <td>16896</td>
+              <td>60 TFLOPS</td>
+              <td>超大规模AI训练、高性能计算</td>
+            </tr>
+            <tr>
+              <td>RTX 4090</td>
+              <td>24GB</td>
+              <td>16384</td>
+              <td>83 TFLOPS</td>
+              <td>中小型AI训练、游戏开发</td>
+            </tr>
+            <tr>
+              <td>L40</td>
+              <td>48GB</td>
+              <td>18176</td>
+              <td>45 TFLOPS</td>
+              <td>AI推理、图形渲染、科学计算</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <!-- 服务器配置表格 -->
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>服务器配置表格</h2>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>配置类型</th>
+              <th>GPU</th>
+              <th>CPU</th>
+              <th>内存</th>
+              <th>网络</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>入门级</td>
+              <td>1x RTX 4090</td>
+              <td>Intel Xeon 8核</td>
+              <td>128GB</td>
+              <td>10G</td>
+            </tr>
+            <tr>
+              <td>标准版</td>
+              <td>4x A100 40GB</td>
+              <td>Intel Xeon 16核</td>
+              <td>256GB</td>
+              <td>25G</td>
+            </tr>
+            <tr>
+              <td>高性能</td>
+              <td>8x A100 80GB</td>
+              <td>Intel Xeon 32核</td>
+              <td>512GB</td>
+              <td>100G</td>
+            </tr>
+            <tr>
+              <td>顶级版</td>
+              <td>8x H100 80GB</td>
+              <td>AMD EPYC 64核</td>
+              <td>1TB</td>
+              <td>100G</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <div id="root"></div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>中科融算网</h3>
+            <p>专注于AI算力平台建设，为企业提供高性能、高可靠性的算力服务</p>
+          </div>
+          <div>
+            <h4 class="footer-title">产品与服务</h4>
+            <ul class="footer-links">
+              <li><a href="products.html">GPU服务器</a></li>
+              <li><a href="products.html">AI训练平台</a></li>
+              <li><a href="products.html">云算力服务</a></li>
+              <li><a href="products.html">定制化解决方案</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">支持与资源</h4>
+            <ul class="footer-links">
+              <li><a href="resources.html">技术文档</a></li>
+              <li><a href="resources.html">API文档</a></li>
+              <li><a href="resources.html">常见问题</a></li>
+              <li><a href="resources.html">技术支持</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4 class="footer-title">联系方式</h4>
+            <p>电话: 400-123-4567</p>
+            <p>邮箱: contact@zhongke-gpu.com</p>
+            <p>地址: 北京市海淀区中关村科技园区</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 中科融算网. 保留所有权利.</p>
+          <p style="margin-top: 10px;">邮箱: contact@zhongke-gpu.com | 电话: 400-123-4567 | 企业微信: zhongke-gpu</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

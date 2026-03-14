@@ -1,0 +1,855 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 设计系统变量 */
+:root {
+  /* 主色调 */
+  --primary: #364879;
+  --primary-light: #25cfd8;
+  /* 辅助色 */
+  --accent: #18af86;
+  /* 文字颜色 */
+  --text-dark: #1f2937;
+  --text-base: #4b5563;
+  --text-light: #9ca3af;
+  /* 背景颜色 */
+  --bg-light: #f3f4f6;
+  --bg-white: #ffffff;
+  /* 边框颜色 */
+  --border-color: #E5E7EB;
+  /* 字体 */
+  --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* 阴影 */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 102, 255, 0.12);
+  /* 圆角 */
+  --border-radius: 8px;
+  /* 过渡 */
+  --transition: all 0.3s ease;
+}
+
+/* 图标样式 */
+.lucide-icon {
+  stroke: var(--primary);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: var(--transition);
+}
+
+/* 导航图标 */
+.nav-menu .lucide-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* 卡片图标 */
+.card .lucide-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 20px;
+}
+
+/* 按钮图标 */
+.btn .lucide-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+/* 悬停效果 */
+.card:hover .lucide-icon,
+.btn:hover .lucide-icon,
+.nav-menu li a:hover .lucide-icon {
+  stroke: var(--primary-light);
+}
+
+/* 卡片悬停时按钮颜色变化 */
+.card:hover .btn-primary {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover .btn-secondary {
+  border-color: var(--primary-light);
+  background-color: var(--primary-light);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 1. 固定顶部导航栏 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: -60px;
+}
+
+.logo img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* 悬停效果 */
+.nav-menu li a:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 选中状态 */
+.nav-menu li a.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  font-weight: 600;
+}
+
+/* 确保所有导航链接样式统一 */
+.nav-menu li a {
+  min-width: 80px;
+  text-align: center;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quote-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.quote-btn:hover {
+  color: #ffffff;
+  border-color: var(--primary-light);
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.login-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  color: #ffffff;
+  border-color: var(--primary-light);
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 2. 英雄区域 */
+.hero {
+  color: white;
+  padding: 160px 0 120px;
+  text-align: center;
+  margin-top: 70px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* 页面特定的hero背景 */
+.hero-home {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI computing power data center, blue technology background, futuristic, high-tech, dark blue waves with light rays, digital particles, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1;
+}
+
+.hero-products {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue circuit board with electronic components, technology background, close-up, high detail, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-products::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1;
+}
+
+.hero-gpu-time {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.hero-solutions {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue server room with glowing lights, data center, futuristic technology, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-solutions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1;
+}
+
+.hero-resources {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue digital technology background with floating currency symbols and futuristic grid, resource center theme, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-resources::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1;
+}
+
+.hero-about {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern blue glass skyscrapers, corporate buildings, professional business environment, enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1;
+}
+
+.hero-contact {
+  background: var(--primary);
+  position: relative;
+}
+
+.hero-contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  line-height: 1.2;
+  color: white;
+}
+
+.hero h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero p {
+  font-size: 14px;
+  margin-bottom: 32px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 3. 卡片组件 */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  transition: var(--transition);
+  height: 100%;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+  font-size: 32px;
+  color: var(--primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 16px;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.card p {
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.card.highlighted {
+  background-color: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.card.highlighted h3,
+.card.highlighted p {
+  color: #fff;
+}
+
+/* 4. 网格布局系统 */
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 响应式网格 */
+@media (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 5. 深蓝色页脚 */
+.footer {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 60px 0 30px;
+  margin-top: 80px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand h3 {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.footer-brand p {
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+.footer-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: #fff;
+  padding-left: 8px;
+}
+
+.footer-contact p {
+  margin-bottom: 12px;
+  color: var(--text-light);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 30px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.footer-bottom p {
+  color: var(--text-light);
+}
+
+/* 响应式页脚 */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 6. 按钮组件 */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary-light);
+  background-color: var(--primary-light);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 禁用按钮样式 */
+.btn-disabled {
+  background-color: #f3f4f6 !important;
+  color: var(--text-base) !important;
+  border: 1px solid #e5e7eb !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  transition: none !important;
+}
+
+/* 取消卡片悬停时禁用按钮的效果 */
+.card:hover .btn-disabled {
+  background-color: #f3f4f6 !important;
+  color: var(--text-base) !important;
+  border: 1px solid #e5e7eb !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 响应式导航栏 */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .nav-menu.show {
+    display: flex;
+  }
+  
+  .nav-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-toggle {
+    display: none;
+  }
+}
+
+/* 通用样式 */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+  color: var(--text-base);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+  color: var(--text-dark);
+}
+
+.section-title h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.section-title p {
+  font-size: 14px;
+  color: var(--text-dark);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* 模块背景 */
+.section-light {
+  background-color: var(--bg-light);
+}
+
+.section-gray {
+  background-color: var(--bg-light);
+}
+
+/* 产品卡片样式 */
+.product-card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 96px;
+  margin-top: 40px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-price {
+  background-color: var(--accent);
+  color: #ffffff;
+  padding: 16px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.card-price::before {
+  content: '💰';
+}
+
+.card-body {
+  background-color: #ffffff;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.card-body li {
+  margin-bottom: 12px;
+  color: var(--text-base);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.purchase-btn {
+  background-color: #FFFFFF;
+  color: var(--text-base);
+  border: 2px solid #94A3B8;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: auto;
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.purchase-btn:hover {
+  background-color: var(--primary-light);
+  color: #ffffff;
+  border: 2px solid var(--primary-light);
+}
+
+/* 表格样式 */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 40px 0;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 24px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-table th {
+  background-color: var(--bg-light);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.comparison-table tr:hover {
+  background-color: rgba(0, 102, 255, 0.02);
+}
+/* 响应式Logo */
+@media (max-width: 768px) {
+  .logo img {
+    height: 40px; /* 在小屏幕上适当缩小 */
+  }
+  
+  .nav-menu {
+    gap: 16px;
+  }
+  
+  .nav-menu li a {
+    padding: 6px 12px;
+  }
+  
+  .nav-actions {
+    gap: 8px;
+  }
+  
+  .quote-btn,
+  .login-btn {
+    padding: 6px 12px;
+  }
+}

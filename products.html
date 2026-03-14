@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>产品与服务 - 中科融算网 AI算力平台官网</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/icons.js"></script>
+    <style>
+      /* 表格样式 */
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 40px 0;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      
+      .comparison-table th,
+      .comparison-table td {
+        padding: 24px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      
+      .comparison-table th {
+        background-color: var(--bg-light);
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      
+      .comparison-table tr:hover {
+        background-color: rgba(0, 102, 255, 0.02);
+      }
+      
+      /* 产品卡片样式 */
+      .product-card {
+        padding: 32px;
+        height: 100%;
+      }
+      
+      .product-card h3 {
+        margin-bottom: 16px;
+      }
+      
+      .product-card p {
+        margin-bottom: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <header class="header">
+      <div class="container">
+        <nav class="nav">
+          <a href="index.html" class="logo">
+            <img src="images/logo2.png" alt="中科融算网">
+          </a>
+          <button class="nav-toggle">☰</button>
+          <ul class="nav-menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html" class="active">产品与服务</a></li>
+            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="resources.html">资源中心</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系销售</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="#" class="login-btn">登录</a>
+            <a href="#" class="login-btn">注册</a>
+            <a href="contact.html" class="quote-btn">获取报价</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 页面标题区 -->
+    <section class="hero hero-products" style="background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue circuit board with electronic components, technology background, close-up, high detail, professional enterprise style&image_size=landscape_16_9') no-repeat center center; background-size: cover;">
+      <div class="container" style="position: relative; z-index: 2;">
+        <h1>产品与服务</h1>
+        <h2>灵活多样的算力资源方案</h2>
+        <p>为不同规模和需求的用户提供定制化的算力解决方案</p>
+      </div>
+    </section>
+    
+    <!-- 产品分类区 -->
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>产品分类</h2>
+        </div>
+        <div class="grid grid-cols-2">
+          <div class="card">
+            <svg class="lucide-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+              <line x1="6" y1="6" x2="6.01" y2="6"/>
+              <line x1="6" y1="18" x2="6.01" y2="18"/>
+            </svg>
+            <h3>裸金属租赁</h3>
+            <p>适合企业AI训练、私有部署、长期算力需求的场景，提供独享物理服务器，高性能训练环境，企业级稳定资源</p>
+            <a href="bare-metal.html" class="btn btn-primary">查看详情</a>
+          </div>
+          <div class="card">
+            <svg class="lucide-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            <h3>GPU卡时销售</h3>
+            <p>适合短期算力需求、AI实验、推理测试的场景，提供按时间灵活计费，秒级资源开通，按需弹性扩展</p>
+            <a href="gpu-time.html" class="btn btn-primary">查看详情</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 产品对比表格区 -->
+    <section class="section-gray">
+      <div class="container">
+        <div class="section-title">
+          <h2>产品对比</h2>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>对比项</th>
+              <th>裸金属租赁</th>
+              <th>GPU卡时销售</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>资源类型</td>
+              <td>独享服务器</td>
+              <td>共享资源</td>
+            </tr>
+            <tr>
+              <td>适用周期</td>
+              <td>长期项目</td>
+              <td>短期任务</td>
+            </tr>
+            <tr>
+              <td>计费方式</td>
+              <td>固定租赁</td>
+              <td>按时间计费</td>
+            </tr>
+            <tr>
+              <td>性能特点</td>
+              <td>无虚拟化开销，性能稳定</td>
+              <td>资源共享，弹性扩展</td>
+            </tr>
+            <tr>
+              <td>开通速度</td>
+              <td>需要部署时间</td>
+              <td>秒级开通</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <!-- 底部CTA区 -->
+    <section style="background-color: #E6F0FF; color: var(--secondary-color); padding: 60px 0; text-align: center;">
+      <div class="container">
+        <h2>需要算力资源？</h2>
+        <a href="contact.html" class="btn btn-primary">联系销售</a>
+      </div>
+    </section>
+    
+    <div id="root"></div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>中科融算网</h3>
+            <p>专注于AI算力平台建设，为企业提供高性能、高可靠性的算力服务</p>
+          </div>
+          <div>
+            <h4 class="footer-title">产品与服务</h4>
+            <ul class="footer-links">
+              <li><a href="products.html">GPU服务器</a></li>
+              <li><a href="products.html">AI训练平台</a></li>
+              <li><a href="products.html">云算力服务</a></li>
+              <li><a href="products.html">定制化解决方案</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">支持与资源</h4>
+            <ul class="footer-links">
+              <li><a href="resources.html">技术文档</a></li>
+              <li><a href="resources.html">API文档</a></li>
+              <li><a href="resources.html">常见问题</a></li>
+              <li><a href="resources.html">技术支持</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4 class="footer-title">联系方式</h4>
+            <p>电话: 400-123-4567</p>
+            <p>邮箱: contact@zhongke-gpu.com</p>
+            <p>地址: 北京市海淀区中关村科技园区</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 中科融算网. 保留所有权利.</p>
+          <p style="margin-top: 10px;">邮箱: contact@zhongke-gpu.com | 电话: 400-123-4567 | 企业微信: zhongke-gpu</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

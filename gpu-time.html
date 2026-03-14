@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPU卡时销售 - 中科融算网 AI算力平台官网</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/icons.js"></script>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <header class="header">
+      <div class="container">
+        <nav class="nav">
+          <a href="index.html" class="logo">
+            <img src="images/logo2.png" alt="中科融算网">
+          </a>
+          <button class="nav-toggle">☰</button>
+          <ul class="nav-menu">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html" class="active">产品与服务</a></li>
+            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="resources.html">资源中心</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系销售</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="#" class="login-btn">登录</a>
+            <a href="#" class="login-btn">注册</a>
+            <a href="contact.html" class="quote-btn">获取报价</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 产品详情 -->
+    <section style="padding: 80px 0;">
+      <div class="container">
+        <div style="display: flex; align-items: center; margin-bottom: 40px; margin-top: 20px;">
+          <a href="products.html" class="btn btn-secondary" style="margin-right: 24px;">
+            ← 返回产品与服务
+          </a>
+          <div class="section-title" style="flex: 1; margin-left: 40px;">
+            <h2>GPU卡时销售</h2>
+            <p>按时间灵活计费，秒级资源开通，按需弹性扩展</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2">
+          <div>
+            <h3>产品特点</h3>
+            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+              <li>按时间灵活计费，按需使用</li>
+              <li>秒级资源开通，快速投入使用</li>
+              <li>按需弹性扩展，满足峰值需求</li>
+              <li>多地区资源分布，就近选择</li>
+              <li>自助管理，操作简单便捷</li>
+            </ul>
+            <h3>适用场景</h3>
+            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+              <li>短期AI模型训练</li>
+              <li>原型验证和实验</li>
+              <li>峰值算力需求</li>
+              <li>学生和研究人员使用</li>
+              <li>小型企业和个人开发者</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>计费方式</h3>
+            <p><strong>按小时计费:</strong> 灵活使用，按实际使用时长收费</p>
+            <p><strong>按天计费:</strong> 适合中长期使用，价格更优惠</p>
+            <p><strong>套餐包:</strong> 预购卡时，享受更多折扣</p>
+            <h3 style="margin-top: 24px;">支持的GPU型号</h3>
+            <p>NVIDIA A100, H100, RTX 4090, L40等</p>
+            <a href="contact.html" class="btn btn-primary" style="margin-top: 24px; display: inline-block;">获取报价</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- GPU型号详细参数 -->
+    <section style="padding: 80px 0; background-color: #F5F7FA;">
+      <div class="container">
+        <div class="section-title">
+          <h2>GPU型号详细参数</h2>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>GPU型号</th>
+              <th>显存</th>
+              <th>CUDA核心</th>
+              <th>FP32性能</th>
+              <th>适用场景</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A100</td>
+              <td>40GB/80GB</td>
+              <td>6912</td>
+              <td>19.5 TFLOPS</td>
+              <td>大规模AI训练、科学计算</td>
+            </tr>
+            <tr>
+              <td>H100</td>
+              <td>80GB</td>
+              <td>16896</td>
+              <td>60 TFLOPS</td>
+              <td>超大规模AI训练、高性能计算</td>
+            </tr>
+            <tr>
+              <td>RTX 4090</td>
+              <td>24GB</td>
+              <td>16384</td>
+              <td>83 TFLOPS</td>
+              <td>中小型AI训练、游戏开发</td>
+            </tr>
+            <tr>
+              <td>L40</td>
+              <td>48GB</td>
+              <td>18176</td>
+              <td>45 TFLOPS</td>
+              <td>AI推理、图形渲染、科学计算</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <!-- 算力产品信息 -->
+    <section style="padding: 80px 0;">
+      <div class="container">
+        <div class="section-title">
+          <h2>卡时租赁产品</h2>
+        </div>
+        <style>
+          /* 表格样式 */
+          .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          }
+          
+          .comparison-table th,
+          .comparison-table td {
+            padding: 24px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          
+          .comparison-table th {
+            background-color: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+          }
+          
+          .comparison-table tr:hover {
+            background-color: rgba(0, 102, 255, 0.02);
+          }
+          
+          /* 产品卡片样式 */
+          .product-card-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 96px;
+          }
+          
+          .product-card {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+          }
+          
+          .product-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+          }
+          
+          .card-header {
+            background: linear-gradient(135deg, #0B1F3B, #0066FF);
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+          
+          .card-price {
+            background-color: var(--accent);
+            color: #ffffff;
+            padding: 16px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+          }
+          
+          .card-price::before {
+            content: '💰';
+          }
+          
+          .card-body {
+            background-color: #ffffff;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+          }
+          
+          .card-body ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 24px;
+          }
+          
+          .card-body li {
+            margin-bottom: 12px;
+            color: var(--text-base);
+            font-size: 14px;
+            line-height: 24px;
+          }
+          
+          .purchase-btn {
+            background-color: #FFFFFF;
+            color: var(--text-base);
+            border: 2px solid #94A3B8;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: auto;
+            align-self: center;
+            margin-top: auto;
+            margin-bottom: 20px;
+          }
+          
+          .purchase-btn:hover {
+            background-color: #1E293B;
+            color: #FFFFFF;
+            border: 2px solid #1E293B;
+          }
+          
+          /* 响应式设计 */
+          @media (max-width: 1024px) {
+            .product-card-container {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .product-card-container {
+              grid-template-columns: 1fr;
+            }
+          }
+        </style>
+        <div class="product-card-container">
+          <!-- 产品1 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 智能算力8卡H100
+            </div>
+            <div class="card-price">
+              172.32元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：144</li>
+                <li>gpu型号：H100-SXM-80GB * 8卡</li>
+                <li>显存（G）：640</li>
+                <li>内存（G）：1600</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品2 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 算力计算资源H100-4卡
+            </div>
+            <div class="card-price">
+              86.16元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：72</li>
+                <li>gpu型号：H100-SXM-80GB * 4卡</li>
+                <li>显存（G）：320</li>
+                <li>内存（G）：800</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品3 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 算力计算资源H100-1卡
+            </div>
+            <div class="card-price">
+              21.54元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：18</li>
+                <li>gpu型号：H100-SXM-80GB * 1卡</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：200</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品4 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 算力计算资源（Slurm-8卡）
+            </div>
+            <div class="card-price">
+              172.32元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：144</li>
+                <li>gpu型号：H100-SXM-80GB * 8卡</li>
+                <li>显存（G）：640</li>
+                <li>内存（G）：1600</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品5 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 G8i.Large
+            </div>
+            <div class="card-price">
+              0元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：8</li>
+                <li>gpu型号：H100-80GB * 0卡</li>
+                <li>显存（G）：--</li>
+                <li>内存（G）：16</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品6 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 智能算力4卡H100
+            </div>
+            <div class="card-price">
+              86.16元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：72</li>
+                <li>gpu型号：H100-SXM-80GB * 4卡</li>
+                <li>显存（G）：320</li>
+                <li>内存（G）：800</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品7 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 智能算力2卡H100
+            </div>
+            <div class="card-price">
+              43.08元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：36</li>
+                <li>gpu型号：H100-SXM-80GB * 2卡</li>
+                <li>显存（G）：160</li>
+                <li>内存（G）：400</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品8 -->
+          <div class="product-card">
+            <div class="card-header">
+              怀柔中心D分区 智能算力1卡H100
+            </div>
+            <div class="card-price">
+              21.54元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：18</li>
+                <li>gpu型号：H100-SXM-80GB * 1卡</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：200</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+        </div>
+      </div>
+    </section>
+    
+    <div id="root"></div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>中科融算网</h3>
+            <p>专注于AI算力平台建设，为企业提供高性能、高可靠性的算力服务</p>
+          </div>
+          <div>
+            <h4 class="footer-title">产品与服务</h4>
+            <ul class="footer-links">
+              <li><a href="products.html">GPU服务器</a></li>
+              <li><a href="products.html">AI训练平台</a></li>
+              <li><a href="products.html">云算力服务</a></li>
+              <li><a href="products.html">定制化解决方案</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">支持与资源</h4>
+            <ul class="footer-links">
+              <li><a href="resources.html">技术文档</a></li>
+              <li><a href="resources.html">API文档</a></li>
+              <li><a href="resources.html">常见问题</a></li>
+              <li><a href="resources.html">技术支持</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4 class="footer-title">联系方式</h4>
+            <p>电话: 400-123-4567</p>
+            <p>邮箱: contact@zhongke-gpu.com</p>
+            <p>地址: 北京市海淀区中关村科技园区</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 中科融算网. 保留所有权利.</p>
+          <p style="margin-top: 10px;">邮箱: contact@zhongke-gpu.com | 电话: 400-123-4567 | 企业微信: zhongke-gpu</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
