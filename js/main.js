@@ -8,6 +8,12 @@ window.addEventListener('DOMContentLoaded', function() {
   
   // 响应式导航栏
   responsiveNav();
+  
+  // 左侧导航栏滚动高亮
+  sideNavScrollHighlight();
+  
+  // 左侧导航栏收起/展开功能
+  sideNavToggle();
 });
 
 // 导航栏高亮当前页面
@@ -80,4 +86,42 @@ window.addEventListener('scroll', function() {
       header.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
     }
   }
+  
+  // 左侧导航栏滚动高亮
+  sideNavScrollHighlight();
 });
+
+// 左侧导航栏滚动高亮
+function sideNavScrollHighlight() {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const sideNavLinks = document.querySelectorAll('.side-nav-menu li a');
+  
+  let currentSection = '';
+  
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    if (window.scrollY >= sectionTop - 200) {
+      currentSection = section.getAttribute('id');
+    }
+  });
+  
+  sideNavLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === `#${currentSection}`) {
+      link.classList.add('active');
+    }
+  });
+}
+
+// 左侧导航栏收起/展开功能
+function sideNavToggle() {
+  const toggleBtn = document.querySelector('.side-nav-toggle');
+  const sideNav = document.querySelector('.side-nav');
+  
+  if (toggleBtn && sideNav) {
+    toggleBtn.addEventListener('click', function() {
+      sideNav.classList.toggle('collapsed');
+    });
+  }
+}

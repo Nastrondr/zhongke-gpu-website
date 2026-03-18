@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>裸金属GPU租赁 - 中科融算网 AI算力平台官网</title>
     <link rel="stylesheet" href="css/style.css" />
@@ -20,11 +20,34 @@
           <button class="nav-toggle">☰</button>
           <ul class="nav-menu">
             <li><a href="index.html">首页</a></li>
-            <li><a href="products.html" class="active">产品与服务</a></li>
+            <li>
+              <a href="products.html" class="active">产品与服务</a>
+              <ul class="dropdown">
+                <li><a href="products.html#product-categories">产品分类</a></li>
+                <li><a href="products.html#product-comparison">产品对比</a></li>
+                <li><a href="contact.html">联系销售</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="computing-center.html">算力中心</a>
+              <ul class="dropdown">
+                <li><a href="computing-center.html#center-construction">算力中心建设</a></li>
+                <li><a href="computing-center.html#ai">人工智能</a></li>
+                <li><a href="computing-center.html#robotics">机器人</a></li>
+              </ul>
+            </li>
             <li><a href="solutions.html">解决方案</a></li>
-            <li><a href="resources.html">资源中心</a></li>
+            <li>
+              <a href="resources.html">资源中心</a>
+              <ul class="dropdown">
+                <li><a href="resources.html">新闻动态</a></li>
+                <li><a href="resources.html">行业资讯</a></li>
+                <li><a href="resources.html">文档中心</a></li>
+                <li><a href="resources.html">常见问题</a></li>
+                <li><a href="resources.html">案例展示</a></li>
+              </ul>
+            </li>
             <li><a href="about.html">关于我们</a></li>
-            <li><a href="contact.html">联系销售</a></li>
           </ul>
           <div class="nav-actions">
             <a href="#" class="login-btn">登录</a>
@@ -39,7 +62,7 @@
     <section style="padding: 80px 0;">
       <div class="container">
         <div style="display: flex; align-items: center; margin-bottom: 40px; margin-top: 20px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-          <a href="products.html" class="btn btn-secondary" style="margin-right: 24px;">
+          <a href="products.html" class="btn btn-secondary" style="margin-right: 24px; background-color: transparent; color: var(--primary); border: 2px solid var(--primary);">
             ← 返回产品与服务
           </a>
           <div class="section-title" style="flex: 1; margin-left: 40px; text-align: center;">
@@ -220,36 +243,38 @@
           <div>
             <h4 class="footer-title">产品与服务</h4>
             <ul class="footer-links">
-              <li><a href="products.html">GPU服务器</a></li>
-              <li><a href="products.html">AI训练平台</a></li>
-              <li><a href="products.html">云算力服务</a></li>
-              <li><a href="products.html">定制化解决方案</a></li>
+              <li><a href="products.html#product-categories">产品分类</a></li>
+              <li><a href="products.html#product-comparison">产品对比</a></li>
+              <li><a href="contact.html">联系销售</a></li>
             </ul>
           </div>
           <div>
             <h4 class="footer-title">支持与资源</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">技术文档</a></li>
-              <li><a href="resources.html">API文档</a></li>
+              <li><a href="resources.html">新闻动态</a></li>
+              <li><a href="resources.html">行业资讯</a></li>
+              <li><a href="resources.html">文档中心</a></li>
               <li><a href="resources.html">常见问题</a></li>
-              <li><a href="resources.html">技术支持</a></li>
+              <li><a href="resources.html">案例展示</a></li>
             </ul>
           </div>
           <div class="footer-contact">
             <h4 class="footer-title">联系方式</h4>
-            <p>电话: 400-123-4567</p>
-            <p>邮箱: contact@zhongke-gpu.com</p>
-            <p>地址: 北京市海淀区中关村科技园区</p>
+            <p>联系人: 田杰</p>
+            <p>电话: 0755-86168478</p>
+            <p>手机: 13603075697</p>
+            <p>邮箱: tianjie@szsbay.com</p>
+            <p>地址: 深圳市南山区粤海街道高新区社区科技南路18号深圳湾科技生态园12栋裙楼833</p>
           </div>
         </div>
         <div class="footer-bottom">
           <p>&copy; 2026 中科融算网. 保留所有权利.</p>
-          <p style="margin-top: 10px;">邮箱: contact@zhongke-gpu.com | 电话: 400-123-4567 | 企业微信: zhongke-gpu</p>
+          <p style="margin-top: 10px;">邮箱: tianjie@szsbay.com | 电话: 0755-86168478 | 手机: 13603075697</p>
         </div>
       </div>
     </footer>
     
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="src/main.tsx"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

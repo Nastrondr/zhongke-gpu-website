@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './', // 使用相对路径
   plugins: [react()],
   server: {
     port: 3000,
