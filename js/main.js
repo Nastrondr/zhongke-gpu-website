@@ -108,7 +108,9 @@ function sideNavScrollHighlight() {
   
   sideNavLinks.forEach(link => {
     link.classList.remove('active');
-    if (link.getAttribute('href') === `#${currentSection}`) {
+    const linkHref = link.getAttribute('href');
+    // Check if link ends with #section-id or is exactly #section-id
+    if (linkHref === `#${currentSection}` || linkHref.endsWith(`#${currentSection}`)) {
       link.classList.add('active');
     }
   });
@@ -116,12 +118,15 @@ function sideNavScrollHighlight() {
 
 // 左侧导航栏收起/展开功能
 function sideNavToggle() {
-  const toggleBtn = document.querySelector('.side-nav-toggle');
-  const sideNav = document.querySelector('.side-nav');
+  const toggleBtns = document.querySelectorAll('.side-nav-toggle');
   
-  if (toggleBtn && sideNav) {
-    toggleBtn.addEventListener('click', function() {
-      sideNav.classList.toggle('collapsed');
-    });
-  }
+  toggleBtns.forEach(toggleBtn => {
+    const sideNav = toggleBtn.closest('.side-nav');
+    
+    if (sideNav) {
+      toggleBtn.addEventListener('click', function() {
+        sideNav.classList.toggle('collapsed');
+      });
+    }
+  });
 }

@@ -20,7 +20,10 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         contact: resolve(__dirname, 'contact.html'),
         'gpu-time': resolve(__dirname, 'gpu-time.html'),
-        'bare-metal': resolve(__dirname, 'bare-metal.html')
+        'bare-metal': resolve(__dirname, 'bare-metal.html'),
+        'computing-center': resolve(__dirname, 'computing-center.html'),
+        ai: resolve(__dirname, 'ai.html'),
+        robot: resolve(__dirname, 'robot.html')
       }
     }
   }

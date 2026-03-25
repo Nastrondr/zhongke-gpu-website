@@ -75,12 +75,29 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            padding: 32px;
+            gap: 20px;
+          }
+          
+          .card h3 {
+            margin: 0;
+          }
+          
+          .card p {
+            margin: 0;
+            flex-grow: 1;
+          }
+          
+          .card h4 {
+            margin: 0;
+            margin-top: 8px;
           }
           
           .card ul {
             list-style: none;
             padding: 0;
-            margin-bottom: 24px;
+            margin: 0;
+            flex-grow: 1;
           }
           
           .card li {
@@ -89,8 +106,7 @@
           }
           
           .card .btn {
-            margin-top: auto;
-            margin-bottom: 20px;
+            margin-top: 16px;
             align-self: center;
           }
         </style>
@@ -102,8 +118,8 @@
           <div class="card">
             <h3>金融行业</h3>
             <p>为金融机构提供高性能AI算力，支持风险评估、欺诈检测、智能客服等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>风险评估模型：4x A100 40GB 裸金属服务器</li>
               <li>欺诈检测系统：8x H100 80GB 高性能集群</li>
               <li>智能客服：2x L40 48GB GPU卡时服务</li>
@@ -113,8 +129,8 @@
           <div class="card">
             <h3>医疗健康</h3>
             <p>为医疗机构提供AI算力支持，助力医学影像分析、药物研发、疾病预测等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>医学影像分析：8x A100 80GB 裸金属服务器</li>
               <li>药物研发：16x H100 80GB 高性能集群</li>
               <li>疾病预测：4x RTX 4090 GPU卡时服务</li>
@@ -124,8 +140,8 @@
           <div class="card">
             <h3>智能制造</h3>
             <p>为制造企业提供AI算力解决方案，支持生产优化、质量检测、预测性维护等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>生产优化：4x A100 40GB 裸金属服务器</li>
               <li>质量检测：8x L40 48GB GPU卡时服务</li>
               <li>预测性维护：2x RTX 4090 GPU卡时服务</li>
@@ -135,8 +151,8 @@
           <div class="card">
             <h3>自动驾驶</h3>
             <p>为自动驾驶企业提供高性能AI算力，支持环境感知、路径规划、决策控制等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>环境感知：16x H100 80GB 高性能集群</li>
               <li>路径规划：8x A100 80GB 裸金属服务器</li>
               <li>决策控制：4x L40 48GB GPU卡时服务</li>
@@ -146,8 +162,8 @@
           <div class="card">
             <h3>零售电商</h3>
             <p>为零售企业提供AI算力支持，助力个性化推荐、库存管理、客户分析等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>个性化推荐：4x A100 40GB 裸金属服务器</li>
               <li>库存管理：2x L40 48GB GPU卡时服务</li>
               <li>客户分析：2x RTX 4090 GPU卡时服务</li>
@@ -157,8 +173,8 @@
           <div class="card">
             <h3>教育科研</h3>
             <p>为教育机构和科研院所提供AI算力支持，助力教学研究、科学计算等场景</p>
-            <h4 style="margin-top: 24px; margin-bottom: 16px;">推荐算力</h4>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
+            <h4>推荐算力</h4>
+            <ul style="text-align: center;">
               <li>教学研究：8x A100 40GB 裸金属服务器</li>
               <li>科学计算：4x H100 80GB 高性能集群</li>
               <li>实验验证：2x RTX 4090 GPU卡时服务</li>

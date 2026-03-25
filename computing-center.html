@@ -28,7 +28,14 @@
                 <li><a href="contact.html">联系销售</a></li>
               </ul>
             </li>
-            <li><a href="computing-center.html" class="active">算力中心</a></li>
+            <li>
+              <a href="computing-center.html" class="active">算力中心</a>
+              <ul class="dropdown">
+                <li><a href="computing-center.html#center-construction">算力中心建设</a></li>
+                <li><a href="ai.html">人工智能</a></li>
+                <li><a href="robot.html">机器人</a></li>
+              </ul>
+            </li>
             <li><a href="solutions.html">解决方案</a></li>
             <li>
               <a href="resources.html">资源中心</a>
@@ -52,80 +59,140 @@
     </header>
     
     <!-- 英雄区 -->
-    <section class="hero hero-products">
+    <section class="hero hero-products" style="background: linear-gradient(90deg, #4C4DDB 0%, #5B5CF0 45%, #6E6FF7 100%);">
       <div class="container">
         <h1>算力中心</h1>
         <p>构建高性能、绿色低碳的算力基础设施，为人工智能、科研计算和机器人技术提供强大支撑</p>
       </div>
     </section>
     
-    <!-- 主内容区 -->
-    <div class="main-content" style="padding: 40px 0;">
-      <div class="container">
-        <div class="content-layout">
-          <!-- 左侧导航栏 -->
-          <aside class="side-nav">
-            <div class="side-nav-header">
-              <h3>内容导航</h3>
-              <button class="side-nav-toggle">
-                <svg class="lucide-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6"></path>
-                </svg>
-              </button>
-            </div>
-            <ul class="side-nav-menu">
-                <li><a href="#center-construction">算力中心建设</a></li>
+    <!-- 页面内容 -->
+    <main class="main">
+      <!-- 内容区 -->
+      <section class="tech-background" style="padding: 80px 0;">
+        <div class="content-container">
+          <div class="content-layout">
+            <!-- 左侧导航栏 -->
+            <aside class="side-nav">
+              <div class="side-nav-header">
+                <h3>内容导航</h3>
+                <button class="side-nav-toggle">
+                  <svg class="lucide-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </button>
+              </div>
+              <ul class="side-nav-menu">
+                <li class="side-nav-parent">
+                  <a href="computing-center.html#center-construction" class="active">算力中心建设</a>
+                  <ul class="side-nav-submenu">
+                    <li><a href="computing-center.html#xiangyang-center">襄阳分中心</a></li>
+                    <li><a href="computing-center.html#huairou-center">怀柔分中心</a></li>
+                    <li><a href="computing-center.html#weihai-center">威海分中心</a></li>
+                  </ul>
+                </li>
                 <li><a href="ai.html">人工智能</a></li>
                 <li><a href="robot.html">机器人</a></li>
               </ul>
-          </aside>
-          
-          <!-- 右侧内容区 -->
-          <div class="content-area">
-            <!-- 算力中心建设 -->
-            <section id="center-construction" style="padding: 40px 0; background-color: var(--bg-light);">
-              <div class="section-title">
-                <h2>算力中心建设</h2>
-                <p>中科融算网致力于构建世界一流的算力基础设施，为各类计算需求提供强大支持。我们通过新建和改造双轮驱动，形成全国节点网络，为区域数字经济提供算力底座与调度服务。</p>
-              </div>
-              
-              <div class="grid gap-40">
-                <div class="card">
-                  <div class="card-media">
-                    <img src="src/assets/image/huairou.png" alt="怀柔分中心">
+            </aside>
+            
+            <!-- 右侧内容区 -->
+            <div class="content-area">
+              <!-- 算力中心建设 -->
+              <section id="center-construction" style="padding: 0;">
+                <div class="section-title">
+                  <h2>算力中心建设</h2>
+                  <p>中科融算网致力于构建世界一流的算力基础设施，为各类计算需求提供强大支持。我们通过新建和改造双轮驱动，形成全国节点网络，为区域数字经济提供算力底座与调度服务。</p>
+                </div>
+                
+                <div class="grid gap-40" style="margin-bottom: 60px;">
+                  <!-- 襄阳分中心 (特色卡片) -->
+                  <div id="xiangyang-center" class="card featured">
+                    <div class="card-media">
+                      <img src="src/assets/image/xiangyang.png" alt="襄阳分中心">
+                    </div>
+                    <div class="card-content">
+                      <div class="title-row">
+                        <h3>襄阳分中心</h3>
+                        <span class="status-badge">重点布局</span>
+                      </div>
+                      <p>襄阳分中心位于OPC产业园区，具备较强的空间承载能力与园区配套基础。园区规划覆盖两层空间，其中单层面积约1.4万平方米，总体可用规模达2.8万平方米，可为算力基础设施建设、设备部署及后续运营拓展提供充足载体。周边同时配备公寓及基础设施，有助于支撑项目落地、运维管理与园区长期发展。</p>
+                      
+                      <!-- 信息卡片 -->
+                      <div class="info-cards">
+                        <div class="info-card">
+                          <h5>园区位置</h5>
+                          <p>OPC产业园区</p>
+                        </div>
+                        <div class="info-card">
+                          <h5>单层面积</h5>
+                          <p>约1.4万㎡</p>
+                        </div>
+                        <div class="info-card">
+                          <h5>总体规模</h5>
+                          <p>约2.8万㎡</p>
+                        </div>
+                        <div class="info-card">
+                          <h5>周边配套</h5>
+                          <p>完善</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-content">
-                    <h3>怀柔分中心</h3>
-                    <p>怀柔分中心是中科融算网的重要算力节点，提供高性能计算和AI训练服务，支持科学研究和产业创新。</p>
+                  
+                  <!-- 怀柔分中心 -->
+                  <div id="huairou-center" class="card">
+                    <div class="card-media">
+                      <img src="src/assets/image/huairou.png" alt="怀柔分中心">
+                    </div>
+                    <div class="card-content">
+                      <h3>怀柔分中心</h3>
+                      <p>怀柔分中心是中科融算网的重要算力节点，提供高性能计算和AI训练服务，支持科学研究和产业创新。</p>
+                    </div>
+                  </div>
+                  
+                  <!-- 威海分中心 -->
+                  <div id="weihai-center" class="card">
+                    <div class="card-media">
+                      <img src="src/assets/image/weihai.png" alt="威海分中心">
+                    </div>
+                    <div class="card-content">
+                      <h3>威海分中心</h3>
+                      <p>威海分中心专注于海洋科技和智能制造领域的算力需求，为区域经济发展提供强大的计算支撑。</p>
+                    </div>
                   </div>
                 </div>
                 
-                <div class="card">
-                  <div class="card-media">
-                    <img src="src/assets/image/weihai.png" alt="威海分中心">
+                <!-- 能力标签卡片 -->
+                <div class="capability-cards">
+                  <div class="capability-card">
+                    <h4>高性能计算</h4>
+                    <p>提供强大的计算能力，支持科学研究、工程仿真等高性能计算需求</p>
                   </div>
-                  <div class="card-content">
-                    <h3>威海分中心</h3>
-                    <p>威海分中心专注于海洋科技和智能制造领域的算力需求，为区域经济发展提供强大的计算支撑。</p>
+                  <div class="capability-card">
+                    <h4>AI训练支撑</h4>
+                    <p>为人工智能模型训练提供专业的算力支持，加速模型迭代</p>
+                  </div>
+                  <div class="capability-card">
+                    <h4>区域节点协同</h4>
+                    <p>全国节点网络协同工作，实现算力资源的高效调度和利用</p>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- CTA区 -->
-    <section style="padding: 80px 0; background-color: #E6F0FF; color: #0F172A; text-align: center;">
-      <div class="container">
-        <h2>需要算力中心解决方案？</h2>
-        <p>我们提供从规划、建设到运维的全流程服务，为您的业务提供强大的算力支撑</p>
-        <a href="contact.html" class="btn btn-primary" style="margin-top: 32px; background-color: #4C4DDB; color: #ffffff; border-color: #4C4DDB;">联系我们</a>
-      </div>
-    </section>
-    
-    <div id="root"></div>
+      </section>
+      
+      <!-- CTA区 -->
+      <section style="padding: 80px 0; background-color: #E6F0FF; color: #0F172A; text-align: center;">
+        <div class="container">
+          <h2>需要算力中心解决方案？</h2>
+          <p>我们提供从规划、建设到运维的全流程服务，为您的业务提供强大的算力支撑</p>
+          <a href="contact.html" class="btn btn-primary" style="margin-top: 32px; background-color: #4C4DDB; color: #ffffff; border-color: #4C4DDB;">联系我们</a>
+        </div>
+      </section>
+    </main>
     
     <!-- 页脚 -->
     <footer class="footer">
@@ -169,7 +236,6 @@
       </div>
     </footer>
     
-    <script type="module" src="src/main.tsx"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
