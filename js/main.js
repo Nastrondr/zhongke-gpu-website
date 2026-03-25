@@ -62,8 +62,29 @@ function responsiveNav() {
   const navMenu = document.querySelector('.nav-menu');
   
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function() {
+    // 同时支持 click 和 touchstart 事件
+    const toggleMenu = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       navMenu.classList.toggle('show');
+      console.log('Menu toggled:', navMenu.classList.contains('show'));
+    };
+    
+    navToggle.addEventListener('click', toggleMenu);
+    navToggle.addEventListener('touchstart', toggleMenu, { passive: false });
+    
+    // 点击页面其他地方关闭菜单
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('show');
+      }
+    });
+    
+    // 触摸页面其他地方关闭菜单
+    document.addEventListener('touchstart', function(e) {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('show');
+      }
     });
   }
 }
