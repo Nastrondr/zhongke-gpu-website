@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>GPU卡时销售 - 中科融算网 AI算力平台官网</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,15 +20,15 @@
           <a href="index.html" class="logo">
             <img src="images/logo3.png" alt="中科融算网">
           </a>
-          <button class="nav-toggle">☰</button>
+          <div class="nav-toggle" role="button" tabindex="0">☰</div>
           <ul class="nav-menu">
             <li><a href="index.html">首页</a></li>
             <li>
-              <a href="products.html" class="active">产品与服务</a>
+              <a href="products.html">产品与服务</a>
               <ul class="dropdown">
-                <li><a href="products.html#product-categories">产品分类</a></li>
-                <li><a href="products.html#product-comparison">产品对比</a></li>
-                <li><a href="contact.html">联系销售</a></li>
+                <li><a href="digital-brain.html">个人数字大脑</a></li>
+                <li><a href="products.html#bare-metal">裸金属租赁</a></li>
+                <li><a href="products.html#gpu-time">卡时销售</a></li>
               </ul>
             </li>
             <li>
@@ -36,18 +39,17 @@
                 <li><a href="computing-center.html#robotics">机器人</a></li>
               </ul>
             </li>
-            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="news-policy.html">政策与新闻</a></li>
             <li>
               <a href="resources.html">资源中心</a>
               <ul class="dropdown">
-                <li><a href="resources.html">新闻动态</a></li>
-                <li><a href="resources.html">行业资讯</a></li>
-                <li><a href="resources.html">文档中心</a></li>
-                <li><a href="resources.html">常见问题</a></li>
-                <li><a href="resources.html">案例展示</a></li>
+                <li><a href="resources.html#hardware">硬件产品</a></li>
+                <li><a href="resources.html#peripherals">周边设备</a></li>
+                <li><a href="resources.html#ai-apps">AI应用</a></li>
               </ul>
             </li>
             <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系咨询</a></li>
           </ul>
           <div class="nav-actions">
             <a href="#" class="login-btn">登录</a>
@@ -98,7 +100,7 @@
               <p style="margin: 0;"><strong>包月包年:</strong> 长期使用可享受更多优惠</p>
             </div>
             <h3 style="margin: 0;">支持的GPU型号</h3>
-            <p style="margin: 0;">NVIDIA A100, H100, RTX 4090, L40等</p>
+            <p style="margin: 0;">NVIDIA H100, GH200, A100, RTX 4090, L40等</p>
             <a href="contact.html" class="btn btn-primary" style="align-self: flex-start; margin-top: 8px;">获取报价</a>
           </div>
         </div>
@@ -253,7 +255,7 @@
           <!-- 产品1：GZYH1001 - 1卡H100 -->
           <div class="product-card">
             <div class="card-header">
-              中科融算 智能算力1卡
+              H100-SXM-80GB × 1
             </div>
             <div class="card-price">
               21.54元/小时
@@ -275,7 +277,7 @@
           <!-- 产品2：GZYH1002 - 2卡H100 -->
           <div class="product-card">
             <div class="card-header">
-              中科融算 智能算力2卡
+              H100-SXM-80GB × 2
             </div>
             <div class="card-price">
               43.08元/小时
@@ -297,7 +299,7 @@
           <!-- 产品3：GZYH1003 - 4卡H100 -->
           <div class="product-card">
             <div class="card-header">
-              中科融算 智能算力4卡
+              H100-SXM-80GB × 4
             </div>
             <div class="card-price">
               81.16元/小时
@@ -319,7 +321,7 @@
           <!-- 产品4：GZYH1004 - 8卡H100 -->
           <div class="product-card">
             <div class="card-header">
-              中科融算 智能算力8卡
+              H100-SXM-80GB × 8
             </div>
             <div class="card-price">
               172.32元/小时
@@ -331,6 +333,94 @@
                 <li>gpu型号：H100-SXM-80GB * 8卡</li>
                 <li>显存（G）：640</li>
                 <li>内存（G）：1600</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品5：GZYH1005 - GH200-MIG 1G -->
+          <div class="product-card">
+            <div class="card-header">
+              GH200-MIG 1G.12GB
+            </div>
+            <div class="card-price">
+              5.70元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：48</li>
+                <li>gpu型号：GH200-MIG 1G.12GB * 1</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：100</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品6：GZYH1006 - GH200-MIG 2G -->
+          <div class="product-card">
+            <div class="card-header">
+              GH200-MIG 2G.24GB
+            </div>
+            <div class="card-price">
+              11.40元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：48</li>
+                <li>gpu型号：GH200-MIG 2G.24GB * 1</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：150</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品7：GZYH1007 - GH200-MIG 4G -->
+          <div class="product-card">
+            <div class="card-header">
+              GH200-MIG 4G.48GB
+            </div>
+            <div class="card-price">
+              22.80元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：48</li>
+                <li>gpu型号：GH200-MIG 4G.48GB * 1</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：200</li>
+                <li>节点互联：--</li>
+                <li>操作系统：ubuntu22.04</li>
+              </ul>
+            </div>
+          <button class="purchase-btn">确认选购</button>
+        </div>
+          
+          <!-- 产品8：GZYH1008 - GH200-SXM -->
+          <div class="product-card">
+            <div class="card-header">
+              GH200-SXM-480GB
+            </div>
+            <div class="card-price">
+              39.90元/小时
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>cpu型号：Xeon E5</li>
+                <li>cpu（核）：48</li>
+                <li>gpu型号：GH200-SXM-480GB * 1</li>
+                <li>显存（G）：80</li>
+                <li>内存（G）：200</li>
                 <li>节点互联：--</li>
                 <li>操作系统：ubuntu22.04</li>
               </ul>
@@ -378,6 +468,13 @@
               <td>超大规模AI训练、高性能计算</td>
             </tr>
             <tr>
+              <td>GH200</td>
+              <td>480GB</td>
+              <td>18432</td>
+              <td>67 TFLOPS</td>
+              <td>超大规模AI训练、大模型推理</td>
+            </tr>
+            <tr>
               <td>RTX 4090</td>
               <td>24GB</td>
               <td>16384</td>
@@ -409,19 +506,18 @@
           <div>
             <h4 class="footer-title">产品与服务</h4>
             <ul class="footer-links">
-              <li><a href="products.html#product-categories">产品分类</a></li>
-              <li><a href="products.html#product-comparison">产品对比</a></li>
-              <li><a href="contact.html">联系销售</a></li>
+              <li><a href="digital-brain.html">个人数字大脑</a></li>
+              <li><a href="products.html">裸金属租赁</a></li>
+              <li><a href="products.html">卡时销售</a></li>
+              <li><a href="contact.html">联系咨询</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="footer-title">支持与资源</h4>
+            <h4 class="footer-title">资源与动态</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">新闻动态</a></li>
-              <li><a href="resources.html">行业资讯</a></li>
-              <li><a href="resources.html">文档中心</a></li>
-              <li><a href="resources.html">常见问题</a></li>
-              <li><a href="resources.html">案例展示</a></li>
+              <li><a href="resources.html">资源中心</a></li>
+              <li><a href="news-policy.html">政策与新闻</a></li>
+              <li><a href="about.html">关于我们</a></li>
             </ul>
           </div>
           <div class="footer-contact">
@@ -441,6 +537,6 @@
     </footer>
     
     <script type="module" src="src/main.tsx"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20260325-3"></script>
   </body>
 </html>

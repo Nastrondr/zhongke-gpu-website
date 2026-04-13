@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>解决方案 - 中科融算网 AI算力平台官网</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,15 +20,15 @@
           <a href="index.html" class="logo">
             <img src="images/logo3.png" alt="中科融算网">
           </a>
-          <button class="nav-toggle">☰</button>
+          <div class="nav-toggle" role="button" tabindex="0">☰</div>
           <ul class="nav-menu">
             <li><a href="index.html">首页</a></li>
             <li>
               <a href="products.html">产品与服务</a>
               <ul class="dropdown">
-                <li><a href="products.html#product-categories">产品分类</a></li>
-                <li><a href="products.html#product-comparison">产品对比</a></li>
-                <li><a href="contact.html">联系销售</a></li>
+                <li><a href="digital-brain.html">个人数字大脑</a></li>
+                <li><a href="products.html#bare-metal">裸金属租赁</a></li>
+                <li><a href="products.html#gpu-time">卡时销售</a></li>
               </ul>
             </li>
             <li>
@@ -36,18 +39,17 @@
                 <li><a href="computing-center.html#robotics">机器人</a></li>
               </ul>
             </li>
-            <li><a href="solutions.html" class="active">解决方案</a></li>
+            <li><a href="news-policy.html">政策与新闻</a></li>
             <li>
               <a href="resources.html">资源中心</a>
               <ul class="dropdown">
-                <li><a href="resources.html">新闻动态</a></li>
-                <li><a href="resources.html">行业资讯</a></li>
-                <li><a href="resources.html">文档中心</a></li>
-                <li><a href="resources.html">常见问题</a></li>
-                <li><a href="resources.html">案例展示</a></li>
+                <li><a href="resources.html#hardware">硬件产品</a></li>
+                <li><a href="resources.html#peripherals">周边设备</a></li>
+                <li><a href="resources.html#ai-apps">AI应用</a></li>
               </ul>
             </li>
             <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系咨询</a></li>
           </ul>
           <div class="nav-actions">
             <a href="#" class="login-btn">登录</a>
@@ -198,19 +200,18 @@
           <div>
             <h4 class="footer-title">产品与服务</h4>
             <ul class="footer-links">
-              <li><a href="products.html#product-categories">产品分类</a></li>
-              <li><a href="products.html#product-comparison">产品对比</a></li>
-              <li><a href="contact.html">联系销售</a></li>
+              <li><a href="digital-brain.html">个人数字大脑</a></li>
+              <li><a href="products.html">裸金属租赁</a></li>
+              <li><a href="products.html">卡时销售</a></li>
+              <li><a href="contact.html">联系咨询</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="footer-title">支持与资源</h4>
+            <h4 class="footer-title">资源与动态</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">新闻动态</a></li>
-              <li><a href="resources.html">行业资讯</a></li>
-              <li><a href="resources.html">文档中心</a></li>
-              <li><a href="resources.html">常见问题</a></li>
-              <li><a href="resources.html">案例展示</a></li>
+              <li><a href="resources.html">资源中心</a></li>
+              <li><a href="news-policy.html">政策与新闻</a></li>
+              <li><a href="about.html">关于我们</a></li>
             </ul>
           </div>
           <div class="footer-contact">
@@ -230,6 +231,6 @@
     </footer>
     
     <script type="module" src="src/main.tsx"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20260325-3"></script>
   </body>
 </html>

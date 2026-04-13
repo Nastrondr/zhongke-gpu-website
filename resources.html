@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <title>资源中心 - 中科融算网 AI算力平台官网</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,15 +20,15 @@
           <a href="index.html" class="logo">
             <img src="images/logo3.png" alt="中科融算网">
           </a>
-          <button class="nav-toggle">☰</button>
+          <div class="nav-toggle" role="button" tabindex="0">☰</div>
           <ul class="nav-menu">
             <li><a href="index.html">首页</a></li>
             <li>
               <a href="products.html">产品与服务</a>
               <ul class="dropdown">
-                <li><a href="products.html#product-categories">产品分类</a></li>
-                <li><a href="products.html#product-comparison">产品对比</a></li>
-                <li><a href="contact.html">联系销售</a></li>
+                <li><a href="digital-brain.html">个人数字大脑</a></li>
+                <li><a href="products.html#bare-metal">裸金属租赁</a></li>
+                <li><a href="products.html#gpu-time">卡时销售</a></li>
               </ul>
             </li>
             <li>
@@ -36,18 +39,17 @@
                 <li><a href="computing-center.html#robotics">机器人</a></li>
               </ul>
             </li>
-            <li><a href="solutions.html">解决方案</a></li>
+            <li><a href="news-policy.html">政策与新闻</a></li>
             <li>
               <a href="resources.html" class="active">资源中心</a>
               <ul class="dropdown">
-                <li><a href="resources.html">新闻动态</a></li>
-                <li><a href="resources.html">行业资讯</a></li>
-                <li><a href="resources.html">文档中心</a></li>
-                <li><a href="resources.html">常见问题</a></li>
-                <li><a href="resources.html">案例展示</a></li>
+                <li><a href="resources.html#hardware">硬件产品</a></li>
+                <li><a href="resources.html#peripherals">周边设备</a></li>
+                <li><a href="resources.html#ai-apps">AI应用</a></li>
               </ul>
             </li>
             <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系咨询</a></li>
           </ul>
           <div class="nav-actions">
             <a href="#" class="login-btn">登录</a>
@@ -58,92 +60,209 @@
       </div>
     </header>
     
-    <!-- 英雄区域 -->
-    <section class="hero hero-resources" style="background: url('public/images/banners/resources-banner.jpg') no-repeat center center; background-size: cover;">
-      <div class="container" style="position: relative; z-index: 2;">
-        <h1>资源中心</h1>
-        <h2>提供丰富的技术资源和支持文档</h2>
-        <p>帮助您更好地使用我们的产品和服务，快速解决技术问题</p>
+    <!-- Hero 区 -->
+    <section style="background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); padding: 80px 0;">
+      <div class="container" style="max-width: 900px; text-align: center;">
+        <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px;">资源中心</h1>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 32px;">围绕硬件产品、周边设备与 AI 应用能力，提供更清晰的产品生态资源入口。</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <a href="digital-brain.html" style="display: inline-flex; align-items: center; padding: 12px 24px; background: #2563EB; color: #fff; border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none;">了解个人数字大脑</a>
+          <a href="contact.html" style="display: inline-flex; align-items: center; padding: 12px 24px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none;">联系咨询</a>
+        </div>
       </div>
     </section>
     
-    <!-- 主内容区 -->
-    <div class="main-content" style="padding: 40px 0;">
-      <div class="container">
-        <div class="content-layout">
-          <!-- 左侧导航栏 -->
-          <aside class="side-nav">
-            <div class="side-nav-header">
-              <h3>内容导航</h3>
-              <button class="side-nav-toggle">
-                <svg class="lucide-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6"></path>
-                </svg>
-              </button>
+    <!-- 硬件产品 -->
+    <section id="hardware" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; text-align: center;">硬件产品</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; text-align: center;">承接个人数字大脑及后续不同版本终端产品的展示与说明入口。</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+          <div style="padding: 28px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
             </div>
-            <ul class="side-nav-menu">
-                <li><a href="#news">新闻动态</a></li>
-                <li><a href="#industry">行业资讯</a></li>
-                <li><a href="#docs">文档中心</a></li>
-                <li><a href="#faq">常见问题</a></li>
-                <li><a href="#cases">案例展示</a></li>
-              </ul>
-          </aside>
-          
-          <!-- 右侧内容区 -->
-          <div class="content-area">
-            <!-- 资源展示 -->
-            <section>
-              <div class="section-title">
-                <h2>资源中心</h2>
-                <p>我们提供丰富的资源，帮助您更好地了解和使用我们的产品与服务</p>
-              </div>
-              
-              <!-- 新闻动态 -->
-              <div class="grid grid-cols-1 gap-80">
-                <div id="news" class="card resource-card" style="max-width: 100%;">
-                  <h3>新闻动态</h3>
-                  <p>最新的公司新闻和产品动态，了解我们的发展历程和最新成果</p>
-                  <a href="#" class="btn btn-disabled">敬请期待</a>
-                </div>
-                
-                <!-- 行业资讯 -->
-                <div id="industry" class="card resource-card" style="max-width: 100%;">
-                  <h3>行业资讯</h3>
-                  <p>AI算力领域的最新资讯和市场动态，把握行业发展趋势</p>
-                  <a href="#" class="btn btn-disabled">敬请期待</a>
-                </div>
-                
-                <!-- 文档中心 -->
-                <div id="docs" class="card resource-card" style="max-width: 100%;">
-                  <h3>文档中心</h3>
-                  <p>详细的产品技术文档，包括安装、配置和使用指南</p>
-                  <a href="#" class="btn btn-disabled">敬请期待</a>
-                </div>
-                
-                <!-- 常见问题 -->
-                <div id="faq" class="card resource-card" style="max-width: 100%;">
-                  <h3>常见问题</h3>
-                  <p>常见问题解答，帮助您快速解决使用过程中遇到的问题</p>
-                  <a href="#" class="btn btn-disabled">敬请期待</a>
-                </div>
-                
-                <!-- 案例展示 -->
-                <div id="cases" class="card resource-card" style="max-width: 100%;">
-                  <h3>案例展示</h3>
-                  <p>真实的客户案例和使用场景，了解我们的产品如何解决实际问题</p>
-                  <a href="#" class="btn btn-disabled">敬请期待</a>
-                </div>
-              </div>
-            </section>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">个人数字大脑</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">金融场景专用终端产品，连接高性能算力与应用生态。</p>
+            <a href="digital-brain.html" style="display: inline-block; margin-top: 12px; font-size: 13px; color: #2563EB; font-weight: 500; text-decoration: none;">了解更多 →</a>
+          </div>
+          <div style="padding: 28px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">裸金属服务器</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">专业级算力资源，支持高性能计算与深度学习任务。</p>
+            <a href="products.html" style="display: inline-block; margin-top: 12px; font-size: 13px; color: #2563EB; font-weight: 500; text-decoration: none;">了解更多 →</a>
+          </div>
+          <div style="padding: 28px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">GPU 卡时资源</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">灵活按需调用，支持轻量级 AI 推理与任务处理。</p>
+            <a href="products.html" style="display: inline-block; margin-top: 12px; font-size: 13px; color: #2563EB; font-weight: 500; text-decoration: none;">了解更多 →</a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
     
-    <div id="root"></div>
+    <!-- 周边设备 -->
+    <section id="peripherals" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; text-align: center;">周边设备</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; text-align: center;">承接内置模块、外接设备与终端协同相关设备内容。</p>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">本地计算模块</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">网络连接模块</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">存储与缓存模块</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">显示与交互设备</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">麦克风阵列</h4>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 16px;">
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">摄像头与感知</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">网络与存储扩展</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">智慧家居设备</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">安全与系统模块</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-light); border-radius: 14px; border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">5G 通讯模组</h4>
+          </div>
+        </div>
+      </div>
+    </section>
     
-    <!-- 页脚 -->
+    <!-- AI应用 -->
+    <section id="ai-apps" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; text-align: center;">AI应用</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; text-align: center;">承接适配大模型、能力生态与应用场景相关内容，形成更清晰的应用资源入口。</p>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">通用对话模型</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">办公与内容生成</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">金融分析类</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">多模态理解</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">垂直行业专用</h4>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 16px;">
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">视频生产</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">PPT 生成</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">学习辅助</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">家庭助手</h4>
+          </div>
+          <div style="padding: 24px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 20px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h4 style="font-size: 13px; font-weight: 600; color: var(--text-dark);">专业效率工具</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 底部 CTA -->
+    <section style="background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); padding: 80px 0;">
+      <div class="container" style="max-width: 800px; text-align: center;">
+        <h2 style="font-size: 28px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;">了解更多产品与资源</h2>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 32px;">从硬件产品到 AI 应用，中科融算持续构建更完整的平台资源体系。</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <a href="digital-brain.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">了解个人数字大脑</a>
+          <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">联系咨询</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-grid">
@@ -154,19 +273,18 @@
           <div>
             <h4 class="footer-title">产品与服务</h4>
             <ul class="footer-links">
-              <li><a href="products.html#product-categories">产品分类</a></li>
-              <li><a href="products.html#product-comparison">产品对比</a></li>
-              <li><a href="contact.html">联系销售</a></li>
+              <li><a href="digital-brain.html">个人数字大脑</a></li>
+              <li><a href="products.html">裸金属租赁</a></li>
+              <li><a href="products.html">卡时销售</a></li>
+              <li><a href="contact.html">联系咨询</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="footer-title">支持与资源</h4>
+            <h4 class="footer-title">资源与动态</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">新闻动态</a></li>
-              <li><a href="resources.html">行业资讯</a></li>
-              <li><a href="resources.html">文档中心</a></li>
-              <li><a href="resources.html">常见问题</a></li>
-              <li><a href="resources.html">案例展示</a></li>
+              <li><a href="resources.html">资源中心</a></li>
+              <li><a href="news-policy.html">政策与新闻</a></li>
+              <li><a href="about.html">关于我们</a></li>
             </ul>
           </div>
           <div class="footer-contact">
@@ -186,6 +304,6 @@
     </footer>
     
     <script type="module" src="src/main.tsx"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20260325-3"></script>
   </body>
 </html>

@@ -7,37 +7,58 @@
 
 /* 设计系统变量 */
 :root {
-  /* 品牌主色 */
-  --primary: #3244e1;
-  --primary-dark: #6464f2;
-  --primary-light: #7A7BFF;
-  /* 科技强调色 */
-  --accent: #35C7FF;
-  --accent-light: #8EE3FF;
+  /* ===== 首页改版新增配色 ===== */
+  /* 深蓝主色调 */
+  --deep-blue-900: #081A3A;
+  --deep-blue-800: #0B234D;
+  --deep-blue-700: #12336B;
+  /* 主蓝色 */
+  --primary-blue: #2563EB;
+  --primary-blue-dark: #1D4ED8;
+  /* 浅蓝强调 */
+  --accent-blue: #3B82F6;
+  --electric-blue: #38BDF8;
+  --highlight-cyan: #67E8F9;
   /* 文字颜色 */
   --text-dark: #0F172A;
-  --text-base: #1E293B;
+  --text-base: #334155;
   --text-light: #64748B;
   --text-lighter: #94A3B8;
   /* 背景颜色 */
-  --bg-light: #F8FAFC;
   --bg-white: #FFFFFF;
-  --bg-gray: #E2E8F0;
-  /* 深色背景 */
-  --bg-dark: #0B1020;
-  --bg-dark-light: #11162A;
-  /* 边框颜色 */
-  --border-color: #E2E8F0;
+  --bg-light: #F8FAFC;
+  --bg-blue-light: #EEF4FF;
+  /* 边框 */
+  --border-light: #D9E6FF;
+  --border-dark: rgba(255, 255, 255, 0.12);
+  /* 阴影 */
+  --shadow-card: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover: 0 18px 40px rgba(15, 23, 42, 0.12);
+  /* ===== 兼容旧变量 ===== */
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #3B82F6;
+  --accent: #38BDF8;
+  --accent-light: #67E8F9;
+  --bg-gray: #E5EAF2;
+  --bg-dark: #081A3A;
+  --bg-dark-light: #0B234D;
+  --border-color: #D9E6FF;
+  --border-primary: rgba(37, 99, 235, 0.15);
   /* 字体 */
   --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   /* 阴影 */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(91, 92, 240, 0.12);
-  --shadow-lg: 0 8px 24px rgba(91, 92, 240, 0.15);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
   /* 圆角 */
   --border-radius: 8px;
   /* 过渡 */
   --transition: all 0.3s ease;
+  /* 统一渐变 */
+  --gradient-primary: linear-gradient(135deg, #081A3A 0%, #0B234D 38%, #12336B 100%);
+  --gradient-cta: linear-gradient(135deg, #EEF4FF 0%, #F8FAFC 100%);
+  --gradient-card-dark: linear-gradient(180deg, #0B234D 0%, #081A3A 100%);
 }
 
 /* 图标样式 */
@@ -110,7 +131,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(90deg, #4C4DDB 0%, #5B5CF0 45%, #6E6FF7 100%);
+  background: var(--gradient-primary);
   box-shadow: var(--shadow-sm);
   z-index: 1000;
   transition: all 0.3s ease;
@@ -230,7 +251,7 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
 
 .dropdown li a:hover {
   color: var(--primary);
-  background-color: rgba(91, 92, 240, 0.1);
+  background-color: rgba(76, 91, 255, 0.1);
 }
 
 /* 二级下拉菜单 */
@@ -332,6 +353,7 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1;
+  pointer-events: none;
 }
 
 .hero .container {
@@ -920,7 +942,7 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
 }
 
 .btn-primary-light {
-  background: linear-gradient(90deg, #4C4DDB 0%, #5B5CF0 45%, #6E6FF7 100%);
+  background: var(--gradient-primary);
   color: #fff;
   border: none;
 }
@@ -1040,25 +1062,37 @@ body.resources-page .nav-menu li:nth-child(5) .dropdown {
 @media (max-width: 768px) {
   .nav {
     position: relative;
+    z-index: 10000;
   }
-  
+
   .nav-menu {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: linear-gradient(90deg, #4C4DDB 0%, #5B5CF0 45%, #6E6FF7 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    top: 72px;
+    left: 16px;
+    right: 16px;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-lg);
     padding: 20px;
     flex-direction: column;
     gap: 12px;
-    z-index: 1001;
-    border-radius: 0 0 8px 8px;
+    z-index: 10000;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
   }
-  
-  .nav-menu.show {
+
+  .nav-menu.show,
+  .nav-menu.is-open {
     display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
   
   .nav-menu li {
@@ -1086,7 +1120,8 @@ body.resources-page .nav-menu li:nth-child(5) .dropdown {
     cursor: pointer;
     color: #fff;
     padding: 8px;
-    z-index: 1002;
+    position: relative;
+    z-index: 10001;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
@@ -1209,7 +1244,7 @@ section {
 }
 
 .card-header {
-  background: linear-gradient(90deg, #4C4DDB 0%, #5B5CF0 45%, #6E6FF7 100%);
+  background: var(--gradient-primary);
   color: white;
   padding: 20px;
   font-size: 18px;
@@ -1378,14 +1413,14 @@ section {
 
 .content-layout {
   display: flex;
-  gap: 40px;
+  gap: 32px;
   align-items: flex-start;
   flex-wrap: nowrap;
 }
 
 /* 左侧导航栏 */
 .side-nav {
-  width: 280px;
+  width: 240px;
   flex-shrink: 0;
   background-color: var(--bg-white);
   border-radius: var(--border-radius);
@@ -1442,7 +1477,7 @@ section {
 }
 
 .side-nav.collapsed .side-nav-toggle:hover {
-  background-color: rgba(91, 92, 240, 0.1);
+  background-color: rgba(76, 91, 255, 0.1);
   color: var(--primary);
   border-color: var(--primary);
 }
@@ -1490,7 +1525,7 @@ section {
 }
 
 .side-nav-toggle:hover {
-  background-color: rgba(91, 92, 240, 0.1);
+  background-color: rgba(76, 91, 255, 0.1);
   color: var(--primary);
   border-color: var(--primary);
 }
@@ -1500,7 +1535,7 @@ section {
 }
 
 .side-nav-toggle:hover {
-  background-color: rgba(91, 92, 240, 0.1);
+  background-color: rgba(76, 91, 255, 0.1);
   color: var(--primary);
   border-color: var(--primary);
 }
@@ -1686,4 +1721,230 @@ section {
   .login-btn {
     padding: 6px 12px;
   }
+}
+
+/* ========================================
+   首页改版 - Hero区域样式
+   ======================================== */
+.home-hero {
+  min-height: 760px;
+  padding: 0;
+  margin-top: 0;
+  background: var(--gradient-primary) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  display: none;
+}
+
+.home-hero .hero-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  min-height: 760px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero .hero-content {
+  flex: 1;
+  max-width: 640px;
+  padding: 120px 0;
+}
+
+.home-hero .hero-visual {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.home-hero .hero-tag {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  color: #67E8F9;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.home-hero h1 {
+  font-size: 56px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+}
+
+.home-hero .hero-subtitle {
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 40px;
+  max-width: 560px;
+}
+
+.home-hero .hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.home-hero .btn-primary-new {
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.home-hero .btn-primary-new:hover {
+  background: var(--primary-blue-dark);
+}
+
+.home-hero .btn-secondary-new {
+  background: transparent;
+  color: #FFFFFF;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.home-hero .btn-secondary-new:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.home-hero .hero-note {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.home-hero .hero-visual-box {
+  width: 100%;
+  max-width: 520px;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero .hero-visual-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.home-hero .hero-visual-text {
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .home-hero {
+    min-height: auto;
+  }
+  
+  .home-hero .hero-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 80px 24px 60px;
+    min-height: auto;
+  }
+  
+  .home-hero .hero-content {
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .home-hero h1 {
+    font-size: 40px;
+  }
+  
+  .home-hero .hero-subtitle {
+    max-width: 100%;
+  }
+  
+  .home-hero .hero-buttons {
+    justify-content: center;
+  }
+  
+  .home-hero .hero-visual {
+    padding: 40px 0;
+  }
+  
+  .home-hero .hero-visual-box {
+    max-width: 400px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero h1 {
+    font-size: 32px;
+  }
+  
+  .home-hero .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .home-hero .btn-primary-new,
+  .home-hero .btn-secondary-new {
+    width: 100%;
+  }
+}
+
+/* 三大核心业务卡片 hover 效果 */
+.core-business-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+.core-business-cards a[href="#"]:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover) !important;
 }
