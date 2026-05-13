@@ -86,6 +86,29 @@
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/icons.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const navActions = document.querySelector('.nav-actions');
+        
+        if (navToggle && navMenu) {
+          navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            if (navActions) navActions.classList.toggle('active');
+            navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+          });
+          
+          navToggle.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              navMenu.classList.toggle('active');
+              if (navActions) navActions.classList.toggle('active');
+              navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            }
+          });
+        }
+      });
+    </script>
   </head>
   <body>
     <!-- 导航栏 -->
@@ -101,7 +124,6 @@
             <li>
               <a href="products.html">产品与服务</a>
               <ul class="dropdown">
-                <li><a href="digital-brain.html">个人数字大脑</a></li>
                 <li><a href="products.html#bare-metal">裸金属租赁</a></li>
                 <li><a href="products.html#gpu-time">卡时销售</a></li>
               </ul>
@@ -115,21 +137,11 @@
               </ul>
             </li>
             <li><a href="news-policy.html">政策与新闻</a></li>
-            <li>
-              <a href="resources.html">资源中心</a>
-              <ul class="dropdown">
-                <li><a href="resources.html#hardware">硬件产品</a></li>
-                <li><a href="resources.html#peripherals">周边设备</a></li>
-                <li><a href="resources.html#ai-apps">AI应用</a></li>
-              </ul>
-            </li>
             <li><a href="about.html">关于我们</a></li>
             <li><a href="contact.html">联系咨询</a></li>
           </ul>
           <div class="nav-actions">
-            <a href="#" class="login-btn">登录</a>
-            <a href="#" class="login-btn">注册</a>
-            <a href="contact.html" class="quote-btn">获取报价</a>
+            <a href="contact.html" class="quote-btn">联系咨询</a>
           </div>
         </nav>
       </div>
@@ -137,25 +149,37 @@
     
     <!-- Hero区域 -->
     <section class="hero home-hero">
+      <div class="hero-bg-effects"></div>
       <div class="hero-container">
         <div class="hero-content">
-          <div class="hero-tag">高性能算力底座 × 智能终端 × 应用生态</div>
-          <h1>以高性能算力为底座，连接个人数字大脑与智能应用生态</h1>
-          <p class="hero-subtitle">融合裸金属租赁、卡时销售与个人智能终端能力，构建面向个人、家庭与行业场景的一体化 AI 平台。</p>
+          <div class="hero-tag">AI Computing Platform</div>
+          <h1>以高性能算力为底座，构建面向专业场景的AI算力平台</h1>
+          <p class="hero-subtitle">融合裸金属租赁与卡时销售服务，为企业和专业团队提供稳定、可控、可扩展的高性能算力资源。</p>
           <div class="hero-buttons">
-            <a href="digital-brain.html" class="btn-primary-new">了解个人数字大脑</a>
-            <a href="products.html" class="btn-secondary-new">查看算力服务</a>
+            <a href="products.html" class="btn-primary-new">查看算力服务</a>
             <a href="contact.html" class="btn-secondary-new">联系咨询</a>
           </div>
-          <p class="hero-note">通讯保障、高性能算力、中科院技术支撑，助力智能应用从底层能力到终端场景全面落地。</p>
         </div>
         <div class="hero-visual">
-          <div class="hero-visual-box">
-            <div class="hero-visual-text">
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 16px; opacity: 0.6;">
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
-              </svg>
-              <div>算力底座 · 芯片 · 节点网络</div>
+          <div class="glass-card-float glass-card-1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            <div>
+              <div class="glass-card-title">GPU资源池</div>
+              <div class="glass-card-desc">99.9% 稳定运行</div>
+            </div>
+          </div>
+          <div class="glass-card-float glass-card-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <div>
+              <div class="glass-card-title">AI训练任务</div>
+              <div class="glass-card-desc">实时调度中</div>
+            </div>
+          </div>
+          <div class="glass-card-float glass-card-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/></svg>
+            <div>
+              <div class="glass-card-title">算力节点</div>
+              <div class="glass-card-desc">多区域部署</div>
             </div>
           </div>
         </div>
@@ -163,97 +187,80 @@
     </section>
     
     <!-- 三大核心业务入口模块 -->
-    <section style="padding: 96px 0; background-color: var(--bg-white);">
+    <section style="padding: 96px 0; background-color: var(--bg-section);">
       <div class="container">
         <div class="section-title" style="text-align: center; margin-bottom: 48px;">
-          <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">三大核心业务</h2>
-          <p style="font-size: 18px; color: var(--text-light); max-width: 700px; margin: 0 auto; line-height: 1.7;">覆盖从底座算力到终端智能的完整路径。围绕高性能算力底座，平台同步提供面向个人与家庭的智能终端产品，以及面向专业与灵活需求的算力服务能力。</p>
+          <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">核心产品与服务</h2>
+          <p style="font-size: 18px; color: var(--text-light); max-width: 700px; margin: 0 auto; line-height: 1.7;">面向企业团队与专业场景，提供稳定、可控、可扩展的高性能算力资源与服务。</p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-          <!-- 卡片1：个人数字大脑 -->
-          <a href="digital-brain.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); text-decoration: none; transition: all 0.3s ease; border: 1px solid var(--border-light); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gradient-primary);"></div>
-            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/></svg>
-            </div>
-            <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; text-align: left;">个人数字大脑</h3>
-            <p style="font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 24px; flex: 1;">面向个人与家庭的智能终端产品，集本地能力、应用接入、设备协同与分布式算力生产于一体。</p>
-            <span style="font-size: 14px; color: var(--primary-blue); font-weight: 500; display: flex; align-items: center; gap: 6px;">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-          </a>
-          <!-- 卡片2：裸金属租赁 -->
-          <a href="bare-metal.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); text-decoration: none; transition: all 0.3s ease; border: 1px solid var(--border-light);">
-            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+          <!-- 卡片1：裸金属租赁 -->
+          <a href="bare-metal.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 28px; box-shadow: var(--shadow-card); text-decoration: none; transition: var(--transition); border: 1px solid var(--border-card); position: relative;">
+            <span style="position: absolute; top: 20px; right: 20px; padding: 4px 12px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; font-size: 12px; font-weight: 600; border-radius: 999px;">主推</span>
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             </div>
             <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; text-align: left;">裸金属租赁</h3>
             <p style="font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 24px; flex: 1;">面向专业团队与高性能任务场景，提供稳定、可控、可扩展的算力资源服务。</p>
-            <span style="font-size: 14px; color: var(--primary-blue); font-weight: 500; display: flex; align-items: center; gap: 6px;">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span style="font-size: 14px; color: #4F63FF; font-weight: 500; display: flex; align-items: center; gap: 6px;">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </a>
-          <!-- 卡片3：卡时销售 -->
-          <a href="gpu-time.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); text-decoration: none; transition: all 0.3s ease; border: 1px solid var(--border-light);">
-            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <!-- 卡片2：卡时销售 -->
+          <a href="gpu-time.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 28px; box-shadow: var(--shadow-card); text-decoration: none; transition: var(--transition); border: 1px solid var(--border-card);">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </div>
             <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; text-align: left;">卡时销售</h3>
             <p style="font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 24px; flex: 1;">面向灵活、轻量、按需调用需求，降低使用门槛，提升资源使用效率。</p>
-            <span style="font-size: 14px; color: var(--primary-blue); font-weight: 500; display: flex; align-items: center; gap: 6px;">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-          </a>
-          <!-- 卡片4：平台能力 -->
-          <a href="computing-center.html" style="display: flex; flex-direction: column; padding: 32px 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); text-decoration: none; transition: all 0.3s ease; border: 1px solid var(--border-light);">
-            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-            </div>
-            <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; text-align: left;">平台能力</h3>
-            <p style="font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 24px; flex: 1;">围绕通讯保障、高性能算力、算力网络与技术支撑，构建可信的智能平台底座。</p>
-            <span style="font-size: 14px; color: var(--primary-blue); font-weight: 500; display: flex; align-items: center; gap: 6px;">了解更多 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span style="font-size: 14px; color: #4F63FF; font-weight: 500; display: flex; align-items: center; gap: 6px;">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </a>
         </div>
       </div>
     </section>
     
-    <!-- 应用生态预览模块 -->
-    <section style="padding: 80px 0; background-color: var(--bg-white);">
+    <!-- 应用场景模块 -->
+    <section style="padding: 80px 0; background-color: var(--bg-section);">
       <div class="container">
         <div style="max-width: 1200px; margin: 0 auto;">
-          <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">应用场景预览</h2>
-          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 40px; max-width: 800px; text-align: left;">平台能力不仅服务于资源调用，也连接个人终端、家庭体验与专业场景，逐步拓展至金融、医疗、教育、科研等多类型应用方向。</p>
+          <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: center;">应用场景</h2>
+          <div style="width: 56px; height: 3px; background: linear-gradient(90deg, #4F63FF, #8BA2FF); border-radius: 999px; margin: 0 auto 16px;"></div>
+          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 48px; max-width: 700px; text-align: center; margin-left: auto; margin-right: auto;">平台能力服务于金融、医疗、教育、科研等多类型应用方向，为企业和专业团队提供全面的AI算力支持。</p>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/></svg>
               </div>
-              <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">个人与家庭</h3>
-              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">连接个人数字大脑、家庭协同与日常智能体验。</p>
+              <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">AI + 企业</h3>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">面向企业智能化转型、业务效率提升与创新应用开发。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">AI + 金融</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">面向金融信息处理、辅助分析与专业场景扩展。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">AI + 医疗</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">面向健康管理辅助、医疗数据处理与场景支持。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">AI + 教育</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">面向学习辅助、教学支持与教育智能应用。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">AI + 科研</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">面向研究任务、模型构建与高性能资源调用。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               </div>
@@ -265,39 +272,15 @@
       </div>
     </section>
     
-    <!-- 数据背书模块 -->
-    <section style="padding: 60px 0; background: var(--gradient-primary);">
-      <div class="container">
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; text-align: center;">
-          <div>
-            <div style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 8px;">500+</div>
-            <div style="font-size: 16px; color: rgba(255,255,255,0.85);">企业客户</div>
-          </div>
-          <div>
-            <div style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 8px;">1000+</div>
-            <div style="font-size: 16px; color: rgba(255,255,255,0.85);">GPU算力卡</div>
-          </div>
-          <div>
-            <div style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 8px;">3</div>
-            <div style="font-size: 16px; color: rgba(255,255,255,0.85);">区域数据中心</div>
-          </div>
-          <div>
-            <div style="font-size: 48px; font-weight: 700; color: #fff; margin-bottom: 8px;">99.9%</div>
-            <div style="font-size: 16px; color: rgba(255,255,255,0.85);">服务可用性</div>
-          </div>
-        </div>
-      </div>
-    </section>
-    
     <!-- 为什么选择中科融算模块 -->
     <section style="padding: 80px 0; background-color: var(--bg-white);">
       <div class="container">
         <div style="max-width: 1200px; margin: 0 auto;">
           <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">为什么选择中科融算？</h2>
-          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 40px; max-width: 800px; text-align: left;">依托高性能算力底座，稳定连接能力与持续扩展的技术体系，中科融算不仅提供资源服务，也将底层能力承接到个人数字大脑等智能终端产品中，推动应用与场景持续落地。</p>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 40px; max-width: 800px; text-align: left;">依托高性能算力底座，稳定连接能力与持续扩展的技术体系，中科融算为企业和专业团队提供稳定、可控、可扩展的高性能算力资源与服务支持。</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
             <!-- 卡片1：通讯保障 -->
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
               </div>
@@ -309,8 +292,8 @@
                 <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 终端与平台统一协同</li>
               </ul>
             </div>
-            <!-- 卡片2：高性能算力 -->
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <!-- 卡片2：高性能算力平台 -->
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
               </div>
@@ -323,7 +306,7 @@
               </ul>
             </div>
             <!-- 卡片3：技术支撑 -->
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
@@ -333,19 +316,6 @@
                 <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 平台能力持续扩展</li>
                 <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 产品服务场景一体支撑</li>
                 <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 支持生态接入与演进</li>
-              </ul>
-            </div>
-            <!-- 卡片4：个人数字大脑 -->
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
-              <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/></svg>
-              </div>
-              <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">个人数字大脑</h3>
-              <p style="font-size: 14px; color: var(--text-base); line-height: 1.5; margin-bottom: 16px;">连接本地智能、云端协同、应用接入与设备扩展能力。</p>
-              <ul style="list-style: none; padding: 0; margin: 0;">
-                <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 本地智能与云端协同</li>
-                <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 支持多网络与外设扩展</li>
-                <li style="font-size: 13px; color: var(--text-light); padding: 4px 0;">· 覆盖个人家庭专业场景</li>
               </ul>
             </div>
           </div>
@@ -358,44 +328,44 @@
       <div class="container">
         <div style="max-width: 1200px; margin: 0 auto;">
           <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">接入多类型 AI 应用，让能力真正可用</h2>
-          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 40px; max-width: 800px; text-align: left;">围绕个人数字大脑与平台能力，平台逐步接入内容创作、办公提效，学习辅助、家庭管理与专业效率工具等多类型 AI 应用，让能力从底层资源真正进入实际使用场景。</p>
+          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; margin-bottom: 40px; max-width: 800px; text-align: left;">平台逐步接入内容创作、办公提效、学习辅助与专业效率工具等多类型 AI 应用，让能力从底层资源真正进入实际使用场景。</p>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">视频生产</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持视频生成、剪辑辅助与内容处理等能力接入。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">PPT 生成</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持演示内容生成、结构整理与表达辅助。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">内容创作</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持文案生成、信息重组与多类型内容输出。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
               <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">学习辅助</h3>
               <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持知识整理、学习规划与智能辅助问答。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
               </div>
-              <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">家庭助手</h3>
-              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持家庭场景中的设备协同、信息提醒与日常辅助。</p>
+              <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px;">行业应用</h3>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持制造、服务业与更多行业智能化应用开发与落地。</p>
             </div>
-            <div style="padding: 28px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-light);">
+            <div style="padding: 28px; background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); transition: var(--transition);">
               <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary-blue)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               </div>
@@ -451,31 +421,16 @@
       </div>
     </section>
     
-    <!-- 双路径CTA区 -->
-    <section style="background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); padding: 80px 0;">
+    <!-- CTA区域 -->
+    <section style="background: var(--gradient-cta); padding: 100px 0; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 300px; background: radial-gradient(circle at 50% 0%, rgba(79,99,255,0.16), transparent 40%); pointer-events: none;"></div>
       <div class="container">
-        <div style="max-width: 1000px; margin: 0 auto; text-align: center; margin-bottom: 48px;">
-          <h2 style="font-size: 36px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;">让高性能算力与个人智能终端真正连接起来</h2>
-          <p style="font-size: 18px; color: rgba(255,255,255,0.75); line-height: 1.7; max-width: 700px; margin: 0 auto;">无论你希望了解个人数字大脑，还是咨询裸金属租赁与卡时销售服务，都可以在中科融算找到适合自身需求的入口与支持。</p>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto;">
-          <!-- 左侧：个人用户 -->
-          <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 36px; text-align: left;">
-            <h3 style="font-size: 18px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px;">个人用户入口</h3>
-            <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 24px;">了解个人数字大脑，应用能力与价格说明，探索面向个人与家庭场景的智能终端体验。</p>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <a href="digital-brain.html" style="display: inline-flex; align-items: center; padding: 12px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.3s ease;">了解个人数字大脑</a>
-              <a href="contact.html" style="display: inline-flex; align-items: center; padding: 12px 20px; background: var(--primary-blue); border: none; border-radius: 12px; color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.3s ease;">查看价格与购买</a>
-            </div>
-          </div>
-          <!-- 右侧：企业/机构用户 -->
-          <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 36px; text-align: left;">
-            <h3 style="font-size: 18px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px;">企业与机构入口</h3>
-            <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 24px;">咨询裸金属租赁、卡时销售、平台能力与合作方案，获取面向专业场景的资源与服务支持。</p>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <a href="contact.html" style="display: inline-flex; align-items: center; padding: 12px 20px; background: var(--primary-blue); border: none; border-radius: 12px; color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.3s ease;">咨询算力服务</a>
-              <a href="computing-center.html" style="display: inline-flex; align-items: center; padding: 12px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; color: #FFFFFF; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.3s ease;">了解平台能力</a>
-            </div>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+          <h2 style="font-size: 40px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">获取专属算力解决方案</h2>
+          <p style="font-size: 18px; color: var(--text-light); line-height: 1.7; max-width: 600px; margin: 0 auto 40px;">根据业务需求匹配 GPU 资源、部署模式与计费方案</p>
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: var(--gradient-btn); border: none; border-radius: 14px; color: #FFFFFF; font-size: 15px; font-weight: 600; text-decoration: none; transition: var(--transition); box-shadow: 0 14px 35px rgba(79,99,255,0.35);">联系咨询</a>
+            <a href="products.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: var(--bg-white); border: 1px solid var(--border-card); border-radius: 14px; color: var(--text-dark); font-size: 15px; font-weight: 500; text-decoration: none; transition: var(--transition); box-shadow: var(--shadow-card);">查看算力产品</a>
           </div>
         </div>
       </div>
@@ -494,7 +449,6 @@
           <div>
             <h4 class="footer-title">产品与服务</h4>
             <ul class="footer-links">
-              <li><a href="digital-brain.html">个人数字大脑</a></li>
               <li><a href="products.html">裸金属租赁</a></li>
               <li><a href="products.html">卡时销售</a></li>
               <li><a href="contact.html">联系咨询</a></li>
@@ -503,8 +457,7 @@
           <div>
             <h4 class="footer-title">资源与动态</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">资源中心</a></li>
-              <li><a href="news-policy.html">政策与新闻</a></li>
+                            <li><a href="news-policy.html">政策与新闻</a></li>
               <li><a href="about.html">关于我们</a></li>
             </ul>
           </div>

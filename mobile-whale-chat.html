@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小鲸鱼 - 金融智能助手</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/services/themeService.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: linear-gradient(180deg, #0a1628 0%, #0d1f3a 50%, #0a1628 100%);
+      --bg-card: rgba(30, 58, 138, 0.25);
+      --bg-card-hover: rgba(37, 99, 235, 0.3);
+      --bg-input: rgba(15, 23, 42, 0.8);
+      --border-card: rgba(37, 99, 235, 0.4);
+      --border-input: rgba(37, 99, 235, 0.5);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-tertiary: rgba(255, 255, 255, 0.5);
+      --accent-blue: #2563eb;
+      --accent-blue-light: #60a5fa;
+      --accent-cyan: #06b6d4;
+      --success: #10b981;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* 浅色模式 - 冷白灰蓝科技风 */
+    html[data-theme="light"] {
+      --bg-primary: linear-gradient(180deg, #F6F9FC 0%, #F3F7FB 50%, #F6F9FC 100%);
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FBFDFF;
+      --bg-input: #F8FAFC;
+      --border-card: #D7E6FF;
+      --border-input: #BFD7FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #7C8CA5;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --accent-cyan: #0891B2;
+      --success: #16A34A;
+      --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.06);
+      --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.10);
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    body * {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .app-container {
+      animation: slideUpFadeIn 0.35s ease-out;
+    }
+
+    @keyframes slideUpFadeIn {
+      from {
+        opacity: 0.3;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* 手机容器 */
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    /* 顶部栏 - 三层结构 */
+    .header {
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(20px);
+      position: relative;
+      z-index: 100;
+    }
+
+    /* 浅色模式 - 顶部栏 */
+    html[data-theme="light"] .header {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid #E8F0FF;
+      position: relative;
+      z-index: 100;
+    }
+    
+    /* 第一层：主标题栏 */
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      position: relative;
+    }
+    
+    .header .back,
+    .header .more {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-blue);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .header .back:active {
+      opacity: 0.8;
+    }
+
+    .header .back svg {
+      stroke: var(--accent-blue);
+    }
+    
+    .header .title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+    }
+    
+    .header .more {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-tertiary);
+      border-radius: 8px;
+    }
+    
+    .model-switcher {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .model-switcher:hover {
+      background: rgba(37, 99, 235, 0.2);
+      border-color: rgba(37, 99, 235, 0.4);
+    }
+
+    .model-switcher .current-model {
+      font-size: 12px;
+      color: var(--accent-blue-light);
+      font-weight: 500;
+    }
+
+    .model-switcher svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* 浅色模式 - 模型切换器 */
+    html[data-theme="light"] .model-switcher {
+      background: rgba(74, 141, 255, 0.08);
+      border: 1px solid rgba(74, 141, 255, 0.2);
+    }
+
+    html[data-theme="light"] .model-switcher:hover {
+      background: rgba(74, 141, 255, 0.15);
+      border-color: rgba(74, 141, 255, 0.35);
+    }
+
+    html[data-theme="light"] .model-switcher .current-model {
+      color: #4A8DFF;
+    }
+
+    html[data-theme="light"] .model-switcher svg {
+      color: #7C8CA5;
+    }
+    
+    /* 模型选择弹窗 */
+    .model-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 30, 60, 0.98);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: 12px;
+      padding: 8px;
+      min-width: 160px;
+      display: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+
+    /* 浅色模式 - 模型选择弹窗 */
+    html[data-theme="light"] .model-menu {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      box-shadow: 0 8px 32px rgba(67, 97, 168, 0.12);
+    }
+    
+    .model-menu.show {
+      display: block;
+    }
+    
+    .model-option {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .model-option:hover,
+    .model-option.active {
+      background: rgba(37, 99, 235, 0.2);
+      color: var(--text-primary);
+    }
+
+    /* 浅色模式 - 模型选项 */
+    html[data-theme="light"] .model-option {
+      color: #475569;
+    }
+
+    html[data-theme="light"] .model-option:hover,
+    html[data-theme="light"] .model-option.active {
+      background: rgba(74, 141, 255, 0.1);
+      color: #0F172A;
+    }
+    
+    .model-option .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+    }
+    
+    /* 第三层：分隔线与提示 */
+    .header-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-card), transparent);
+      margin: 0 16px;
+    }
+    
+    .header-hint {
+      text-align: center;
+      padding: 10px 0 6px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.5px;
+    }
+    
+    /* 主内容区 */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px;
+      padding-bottom: 140px;
+    }
+    
+    /* 欢迎区 */
+    .welcome-section {
+      padding: 60px 0 24px;
+      text-align: center;
+    }
+    
+    /* 吉祥物占位区 */
+    .mascot-placeholder {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(6, 182, 212, 0.2) 100%);
+      border: 2px dashed var(--border-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .mascot-placeholder::before {
+      content: '小鲸鱼';
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    
+    .mascot-placeholder::after {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.2; }
+    }
+    
+    /* ==================== 小鲸鱼吉祥物组件 ==================== */
+    
+    /* 主吉祥物 - 欢迎区版本 */
+    .whale-mascot {
+      width: 120px;
+      height: 100px;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: whale-float 3.5s ease-in-out infinite;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .whale-mascot:hover {
+      transform: scale(1.02);
+    }
+    
+    .whale-mascot:active {
+      transform: scale(0.98);
+    }
+    
+    @keyframes whale-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    /* ==================== 星崽智能体组件 ==================== */
+    
+    .star-mascot {
+      width: 100px;
+      height: 120px;
+      margin: 0 auto 20px;
+      position: relative;
+      animation: star-float 3s ease-in-out infinite;
+      cursor: pointer;
+    }
+    
+    @keyframes star-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    
+    @keyframes star-sparkle {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    @keyframes star-antenna-glow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    .star-antenna-v2 {
+      animation: star-antenna-glow 2s ease-in-out infinite;
+    }
+    
+    .star-sparkle-v2 {
+      animation: star-sparkle 1.5s ease-in-out infinite;
+    }
+    
+    .star-mascot__glow {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(14, 165, 233, 0.15) 40%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+    
+    .star-mascot__svg {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .star-antenna {
+      animation: star-sparkle 2s ease-in-out infinite;
+    }
+    
+    /* 光晕背景 */
+    .whale-mascot__glow {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(6, 182, 212, 0.1) 40%, transparent 70%);
+      border-radius: 50%;
+      animation: glow-pulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    }
+    
+    /* 鲸鱼SVG */
+    .whale-mascot__svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 4px 20px rgba(37, 99, 235, 0.3));
+    }
+    
+    /* 鲸鱼图片 - 新版 */
+    .whale-mascot__img {
+      width: 120px;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 4px 20px rgba(37, 99, 235, 0.3));
+    }
+    
+    /* 吉祥物舞台容器 */
+    .whale-stage {
+      position: relative;
+      width: 120px;
+      height: 90px;
+      margin: 0 auto;
+    }
+    
+    /* 所有SVG通用样式 */
+    .whale-stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    /* 分层顺序 */
+    .whale-fin--back {
+      z-index: 1;
+    }
+    
+    .whale-body {
+      z-index: 2;
+    }
+    
+    .whale-fin--front {
+      z-index: 3;
+    }
+    
+    /* 鱼鳍摆动动画 */
+    @keyframes fin-sway-front {
+      0% { transform: rotate(0deg); }
+      40% { transform: rotate(-10deg); }
+      70% { transform: rotate(-3deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    @keyframes fin-sway-back {
+      0% { transform: rotate(0deg); }
+      40% { transform: rotate(10deg); }
+      70% { transform: rotate(3deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    .whale-fin--front.animating {
+      animation: fin-sway-front 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    
+    .whale-fin--back.animating {
+      animation: fin-sway-back 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    
+    /* 尾巴摆动动画 - 已禁用，改用鱼鳍摆动 */
+    /* .whale-mascot__tail {
+      animation: tail-sway 2.8s ease-in-out infinite;
+      transform-origin: 85px 55px;
+    }
+    
+    @keyframes tail-sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(4deg); }
+    } */
+    
+    /* 眨眼动画 - 已禁用，改用JS控制图片切换 */
+    /* .whale-mascot__eye {
+      animation: eye-blink 6s ease-in-out infinite;
+      transform-origin: 42px 38px;
+    }
+    
+    @keyframes eye-blink {
+      0%, 45%, 55%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.15); }
+    } */
+    
+    /* 电路线条光效 */
+    .whale-mascot__circuit {
+      animation: circuit-glow 4s ease-in-out infinite;
+    }
+    
+    @keyframes circuit-glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* 头像版本 - 消息头像 */
+    .whale-mascot--avatar {
+      width: 36px;
+      height: 36px;
+      animation: none;
+    }
+    
+    .whale-mascot--avatar .whale-mascot__glow {
+      display: none;
+    }
+    
+    .whale-mascot--avatar .whale-mascot__svg {
+      filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.2));
+    }
+    
+    /* 头像尾巴动画 - 已禁用 */
+    /* .whale-mascot--avatar .whale-mascot__tail {
+      animation: tail-sway-small 3s ease-in-out infinite;
+      transform-origin: 28px 20px;
+    }
+    
+    @keyframes tail-sway-small {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(3deg); }
+    } */
+    
+    /* 头像眨眼动画 - 已禁用 */
+    /* .whale-mascot--avatar .whale-mascot__eye {
+      animation: eye-blink 5s ease-in-out infinite;
+      transform-origin: 14px 14px;
+    } */
+    
+    /* 小头像简化版 */
+    .whale-avatar-simple {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+      border-radius: 50% 50% 50% 10%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    
+    .whale-avatar-simple::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      top: 10px;
+      left: 10px;
+      box-shadow: 8px 0 0 -1px white;
+    }
+    
+    .whale-avatar-simple::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      bottom: 8px;
+    }
+    
+    .welcome-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .welcome-subtitle {
+      font-size: 14px;
+      color: var(--accent-cyan);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    
+    .welcome-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    
+    /* 场景快捷入口 - 精致化 */
+    .scene-section {
+      padding: 8px 0 16px;
+    }
+    
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    
+    .scene-item {
+      padding: 16px 6px;
+      background: rgba(30, 58, 138, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .scene-item:hover,
+    .scene-item:active {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: rgba(37, 99, 235, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    .scene-item .icon {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto 10px;
+      background: rgba(37, 99, 235, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .scene-item .icon svg {
+      width: 14px;
+      height: 14px;
+      color: var(--accent-blue-light);
+    }
+    
+    .scene-item .name {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    
+    /* 对话区 - 优化对齐与留白 */
+    .chat-section {
+      padding: 12px 0 20px;
+    }
+    
+    .chat-message {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+      animation: messageSlideIn 0.4s ease-out;
+    }
+
+    .chat-message.welcome-message {
+      animation: welcomeMessageIn 0.3s ease-out 1s both;
+    }
+
+    @keyframes welcomeMessageIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .chat-message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-actions {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+      justify-content: flex-end;
+    }
+
+    .message-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      transition: all 0.2s ease;
+    }
+
+    .message-action-btn:hover {
+      background: rgba(74, 141, 255, 0.15);
+      color: var(--accent-blue);
+    }
+
+    .message-action-btn:active {
+      transform: scale(0.9);
+    }
+
+    .message-action-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    html[data-theme="light"] .message-action-btn {
+      color: #94a3b8;
+    }
+
+    html[data-theme="light"] .message-action-btn:hover {
+      background: rgba(74, 141, 255, 0.12);
+      color: #4A8DFF;
+    }
+
+    html[data-theme="light"] .message-action-btn.liked {
+      color: #10b981;
+    }
+
+    html[data-theme="light"] .message-action-btn.disliked {
+      color: #f87171;
+    }
+
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .chat-avatar.assistant {
+      background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    }
+    
+    .chat-avatar.user {
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+    }
+
+    .chat-avatar svg {
+      width: 16px;
+      height: 16px;
+      color: white;
+    }
+
+    /* 浅色模式 - 用户头像 */
+    html[data-theme="light"] .chat-avatar.user {
+      background: linear-gradient(135deg, #3D5A80 0%, #5C7A99 100%);
+      border: none;
+    }
+
+    html[data-theme="light"] .chat-avatar.user svg {
+      color: white;
+    }
+
+    .chat-content {
+      max-width: 78%;
+    }
+
+    .chat-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    
+    /* 深色模式 - 助手消息 */
+    html[data-theme="dark"] .chat-message.assistant .chat-bubble {
+      background: rgba(30, 58, 138, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      color: var(--text-primary);
+      border-top-left-radius: 3px;
+    }
+
+    /* 深色模式 - 用户消息 */
+    html[data-theme="dark"] .chat-message.user .chat-bubble {
+      background: var(--accent-blue);
+      color: white;
+      border-top-right-radius: 3px;
+    }
+
+    /* 浅色模式 - 助手消息：蓝框白底带轻微投影 */
+    html[data-theme="light"] .chat-message.assistant .chat-bubble {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #adc3e6;
+      color: #526389;
+      border-top-left-radius: 3px;
+    }
+
+    /* 浅色模式 - 用户消息 */
+    html[data-theme="light"] .chat-message.user .chat-bubble {
+      background: linear-gradient(135deg, #4A8DFF 0%, #6BA8FF 100%);
+      color: white;
+      border-top-right-radius: 3px;
+      box-shadow: 0 2px 8px rgba(74, 141, 255, 0.25);
+    }
+    
+    .chat-time {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+    
+    /* 技能条 - 轻量化 */
+    .skills-bar {
+      position: fixed;
+      bottom: 72px;
+      left: 0;
+      right: 0;
+      padding: 8px 16px;
+      background: linear-gradient(to top, rgba(10, 22, 40, 0.98) 0%, rgba(10, 22, 40, 0.7) 100%);
+      z-index: 50;
+    }
+
+    /* 浅色模式 - 技能条 */
+    html[data-theme="light"] .skills-bar {
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.7) 100%);
+      border-top: 1px solid #E8F0FF;
+    }
+    
+    .skills-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 0;
+    }
+    
+    .skills-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .skill-tag {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 14px;
+      font-size: 11px;
+      color: rgba(96, 165, 250, 0.9);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-weight: 400;
+    }
+    
+    .skill-tag:hover,
+    .skill-tag:active {
+      background: rgba(37, 99, 235, 0.1);
+      border-color: rgba(37, 99, 235, 0.35);
+      color: var(--accent-blue-light);
+    }
+
+    /* 浅色模式 - 技能标签 */
+    html[data-theme="light"] .skill-tag {
+      border: 1px solid rgba(74, 141, 255, 0.2);
+      color: #4A8DFF;
+    }
+
+    html[data-theme="light"] .skill-tag:hover,
+    html[data-theme="light"] .skill-tag:active {
+      background: rgba(74, 141, 255, 0.08);
+      border-color: rgba(74, 141, 255, 0.35);
+      color: #4A8DFF;
+    }
+    
+    /* 输入区 - 精致化 */
+    .input-area {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 16px 28px;
+      background: rgba(10, 22, 40, 0.98);
+      border-top: 1px solid rgba(37, 99, 235, 0.15);
+      z-index: 60;
+    }
+
+    /* 浅色模式 - 输入区 */
+    html[data-theme="light"] .input-area {
+      background: #FFFFFF;
+      border-top: 1px solid #E8F0FF;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 22px;
+      padding: 6px 6px 6px 12px;
+      min-height: 44px;
+    }
+
+    /* 浅色模式 - 输入框包装 */
+    html[data-theme="light"] .input-wrapper {
+      background: #F8FAFC;
+      border: 1px solid #BFD7FF;
+    }
+    
+    .input-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .input-btn:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .input-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.4;
+      padding: 0;
+      resize: none;
+      max-height: 80px;
+      min-height: 20px;
+    }
+    
+    .chat-input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 14px;
+    }
+
+    /* 浅色模式 - 输入框占位符 */
+    html[data-theme="light"] .chat-input::placeholder {
+      color: #7C8CA5;
+    }
+    
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-blue);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .send-btn:hover {
+      background: var(--accent-blue-light);
+    }
+    
+    .send-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* 安全区适配 */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .input-area {
+        padding-bottom: calc(28px + env(safe-area-inset-bottom));
+      }
+      
+      .skills-bar {
+        bottom: calc(72px + env(safe-area-inset-bottom));
+      }
+      
+      .mascot-container {
+        bottom: calc(80px + env(safe-area-inset-bottom));
+      }
+    }
+    
+    /* 吉祥物容器 */
+    .mascot-container {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    /* 在小鲸鱼页面隐藏悬浮吉祥物 */
+    body:not(.page-whale-chat) .mascot-container {
+      display: flex;
+    }
+    
+    /* 气泡提示 */
+    .mascot-bubble {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 12px;
+      color: #1e3a5f;
+      max-width: 140px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: translateY(10px) scale(0.9);
+      transition: all 0.3s ease;
+      position: relative;
+      display: none;
+    }
+    
+    .mascot-bubble.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      display: block;
+    }
+    
+    .mascot-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: 24px;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(255, 255, 255, 0.95);
+    }
+    
+    /* 吉祥物按钮 */
+    .mascot-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    }
+    
+    .mascot-btn:active {
+      transform: scale(0.9);
+    }
+    
+    /* 光晕效果 */
+    .mascot-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    
+    /* 鲸鱼SVG */
+    .whale-svg {
+      width: 44px;
+      height: 44px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* 眨眼动画 */
+    .whale-eye {
+      animation: blink 5s ease-in-out infinite;
+      transform-origin: center;
+    }
+    
+    @keyframes blink {
+      0%, 45%, 55%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.1); }
+    }
+    
+    /* 尾巴摆动 */
+    .whale-tail {
+      animation: tailWag 2s ease-in-out infinite;
+      transform-origin: 35px 28px;
+    }
+    
+    @keyframes tailWag {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(5deg); }
+    }
+    
+    /* 点击波纹 */
+    .mascot-ripple {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(59, 130, 246, 0.5);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .mascot-ripple.active {
+      animation: rippleEffect 0.6s ease-out;
+    }
+    
+    @keyframes rippleEffect {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    
+    /* 对话面板 */
+    .chat-panel {
+      position: fixed;
+      bottom: 150px;
+      right: 20px;
+      width: calc(100% - 40px);
+      max-width: 320px;
+      background: rgba(15, 30, 60, 0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 20px;
+      padding: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    .chat-panel.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    
+    .chat-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    
+    .chat-panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .chat-panel-close {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37, 99, 235, 0.2);
+      border: none;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    
+    .quick-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .quick-btn {
+      padding: 10px 8px;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .quick-btn:hover {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: rgba(37, 99, 235, 0.4);
+      color: var(--text-primary);
+    }
+    
+    .chat-panel-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text-primary);
+      outline: none;
+    }
+    
+    .chat-panel-input::placeholder {
+      color: var(--text-tertiary);
+    }
+    
+    /* ==================== 工作台模式 ==================== */
+    
+    /* 工作台容器 */
+    .workbench-section {
+      display: none;
+    }
+    
+    .workbench-section.active {
+      display: block;
+    }
+    
+    /* 默认内容隐藏 */
+    .default-content {
+      display: block;
+    }
+    
+    .default-content.hidden {
+      display: none;
+    }
+    
+    .welcome-section.hidden,
+    .scene-section.hidden,
+    .chat-section.hidden,
+    .skills-bar.hidden {
+      display: none;
+    }
+    
+    /* 工作台头部 */
+    .workbench-header {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    
+    .workbench-header-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    
+    .workbench-header-icon svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+    
+    .workbench-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    
+    .workbench-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--success);
+      margin-bottom: 4px;
+    }
+    
+    .workbench-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+    
+    .workbench-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    
+    /* 工作台容器 */
+    .workbench-container {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 400px;
+      margin-bottom: 16px;
+    }
+    
+    .workbench-iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      background: white;
+    }
+    
+    /* 工作台降级面板 */
+    .workbench-fallback {
+      padding: 24px 16px;
+      text-align: center;
+    }
+    
+    .workbench-fallback-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px dashed rgba(245, 158, 11, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    
+    .workbench-fallback-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--warning);
+    }
+    
+    .workbench-fallback-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .workbench-fallback-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    
+    .workbench-link-box {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .workbench-link-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+    
+    .workbench-link-value {
+      font-size: 11px;
+      color: var(--text-secondary);
+      word-break: break-all;
+      font-family: 'SF Mono', Monaco, monospace;
+      line-height: 1.5;
+    }
+    
+    .workbench-fallback-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .workbench-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .workbench-btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+    }
+    
+    .workbench-btn-secondary {
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      color: var(--accent-blue-light);
+    }
+    
+    /* 工作台底部提示 */
+    .workbench-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      padding: 8px 0;
+    }
+    
+    /* 输入区只读提示态 */
+    .input-area.readonly {
+      background: rgba(10, 22, 40, 0.5);
+    }
+    
+    .input-area.readonly .input-wrapper {
+      background: rgba(15, 23, 42, 0.3);
+      border-color: rgba(37, 99, 235, 0.1);
+    }
+    
+    .input-area.readonly .chat-input {
+      color: var(--text-tertiary);
+    }
+    
+    /* Toast 提示 */
+    .toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(16, 185, 129, 0.95);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .toast.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="page-whale-chat">
+  <div class="app-container">
+    <!-- 顶部栏 - 三层结构 -->
+    <header class="header">
+      <!-- 第一层：主标题栏 -->
+      <div class="header-top">
+        <a href="mobile-app.html" class="back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </a>
+        
+        <div class="model-switcher" onclick="toggleModelMenu()">
+          <span class="current-model">金融贷款</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+          
+          <!-- 模型选择菜单 -->
+          <div class="model-menu" id="modelMenu">
+            <div class="model-option" onclick="selectModel(this, '通用模型')">
+              <span class="dot" style="background: #94a3b8;"></span>
+              通用模型
+            </div>
+            <div class="model-option active" onclick="selectModel(this, '金融贷款')">
+              <span class="dot" style="background: #2563eb;"></span>
+              金融贷款
+            </div>
+            <div class="model-option" onclick="selectModel(this, '长文本模型')">
+              <span class="dot" style="background: #10b981;"></span>
+              长文本模型
+            </div>
+            <div class="model-option" onclick="selectModel(this, '多模态模型')">
+              <span class="dot" style="background: #f59e0b;"></span>
+              多模态模型
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 分隔线 -->
+      <div class="header-divider"></div>
+    </header>
+    
+    <!-- 主内容 -->
+    <main class="main-content">
+      <!-- 欢迎区 - 带吉祥物 -->
+      <section class="welcome-section">
+        <!-- 小鲸鱼角色（默认） -->
+        <div class="whale-mascot" id="whaleMascot" onclick="greetWhale()">
+          <div class="whale-mascot__glow"></div>
+          <div class="whale-stage">
+            <img class="whale-fin whale-fin--back" src="images/whale-fin-left.svg" alt="">
+            <img class="whale-body" src="images/whale-body-open.svg" alt="小鲸鱼">
+            <img class="whale-fin whale-fin--front" src="images/whale-fin-right.svg" alt="">
+          </div>
+        </div>
+        
+        <!-- 星崽角色（备用） -->
+        <div class="star-mascot" id="starMascot" style="display: none;">
+          <div class="star-mascot__glow"></div>
+          <svg class="star-mascot__svg" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="starHeadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#38bdf8"/>
+                <stop offset="50%" style="stop-color:#0ea5e9"/>
+                <stop offset="100%" style="stop-color:#0284c7"/>
+              </linearGradient>
+              <linearGradient id="starBodyGradV2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#6366f1"/>
+                <stop offset="100%" style="stop-color:#8b5cf6"/>
+              </linearGradient>
+              <linearGradient id="starShadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#0c4a6e"/>
+                <stop offset="100%" style="stop-color:#164e63"/>
+              </linearGradient>
+            </defs>
+            
+            <!-- 星星天线：头顶带星星发夹造型 -->
+            <g class="star-antenna-v2">
+              <!-- 天线杆 -->
+              <line x1="50" y1="8" x2="50" y2="20" stroke="url(#starHeadGrad)" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- 星星主体 -->
+              <path d="M50 2 L52 7 L57 7 L53 11 L55 16 L50 13 L45 16 L47 11 L43 7 L48 7 Z" fill="#fef08a" stroke="#fbbf24" stroke-width="0.5"/>
+              <!-- 闪烁效果 -->
+              <circle cx="42" cy="10" r="1.5" fill="#fef08a" opacity="0.8" class="star-sparkle-v2"/>
+              <circle cx="58" cy="12" r="1" fill="#fef08a" opacity="0.6" class="star-sparkle-v2"/>
+            </g>
+            
+            <!-- 头部：大头占 70%，圆润饱满 -->
+            <circle cx="50" cy="48" r="36" fill="url(#starHeadGrad)"/>
+            <!-- 头部内阴影，增加立体感 -->
+            <circle cx="50" cy="48" r="34" fill="none" stroke="url(#starShadowGrad)" stroke-width="1.5" opacity="0.3"/>
+            
+            <!-- 脸部：圆润干净 -->
+            <circle cx="50" cy="50" r="28" fill="#e0f2fe"/>
+            
+            <!-- 眼睛：大而清澈 -->
+            <g class="star-eyes-v2">
+              <ellipse cx="40" cy="46" rx="6" ry="8" fill="#1e3a5f"/>
+              <ellipse cx="60" cy="46" rx="6" ry="8" fill="#1e3a5f"/>
+              <circle cx="42" cy="44" r="3" fill="white"/>
+              <circle cx="62" cy="44" r="3" fill="white"/>
+              <circle cx="38" cy="48" r="1" fill="white" opacity="0.5"/>
+              <circle cx="58" cy="48" r="1" fill="white" opacity="0.5"/>
+            </g>
+            
+            <!-- 嘴巴：很轻很小 -->
+            <path d="M46 56 Q50 58 54 56" stroke="#334155" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+            
+            <!-- 身体：轻量肩部 -->
+            <path d="M28 80 Q28 75 38 73 L62 73 Q72 75 72 80 L72 88 Q50 98 28 88 Z" fill="url(#starBodyGradV2)"/>
+            
+            <!-- 小手：在身体两侧 -->
+            <g class="star-hands-v2">
+              <ellipse cx="20" cy="82" rx="6" ry="8" fill="url(#starBodyGradV2)"/>
+              <ellipse cx="80" cy="82" rx="6" ry="8" fill="url(#starBodyGradV2)"/>
+            </g>
+            
+            <!-- 装饰元素：小星星 -->
+            <g class="star-decor-v2">
+              <path d="M15 55 L16 57 L18 57 L16.5 58.5 L17 60 L15 59 L13 60 L13.5 58.5 L12 57 L14 57 Z" fill="#fef08a" opacity="0.7"/>
+              <path d="M85 50 L86 52 L88 52 L86.5 53.5 L87 55 L85 54 L83 55 L83.5 53.5 L82 52 L84 52 Z" fill="#fef08a" opacity="0.6"/>
+            </g>
+            
+            <!-- 能量光环 -->
+            <circle cx="50" cy="48" r="40" fill="none" stroke="#38bdf8" stroke-width="0.8" opacity="0.12"/>
+          </svg>
+        </div>
+        
+        <h1 class="welcome-title">小鲸鱼</h1>
+        <p class="welcome-subtitle">金融智能助手</p>
+      </section>
+
+      <!-- 对话区 -->
+      <section class="chat-section" id="chatSection">
+        <!-- 助手欢迎消息 -->
+        <div class="chat-message assistant welcome-message">
+          <div class="chat-avatar assistant">
+            <img src="images/whale-body-open.svg" alt="" style="width: 24px; height: 24px; object-fit: contain;">
+          </div>
+          <div class="chat-content">
+            <div class="chat-bubble" id="welcomeBubble">
+              你好，我是小鲸鱼。<br>
+              你可以让我帮你总结金融信息、解读市场动态、整理公告重点，或调用相关智能体能力。
+            </div>
+            <div class="chat-time">刚刚</div>
+            <div class="message-actions">
+              <button class="message-action-btn" title="点赞">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 10v12"/>
+                  <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="点踩">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 14V2"/>
+                  <path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="复制">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="重新回答">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 4v6h6"/>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- 工作台区域 -->
+      <section class="workbench-section" id="workbenchSection">
+        <!-- 工作台头部 -->
+        <div class="workbench-header">
+          <div class="workbench-header-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="workbench-title" id="workbenchTitle">工作台</h3>
+          <div class="workbench-status" id="workbenchStatus">已连接专属设备</div>
+          <p class="workbench-desc" id="workbenchDesc">当前内容由已绑定设备提供</p>
+        </div>
+        
+        <!-- 工作台内容容器 -->
+        <div class="workbench-container" id="workbenchContainer">
+          <!-- 测试面板 -->
+          <div class="workbench-fallback" id="workbenchTest" style="display: none; padding: 40px 20px; text-align: center;">
+            <div style="font-size: 24px; margin-bottom: 16px;">🖥️</div>
+            <h4 style="font-size: 18px; margin-bottom: 8px; color: #10b981;">工作台模式已触发</h4>
+            <p style="font-size: 13px; color: #666; margin-bottom: 20px;">点击下方按钮开始嵌入式对话</p>
+            <button onclick="testIframe()" style="padding: 12px 24px; background: #2563eb; color: white; border: none; border-radius: 8px; margin: 4px;">开始对话</button>
+            <button onclick="openExternal()" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 8px; margin: 4px;">外部打开</button>
+          </div>
+          
+          <!-- iframe 内嵌（优先） -->
+          <iframe
+            class="workbench-iframe"
+            id="workbenchIframe"
+            src=""
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            onload="onIframeLoad()"
+            onerror="onIframeError()"
+            style="display: none;"
+          ></iframe>
+          
+          <!-- 降级面板（iframe 失败时显示） -->
+          <div class="workbench-fallback" id="workbenchFallback" style="display: none;">
+            <div class="workbench-fallback-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <h4 class="workbench-fallback-title">工作台</h4>
+            <p class="workbench-fallback-desc">
+              当前设备页面暂不支持直接内嵌，请使用下方方式继续访问。
+            </p>
+            <div class="workbench-link-box">
+              <div class="workbench-link-label">专属设备链接</div>
+              <div class="workbench-link-value" id="workbenchLinkValue"></div>
+            </div>
+            <div class="workbench-fallback-actions">
+              <button class="workbench-btn workbench-btn-secondary" id="copyWorkbenchLinkBtn">复制链接</button>
+              <button class="workbench-btn workbench-btn-primary" id="openWorkbenchBtn">外部打开</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 工作台底部提示 -->
+        <p class="workbench-hint">如工作台加载异常，可使用"外部打开"或"复制链接"</p>
+      </section>
+    </main>
+    
+    <!-- 技能条 -->
+    <div class="skills-bar">
+      <div class="skills-scroll">
+        <span class="skill-tag" onclick="sendSkill('行情速览')">行情速览</span>
+        <span class="skill-tag" onclick="sendSkill('资讯总结')">资讯总结</span>
+        <span class="skill-tag" onclick="sendSkill('风险提示')">风险提示</span>
+        <span class="skill-tag" onclick="sendSkill('组合分析')">组合分析</span>
+        <span class="skill-tag" onclick="sendSkill('客户沟通')">客户沟通</span>
+        <span class="skill-tag" onclick="sendSkill('文档提炼')">文档提炼</span>
+      </div>
+    </div>
+    
+    <!-- 输入区 -->
+    <div class="input-area" id="inputArea">
+      <div class="input-wrapper">
+        <button class="input-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+        <textarea class="chat-input" id="chatInput" placeholder="请在设备工作台内完成操作" rows="1"></textarea>
+        <button class="input-btn" id="voiceBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button class="send-btn" id="sendBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 吉祥物组件 -->
+  <div class="mascot-container">
+    <!-- 气泡提示 -->
+    <div class="mascot-bubble" id="mascotBubble">需要帮忙吗？</div>
+    
+    <!-- 对话面板 -->
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-panel-header">
+        <div class="chat-panel-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          小鲸鱼 - 金融贷款
+        </div>
+        <button class="chat-panel-close" onclick="toggleChatPanel()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="quick-buttons" id="quickButtons">
+        <button class="quick-btn" onclick="sendQuickMessage('金融问答')">金融问答</button>
+        <button class="quick-btn" onclick="sendQuickMessage('市场解读')">市场解读</button>
+        <button class="quick-btn" onclick="sendQuickMessage('研报辅助')">研报辅助</button>
+        <button class="quick-btn" onclick="sendQuickMessage('公告解读')">公告解读</button>
+      </div>
+      <input type="text" class="chat-panel-input" placeholder="请输入你的问题" id="panelInput" onkeypress="handlePanelInput(event)">
+    </div>
+    
+    <!-- 吉祥物按钮 -->
+    <button class="mascot-btn" id="mascotBtn" onclick="handleMascotClick()">
+      <div class="mascot-glow"></div>
+      <div class="mascot-ripple" id="mascotRipple"></div>
+      <svg class="whale-svg" viewBox="0 0 60 60" fill="none">
+        <defs>
+          <linearGradient id="whaleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3b82f6"/>
+            <stop offset="100%" style="stop-color:#06b6d4"/>
+          </linearGradient>
+          <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#60a5fa"/>
+            <stop offset="100%" style="stop-color:#22d3ee"/>
+          </linearGradient>
+        </defs>
+        
+        <!-- 鲸鱼身体 -->
+        <ellipse cx="30" cy="32" rx="18" ry="14" fill="url(#whaleGradient)"/>
+        
+        <!-- 鲸鱼尾巴 -->
+        <g class="whale-tail">
+          <path d="M45 28 Q52 22 54 26 Q56 30 50 32 Q54 34 52 38 Q50 42 45 36" fill="url(#whaleGradient)"/>
+        </g>
+        
+        <!-- 鲸鱼鳍 -->
+        <ellipse cx="22" cy="38" rx="6" ry="4" fill="#2563eb" transform="rotate(-20 22 38)"/>
+        
+        <!-- 电路板纹理 -->
+        <g stroke="url(#circuitGradient)" stroke-width="0.8" fill="none" opacity="0.6">
+          <path d="M20 28 L24 28 L24 32 L28 32"/>
+          <path d="M32 26 L32 22 L36 22"/>
+          <path d="M38 30 L42 30 L42 34"/>
+          <circle cx="24" cy="28" r="1.5" fill="#60a5fa"/>
+          <circle cx="36" cy="22" r="1.5" fill="#60a5fa"/>
+          <circle cx="42" cy="34" r="1.5" fill="#60a5fa"/>
+        </g>
+        
+        <!-- 眼睛 -->
+        <g class="whale-eye">
+          <circle cx="22" cy="30" r="3" fill="#1e3a5f"/>
+          <circle cx="23" cy="29" r="1" fill="white"/>
+        </g>
+        
+        <!-- 嘴巴 -->
+        <path d="M18 36 Q22 38 26 36" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/navigation.js"></script>
+  <script>
+    // 吉祥物状态
+    let isChatPanelOpen = false;
+    let bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '小鲸鱼随时待命'];
+    let bubbleIndex = 0;
+    
+    // 初始化气泡提示循环
+    function initBubbleLoop() {
+      const bubble = document.getElementById('mascotBubble');
+      if (!bubble) return;
+      
+      setInterval(() => {
+        if (!isChatPanelOpen) {
+          bubble.textContent = bubbleMessages[bubbleIndex];
+          bubble.classList.add('show');
+          
+          setTimeout(() => {
+            bubble.classList.remove('show');
+          }, 4000);
+          
+          bubbleIndex = (bubbleIndex + 1) % bubbleMessages.length;
+        }
+      }, 30000);
+      
+      // 首次显示
+      setTimeout(() => {
+        bubble.classList.add('show');
+        setTimeout(() => {
+          bubble.classList.remove('show');
+        }, 4000);
+      }, 5000);
+    }
+    
+    // 处理吉祥物点击
+    function handleMascotClick() {
+      // 波纹效果
+      const ripple = document.getElementById('mascotRipple');
+      ripple.classList.remove('active');
+      void ripple.offsetWidth; // 触发重绘
+      ripple.classList.add('active');
+      
+      // 切换面板
+      toggleChatPanel();
+    }
+    
+    // 切换对话面板
+    function toggleChatPanel() {
+      isChatPanelOpen = !isChatPanelOpen;
+      const panel = document.getElementById('chatPanel');
+      const bubble = document.getElementById('mascotBubble');
+      
+      if (isChatPanelOpen) {
+        panel.classList.add('open');
+        bubble.classList.remove('show');
+      } else {
+        panel.classList.remove('open');
+      }
+    }
+    
+    // 发送快捷消息
+    function sendQuickMessage(message) {
+      toggleChatPanel();
+      sendScene(message);
+    }
+    
+    // 处理面板输入
+    function handlePanelInput(event) {
+      if (event.key === 'Enter') {
+        const input = document.getElementById('panelInput');
+        const message = input.value.trim();
+        if (message) {
+          toggleChatPanel();
+          // 添加到主聊天区
+          const chatSection = document.getElementById('chatSection');
+          const userMessage = document.createElement('div');
+          userMessage.className = 'chat-message user';
+          userMessage.innerHTML = `
+            <div class="chat-avatar user">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="chat-content">
+              <div class="chat-bubble">${message}</div>
+              <div class="chat-time">刚刚</div>
+            </div>
+          `;
+          chatSection.appendChild(userMessage);
+          
+          // 模拟回复
+          setTimeout(() => {
+            const assistantMessage = document.createElement('div');
+            assistantMessage.className = 'chat-message assistant';
+            assistantMessage.innerHTML = `
+              <div class="chat-avatar assistant">
+                <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+              </div>
+              <div class="chat-content">
+                <div class="chat-bubble">收到你的问题："${message}"，我来为你分析...</div>
+                <div class="chat-time">刚刚</div>
+                <div class="message-actions">
+                  <button class="message-action-btn" title="点赞">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M7 10v12"/>
+                      <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+                    </svg>
+                  </button>
+                  <button class="message-action-btn" title="点踩">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 14V2"/>
+                      <path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
+                    </svg>
+                  </button>
+                  <button class="message-action-btn" title="复制">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                  </button>
+                  <button class="message-action-btn" title="重新回答">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 4v6h6"/>
+                      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            `;
+            chatSection.appendChild(assistantMessage);
+            chatSection.scrollTop = chatSection.scrollHeight;
+          }, 800);
+          
+          chatSection.scrollTop = chatSection.scrollHeight;
+          input.value = '';
+        }
+      }
+    }
+    
+    // 初始化
+    initBubbleLoop();
+    
+    // 5帧眨眼动画控制器
+    const whaleStates = {
+      opened: 'images/whale-body-open.svg',
+      halfclosed: 'images/whale-body-half.svg',
+      closed: 'images/whale-body-closed.svg'
+    };
+
+    const blinkTimings = {
+      stayOpen: 5000,
+      openToHalf: 120,
+      halfToClosed: 90,
+      stayClosed: 80,
+      closedToHalf: 110,
+      halfToOpen: 140
+    };
+
+    let isBlinking = false;
+    let blinkInterval = null;
+
+    function startBlinking() {
+      const whaleImg = document.querySelector('.whale-body');
+      if (!whaleImg) return;
+      
+      const runBlinkSequence = () => {
+        if (isBlinking) return;
+        isBlinking = true;
+        
+        whaleImg.src = whaleStates.halfclosed;
+        
+        setTimeout(() => {
+          whaleImg.src = whaleStates.closed;
+        }, blinkTimings.openToHalf);
+        
+        setTimeout(() => {
+          whaleImg.src = whaleStates.halfclosed;
+        }, blinkTimings.openToHalf + blinkTimings.halfToClosed + blinkTimings.stayClosed);
+        
+        setTimeout(() => {
+          whaleImg.src = whaleStates.opened;
+          isBlinking = false;
+        }, blinkTimings.openToHalf + blinkTimings.halfToClosed + blinkTimings.stayClosed + blinkTimings.closedToHalf + blinkTimings.halfToOpen);
+      };
+      
+      const scheduleNextBlink = () => {
+        const randomDelay = blinkTimings.stayOpen + Math.random() * 1000;
+        blinkInterval = setTimeout(() => {
+          runBlinkSequence();
+          scheduleNextBlink();
+        }, randomDelay);
+      };
+      
+      scheduleNextBlink();
+    }
+    
+    startBlinking();
+    
+    // 吉祥物问候交互 + 鱼鳍摆动
+    function greetWhale() {
+      // 鱼鳍摆动动画
+      const frontFin = document.querySelector('.whale-fin--front');
+      const backFin = document.querySelector('.whale-fin--back');
+      
+      if (frontFin && backFin) {
+        frontFin.classList.remove('animating');
+        backFin.classList.remove('animating');
+        void frontFin.offsetWidth;
+        void backFin.offsetWidth;
+        frontFin.classList.add('animating');
+        backFin.classList.add('animating');
+      }
+      
+      let greetings = ['你好！我是小鲸鱼', '有什么可以帮你的吗？', '随时为你服务！'];
+      if (currentAgentName === '星崽') {
+        greetings = ['你好！我是星崽', '有什么可以帮你的吗？', '随时为你服务！'];
+      }
+      const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+      
+      // 获取当前角色元素
+      let mascot;
+      if (currentAgentName === '星崽') {
+        mascot = document.getElementById('starMascot');
+      } else {
+        mascot = document.querySelector('.whale-mascot');
+      }
+      
+      if (!mascot) return;
+      
+      const bubble = document.createElement('div');
+      bubble.style.cssText = `
+        position: absolute;
+        top: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.95), rgba(99, 102, 241, 0.95));
+        color: white;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 10;
+        animation: fade-in-up 0.3s ease;
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+      `;
+      bubble.innerHTML = `
+        ${randomGreeting}
+        <div style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid rgba(99, 102, 241, 0.95);"></div>
+      `;
+      mascot.appendChild(bubble);
+      
+      setTimeout(() => {
+        bubble.style.animation = 'fade-out-down 0.3s ease';
+        setTimeout(() => bubble.remove(), 300);
+      }, 2000);
+    }
+    
+    // 添加动画关键帧
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fade-in-up {
+        from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+      @keyframes fade-out-down {
+        from { opacity: 1; transform: translateX(-50%) translateY(0); }
+        to { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // 模型切换
+    function toggleModelMenu() {
+      const menu = document.getElementById('modelMenu');
+      menu.classList.toggle('show');
+    }
+    
+    function selectModel(element, modelName) {
+      document.querySelectorAll('.model-option').forEach(opt => opt.classList.remove('active'));
+      element.classList.add('active');
+      document.querySelector('.current-model').textContent = modelName;
+      document.getElementById('modelMenu').classList.remove('show');
+    }
+    
+    // 点击其他地方关闭模型菜单
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.model-switcher') && !e.target.closest('.model-menu')) {
+        document.getElementById('modelMenu').classList.remove('show');
+      }
+    });
+    
+    // 发送场景消息
+    function sendScene(sceneName) {
+      const chatSection = document.getElementById('chatSection');
+      const userMessage = document.createElement('div');
+      userMessage.className = 'chat-message user';
+      userMessage.innerHTML = `
+        <div class="chat-avatar user">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="chat-content">
+          <div class="chat-bubble">${sceneName}</div>
+          <div class="chat-time">刚刚</div>
+        </div>
+      `;
+      chatSection.appendChild(userMessage);
+      
+      // 模拟助手回复
+      setTimeout(() => {
+        const assistantMessage = document.createElement('div');
+        assistantMessage.className = 'chat-message assistant';
+        assistantMessage.innerHTML = `
+          <div class="chat-avatar assistant">
+            <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          </div>
+          <div class="chat-content">
+            <div class="chat-bubble">好的，我来帮你处理${sceneName}相关的需求。请告诉我具体想了解什么内容？</div>
+            <div class="chat-time">刚刚</div>
+            <div class="message-actions">
+              <button class="message-action-btn" title="点赞">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 10v12"/>
+                  <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="点踩">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 14V2"/>
+                  <path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="复制">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="重新回答">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 4v6h6"/>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+        chatSection.appendChild(assistantMessage);
+        chatSection.scrollTop = chatSection.scrollHeight;
+      }, 800);
+      
+      chatSection.scrollTop = chatSection.scrollHeight;
+    }
+    
+    // 发送技能消息
+    function sendSkill(skillName) {
+      sendScene(skillName);
+    }
+    
+    // 输入框自动增高
+    const textarea = document.querySelector('.chat-input');
+    textarea.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+    
+    // 检查登录状态
+    function checkLoginStatus() {
+      const isLoggedIn = Storage.Auth.isLoggedIn() || Storage.getSession('auth_is_logged_in');
+      if (!isLoggedIn) {
+        Navigation.goTo('mobile-login.html');
+        return false;
+      }
+      return true;
+    }
+    
+    // 页面加载时检查登录状态
+    checkLoginStatus();
+    
+    // ==================== 工作台模式 ====================
+    
+    // 获取账号数据
+    const accountData = Storage.getSession('auth_account_data') || Storage.get('auth_account_data');
+    
+    // 获取当前账号的智能体名称
+    const currentAgentName = accountData && accountData.agentName ? accountData.agentName : '小鲸鱼';
+    
+    // 工作台相关 DOM 元素
+    const workbenchSection = document.getElementById('workbenchSection');
+    const workbenchIframe = document.getElementById('workbenchIframe');
+    const workbenchFallback = document.getElementById('workbenchFallback');
+    const workbenchTest = document.getElementById('workbenchTest');
+    const workbenchLinkValue = document.getElementById('workbenchLinkValue');
+    const inputArea = document.getElementById('inputArea');
+    const chatInput = document.getElementById('chatInput');
+    const copyWorkbenchLinkBtn = document.getElementById('copyWorkbenchLinkBtn');
+    const openWorkbenchBtn = document.getElementById('openWorkbenchBtn');
+    const toast = document.getElementById('toast') || createToast();
+    
+    // 创建 Toast 元素
+    function createToast() {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.id = 'toast';
+      document.body.appendChild(t);
+      return t;
+    }
+    
+    // 显示 Toast
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('active');
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 2000);
+    }
+    
+    // 获取设备链接
+    const deviceLink = accountData && accountData.deviceLink
+      ? accountData.deviceLink
+      : 'http://30103215.nat123.top:41696/?token=29a71586190952b0b107c63121d9fc112348b031f18565c0';
+    
+    // 初始化页面动态文案
+    function initDynamicContent() {
+      console.log('========== 页面初始化信息 ==========');
+      console.log('A. 当前登录账号:', currentAgentName);
+      console.log('B. 当前账号的 deviceLink:', deviceLink);
+      console.log('C. 完整 accountData:', accountData);
+      console.log('=====================================');
+      
+      // 判断是否为星崽账号
+      const isStarBaby = currentAgentName === '星崽';
+      
+      // 根据账号设置不同的副标题
+      const subtitle = isStarBaby ? '智慧家居互联助手' : '金融智能助手';
+      const modelText = isStarBaby ? '家居助手' : '金融助手';
+      
+      // 更新页面标题
+      document.title = `${currentAgentName} - ${subtitle}`;
+      
+      // 更新顶部标题
+      document.querySelector('.header .title').textContent = currentAgentName;
+      
+      // 更新欢迎标题
+      document.querySelector('.welcome-title').textContent = currentAgentName;
+      
+      // 更新欢迎副标题
+      document.querySelector('.welcome-subtitle').textContent = subtitle;
+      
+      // 更新欢迎语
+      if (isStarBaby) {
+        document.querySelector('.welcome-desc').textContent = `你可以通过已绑定的${currentAgentName}设备，连接家庭终端、执行场景联动，并协同完成日常控制任务。`;
+      } else {
+        document.querySelector('.welcome-desc').textContent = `你可以通过已绑定的小龙虾设备，为你执行金融信息处理与专属任务`;
+      }
+      
+      // 更新模型切换器当前模型
+      document.querySelector('.current-model').textContent = modelText;
+      
+      // 更新气泡消息：根据账号动态切换
+      if (isStarBaby) {
+        bubbleMessages = ['需要帮忙吗？', '查看设备状态', '星崽随时待命'];
+        if (typeof greetings !== 'undefined') {
+          greetings.length = 0;
+          greetings.push('你好！我是星崽', '有什么可以帮你的吗？', '随时为你服务！');
+        }
+        // 更新对话区的欢迎消息
+        const chatBubble = document.getElementById('welcomeBubble');
+        console.log('chatBubble element:', chatBubble);
+        if (chatBubble) {
+          chatBubble.innerHTML = `你好，我是星崽！<br>我可以协助你连接家庭设备、查看空间状态、执行场景联动，并为你提供更轻松的智能控制体验。`;
+          console.log('Updated bubble to: 你好，我是星崽！');
+        }
+      } else {
+        bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '小鲸鱼随时待命'];
+      }
+      
+      // 根据账号切换角色形象
+      const whaleMascot = document.getElementById('whaleMascot');
+      const starMascot = document.getElementById('starMascot');
+      
+      if (isStarBaby) {
+        // 显示星崽角色
+        if (whaleMascot) whaleMascot.style.display = 'none';
+        if (starMascot) starMascot.style.display = 'block';
+        
+        // 更新功能卡为智慧家居相关
+        updateSceneCards();
+        // 更新底部快捷标签
+        updateQuickButtons();
+        // 更新输入框占位符
+        const panelInput = document.getElementById('panelInput');
+        if (panelInput) {
+          panelInput.placeholder = '请输入设备、场景或控制指令';
+        }
+      } else {
+        // 显示小鲸鱼角色
+        if (whaleMascot) whaleMascot.style.display = 'block';
+        if (starMascot) starMascot.style.display = 'none';
+      }
+    }
+    
+    // 更新功能卡（星崽账号）
+    function updateSceneCards() {
+      const sceneGrid = document.getElementById('sceneGrid');
+      if (!sceneGrid) return;
+      
+      // 星崽的功能卡
+      const starCards = [
+        { name: '终端状态', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' },
+        { name: '场景模式', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+        { name: '设备控制', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>' }
+      ];
+      
+      sceneGrid.innerHTML = starCards.map(card => `
+        <div class="scene-item" onclick="sendScene('${card.name}')">
+          <div class="icon">${card.icon}</div>
+          <span class="name">${card.name}</span>
+        </div>
+      `).join('');
+    }
+    
+    // 更新底部快捷标签（星崽账号）
+    function updateQuickButtons() {
+      const quickButtons = document.getElementById('quickButtons');
+      if (!quickButtons) return;
+      
+      // 星崽的快捷标签
+      const starButtons = [
+        '设备总览',
+        '场景模式',
+        '联动控制',
+        '空间状态',
+        '家庭终端'
+      ];
+      
+      quickButtons.innerHTML = starButtons.map(btn => `
+        <button class="quick-btn" onclick="sendQuickMessage('${btn}')">${btn}</button>
+      `).join('');
+    }
+    
+    // 初始化动态文案
+    initDynamicContent();
+    
+    // 进入工作台模式
+    function enterWorkbench() {
+      console.log('========== 进入工作台 ==========');
+      console.log('当前账号:', currentAgentName);
+      console.log('当前 deviceLink:', deviceLink);
+      console.log('=================================');
+      
+      // 调试：检查各元素是否存在
+      const welcomeSection = document.querySelector('.welcome-section');
+      const sceneSection = document.querySelector('.scene-section');
+      const chatSection = document.querySelector('.chat-section');
+      const skillsBar = document.querySelector('.skills-bar');
+      
+      console.log('welcomeSection:', welcomeSection ? 'found' : 'MISSING');
+      console.log('sceneSection:', sceneSection ? 'found' : 'MISSING');
+      console.log('chatSection:', chatSection ? 'found' : 'MISSING');
+      console.log('skillsBar:', skillsBar ? 'found' : 'MISSING');
+      console.log('workbenchSection:', workbenchSection ? 'found' : 'MISSING');
+      console.log('inputArea:', inputArea ? 'found' : 'MISSING');
+      console.log('chatInput:', chatInput ? 'found' : 'MISSING');
+      
+      // 动态更新工作台标题
+      const workbenchTitleEl = document.getElementById('workbenchTitle');
+      const workbenchStatusEl = document.getElementById('workbenchStatus');
+      const workbenchDescEl = document.getElementById('workbenchDesc');
+      if (workbenchTitleEl) workbenchTitleEl.textContent = `${currentAgentName}工作台`;
+      if (workbenchStatusEl) workbenchStatusEl.textContent = '已连接专属设备';
+      if (workbenchDescEl) workbenchDescEl.textContent = `当前内容由${currentAgentName}已绑定设备提供`;
+      
+      // 隐藏默认内容（使用正确的类名 welcome-section）
+      if (welcomeSection) welcomeSection.classList.add('hidden');
+      if (sceneSection) sceneSection.classList.add('hidden');
+      if (chatSection) chatSection.classList.add('hidden');
+      if (skillsBar) skillsBar.classList.add('hidden');
+      
+      // 显示工作台区域
+      if (workbenchSection) {
+        workbenchSection.classList.add('active');
+        console.log('workbench section active');
+      }
+      
+      // 设置输入区为只读提示态
+      if (inputArea) inputArea.classList.add('readonly');
+      if (chatInput) {
+        chatInput.readOnly = true;
+        chatInput.placeholder = '请在设备工作台内完成操作';
+      }
+      
+      // 先显示测试面板
+      if (workbenchTest) workbenchTest.style.display = 'block';
+      if (workbenchIframe) workbenchIframe.style.display = 'none';
+      if (workbenchFallback) workbenchFallback.style.display = 'none';
+      console.log('test panel shown');
+    }
+    
+    // 测试 iframe 嵌入
+    function testIframe() {
+      console.log('========== 进入测试模式 ==========');
+      console.log('当前账号:', currentAgentName);
+      console.log('iframe 将打开:', deviceLink);
+      console.log('=================================');
+      workbenchTest.style.display = 'none';
+      workbenchIframe.style.display = 'block';
+      workbenchIframe.src = deviceLink;
+    }
+    
+    // 外部打开
+    function openExternal() {
+      console.log('========== 外部打开 ==========');
+      console.log('当前账号:', currentAgentName);
+      console.log('即将打开:', deviceLink);
+      console.log('===========================');
+      window.open(deviceLink, '_blank');
+    }
+    
+    // 退出工作台模式
+    function exitWorkbench() {
+      // 显示默认内容（使用正确的类名 welcome-section）
+      const welcomeSection = document.querySelector('.welcome-section');
+      const sceneSection = document.querySelector('.scene-section');
+      const chatSection = document.querySelector('.chat-section');
+      const skillsBar = document.querySelector('.skills-bar');
+      
+      if (welcomeSection) welcomeSection.classList.remove('hidden');
+      if (sceneSection) sceneSection.classList.remove('hidden');
+      if (chatSection) chatSection.classList.remove('hidden');
+      if (skillsBar) skillsBar.classList.remove('hidden');
+      
+      // 隐藏工作台区域
+      if (workbenchSection) workbenchSection.classList.remove('active');
+      
+      // 恢复输入区
+      if (inputArea) inputArea.classList.remove('readonly');
+      if (chatInput) {
+        chatInput.readOnly = false;
+        chatInput.placeholder = '请在设备工作台内完成操作';
+      }
+      
+      // 清除 iframe src
+      if (workbenchIframe) workbenchIframe.src = '';
+    }
+    
+    // iframe 加载成功回调
+    function onIframeLoad() {
+      try {
+        // 尝试访问 iframe 内容来检测是否成功加载
+        const iframeDoc = workbenchIframe.contentDocument || workbenchIframe.contentWindow.document;
+        if (iframeDoc && iframeDoc.body && iframeDoc.body.innerHTML.length > 100) {
+          // iframe 加载成功，保持显示
+          workbenchFallback.style.display = 'none';
+          workbenchIframe.style.display = 'block';
+          return;
+        }
+      } catch (e) {
+        // 跨域限制，可能成功加载了内容
+        // 通过检测是否有实际内容来判断
+      }
+      
+      // 如果 iframe 没有内容或加载失败，显示降级面板
+      showFallback();
+    }
+    
+    // iframe 加载错误回调
+    function onIframeError() {
+      showFallback();
+    }
+    
+    // 显示降级面板
+    function showFallback() {
+      workbenchIframe.style.display = 'none';
+      workbenchFallback.style.display = 'block';
+      workbenchLinkValue.textContent = deviceLink;
+    }
+    
+    // 复制链接
+    copyWorkbenchLinkBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(deviceLink).then(() => {
+        showToast('已复制链接');
+      }).catch(() => {
+        const textArea = document.createElement('textarea');
+        textArea.value = deviceLink;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast('已复制链接');
+      });
+    });
+    
+    // 外部打开
+    openWorkbenchBtn.addEventListener('click', function() {
+      console.log('========== 底部面板外部打开 ==========');
+      console.log('当前账号:', currentAgentName);
+      console.log('即将打开:', deviceLink);
+      console.log('=====================================');
+      window.open(deviceLink, '_blank');
+    });
+    
+    // 监听 iframe 加载错误（网络错误等）
+    let iframeLoadTimeout;
+    workbenchIframe.addEventListener('load', function() {
+      clearTimeout(iframeLoadTimeout);
+      // 延迟检测，因为有些页面可能需要更长时间加载
+      iframeLoadTimeout = setTimeout(onIframeLoad, 2000);
+    });
+    
+    workbenchIframe.addEventListener('error', function() {
+      clearTimeout(iframeLoadTimeout);
+      showFallback();
+    });
+    
+    // 页面卸载时清理
+    window.addEventListener('beforeunload', function() {
+      if (workbenchIframe.src) {
+        workbenchIframe.src = '';
+      }
+    });
+
+    // 初始化主题
+    ThemeManager.init();
+  </script>
+</body>
+</html>

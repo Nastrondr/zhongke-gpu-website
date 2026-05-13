@@ -1,0 +1,378 @@
+// 获取当前文件名
+function getCurrentFilename() {
+  const path = window.location.pathname;
+  const filename = path.split('/').pop();
+  if (!filename || filename === '') {
+    return 'home.html';
+  }
+  return filename;
+}
+
+// 底部导航配置
+const bottomNavConfig = {
+  items: [
+    { id: 'home', page: 'home.html', label: '首页', icon: 'home', target: 'page-home' },
+    { id: 'apps', page: 'home.html', label: '应用', icon: 'apps', target: 'page-apps' },
+    { id: 'whale', page: 'whale-chat.html', label: '聊天', icon: 'whale' },
+    { id: 'profile', page: 'home.html', label: '我的', icon: 'user', target: 'page-profile' }
+  ]
+};
+
+// 页面到 tab 的映射
+const pageToTabMap = {
+  'index.html': 'home',
+  'home.html': 'home',
+  'whale-chat.html': 'whale',
+  'profile.html': 'profile',
+  'user.html': 'profile'
+};
+
+// 图标 SVG（两套：线性 inactive，面性 active）
+const navIcons = {
+  home: {
+    inactive: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>`,
+    active: `<svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    </svg>`
+  },
+  apps: {
+    inactive: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="14" y="3" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="14" y="14" width="7" height="7" rx="1.5" ry="1.5"/>
+    </svg>`,
+    active: `<svg viewBox="0 0 24 24" fill="currentColor">
+      <rect x="3" y="3" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="14" y="3" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5" ry="1.5"/>
+      <rect x="14" y="14" width="7" height="7" rx="1.5" ry="1.5"/>
+    </svg>`
+  },
+  whale: {
+    inactive: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>`,
+    active: `<svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>`
+  },
+  user: {
+    inactive: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>`,
+    active: `<svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>`
+  }
+};
+
+// 当前激活的 tab 索引
+let currentActiveIndex = 0;
+
+// 初始化底部导航
+function initBottomNav() {
+  const filename = getCurrentFilename();
+  
+  // 以下页面不显示底部导航栏（次级页面）
+  const noNavPages = [
+    'device-chat.html', 'whale-chat.html',
+    'device.html', 'model-skill.html', 'model-switch.html', 'skill-execute.html', 'mobile-diagnosis.html',
+    'task-center.html', 'token-production.html', 'topup.html', 'token-overview.html', 'token-consumption.html',
+    'connection-center.html', 'account-binding.html'
+  ];
+  if (noNavPages.includes(filename)) {
+    console.log('[BottomNav]', filename, '- skip init');
+    return;
+  }
+  
+  // 防止重复创建
+  if (document.getElementById('bottomNav')) {
+    console.warn('[BottomNav] already exists, skip init');
+    return;
+  }
+  
+  // 创建底部导航 HTML
+  createBottomNavHTML();
+  
+  // 普通页面初始化
+  setCurrentActiveTab();
+  addPageEnterAnimation();
+  bindNavEvents();
+}
+
+// 创建底部导航 HTML
+function createBottomNavHTML() {
+  const navHTML = `
+    <nav class="bottom-nav" id="bottomNav">
+      <div class="bottom-nav-highlight" id="navHighlight"></div>
+      <div class="bottom-nav-items">
+        ${bottomNavConfig.items.map((item, index) => `
+          <button class="bottom-nav-item" data-index="${index}" data-page="${item.page || ''}">
+            <span class="nav-icon nav-icon-inactive">${navIcons[item.icon].inactive}</span>
+            <span class="nav-icon nav-icon-active">${navIcons[item.icon].active}</span>
+            <span class="nav-label">${item.label}</span>
+          </button>
+        `).join('')}
+      </div>
+    </nav>
+  `;
+  
+  // 插入到 body 末尾
+  const navContainer = document.createElement('div');
+  navContainer.innerHTML = navHTML;
+  document.body.appendChild(navContainer.firstElementChild);
+  
+  // 先禁用 transition，设置初始位置后再启用，避免第一次加载时的动画
+  const highlight = document.getElementById('navHighlight');
+  if (highlight) {
+    highlight.style.transition = 'none';
+  }
+}
+
+// 设置当前激活的 tab
+function setCurrentActiveTab() {
+  const filename = getCurrentFilename();
+  let tabId = pageToTabMap[filename] || 'home';
+  
+  // 如果在home.html，优先检查sessionStorage，然后检查URL参数
+  if (filename === 'home.html') {
+    const savedTab = sessionStorage.getItem('currentTab');
+    if (savedTab) {
+      tabId = savedTab;
+    } else {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      if (tabParam) {
+        tabId = tabParam;
+      }
+    }
+  }
+  
+  const navItems = document.querySelectorAll('.bottom-nav-item');
+  
+  bottomNavConfig.items.forEach((item, index) => {
+    if (item.id === tabId) {
+      currentActiveIndex = index;
+    }
+  });
+  
+  // 初始化时立即设置位置，不触发动画
+  updateNavState(currentActiveIndex, true);
+}
+
+// 更新导航状态
+function updateNavState(index, immediate = false) {
+  const nav = document.getElementById('bottomNav');
+  const navItems = document.querySelectorAll('.bottom-nav-item');
+  const highlight = document.getElementById('navHighlight');
+
+  navItems.forEach((item, i) => {
+    item.classList.toggle('active', i === index);
+  });
+
+  if (!nav || !highlight || !navItems[index]) return;
+
+  const navRect = nav.getBoundingClientRect();
+  const itemRect = navItems[index].getBoundingClientRect();
+
+  // 根据文字长度计算胶囊宽度
+  let highlightWidth = 78;
+  const label = navItems[index].querySelector('.nav-label');
+  if (label && label.offsetWidth > 0) {
+    highlightWidth = Math.max(78, label.offsetWidth + 50);
+    highlightWidth = Math.min(100, highlightWidth);
+  }
+
+  const highlightLeft = 
+    itemRect.left - navRect.left + (itemRect.width - highlightWidth) / 2;
+
+  // 确保高亮胶囊不溢出导航栏
+  const maxLeft = navRect.width - highlightWidth - 10;
+  const minLeft = 10;
+  const clampedLeft = Math.max(minLeft, Math.min(maxLeft, highlightLeft));
+
+  if (immediate) {
+    // 立即设置，不触发动画
+    highlight.style.width = `${highlightWidth}px`;
+    highlight.style.transform = `translateX(${clampedLeft}px)`;
+    // 重新启用 transition
+    requestAnimationFrame(() => {
+      highlight.style.transition = '';
+    });
+  } else {
+    // 正常动画
+    highlight.style.width = `${highlightWidth}px`;
+    highlight.style.transform = `translateX(${clampedLeft}px)`;
+  }
+}
+
+// 绑定导航点击事件
+function bindNavEvents() {
+  const navItems = document.querySelectorAll('.bottom-nav-item');
+  
+  navItems.forEach((item, index) => {
+    item.addEventListener('click', () => handleNavClick(item, index));
+  });
+}
+
+// 显示加载弹窗
+function showLoadingPopup(message = '正在加载...') {
+  // 移除已存在的弹窗
+  const existingPopup = document.getElementById('nav-loading-popup');
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+  
+  // 创建加载弹窗
+  const popup = document.createElement('div');
+  popup.id = 'nav-loading-popup';
+  popup.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  `;
+  
+  const content = document.createElement('div');
+  content.style.cssText = `
+    background: rgba(26, 26, 26, 0.95);
+    padding: 20px 32px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  `;
+  
+  // 加载动画
+  const spinner = document.createElement('div');
+  spinner.style.cssText = `
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(97, 62, 234, 0.2);
+    border-top-color: #613eea;
+    border-radius: 50%;
+    animation: nav-spin 0.6s linear infinite;
+  `;
+  
+  const text = document.createElement('div');
+  text.textContent = message;
+  text.style.cssText = `
+    color: #fff;
+    font-size: 15px;
+  `;
+  
+  content.appendChild(spinner);
+  content.appendChild(text);
+  popup.appendChild(content);
+  
+  // 添加动画样式
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes nav-spin {
+      to { transform: rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  document.body.appendChild(popup);
+  
+  return popup;
+}
+
+// 隐藏加载弹窗
+function hideLoadingPopup() {
+  const popup = document.getElementById('nav-loading-popup');
+  if (popup) {
+    popup.remove();
+  }
+}
+
+// 处理导航点击
+function handleNavClick(item, index) {
+  const config = bottomNavConfig.items[index];
+  const currentPath = getCurrentFilename();
+  
+  // 如果是当前 tab，不做操作
+  if (index === currentActiveIndex && config.id !== 'whale') {
+    return;
+  }
+  
+  // 如果是聊天tab，显示加载弹窗后跳转
+  if (config.id === 'whale') {
+    // 1. 更新状态到whale tab
+    updateNavState(index);
+    currentActiveIndex = index;
+    
+    // 2. 显示加载弹窗
+    showLoadingPopup('正在加载小鲸鱼...');
+    
+    // 3. 延迟300ms后跳转
+    setTimeout(() => {
+      window.location.href = config.page;
+    }, 300);
+    return;
+  }
+  
+  // 先更新 UI
+  updateNavState(index);
+  currentActiveIndex = index;
+  
+  // 判断是不是在 home.html 内切换
+  if (config.page === currentPath && config.target) {
+    // 在 home.html 内切换页面
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+      if (page.id === config.target) {
+        page.classList.add('active');
+      } else {
+        page.classList.remove('active');
+      }
+    });
+    // 更新 sessionStorage
+    sessionStorage.setItem('currentTab', config.id);
+  } else if (config.page) {
+    // 跳转到其他页面前保存状态
+    if (config.page === 'home.html' && config.target) {
+      sessionStorage.setItem('currentTab', config.id);
+    } else if (config.page !== 'home.html') {
+      // 离开home.html时清除sessionStorage
+      sessionStorage.removeItem('currentTab');
+    }
+    
+    // 跳转到其他页面
+    setTimeout(() => {
+      if (config.page === 'home.html' && config.target) {
+        window.location.href = config.page + '?tab=' + config.target.replace('page-', '');
+      } else {
+        window.location.href = config.page;
+      }
+    }, 160);
+  }
+}
+
+// 添加页面进入动画
+function addPageEnterAnimation() {
+  const mainContent = document.querySelector('.page-content, main, .app-container');
+  if (mainContent) {
+    mainContent.classList.add('page-enter');
+  }
+}
+
+// 等待 DOM 加载完成后初始化
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBottomNav);
+} else {
+  initBottomNav();
+}

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小龙虾设备对话</title>
+  <link rel="stylesheet" href="/h5/css/common.css">
+  <link rel="stylesheet" href="/h5/css/device.css">
+  <link rel="stylesheet" href="css/theme-variables.css">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-yellow: #f59e0b;
+      --user-bubble: #3b82f6;
+      --assistant-bubble: #334155;
+      --border-card: #475569;
+    }
+    html[data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --accent-blue: #2563eb;
+      --user-bubble: #3b82f6;
+      --assistant-bubble: #e2e8f0;
+      --border-card: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部导航 */
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-card);
+    }
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .header-back svg { width: 20px; height: 20px; }
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .header-status {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--accent-green);
+      color: white;
+    }
+    .header-status.offline { background: var(--text-tertiary); }
+    .header-status.error { background: var(--accent-red); }
+
+    /* 设备信息 */
+    .device-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-card);
+    }
+    .device-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+    .device-detail { flex: 1; }
+    .device-name {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .device-status {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .status-dot.online { background: var(--accent-green); }
+    .status-dot.offline { background: var(--text-tertiary); }
+
+    /* 聊天区域 */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-message {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    .chat-message.user {
+      align-self: flex-end;
+      background: var(--user-bubble);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-message.assistant {
+      align-self: flex-start;
+      background: var(--assistant-bubble);
+      color: var(--text-primary);
+      border-bottom-left-radius: 4px;
+    }
+    .chat-message.loading {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    .chat-message.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red);
+    }
+    .chat-raw {
+      margin-top: 8px;
+      padding: 8px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .chat-raw-toggle {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    /* 快捷指令 */
+    .quick-commands {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border-card);
+    }
+    .quick-cmd {
+      padding: 6px 12px;
+      background: var(--bg-card);
+      border: none;
+      border-radius: 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .quick-cmd:active { background: var(--border-card); }
+
+    /* 输入区域 */
+    .input-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-card);
+    }
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: none;
+      border-radius: 24px;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+    }
+    .chat-input::placeholder { color: var(--text-tertiary); }
+    .send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .send-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+    }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* 加载动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .typing { animation: pulse 1.5s infinite; }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部 -->
+  <div class="header">
+    <a href="/h5/device.html" class="header-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      返回
+    </a>
+    <div class="header-title">小龙虾设备对话</div>
+    <div class="header-status" id="serviceStatus">服务正常</div>
+  </div>
+
+  <!-- 设备信息 -->
+  <div class="device-info">
+    <div class="device-avatar">🦐</div>
+    <div class="device-detail">
+      <div class="device-name" id="deviceName">加载中...</div>
+      <div class="device-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">检查中...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 快捷指令 -->
+  <div class="quick-commands">
+    <button class="quick-cmd" onclick="sendQuickCmd('状态查询')">📊 状态查询</button>
+    <button class="quick-cmd" onclick="sendQuickCmd('1+1=?')">🧮 1+1=?</button>
+    <button class="quick-cmd" onclick="sendQuickCmd('你好')">👋 你好</button>
+  </div>
+
+  <!-- 聊天容器 -->
+  <div class="chat-container" id="chatContainer"></div>
+
+  <!-- 输入框 -->
+  <div class="input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="发送消息给小龙虾..." onkeypress="handleKeyPress(event)">
+    <button class="send-btn" id="sendBtn" onclick="handleSend()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 依赖脚本 -->
+  <script src="/h5/js/utils/storage.js"></script>
+  <script src="/h5/js/services/themeService.js"></script>
+  <script src="/h5/js/utils/navigation.js"></script>
+  <script src="/h5/js/utils/toast.js"></script>
+  <script src="/h5/js/services/api/config.js"></script>
+  <script src="/h5/js/services/api/ApiClient.js"></script>
+  <script src="/h5/js/services/api/endpoints.js"></script>
+  <script src="/h5/js/services/api/index.js"></script>
+  <script src="/h5/js/services/deviceService.js"></script>
+  <script src="/h5/js/services/openclawChatService.js"></script>
+
+  <script>
+    const log = console.log;
+    let currentDevice = null;
+    let isProcessing = false;
+
+    // 从URL获取deviceId
+    function getDeviceIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('deviceId');
+    }
+
+    // 初始化
+    async function init() {
+      const deviceId = getDeviceIdFromUrl();
+      log('[DeviceChat] init, deviceId:', deviceId);
+
+      // 从存储获取设备列表
+      const deviceList = Storage.Device.getDeviceList() || [];
+      const cached = Storage.Device.getCurrentDevice();
+      
+      if (deviceId) {
+        currentDevice = deviceList.find(d => d.id === deviceId || d.deviceId === deviceId) || cached;
+      } else {
+        currentDevice = cached;
+      }
+
+      if (!currentDevice) {
+        showError('未找到设备，请从设备页进入');
+        return;
+      }
+
+      // 显示设备信息
+      renderDeviceInfo();
+      
+      // 初始化聊天服务
+      window.OpenClawChatService.init(currentDevice);
+      
+      // 添加欢迎消息
+      addAssistantMessage('🦐 小龙虾已就绪，请发送消息开始对话。');
+    }
+
+    // 渲染设备信息
+    function renderDeviceInfo() {
+      const nameEl = document.getElementById('deviceName');
+      const dotEl = document.getElementById('statusDot');
+      const textEl = document.getElementById('statusText');
+      
+      if (nameEl) nameEl.textContent = currentDevice?.name || '未知设备';
+      
+      const isOnline = currentDevice?.isOnline || currentDevice?.status === 'online';
+      if (dotEl) {
+        dotEl.className = 'status-dot ' + (isOnline ? 'online' : 'offline');
+      }
+      if (textEl) {
+        textEl.textContent = isOnline ? '设备在线' : '设备离线';
+      }
+    }
+
+    // 快捷指令
+    function sendQuickCmd(message) {
+      if (isProcessing) return;
+      handleSend(message);
+    }
+
+    // 回车发送
+    function handleKeyPress(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    }
+
+    // 发送消息
+    async function handleSend(customMessage = null) {
+      const input = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const message = (customMessage || input.value || '').trim();
+      
+      if (!message || isProcessing) return;
+      if (!currentDevice) {
+        showError('未绑定设备');
+        return;
+      }
+
+      // 检查 deviceUuid
+      const deviceUuid = window.OpenClawChatService.resolveDeviceUuid(currentDevice);
+      if (!deviceUuid) {
+        showError('当前设备缺少 iotDeviceUuid / uuid，暂无法连接小龙虾');
+        return;
+      }
+
+      // 禁用输入
+      isProcessing = true;
+      input.disabled = true;
+      sendBtn.disabled = true;
+
+      // 添加用户消息
+      addUserMessage(message);
+      input.value = '';
+
+      // 添加loading
+      const loadingId = addLoadingMessage('小龙虾正在处理...');
+
+      try {
+        // 发送消息
+        const response = await window.OpenClawChatService.sendMessageAndWait(currentDevice, message);
+        
+        // 移除loading
+        removeMessage(loadingId);
+        
+        // 显示响应
+        if (response.success) {
+          if (response.data) {
+            addAssistantMessage(response.data);
+          } else if (response.msg) {
+            if (response.timeout) {
+              // 超时但有消息
+              addAssistantMessage(response.msg);
+            } else {
+              addAssistantMessage(response.msg);
+            }
+          }
+        } else {
+          showError(response.msg || '通信失败');
+        }
+      } catch (error) {
+        removeMessage(loadingId);
+        showError(error.message || '通信失败');
+      }
+
+      // 恢复输入
+      input.disabled = false;
+      sendBtn.disabled = false;
+      isProcessing = false;
+      input.focus();
+    }
+
+    // 添加用户消息
+    function addUserMessage(message) {
+      const container = document.getElementById('chatContainer');
+      const div = document.createElement('div');
+      div.className = 'chat-message user';
+      div.textContent = message;
+      container.appendChild(div);
+      scrollToBottom();
+    }
+
+    // 添加助手消息
+    function addAssistantMessage(message, rawJson = null) {
+      const container = document.getElementById('chatContainer');
+      const div = document.createElement('div');
+      div.className = 'chat-message assistant';
+      
+      if (rawJson) {
+        // 显示原始JSON
+        div.innerHTML = message + '<div class="chat-raw-toggle" onclick="toggleRaw(this)">▼ 点击展开原始JSON</div>';
+        div.dataset.raw = rawJson;
+      } else {
+        div.textContent = message;
+      }
+      
+      container.appendChild(div);
+      scrollToBottom();
+    }
+
+    // 添加loading消息
+    function addLoadingMessage(message) {
+      const container = document.getElementById('chatContainer');
+      const div = document.createElement('div');
+      div.className = 'chat-message assistant loading typing';
+      div.id = 'loading-' + Date.now();
+      div.textContent = message;
+      container.appendChild(div);
+      scrollToBottom();
+      return div.id;
+    }
+
+    // 显示错误
+    function showError(message) {
+      const container = document.getElementById('chatContainer');
+      const div = document.createElement('div');
+      div.className = 'chat-message error';
+      div.textContent = message;
+      container.appendChild(div);
+      scrollToBottom();
+    }
+
+    // 移除消息
+    function removeMessage(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    // 切换原始JSON显示
+    function toggleRaw(el) {
+      const parent = el.parentElement;
+      const raw = parent.dataset.raw;
+      if (raw) {
+        if (el.textContent.includes('展开')) {
+          el.textContent = '▲ 收起原始JSON';
+          const rawDiv = document.createElement('div');
+          rawDiv.className = 'chat-raw';
+          rawDiv.textContent = raw;
+          parent.appendChild(rawDiv);
+        } else {
+          el.textContent = '▼ 点击展开原始JSON';
+          const rawDiv = parent.querySelector('.chat-raw');
+          if (rawDiv) rawDiv.remove();
+        }
+      }
+    }
+
+    // 滚动到底部
+    function scrollToBottom() {
+      const container = document.getElementById('chatContainer');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // 页面加载完成
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

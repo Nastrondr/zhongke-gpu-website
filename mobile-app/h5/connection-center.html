@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>连接中心 - 设备管理</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: #0A0F1C;
+      --bg-secondary: #10182A;
+      --card-bg: #111C31;
+      --card-hover: #16233D;
+      --border-primary: rgba(96, 165, 250, 0.28);
+      --border-secondary: rgba(148, 163, 184, 0.16);
+      --divider: rgba(148, 163, 184, 0.10);
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --text-muted: #64748B;
+      --brand-primary: #60A5FA;
+      --brand-secondary: #3B82F6;
+      --accent-blue: #60A5FA;
+      --accent-blue-light: #93C5FD;
+      --accent-cyan: #22C7D6;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --info: #38BDF8;
+      --chart-grid: rgba(148, 163, 184, 0.10);
+      --tooltip-bg: #16233D;
+      --tooltip-title: #F8FAFC;
+      --tooltip-body: #CBD5E1;
+      --border-radius-sm: 10px;
+      --border-radius: 16px;
+      --border-radius-lg: 20px;
+    }
+
+    html[data-theme="light"] {
+      /* 页面背景 - 奶白底 */
+      --bg-primary: #F6FAFF;
+      --bg-secondary: #F5F9FF;
+      
+      /* 卡片系统 - 白卡片 + 次级块 */
+      --card-bg: #FFFFFF;
+      --card-bg-soft: #F5F9FF;
+      --card-highlight: linear-gradient(135deg, #F0F7FF 0%, #E8F2FF 100%);
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FAFCFF;
+      --card-hover: #FAFCFF;
+      
+      /* 边框 - 轻蓝描边 */
+      --border-card: #E8F0FF;
+      --border-primary: #E8F0FF;
+      --border-secondary: rgba(140, 170, 220, 0.12);
+      --border-accent: #D8E7FF;
+      --divider: rgba(140, 170, 220, 0.08);
+      
+      /* 文字 - 清晰层次 */
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --text-muted: #94A3B8;
+      
+      /* 品牌色 - 柔和亮蓝 */
+      --brand-primary: #4A8DFF;
+      --brand-secondary: #6BA8FF;
+      --brand-soft: #EAF3FF;
+      --icon-bg: #EAF3FF;
+      
+      /* 功能色 */
+      --accent-blue: #2563EB;
+      --accent-blue-light: #60A5FA;
+      --accent-cyan: #0891B2;
+      --success: #1BD4A0;
+      --success-bg: rgba(27, 212, 160, 0.15);
+      --warning: #D97706;
+      --warning-bg: #FFF5E8;
+      --error: #DC2626;
+      --error-bg: #FDECEC;
+      --info: #0284C7;
+      --info-bg: #E0F2FE;
+      
+      /* 图表 */
+      --chart-grid: rgba(140, 170, 220, 0.06);
+      
+      /* 悬浮框 */
+      --tooltip-bg: #FFFFFF;
+      --tooltip-title: #0F172A;
+      --tooltip-body: #475569;
+      
+      /* 阴影 - 轻阴影 */
+      --shadow-card: 0 10px 30px rgba(89, 123, 189, 0.08);
+      --shadow-card-hover: 0 14px 40px rgba(89, 123, 189, 0.12);
+      --shadow-soft: 0 2px 8px rgba(89, 123, 189, 0.04);
+      --shadow-icon: 0 4px 12px rgba(74, 141, 255, 0.15);
+      
+      /* 圆角 - 更柔和 */
+      --border-radius-sm: 10px;
+      --border-radius: 16px;
+      --border-radius-lg: 20px;
+    }
+
+    /* 浅色模式卡片样式 - 白卡 + 轻阴影 */
+    html[data-theme="light"] .card,
+    html[data-theme="light"] .app-card,
+    html[data-theme="light"] .wallet-card,
+    html[data-theme="light"] .device-card,
+    html[data-theme="light"] .service-item,
+    html[data-theme="light"] .task-item,
+    html[data-theme="light"] .timeline-row,
+    html[data-theme="light"] .app-item,
+    html[data-theme="light"] .capability-item,
+    html[data-theme="light"] .stat-card,
+    html[data-theme="light"] .skill-card,
+    html[data-theme="light"] .record-item,
+    html[data-theme="light"] .data-source-item,
+    html[data-theme="light"] .section,
+    html[data-theme="light"] .timeline-mini,
+    html[data-theme="light"] .tab-nav {
+      box-shadow: var(--shadow-card);
+      background: var(--card-bg);
+      border: none;
+      border-radius: var(--border-radius);
+    }
+
+    html[data-theme="light"] .card:hover,
+    html[data-theme="light"] .app-card:hover,
+    html[data-theme="light"] .wallet-card:hover,
+    html[data-theme="light"] .device-card:hover,
+    html[data-theme="light"] .service-item:hover,
+    html[data-theme="light"] .task-item:hover,
+    html[data-theme="light"] .app-item:hover,
+    html[data-theme="light"] .capability-item:hover,
+    html[data-theme="light"] .skill-card:hover,
+    html[data-theme="light"] .section:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-1px);
+    }
+
+    /* 浅色模式次级块样式 */
+    html[data-theme="light"] .info-block,
+    html[data-theme="light"] .stat-block,
+    html[data-theme="light"] .detail-block {
+      background: var(--card-bg-soft);
+      border-radius: var(--border-radius-sm);
+    }
+
+    /* 浅色模式图标底块 */
+    html[data-theme="light"] .icon-wrapper,
+    html[data-theme="light"] .icon-bg,
+    html[data-theme="light"] .app-icon {
+      background: var(--icon-bg) !important;
+      box-shadow: var(--shadow-icon);
+    }
+
+    /* 浅色模式 - 数据源图标背景色 */
+    html[data-theme="light"] .data-source-icon.doc {
+      background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%) !important;
+    }
+
+    html[data-theme="light"] .data-source-icon.news {
+      background: linear-gradient(135deg, #7fb069 0%, #5a8a4a 100%) !important;
+    }
+
+    html[data-theme="light"] .data-source-icon.cloud {
+      background: linear-gradient(135deg, #6b8cae 0%, #4a6b8a 100%) !important;
+    }
+
+    /* 浅色模式 - 能力图标背景色 */
+    html[data-theme="light"] .capability-icon.scan {
+      background: linear-gradient(135deg, #7a8fa6 0%, #5a7a96 100%) !important;
+    }
+
+    html[data-theme="light"] .capability-icon.sync {
+      background: linear-gradient(135deg, #6a9e8c 0%, #4a8a7a 100%) !important;
+    }
+
+    html[data-theme="light"] .capability-icon.news {
+      background: linear-gradient(135deg, #a89060 0%, #8a7848 100%) !important;
+    }
+
+    html[data-theme="light"] .data-source-icon,
+    html[data-theme="light"] .capability-icon {
+      box-shadow: var(--shadow-icon);
+    }
+
+    /* 浅色模式状态胶囊 */
+    html[data-theme="light"] .status-pill,
+    html[data-theme="light"] .status-badge,
+    html[data-theme="light"] .app-status,
+    html[data-theme="light"] .data-source-status,
+    html[data-theme="light"] .capability-status {
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    html[data-theme="light"] .app-status.connected,
+    html[data-theme="light"] .data-source-status,
+    html[data-theme="light"] .capability-status.running {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    html[data-theme="light"] .app-status.pending,
+    html[data-theme="light"] .capability-status.syncing {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    html[data-theme="light"] .app-status.mounted,
+    html[data-theme="light"] .capability-status.enabled {
+      background: var(--brand-soft);
+      color: var(--brand-primary);
+    }
+
+    html[data-theme="dark"] .card,
+    html[data-theme="dark"] .app-card,
+    html[data-theme="dark"] .wallet-card,
+    html[data-theme="dark"] .device-card,
+    html[data-theme="dark"] .service-item,
+    html[data-theme="dark"] .task-item,
+    html[data-theme="dark"] .app-item,
+    html[data-theme="dark"] .capability-item,
+    html[data-theme="dark"] .stat-card,
+    html[data-theme="dark"] .skill-card,
+    html[data-theme="dark"] .record-item,
+    html[data-theme="dark"] .data-source-item,
+    html[data-theme="dark"] .section {
+      box-shadow: none;
+      border-radius: 16px;
+    }
+
+    html[data-theme="dark"] .timeline-mini,
+    html[data-theme="dark"] .timeline-row {
+      box-shadow: none;
+      background: transparent;
+      border: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 30px;
+    }
+
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .status-bar .time {
+      color: var(--text-primary);
+    }
+
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .nav-header {
+      padding: 16px 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      border-radius: 8px;
+      color: var(--accent-blue);
+    }
+
+    .back-btn:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav-title {
+      flex: 1;
+    }
+
+    .nav-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .nav-title .subtitle {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 1px;
+    }
+
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid var(--accent-blue);
+      border-radius: 16px;
+      color: var(--accent-blue-light);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-btn:hover {
+      background: rgba(37, 99, 235, 0.15);
+    }
+
+    .page-content {
+      padding: 0 16px;
+    }
+
+    /* 基础卡片样式 - 统一圆角 */
+    .card,
+    .app-card,
+    .wallet-card,
+    .device-card,
+    .service-item,
+    .task-item,
+    .app-item,
+    .capability-item,
+    .stat-card,
+    .skill-card,
+    .record-item,
+    .data-source-item,
+    .section {
+      border-radius: 16px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 10px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .stat-value.success { color: var(--success); }
+    .stat-value.warning { color: var(--warning); }
+    .stat-value.error { color: var(--error); }
+
+    .stat-label {
+      font-size: 9px;
+      color: var(--text-tertiary);
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 16px;
+    }
+
+    .tab-item {
+      flex: 1;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-item.active {
+      background: var(--accent-blue);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .tab-item.active {
+      color: #FFFFFF;
+    }
+
+    .tab-item:not(.active):hover {
+      color: var(--text-secondary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .app-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .app-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .app-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+    }
+
+    .app-item:active {
+      transform: scale(0.98);
+    }
+
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .app-icon.feishu {
+      background: #ffffff;
+    }
+
+    .app-icon.wechat {
+      background: #07c160;
+    }
+
+    .app-icon.slack {
+      background: linear-gradient(135deg, #4a154b 0%, #2a1040 100%);
+    }
+
+    .app-icon.ding {
+      background: linear-gradient(135deg, #1677ff 0%, #0958d9 100%);
+    }
+
+    .app-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .app-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .app-status {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .app-status.connected {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+
+    .app-status.pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .app-status.mounted {
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--accent-blue-light);
+    }
+
+    .app-status.disconnected {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--error);
+    }
+
+    .app-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .app-desc {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text-primary);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      pointer-events: none;
+      text-align: center;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    html[data-theme="light"] .toast {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      color: #0F172A;
+      box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+
+    .data-source-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .data-source-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .data-source-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+    }
+
+    .data-source-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .data-source-icon.doc {
+      background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+    }
+
+    .data-source-icon.news {
+      background: #7fb069;
+    }
+
+    .data-source-icon.cloud {
+      background: #6b8cae;
+    }
+
+    .data-source-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .data-source-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .data-source-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .data-source-status {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 500;
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--accent-blue-light);
+    }
+
+    .data-source-meta {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .data-source-desc {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+
+    .capability-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .capability-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .capability-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+    }
+
+    .capability-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .capability-icon.scan {
+      background: #7a8fa6;
+    }
+
+    .capability-icon.sync {
+      background: #6a9e8c;
+    }
+
+    .capability-icon.news {
+      background: #a89060;
+    }
+
+    .capability-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .capability-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .capability-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .capability-status {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .capability-status.running {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+
+    .capability-status.syncing {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .capability-status.enabled {
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--accent-blue-light);
+    }
+
+    .capability-status.disabled {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-tertiary);
+    }
+
+    .capability-meta {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .capability-desc {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+
+    .status-bar-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: rgba(10, 22, 40, 0.95);
+      border-top: 1px solid var(--border-card);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .status-bar-bottom.normal {
+      color: var(--success);
+    }
+
+    .status-bar-bottom.warning {
+      color: var(--warning);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-bar-bottom span {
+      font-size: 11px;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-tertiary);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="nav-header">
+      <a href="device.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </a>
+      <div class="nav-title">
+        <h1>连接中心</h1>
+      </div>
+      <button class="add-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span>添加连接</span>
+      </button>
+    </div>
+    
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>正在开发</span>
+    </div>
+    
+    <div class="page-content">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value success">3</div>
+          <div class="stat-label">已连接</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value warning">1</div>
+          <div class="stat-label">待配置</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">3</div>
+          <div class="stat-label">运行中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value error">0</div>
+          <div class="stat-label">异常</div>
+        </div>
+      </div>
+
+      <div class="tab-nav">
+        <div class="tab-item active" data-tab="all">全部</div>
+        <div class="tab-item" data-tab="app">应用</div>
+        <div class="tab-item" data-tab="datasource">数据源</div>
+        <div class="tab-item" data-tab="capability">设备能力</div>
+      </div>
+
+      <div id="tab-all" class="tab-content active">
+        <div class="section">
+          <div class="section-title">应用连接</div>
+          <div class="app-list">
+            <div class="app-item">
+              <div class="app-icon feishu"><img src="images/feishu.jpeg" alt="飞书" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
+              <div class="app-info">
+                <div class="app-header">
+                  <div class="app-name">飞书</div>
+                  <span class="app-status connected">已连接</span>
+                </div>
+                <div class="app-meta">
+                  <span>1分钟前同步</span>
+                </div>
+                <div class="app-desc">已授权消息通知与文档读取</div>
+              </div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-icon wechat"><img src="images/weixin.png" alt="微信" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
+              <div class="app-info">
+                <div class="app-header">
+                  <div class="app-name">微信</div>
+                  <span class="app-status pending">待接入</span>
+                </div>
+                <div class="app-meta">
+                  <span>未完成绑定</span>
+                </div>
+                <div class="app-desc">可用于提醒通知与快捷触发</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">数据源</div>
+          <div class="data-source-list">
+            <div class="data-source-item">
+              <div class="data-source-icon doc">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#ffffff" stroke="none"/>
+                  <polyline points="14 2 14 8 20 8" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="16" y1="13" x2="8" y2="13" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="16" y1="17" x2="8" y2="17" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="10 9 9 9 8 9" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">文档库</div>
+                  <span class="data-source-status">已挂载</span>
+                </div>
+                <div class="data-source-meta">本地 + 云端 · 共 128 篇文档</div>
+                <div class="data-source-desc">最近更新: 10分钟前</div>
+              </div>
+            </div>
+
+            <div class="data-source-item">
+              <div class="data-source-icon news">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="#ffffff"/>
+                  <line x1="7" y1="8" x2="17" y2="8" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="7" y1="12" x2="17" y2="12" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="7" y1="16" x2="12" y2="16" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">行情资讯源</div>
+                  <span class="data-source-status">运行中</span>
+                </div>
+                <div class="data-source-meta">实时数据 · 5个频道</div>
+                <div class="data-source-desc">最近更新: 1分钟前</div>
+              </div>
+            </div>
+
+            <div class="data-source-item">
+              <div class="data-source-icon cloud">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">云端知识库</div>
+                  <span class="data-source-status">同步中</span>
+                </div>
+                <div class="data-source-meta">已连接 · 加密传输</div>
+                <div class="data-source-desc">最近同步: 2分钟前</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">设备能力</div>
+          <div class="capability-list">
+            <div class="capability-item">
+              <div class="capability-icon scan">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" fill="#ffffff"/>
+                  <circle cx="12" cy="13" r="4" fill="#7a8fa6"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">文档扫描与OCR</div>
+                  <span class="capability-status running">运行中</span>
+                </div>
+                <div class="capability-meta">最近执行: 5分钟前 · 处理 128 页</div>
+                <div class="capability-desc">支持名片、票据、文档自动识别</div>
+              </div>
+            </div>
+
+            <div class="capability-item">
+              <div class="capability-icon sync">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">云端同步服务</div>
+                  <span class="capability-status syncing">同步中</span>
+                </div>
+                <div class="capability-meta">实时同步 · 双向同步</div>
+                <div class="capability-desc">本地与云端文件自动保持一致</div>
+              </div>
+            </div>
+
+            <div class="capability-item">
+              <div class="capability-icon news">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="#ffffff"/>
+                  <circle cx="9" cy="10" r="2" fill="#a89060"/>
+                  <path d="M15 8h2v2h-2zM15 12h2v2h-2z" fill="#a89060"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">资讯聚合服务</div>
+                  <span class="capability-status enabled">已启用</span>
+                </div>
+                <div class="capability-meta">1分钟前更新 · 12条新资讯</div>
+                <div class="capability-desc">聚合多源财经资讯与实时行情</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-app" class="tab-content">
+        <div class="section">
+          <div class="section-title">应用连接</div>
+          <div class="app-list">
+            <div class="app-item">
+              <div class="app-icon feishu"><img src="images/feishu.jpeg" alt="飞书" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
+              <div class="app-info">
+                <div class="app-header">
+                  <div class="app-name">飞书</div>
+                  <span class="app-status connected">已连接</span>
+                </div>
+                <div class="app-meta">
+                  <span>1分钟前同步</span>
+                </div>
+                <div class="app-desc">已授权消息通知与文档读取</div>
+              </div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-icon wechat"><img src="images/weixin.png" alt="微信" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
+              <div class="app-info">
+                <div class="app-header">
+                  <div class="app-name">微信</div>
+                  <span class="app-status pending">待接入</span>
+                </div>
+                <div class="app-meta">
+                  <span>未完成绑定</span>
+                </div>
+                <div class="app-desc">可用于提醒通知与快捷触发</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-datasource" class="tab-content">
+        <div class="section">
+          <div class="section-title">数据源</div>
+          <div class="data-source-list">
+            <div class="data-source-item">
+              <div class="data-source-icon doc">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#ffffff" stroke="none"/>
+                  <polyline points="14 2 14 8 20 8" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="16" y1="13" x2="8" y2="13" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="16" y1="17" x2="8" y2="17" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="10 9 9 9 8 9" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">文档库</div>
+                  <span class="data-source-status">已挂载</span>
+                </div>
+                <div class="data-source-meta">本地 + 云端 · 共 128 篇文档</div>
+                <div class="data-source-desc">最近更新: 10分钟前</div>
+              </div>
+            </div>
+
+            <div class="data-source-item">
+              <div class="data-source-icon news">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="#ffffff"/>
+                  <line x1="7" y1="8" x2="17" y2="8" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="7" y1="12" x2="17" y2="12" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="7" y1="16" x2="12" y2="16" stroke="#7fb069" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">行情资讯源</div>
+                  <span class="data-source-status">运行中</span>
+                </div>
+                <div class="data-source-meta">实时数据 · 5个频道</div>
+                <div class="data-source-desc">最近更新: 1分钟前</div>
+              </div>
+            </div>
+
+            <div class="data-source-item">
+              <div class="data-source-icon cloud">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div class="data-source-info">
+                <div class="data-source-header">
+                  <div class="data-source-name">云端知识库</div>
+                  <span class="data-source-status">同步中</span>
+                </div>
+                <div class="data-source-meta">已连接 · 加密传输</div>
+                <div class="data-source-desc">最近同步: 2分钟前</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-capability" class="tab-content">
+        <div class="section">
+          <div class="section-title">设备能力</div>
+          <div class="capability-list">
+            <div class="capability-item">
+              <div class="capability-icon scan">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" fill="#ffffff"/>
+                  <circle cx="12" cy="13" r="4" fill="#7a8fa6"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">文档扫描与OCR</div>
+                  <span class="capability-status running">运行中</span>
+                </div>
+                <div class="capability-meta">最近执行: 5分钟前 · 处理 128 页</div>
+                <div class="capability-desc">支持名片、票据、文档自动识别</div>
+              </div>
+            </div>
+
+            <div class="capability-item">
+              <div class="capability-icon sync">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">云端同步服务</div>
+                  <span class="capability-status syncing">同步中</span>
+                </div>
+                <div class="capability-meta">实时同步 · 双向同步</div>
+                <div class="capability-desc">本地与云端文件自动保持一致</div>
+              </div>
+            </div>
+
+            <div class="capability-item">
+              <div class="capability-icon news">
+                <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="#ffffff"/>
+                  <circle cx="9" cy="10" r="2" fill="#a89060"/>
+                  <path d="M15 8h2v2h-2zM15 12h2v2h-2z" fill="#a89060"/>
+                </svg>
+              </div>
+              <div class="capability-info">
+                <div class="capability-header">
+                  <div class="capability-name">资讯聚合服务</div>
+                  <span class="capability-status enabled">已启用</span>
+                </div>
+                <div class="capability-meta">1分钟前更新 · 12条新资讯</div>
+                <div class="capability-desc">聚合多源财经资讯与实时行情</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-bar-bottom normal">
+      <div class="status-dot"></div>
+      <span>当前所有连接与服务运行正常</span>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.tab-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        this.classList.add('active');
+        const tabId = 'tab-' + this.dataset.tab;
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+    
+    // 显示"正在开发"提示
+    function showDevelopingToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+    
+    // 初始化未实现功能的点击事件
+    document.addEventListener('DOMContentLoaded', function() {
+    });
+  </script>
+  <script src="/h5/js/utils/storage.js"></script>
+  <script src="/h5/js/services/themeService.js"></script>
+  <script>
+    ThemeManager.init();
+  </script>
+</body>
+</html>

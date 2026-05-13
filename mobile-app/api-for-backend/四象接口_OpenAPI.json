@@ -1,0 +1,6462 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CLOUD API",
+    "description": "CLOUD API",
+    "termsOfService": "/api/v1/open/rss-static/docs/md/README.md",
+    "contact": {
+      "name": "lyf",
+      "url": "http://www.szsbay.com",
+      "email": "liyafeng@szsbay.com"
+    },
+    "license": {
+      "name": "APACHE LICENSE, VERSION 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "v1.0.0"
+  },
+  "externalDocs": {
+    "description": "查看更多文档",
+    "url": "/zhisuancf/open/api/v1/docs/md/README.md"
+  },
+  "servers": [
+    {
+      "url": "https://www.test.zhisuancf.cn/zhisuancf",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "金融账户",
+      "description": "企业钱包、会员钱包、算力账户"
+    },
+    {
+      "name": "设备管理",
+      "description": "设备管理"
+    }
+  ],
+  "paths": {
+    "/manage/api/v1/ai/{provider}/stream/proxy/**": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_1",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/{provider}/stream/nothinking/proxy/**": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_2",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_3",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/ai/sse/v1/chat/completions": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi_1",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/open/api/v1/login": {
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "登录",
+        "description": "登录mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/login.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/login.md"
+        },
+        "operationId": "openapi-001",
+        "parameters": [
+          {
+            "name": "x-app-key",
+            "in": "header",
+            "description": "appKey ",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/open/api/v1/enterprise/accessToken": {
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "企业登录(clientId登录)",
+        "description": "用于系统对接api调用",
+        "operationId": "enterpriseAccessToken",
+        "parameters": [
+          {
+            "name": "x-app-key",
+            "in": "header",
+            "description": "appKey ",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseAccessTokenVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/api/v1/password/modify": {
+      "post": {
+        "tags": [
+          "登录授权"
+        ],
+        "summary": "登陆授权-密码|密钥-修改",
+        "description": "密码|密钥-修改",
+        "operationId": "passwordReset",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/重置密码/密钥"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/orders/companies/{companyId}/page": {
+      "post": {
+        "tags": [
+          "订单相关"
+        ],
+        "summary": "订单-分页(企业买方订单)",
+        "description": "合同(个人)分页",
+        "operationId": "companyOrderPageDTO",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "企业主键id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperORDER"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperOrderDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/financialAccounts/{accountId}/transDetail/page": {
+      "post": {
+        "tags": [
+          "金融账户"
+        ],
+        "summary": "账户交易明细-分页",
+        "description": "账户交易明细-分页",
+        "operationId": "transdetail2Page",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "账户id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperTransactionDetailEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperTransactionDetailDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/financialAccounts/companies/{companId}/page": {
+      "post": {
+        "tags": [
+          "金融账户"
+        ],
+        "summary": "金融账户-企业金融账户分页",
+        "description": "公司参与的项目责任公司列表-分页",
+        "operationId": "companyFinancialAccountPageDTO",
+        "parameters": [
+          {
+            "name": "companId",
+            "in": "path",
+            "description": "公司主键id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperFinancialAccountEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperFinancialAccountDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}/tc/page": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-算力(流量)消耗分页",
+        "description": "设备-算力(流量)消耗分页",
+        "operationId": "tcPage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "设备id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperTransactionDetailEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperTransactionDetailDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}/events/page": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-事件分页",
+        "description": "设备-事件分页",
+        "operationId": "eventPage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "设备id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperDeviceEventEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperDeviceEventDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}/doAction/{action}": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备doAction ",
+        "description": "设备doAction mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/device-api/doAction.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/device-api/doAction.md"
+        },
+        "operationId": "doAction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "设备主键id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "action",
+            "in": "path",
+            "description": "action",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseObject"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/endUsers/{userId}/rentPage": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-终(C)端用户租用的设备分页",
+        "description": "设备-终(C)端用户租用的设备分页",
+        "operationId": "endUserRentDevicesPage",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperDeviceEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperDeviceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/companies/{companyId}/rentPage": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-公司租用设备分页",
+        "description": "设备-公司租用设备分页",
+        "operationId": "companyRentDevicesPage",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "公司id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperDeviceEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperDeviceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/companies/{companyId}/assetPage": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-公司设备资产分页",
+        "description": "设备-公司设备资产分页",
+        "operationId": "companyAssetDevicesPage",
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "description": "资产公司id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageWrapperDeviceEntity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageWrapperDeviceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/asset/import": {
+      "post": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "资产设备导入",
+        "description": "资产设备导入",
+        "operationId": "assetImportBatch",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "params": {
+                    "$ref": "#/components/schemas/DeviceImportBatchDTO"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseDeviceEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/accesstoken": {
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "ai accesstoken",
+        "description": "生成ai accesstokenmock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/accesstoken.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/accesstoken.md"
+        },
+        "operationId": "aiAccessTokenGenerate",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiTokenGenerateVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseAccessTokenVO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/orders/{id}": {
+      "get": {
+        "tags": [
+          "订单相关"
+        ],
+        "summary": "订单-详情",
+        "description": "订单-详情",
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseOrderDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/financialAccounts/{id}": {
+      "get": {
+        "tags": [
+          "金融账户"
+        ],
+        "summary": "金融账户详情",
+        "description": "金融账户详情(某个企业/个人)2023-06-21 14:04:37",
+        "operationId": "detail_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "金融账户no",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseFinancialAccountDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}": {
+      "get": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备-详情信息",
+        "description": "设备-详情信息 2023-06-21 14:04:37",
+        "operationId": "assetImportBatch_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "设备id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseDeviceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/model/all": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "ai模型列表",
+        "description": "修改时间:20191230",
+        "operationId": "aiModelAll",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseNamePariVO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}/unbindRentUser": {
+      "delete": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备信息-解绑承租的用户",
+        "description": "设备信息-解绑用户解绑用户，只能是承租个人，承租公司，资产方和平台方，工作空间管理方解绑",
+        "operationId": "unbindRentUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "设备主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/devices/{id}/unbindPartnerCompany": {
+      "delete": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "设备信息-解绑设备的合作伙伴公司",
+        "description": "设备-解绑合作伙伴公司-只能 是承租公司资产方和平台方，工作空间管理方解绑",
+        "operationId": "unbindPartnerCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StreamingResponseBody": {
+        "type": "object"
+      },
+      "SseEmitter": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "LoginVo": {
+        "required": [
+          "loginType"
+        ],
+        "type": "object",
+        "properties": {
+          "loginType": {
+            "type": "string",
+            "description": "登录方式",
+            "enum": [
+              "account_password:账号+密码",
+              "email_password:邮箱+密码",
+              "mobile_password:手机号+密码",
+              "mobile_smscode_password:手机号+密码+短信验证码",
+              "mobile_smscode:手机号+短信验证码",
+              "third_account:第三方账户登录"
+            ]
+          },
+          "account": {
+            "type": "string",
+            "description": "用户账号"
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "用户手机号"
+          },
+          "password": {
+            "type": "string",
+            "description": "用户账号密码"
+          },
+          "source": {
+            "type": "string",
+            "description": "第三方source"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "第三方uuid"
+          },
+          "code": {
+            "type": "string",
+            "description": "校验码"
+          },
+          "random": {
+            "type": "string",
+            "description": "随机数"
+          },
+          "sessionTime": {
+            "type": "integer",
+            "description": "会话时长秒",
+            "format": "int64"
+          }
+        },
+        "description": "登录参数"
+      },
+      "AppEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "identify": {
+            "type": "string",
+            "description": "组标识唯"
+          },
+          "name": {
+            "type": "string",
+            "description": "组名称"
+          },
+          "version": {
+            "type": "string",
+            "description": "版本号"
+          },
+          "logo": {
+            "type": "string",
+            "description": "LOGO"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态com.openlife.connectp.common.enums.ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          },
+          "manufacturerName": {
+            "type": "string",
+            "description": "厂商名"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "分类名"
+          }
+        },
+        "description": "当前登录的应用"
+      },
+      "Dictionary": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "code": {
+            "type": "string",
+            "description": "编码"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int64"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          }
+        },
+        "description": "数据字典"
+      },
+      "GroupMemberDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "组ID",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户Id",
+            "format": "int64"
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户组内昵称"
+          },
+          "role": {
+            "type": "string",
+            "description": "组成员角色GroupMemberRoleTypeEnums",
+            "enum": [
+              "SUPER_ADMIN_API:超级管理员API,只给企业平台对接使用",
+              "SUPER_ADMIN:超级管理员",
+              "ADMIN:管理员",
+              "MEMBER:普通成员"
+            ]
+          },
+          "typeDictId": {
+            "type": "integer",
+            "description": "组成员类型参考数字字典",
+            "format": "int64"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态com.openlife.connectp.common.enums.ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "groupType": {
+            "type": "string",
+            "description": "组类型（冗余同group对应的组类型）",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ]
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "人员对应的公司",
+            "format": "int64"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "公司名"
+          },
+          "companyPartnerType": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "公司合作类型",
+            "items": {
+              "type": "string",
+              "description": "公司合作类型",
+              "enum": [
+                "OTHER:其他",
+                "PLATFORM:平台",
+                "WORKSPACE:工作空间",
+                "SYS_USER:系统用户组",
+                "PROJECT:项目组",
+                "BRAND:品牌（工作空间级）",
+                "AGENCY:代理",
+                "SOLUTION:方案",
+                "MANUFACTURE:制造厂",
+                "SALE:销售组",
+                "FAE:FAE组",
+                "DISTRIBUTOR:分销商",
+                "BRAND_DISTRIBUT:品牌分销",
+                "AGENCY_DISTRIBUT:代理分销",
+                "PARTNER_GROUP:合作伙伴组",
+                "COMPUTILITY_CENTER:算力中心",
+                "CONTRACT:合同",
+                "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+                "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+                "DEPARTMENT:部门"
+              ]
+            }
+          },
+          "realName": {
+            "type": "string",
+            "description": "真实姓名"
+          },
+          "idCard": {
+            "type": "string",
+            "description": "身份证号"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱"
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别SexTypeEnums",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ]
+          },
+          "groupName": {
+            "type": "string",
+            "description": "工作组名称"
+          },
+          "typeDictCode": {
+            "type": "string",
+            "description": "组成员类型参考数字字典code"
+          },
+          "typeDictInfo": {
+            "$ref": "#/components/schemas/Dictionary"
+          }
+        },
+        "description": "用户在工作空间内归属的组"
+      },
+      "ManageWorkspaceDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "code": {
+            "type": "string",
+            "description": "编码"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int64"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "公司(企业)id",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "工作空间对应的组id",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "类型（用来区分业务的）"
+          },
+          "groupType": {
+            "type": "string",
+            "description": "组类型（冗余同group对应的组类型）",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ]
+          },
+          "groupMembers": {
+            "type": "array",
+            "description": "用户在工作空间内归属的组",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberDTO"
+            }
+          },
+          "app": {
+            "$ref": "#/components/schemas/AppEntity"
+          }
+        },
+        "description": "工作空间列表"
+      },
+      "SingleResponseUserDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserDTO"
+          }
+        }
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "UUID"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱"
+          },
+          "account": {
+            "type": "string",
+            "description": "用户账号"
+          },
+          "realName": {
+            "type": "string",
+            "description": "真实姓名"
+          },
+          "idCard": {
+            "type": "string",
+            "description": "身份证号"
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别SexTypeEnums",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ]
+          },
+          "intro": {
+            "type": "string",
+            "description": "简介"
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户昵称"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "imei": {
+            "type": "string",
+            "description": "IMEI"
+          },
+          "registerTime": {
+            "type": "string",
+            "description": "注册时间",
+            "format": "date-time"
+          },
+          "registerChannel": {
+            "type": "string",
+            "description": "注册渠道"
+          },
+          "lastMdfPwdTime": {
+            "type": "string",
+            "description": "最后一次修改密码时间",
+            "format": "date-time"
+          },
+          "cancellationTime": {
+            "type": "string",
+            "description": "注销时间",
+            "format": "date-time"
+          },
+          "contactWay": {
+            "type": "string",
+            "description": "联系方式"
+          },
+          "lastLoginTime": {
+            "type": "string",
+            "description": "最后一次登录时间",
+            "format": "date-time"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "appKey": {
+            "type": "string",
+            "description": "appKey"
+          },
+          "appName": {
+            "type": "string",
+            "description": "appName"
+          },
+          "workspaceGroupId": {
+            "type": "integer",
+            "description": "工作空间对应的组id",
+            "format": "int64"
+          },
+          "workspaceGroupType": {
+            "type": "string",
+            "description": "工作空间对应的组类型",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ]
+          },
+          "workspaceCompanyId": {
+            "type": "integer",
+            "description": "工作空间对应的公司id",
+            "format": "int64"
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "当前登录人员归属公司id,任何人只能挂一个公司下面",
+            "format": "int64"
+          },
+          "companyIdentify": {
+            "type": "string",
+            "description": "归属公司identify"
+          },
+          "companyRoles": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "企业角色",
+            "items": {
+              "type": "string",
+              "description": "企业角色"
+            }
+          },
+          "companyName": {
+            "type": "string",
+            "description": "当前登录人员归属公司,任何人只能挂一个公司下面"
+          },
+          "positions": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "当前登录人员职位",
+            "items": {
+              "type": "string",
+              "description": "当前登录人员职位"
+            }
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken"
+          },
+          "workspaces": {
+            "type": "array",
+            "description": "工作空间列表",
+            "items": {
+              "$ref": "#/components/schemas/ManageWorkspaceDTO"
+            }
+          },
+          "password": {
+            "type": "string",
+            "description": "用户账号密码"
+          },
+          "thirdUserInfo": {
+            "$ref": "#/components/schemas/UserThirdDTO"
+          },
+          "authUser": {
+            "type": "object",
+            "description": "第三方授权用户信息"
+          },
+          "thirdUsersBind": {
+            "type": "array",
+            "description": "已经绑定的第三方用户信息",
+            "items": {
+              "$ref": "#/components/schemas/UserThirdDTO"
+            }
+          },
+          "businessAreaId": {
+            "type": "integer",
+            "description": "业务区域id",
+            "format": "int64"
+          }
+        }
+      },
+      "UserThirdDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "appId": {
+            "type": "integer",
+            "description": "应用实例ID即APP的主键",
+            "format": "int64"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "用户第三方系统的唯一id。在调用方集成该组件时，可以用uuid + source唯一确定一个用户"
+          },
+          "source": {
+            "type": "string",
+            "description": "用户来源"
+          },
+          "userName": {
+            "type": "string",
+            "description": "用户名"
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户昵称"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "用户头像"
+          },
+          "blog": {
+            "type": "string",
+            "description": "用户网址"
+          },
+          "company": {
+            "type": "string",
+            "description": "所在公司"
+          },
+          "location": {
+            "type": "string",
+            "description": "位置"
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱"
+          },
+          "remark": {
+            "type": "string",
+            "description": "用户备注（各平台中的用户个人介绍）"
+          },
+          "gender": {
+            "type": "string",
+            "description": "性别",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "用户授权的token信息"
+          },
+          "rawUser": {
+            "type": "string",
+            "description": "第三方平台返回的原始用户信息"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签(扩展)"
+          },
+          "state": {
+            "type": "string",
+            "description": "状态参考：UserAccountStateEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户id",
+            "format": "int64"
+          },
+          "spreaderUserId": {
+            "type": "integer",
+            "description": "推广者id(推广人的Id即user id,配合订单中推广人使用)",
+            "format": "int64"
+          },
+          "get_AttachInfo": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些信息：如是否开通对应的支付，分账收款方是否已经添加等等等"
+          },
+          "appUserId": {
+            "type": "integer",
+            "description": "应用内用户id",
+            "format": "int64"
+          },
+          "application": {
+            "$ref": "#/components/schemas/AppEntity"
+          },
+          "account": {
+            "type": "string",
+            "description": "用户账号"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "用户手机号"
+          },
+          "password": {
+            "type": "string",
+            "description": "用户账号密码"
+          },
+          "code": {
+            "type": "string",
+            "description": "code"
+          },
+          "appKey": {
+            "type": "string",
+            "description": "当前登录的应用appKey"
+          },
+          "rawUserInfo": {
+            "type": "object"
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken"
+          }
+        },
+        "description": "已经绑定的第三方用户信息"
+      },
+      "ClientLoginVo": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "客户id（即账号）"
+          },
+          "clientSecret": {
+            "type": "string",
+            "description": "密钥"
+          },
+          "sessionTime": {
+            "type": "integer",
+            "description": "会话时长秒",
+            "format": "int64"
+          }
+        },
+        "description": "登录参数"
+      },
+      "AccessTokenVO": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken"
+          },
+          "sessionTime": {
+            "type": "integer",
+            "description": "会话有效时长秒",
+            "format": "int64"
+          },
+          "info": {
+            "$ref": "#/components/schemas/UserDTO"
+          }
+        }
+      },
+      "SingleResponseAccessTokenVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccessTokenVO"
+          }
+        }
+      },
+      "重置密码/密钥": {
+        "required": [
+          "newConfirmPassword",
+          "newPassword",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "appId": {
+            "type": "integer",
+            "description": "应用ID",
+            "format": "int64"
+          },
+          "password": {
+            "type": "string",
+            "description": "旧密码"
+          },
+          "newPassword": {
+            "maxLength": 30,
+            "minLength": 8,
+            "type": "string",
+            "description": "新密码"
+          },
+          "newConfirmPassword": {
+            "maxLength": 30,
+            "minLength": 8,
+            "type": "string",
+            "description": "新确认密码"
+          }
+        },
+        "description": "重置密码/密钥"
+      },
+      "BaseResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          }
+        }
+      },
+      "ConditionParams": {
+        "type": "object",
+        "properties": {
+          "propertyName": {
+            "type": "string"
+          },
+          "compare": {
+            "type": "string"
+          },
+          "maxValue": {
+            "type": "object"
+          },
+          "minValue": {
+            "type": "object"
+          },
+          "value": {
+            "type": "object"
+          }
+        }
+      },
+      "ConditionParamsWrap": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          }
+        }
+      },
+      "ORDER": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": "订单号"
+          },
+          "type": {
+            "type": "string",
+            "description": "订单类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "PURCHASE",
+              "PAYFEE",
+              "SERVICE",
+              "WITHDRAW",
+              "SEND_SAMPLE",
+              "PACKAGE",
+              "CPCHARGE"
+            ]
+          },
+          "agencyId": {
+            "type": "integer",
+            "description": "代理商id",
+            "format": "int64"
+          },
+          "agencyCompanyId": {
+            "type": "integer",
+            "description": "代理公司id",
+            "format": "int64"
+          },
+          "agencyName": {
+            "type": "string",
+            "description": "代理商名"
+          },
+          "agencyUserId": {
+            "type": "integer",
+            "description": "代理人id",
+            "format": "int64"
+          },
+          "shipmentCompanyId": {
+            "type": "integer",
+            "description": "出货公司id",
+            "format": "int64"
+          },
+          "shipmentCompanyName": {
+            "type": "string",
+            "description": "出货公司名"
+          },
+          "shipmentUserId": {
+            "type": "integer",
+            "description": "出货人用户id",
+            "format": "int64"
+          },
+          "receiptCompanyId": {
+            "type": "integer",
+            "description": "收货公司id",
+            "format": "int64"
+          },
+          "receiptCompanyName": {
+            "type": "string",
+            "description": "收货公司名/收获人名"
+          },
+          "receiptUserId": {
+            "type": "integer",
+            "description": "收货人用户id",
+            "format": "int64"
+          },
+          "phone": {
+            "type": "string",
+            "description": "收货人用户联系电话"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "地区id",
+            "format": "int64"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "status": {
+            "type": "string",
+            "description": "订单状态",
+            "enum": [
+              "PENDING",
+              "CHECK_WAITING",
+              "CHECKING",
+              "CHECK_PASS",
+              "CHECK_UNPASS",
+              "ASSIGNED_WAITING",
+              "ASSIGNING",
+              "ASSIGNED",
+              "SERVING",
+              "SERV_PAUSED",
+              "SERV_SUSPENDED",
+              "SERVED",
+              "LOGISTICS_SHIPPED",
+              "LOGISTICS_SHIPPING",
+              "LOGISTICS_SIGN",
+              "COMPLETED",
+              "CANCELLED"
+            ]
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "订单状态",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "amountTotal": {
+            "type": "number",
+            "description": "订单应付总金额(如充100送20时此处填100)"
+          },
+          "amountPaid": {
+            "type": "number",
+            "description": "订单已付金额总金额(如充100送20时此处填100。充100送20时用了【10元券或其他金额抵】扣时此处填90并另记一笔(如果有多种类型组合则记多笔)【10元券或其他金额】扣时的账单明细，订单超时时【10元券或其他金额】应该退回)"
+          },
+          "payChannel": {
+            "type": "string",
+            "description": "付款渠道",
+            "enum": [
+              "WECHAT_JSAPI",
+              "WECHAT_NATIVE",
+              "WECHAT_APP",
+              "WECHAT_MICROPAY",
+              "WECHAT_MWEB",
+              "WECHAT_FACEPAY",
+              "WALLET_VIRTUAL_NW",
+              "WALLET_VIRTUAL",
+              "BANK"
+            ]
+          },
+          "payStatus": {
+            "type": "string",
+            "description": "付款状态",
+            "enum": [
+              "UNPAID",
+              "PAYING",
+              "PARTIALPAID",
+              "PAID",
+              "PAIDCANCEL",
+              "PAYFAIL",
+              "DISABLE"
+            ]
+          },
+          "payTime": {
+            "type": "string",
+            "description": "付款时间",
+            "format": "date-time"
+          },
+          "effectTime": {
+            "type": "string",
+            "description": "生效时间",
+            "format": "date-time"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "外部订单号"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "交易号"
+          },
+          "feaUserId": {
+            "type": "integer",
+            "description": "FEA用户id",
+            "format": "int64"
+          },
+          "pmUserId": {
+            "type": "integer",
+            "description": "PM用户id",
+            "format": "int64"
+          },
+          "relatedTarget": {
+            "type": "integer",
+            "description": "关联对象",
+            "format": "int64"
+          },
+          "relatedTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          }
+        },
+        "description": "订单"
+      },
+      "PageWrapperORDER": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ORDER"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/ORDER"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResourceTypeEnums": {
+        "type": "string",
+        "description": "关联对象类型",
+        "enum": [
+          "COMPANY",
+          "PLATFORM",
+          "USER",
+          "DEVICE",
+          "PRODUCT",
+          "SYSTEM",
+          "ORDER",
+          "PLAN_ATTACHMENT",
+          "AGENCY",
+          "SALE",
+          "ORDER_SEND_SAMPLE",
+          "PROJECT",
+          "TASK",
+          "TASK_PROJECT_CREATE_APPLY",
+          "TASK_SAMPLE_APPLY",
+          "TASK_SAMPLE_DELIVERY",
+          "TASK_FAE_SUPPORT_APPLY",
+          "STORAGE_MANAGER",
+          "VISIT_PLAN",
+          "REPORT",
+          "POSITION",
+          "NONE",
+          "NCV",
+          "CR",
+          "PT",
+          "TASK_PROJECT_CREATE_CHECK",
+          "TASK_PROJECT_USER_CONFIG",
+          "TASK_SAMPLE_APPLY_CHECK",
+          "TASK_FAE_SUPPORT_APPLY_CHECK",
+          "TASK_FAE_SUPPORT",
+          "TASK_FAE_SUPPORT_CONFIG",
+          "TASK_PROJECT_CONFIG",
+          "CONTRACT",
+          "CONTRACT_PACKAGE",
+          "ENTERPRISE_REGISTER_APPLY",
+          "CP_ACCOUNT",
+          "CP_REPORT_DAILY",
+          "CP_REPORT_MONTHLY"
+        ]
+      },
+      "AgencySaleProductDTO": {
+        "required": [
+          "unit"
+        ],
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "mode": {
+            "type": "string",
+            "description": "产品模式:代理、分销",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ]
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "代理商/分销商公司id",
+            "format": "int64"
+          },
+          "parentCompanyId": {
+            "type": "integer",
+            "description": "上级代理公司id",
+            "format": "int64"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "代理产品名称"
+          },
+          "model": {
+            "type": "string",
+            "description": "型号"
+          },
+          "status": {
+            "type": "string",
+            "description": "产品状态ProductStatusEnums",
+            "enum": [
+              "DEVELOPING",
+              "WAITING_CHECK",
+              "CHECKING",
+              "CHECK_UNPASS",
+              "CHECK_PASS",
+              "WAITING_SHELF",
+              "ON_SHELF",
+              "OFF_SHELF",
+              "HALT"
+            ]
+          },
+          "manufacturerId": {
+            "type": "integer",
+            "description": "制造厂商，生产厂商。是指有设备有场地制造产品的厂家",
+            "format": "int64"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "originalPrice": {
+            "type": "number",
+            "description": "产品原价(元)"
+          },
+          "price": {
+            "type": "number",
+            "description": "产品市场价格(元)"
+          },
+          "maturityDate": {
+            "type": "string",
+            "description": "到期日期时间",
+            "format": "date-time"
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "父id",
+            "format": "int64"
+          },
+          "categoryDictIds": {
+            "type": "string",
+            "description": "产品分类"
+          },
+          "saleAreaIds": {
+            "type": "string",
+            "description": "可售区域"
+          },
+          "saleStartTime": {
+            "type": "string",
+            "description": "可售开始时间",
+            "format": "date-time"
+          },
+          "saleEndTime": {
+            "type": "string",
+            "description": "可售结束时间",
+            "format": "date-time"
+          },
+          "tagArr": {
+            "type": "array",
+            "description": "产品标签",
+            "items": {
+              "type": "string",
+              "description": "产品标签"
+            }
+          },
+          "companyName": {
+            "type": "string",
+            "description": "代理商公司id"
+          },
+          "manufacturerName": {
+            "type": "string",
+            "description": "设备厂商"
+          },
+          "creator": {
+            "type": "string",
+            "description": "建档人名称"
+          },
+          "lastUpdator": {
+            "type": "string",
+            "description": "最后建档更新人名称"
+          },
+          "parentCategoryName": {
+            "type": "string",
+            "description": "上级分类id"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "分类id"
+          },
+          "attachmentInfo": {
+            "$ref": "#/components/schemas/ProductAttachInfoVO"
+          },
+          "brand": {
+            "type": "string",
+            "description": "品牌"
+          },
+          "brandId": {
+            "type": "integer",
+            "description": "品牌id",
+            "format": "int64"
+          },
+          "arch": {
+            "type": "string",
+            "description": "架构",
+            "enum": [
+              "OTHER:OTHER",
+              "X86:X86",
+              "ARM:\u200cARM",
+              "RISC_V:\u200cRISC-V",
+              "MIPS:MIPS"
+            ]
+          },
+          "process": {
+            "type": "integer",
+            "description": "工艺制程单位：纳米",
+            "format": "int32"
+          },
+          "unit": {
+            "type": "string",
+            "description": "单位"
+          }
+        },
+        "description": "已消耗量"
+      },
+      "OrderAttachInfoVO": {
+        "type": "object",
+        "properties": {
+          "amountOri": {
+            "type": "number",
+            "description": "订单原始总价格(如充100送20时此处填120)"
+          },
+          "receiverInfo": {
+            "$ref": "#/components/schemas/ReceiverInfoDTO"
+          },
+          "trace": {
+            "type": "array",
+            "description": "动态追踪",
+            "items": {
+              "type": "string",
+              "description": "动态追踪"
+            }
+          },
+          "cpRate": {
+            "type": "number",
+            "description": "汇率：算力/元（如CNY，美元，日元），即1元对应多少算力"
+          }
+        },
+        "description": "订单附加信息"
+      },
+      "OrderDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": "订单号"
+          },
+          "type": {
+            "type": "string",
+            "description": "订单类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "PURCHASE",
+              "PAYFEE",
+              "SERVICE",
+              "WITHDRAW",
+              "SEND_SAMPLE",
+              "PACKAGE",
+              "CPCHARGE"
+            ]
+          },
+          "agencyId": {
+            "type": "integer",
+            "description": "代理商id",
+            "format": "int64"
+          },
+          "agencyCompanyId": {
+            "type": "integer",
+            "description": "代理公司id",
+            "format": "int64"
+          },
+          "agencyName": {
+            "type": "string",
+            "description": "代理商名"
+          },
+          "agencyUserId": {
+            "type": "integer",
+            "description": "代理人id",
+            "format": "int64"
+          },
+          "shipmentCompanyId": {
+            "type": "integer",
+            "description": "出货公司id",
+            "format": "int64"
+          },
+          "shipmentCompanyName": {
+            "type": "string",
+            "description": "出货公司名"
+          },
+          "shipmentUserId": {
+            "type": "integer",
+            "description": "出货人用户id",
+            "format": "int64"
+          },
+          "receiptCompanyId": {
+            "type": "integer",
+            "description": "收货公司id",
+            "format": "int64"
+          },
+          "receiptCompanyName": {
+            "type": "string",
+            "description": "收货公司名/收获人名"
+          },
+          "receiptUserId": {
+            "type": "integer",
+            "description": "收货人用户id",
+            "format": "int64"
+          },
+          "phone": {
+            "type": "string",
+            "description": "收货人用户联系电话"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "地区id",
+            "format": "int64"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "status": {
+            "type": "string",
+            "description": "订单状态",
+            "enum": [
+              "PENDING",
+              "CHECK_WAITING",
+              "CHECKING",
+              "CHECK_PASS",
+              "CHECK_UNPASS",
+              "ASSIGNED_WAITING",
+              "ASSIGNING",
+              "ASSIGNED",
+              "SERVING",
+              "SERV_PAUSED",
+              "SERV_SUSPENDED",
+              "SERVED",
+              "LOGISTICS_SHIPPED",
+              "LOGISTICS_SHIPPING",
+              "LOGISTICS_SIGN",
+              "COMPLETED",
+              "CANCELLED"
+            ]
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "订单状态",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "amountTotal": {
+            "type": "number",
+            "description": "订单应付总金额(如充100送20时此处填100)"
+          },
+          "amountPaid": {
+            "type": "number",
+            "description": "订单已付金额总金额(如充100送20时此处填100。充100送20时用了【10元券或其他金额抵】扣时此处填90并另记一笔(如果有多种类型组合则记多笔)【10元券或其他金额】扣时的账单明细，订单超时时【10元券或其他金额】应该退回)"
+          },
+          "payChannel": {
+            "type": "string",
+            "description": "付款渠道",
+            "enum": [
+              "WECHAT_JSAPI",
+              "WECHAT_NATIVE",
+              "WECHAT_APP",
+              "WECHAT_MICROPAY",
+              "WECHAT_MWEB",
+              "WECHAT_FACEPAY",
+              "WALLET_VIRTUAL_NW",
+              "WALLET_VIRTUAL",
+              "BANK"
+            ]
+          },
+          "payStatus": {
+            "type": "string",
+            "description": "付款状态",
+            "enum": [
+              "UNPAID",
+              "PAYING",
+              "PARTIALPAID",
+              "PAID",
+              "PAIDCANCEL",
+              "PAYFAIL",
+              "DISABLE"
+            ]
+          },
+          "payTime": {
+            "type": "string",
+            "description": "付款时间",
+            "format": "date-time"
+          },
+          "effectTime": {
+            "type": "string",
+            "description": "生效时间",
+            "format": "date-time"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "外部订单号"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "交易号"
+          },
+          "feaUserId": {
+            "type": "integer",
+            "description": "FEA用户id",
+            "format": "int64"
+          },
+          "pmUserId": {
+            "type": "integer",
+            "description": "PM用户id",
+            "format": "int64"
+          },
+          "relatedTarget": {
+            "type": "integer",
+            "description": "关联对象",
+            "format": "int64"
+          },
+          "relatedTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          },
+          "orderItems": {
+            "type": "array",
+            "description": "订单条目清单",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDTO"
+            }
+          },
+          "attachInfo": {
+            "$ref": "#/components/schemas/OrderAttachInfoVO"
+          },
+          "agencyUserName": {
+            "type": "string",
+            "description": "代理人"
+          },
+          "agencyUserContactWay": {
+            "type": "string",
+            "description": "代理人联系方式"
+          },
+          "shipmentUserName": {
+            "type": "string",
+            "description": "出货人用户id"
+          },
+          "shipmentUserContactWay": {
+            "type": "string",
+            "description": "出货人联系方式"
+          },
+          "receiptUserName": {
+            "type": "string",
+            "description": "收货人用户"
+          },
+          "pmUserName": {
+            "type": "string",
+            "description": "pm用户名"
+          },
+          "pmUserContactWay": {
+            "type": "string",
+            "description": "pm用户联系方式"
+          },
+          "expressDictId": {
+            "type": "integer",
+            "description": "物流id",
+            "format": "int64"
+          },
+          "expressSn": {
+            "type": "string",
+            "description": "物流单号"
+          },
+          "payOrderId": {
+            "type": "integer",
+            "description": "付款单id",
+            "format": "int64"
+          }
+        },
+        "description": "订单dto"
+      },
+      "OrderItemDTO": {
+        "required": [
+          "productId",
+          "quantity",
+          "unit"
+        ],
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "orderId": {
+            "type": "integer",
+            "description": "订单id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": "订单号"
+          },
+          "agencyCompanyId": {
+            "type": "integer",
+            "description": "代理公司id",
+            "format": "int64"
+          },
+          "agencyProductId": {
+            "type": "integer",
+            "description": "代理产品ID",
+            "format": "int64"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品ID",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "产品名"
+          },
+          "model": {
+            "type": "string",
+            "description": "型号"
+          },
+          "manufacturerId": {
+            "type": "integer",
+            "description": "制造厂商，生产厂商。是指有设备有场地制造产品的厂家",
+            "format": "int64"
+          },
+          "priceOri": {
+            "type": "number",
+            "description": "产品原单价(元)"
+          },
+          "price": {
+            "type": "number",
+            "description": "产品市场价格(元)"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "数量",
+            "format": "int32"
+          },
+          "unit": {
+            "type": "string",
+            "description": "单位"
+          },
+          "到期日期": {
+            "type": "string",
+            "description": "到期日期",
+            "format": "date-time"
+          },
+          "relatedTarget": {
+            "type": "integer",
+            "description": "关联对象",
+            "format": "int64"
+          },
+          "relatedTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "product": {
+            "$ref": "#/components/schemas/AgencySaleProductDTO"
+          }
+        },
+        "description": "订单清单dto"
+      },
+      "PageWrapperOrderDTO": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDTO"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/OrderDTO"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductAttachInfoVO": {
+        "type": "object",
+        "properties": {
+          "features": {
+            "$ref": "#/components/schemas/ProductFeaturesInfoVO"
+          },
+          "serviceInfo": {
+            "$ref": "#/components/schemas/ProductSeviceInfoVO"
+          },
+          "packageInfo": {
+            "$ref": "#/components/schemas/ProductPackageInfoVO"
+          },
+          "offShelfUserId": {
+            "type": "integer",
+            "description": "下架人",
+            "format": "int64"
+          },
+          "offShelfUserName": {
+            "type": "string",
+            "description": "下架人"
+          },
+          "offShelfTime": {
+            "type": "string",
+            "description": "下架时间",
+            "format": "date-time"
+          },
+          "onShelfUserId": {
+            "type": "integer",
+            "description": "上架人",
+            "format": "int64"
+          },
+          "onShelfUserName": {
+            "type": "string",
+            "description": "上架人"
+          },
+          "onShelfTime": {
+            "type": "string",
+            "description": "上架时间",
+            "format": "date-time"
+          },
+          "approverId": {
+            "type": "string",
+            "description": "审批人id"
+          },
+          "approver": {
+            "type": "string",
+            "description": "审批人"
+          },
+          "approverTime": {
+            "type": "string",
+            "description": "审批时间",
+            "format": "date-time"
+          },
+          "media": {
+            "$ref": "#/components/schemas/ProductMediaVO"
+          }
+        },
+        "description": "产品附加信息"
+      },
+      "ProductFeaturesInfoVO": {
+        "required": [
+          "unit"
+        ],
+        "type": "object",
+        "properties": {
+          "categoryIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "产品分类字典id列表",
+            "items": {
+              "type": "integer",
+              "description": "产品分类字典id列表",
+              "format": "int64"
+            }
+          },
+          "cf": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "产品消费特性参与数据字典：消费级PROD-CG，PROD-ENT企业级",
+            "items": {
+              "type": "string",
+              "description": "产品消费特性参与数据字典：消费级PROD-CG，PROD-ENT企业级"
+            }
+          },
+          "unit": {
+            "type": "string",
+            "description": "规格单位(支，箱，个，盘, G,组,件)",
+            "enum": [
+              "NONE:无",
+              "PCS:个/件/台",
+              "NUMBER_OF_TIMES:次数",
+              "GB:gb"
+            ]
+          },
+          "bd": {
+            "type": "string",
+            "description": "计费维度",
+            "enum": [
+              "NONE:无",
+              "BQ:按量如：次、按token",
+              "PQ:包量:月/季度/年 ",
+              "RS:资源型：个，件箱",
+              "ET:事件型"
+            ]
+          },
+          "cycleUnit": {
+            "type": "string",
+            "description": "计费周期单位",
+            "enum": [
+              "NONE:无",
+              "NANOSECONDS:纳秒",
+              "MICROSECONDS:微秒",
+              "MILLISECONDS:毫秒",
+              "SECONDS:秒",
+              "MINUTES:分钟",
+              "HOURS:小时",
+              "DAYS:天",
+              "WEEK:周",
+              "MONTH:月",
+              "QUARTER:季度",
+              "YEAR:年"
+            ]
+          },
+          "cycle": {
+            "type": "integer",
+            "description": "周期",
+            "format": "int32"
+          },
+          "mf": {
+            "type": "string",
+            "description": "厂商"
+          }
+        },
+        "description": "产品特性信息"
+      },
+      "ProductMediaVO": {
+        "type": "object",
+        "properties": {
+          "thumbnail": {
+            "type": "array",
+            "description": "主图片集",
+            "items": {
+              "type": "string",
+              "description": "主图片集"
+            }
+          },
+          "smallPhoto": {
+            "type": "array",
+            "description": "缩略图片集",
+            "items": {
+              "type": "string",
+              "description": "缩略图片集"
+            }
+          },
+          "detail": {
+            "type": "array",
+            "description": "详情图片集",
+            "items": {
+              "type": "string",
+              "description": "详情图片集"
+            }
+          },
+          "doc": {
+            "type": "array",
+            "description": "doc集",
+            "items": {
+              "type": "string",
+              "description": "doc集"
+            }
+          }
+        },
+        "description": "产品媒体信息"
+      },
+      "ProductPackageInfoVO": {
+        "type": "object",
+        "properties": {
+          "contractCycle": {
+            "type": "integer",
+            "description": "合约周期，如一年合约",
+            "format": "int32"
+          },
+          "contractCycleUnit": {
+            "type": "string",
+            "description": "合约周期单位",
+            "enum": [
+              "NONE:无",
+              "NANOSECONDS:纳秒",
+              "MICROSECONDS:微秒",
+              "MILLISECONDS:毫秒",
+              "SECONDS:秒",
+              "MINUTES:分钟",
+              "HOURS:小时",
+              "DAYS:天",
+              "WEEK:周",
+              "MONTH:月",
+              "QUARTER:季度",
+              "YEAR:年"
+            ]
+          },
+          "autoRenewal": {
+            "type": "boolean",
+            "description": "自动续签"
+          },
+          "agencyProductIds": {
+            "type": "array",
+            "description": "代理产品id",
+            "items": {
+              "type": "integer",
+              "description": "代理产品id",
+              "format": "int64"
+            }
+          },
+          "agencyProducts": {
+            "type": "array",
+            "description": "代理产品",
+            "items": {
+              "$ref": "#/components/schemas/AgencySaleProductDTO"
+            }
+          }
+        },
+        "description": "产品套餐信息"
+      },
+      "ProductSeviceInfoVO": {
+        "type": "object",
+        "properties": {
+          "cycle": {
+            "type": "integer",
+            "description": "周期",
+            "format": "int32"
+          },
+          "cycleUnit": {
+            "type": "string",
+            "description": "周期单位",
+            "enum": [
+              "NONE:无",
+              "NANOSECONDS:纳秒",
+              "MICROSECONDS:微秒",
+              "MILLISECONDS:毫秒",
+              "SECONDS:秒",
+              "MINUTES:分钟",
+              "HOURS:小时",
+              "DAYS:天",
+              "WEEK:周",
+              "MONTH:月",
+              "QUARTER:季度",
+              "YEAR:年"
+            ]
+          },
+          "cycleOverdueFee": {
+            "type": "number",
+            "description": "周期超期费用"
+          }
+        },
+        "description": "产品服务信息"
+      },
+      "ReceiverInfoDTO": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "收货人姓名"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "收货人手机"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "收货人地区id",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string",
+            "description": "收货人地址"
+          },
+          "expressDictId": {
+            "type": "integer",
+            "description": "物流id",
+            "format": "int64"
+          },
+          "expressSn": {
+            "type": "string",
+            "description": "物流单号"
+          },
+          "logistics": {
+            "type": "array",
+            "description": "物流信息",
+            "items": {
+              "type": "string",
+              "description": "物流信息"
+            }
+          }
+        },
+        "description": "收货信息"
+      },
+      "PageWrapperTransactionDetailEntity": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionDetailEntity"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/TransactionDetailEntity"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionDetailEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户id",
+            "format": "int64"
+          },
+          "manageCompanyId": {
+            "type": "integer",
+            "description": "管理机构(1.【应用】管理该应用下所有公司和个人的账户2.【机构】管理会员账户)3.没有时填工作空间管理方公司id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "变动名称"
+          },
+          "inOutType": {
+            "type": "string",
+            "description": "出入账类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "changeType": {
+            "type": "string",
+            "description": "变动流向类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "changeSubType": {
+            "type": "string",
+            "description": "变动子类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "description": "动账数额如：金额、流量"
+          },
+          "balance": {
+            "type": "number",
+            "description": "变动后账户余额"
+          },
+          "nonWithdrawBalance": {
+            "type": "number",
+            "description": "变动后不可提现余额(如：赠送，积分兑换的都在这里)"
+          },
+          "orderId": {
+            "type": "integer",
+            "description": "关联的订单号id",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": "关联的订单号"
+          },
+          "payStatus": {
+            "type": "string",
+            "description": "付款状态",
+            "enum": [
+              "UNPAID",
+              "PAYING",
+              "PARTIALPAID",
+              "PAID",
+              "PAIDCANCEL",
+              "PAYFAIL",
+              "DISABLE"
+            ]
+          },
+          "payTime": {
+            "type": "string",
+            "description": "付款时间",
+            "format": "date-time"
+          },
+          "payChannel": {
+            "type": "string",
+            "description": "付款渠道",
+            "enum": [
+              "WECHAT_JSAPI",
+              "WECHAT_NATIVE",
+              "WECHAT_APP",
+              "WECHAT_MICROPAY",
+              "WECHAT_MWEB",
+              "WECHAT_FACEPAY",
+              "WALLET_VIRTUAL_NW",
+              "WALLET_VIRTUAL",
+              "BANK"
+            ]
+          },
+          "billPeriod": {
+            "type": "integer",
+            "description": "所属账期如26010515",
+            "format": "int64"
+          },
+          "periodEndDate": {
+            "type": "string",
+            "description": "所属账期截止时间",
+            "format": "date-time"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "交易号(如：微信订单号)"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "外部交易号(如：微信分账单号)"
+          },
+          "extDetailId": {
+            "type": "string",
+            "description": "扩展外部交易id(微信分账detail_id)"
+          },
+          "extDetailNo": {
+            "type": "string",
+            "description": "扩展外部交易NO(如：微信退款out_refund_no)"
+          },
+          "reconciliationFlag": {
+            "type": "string",
+            "description": "对账状态Y、N"
+          },
+          "relatedTarget": {
+            "type": "integer",
+            "description": "关联对象",
+            "format": "int64"
+          },
+          "relatedTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "accountSubjectId": {
+            "type": "integer",
+            "description": "主体id由账户类型type决定(可以是机构id、全局用户id，机构会员id)",
+            "format": "int64"
+          },
+          "accountType": {
+            "type": "string",
+            "description": "账户类型",
+            "enum": [
+              "ENTERPRISE_WALLET_VIRTUAL",
+              "MEMBER_WALLET_VIRTUAL",
+              "ENTERPRISE_BANK",
+              "PERSONAL_BANK"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种（默认CNY），挂账的币种，跟账户币种没有关系",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "accountNo": {
+            "type": "string",
+            "description": "账户号"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          }
+        },
+        "description": "用户（客户）账户明细"
+      },
+      "PageWrapperTransactionDetailDTO": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionDetailDTO"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/TransactionDetailDTO"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionDetailDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户id",
+            "format": "int64"
+          },
+          "manageCompanyId": {
+            "type": "integer",
+            "description": "管理机构(1.【应用】管理该应用下所有公司和个人的账户2.【机构】管理会员账户)3.没有时填工作空间管理方公司id",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "变动名称"
+          },
+          "inOutType": {
+            "type": "string",
+            "description": "出入账类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "changeType": {
+            "type": "string",
+            "description": "变动流向类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "changeSubType": {
+            "type": "string",
+            "description": "变动子类型",
+            "enum": [
+              "OTHER",
+              "CHARGE",
+              "REFUND",
+              "PURCHASE",
+              "OUT",
+              "IN",
+              "PROFITSHARING_TALLY",
+              "PROFITSHARING_THIRD",
+              "PROFITSHARING_TO_ACCOUNT",
+              "INCOME_PROMOTION",
+              "INCOME_COOPERATION",
+              "INCOME_ASSET",
+              "INCOME_OPERATION",
+              "INCOME_IOT",
+              "REFUND_TRANSFER_TO_THIRD",
+              "REFUND_TO_ACCOUNT",
+              "REFUND_INCOME_TO_THIRD",
+              "WITHDRAW_TO_THIRD",
+              "ACCOUNT_WITHDRAW",
+              "PRESENT",
+              "PACKAGE",
+              "CPC",
+              "CPCHARGE"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "description": "动账数额如：金额、流量"
+          },
+          "balance": {
+            "type": "number",
+            "description": "变动后账户余额"
+          },
+          "nonWithdrawBalance": {
+            "type": "number",
+            "description": "变动后不可提现余额(如：赠送，积分兑换的都在这里)"
+          },
+          "orderId": {
+            "type": "integer",
+            "description": "关联的订单号id",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": "关联的订单号"
+          },
+          "payStatus": {
+            "type": "string",
+            "description": "付款状态",
+            "enum": [
+              "UNPAID",
+              "PAYING",
+              "PARTIALPAID",
+              "PAID",
+              "PAIDCANCEL",
+              "PAYFAIL",
+              "DISABLE"
+            ]
+          },
+          "payTime": {
+            "type": "string",
+            "description": "付款时间",
+            "format": "date-time"
+          },
+          "payChannel": {
+            "type": "string",
+            "description": "付款渠道",
+            "enum": [
+              "WECHAT_JSAPI",
+              "WECHAT_NATIVE",
+              "WECHAT_APP",
+              "WECHAT_MICROPAY",
+              "WECHAT_MWEB",
+              "WECHAT_FACEPAY",
+              "WALLET_VIRTUAL_NW",
+              "WALLET_VIRTUAL",
+              "BANK"
+            ]
+          },
+          "billPeriod": {
+            "type": "integer",
+            "description": "所属账期如26010515",
+            "format": "int64"
+          },
+          "periodEndDate": {
+            "type": "string",
+            "description": "所属账期截止时间",
+            "format": "date-time"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "交易号(如：微信订单号)"
+          },
+          "outTradeNo": {
+            "type": "string",
+            "description": "外部交易号(如：微信分账单号)"
+          },
+          "extDetailId": {
+            "type": "string",
+            "description": "扩展外部交易id(微信分账detail_id)"
+          },
+          "extDetailNo": {
+            "type": "string",
+            "description": "扩展外部交易NO(如：微信退款out_refund_no)"
+          },
+          "reconciliationFlag": {
+            "type": "string",
+            "description": "对账状态Y、N"
+          },
+          "relatedTarget": {
+            "type": "integer",
+            "description": "关联对象",
+            "format": "int64"
+          },
+          "relatedTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "accountSubjectId": {
+            "type": "integer",
+            "description": "主体id由账户类型type决定(可以是机构id、全局用户id，机构会员id)",
+            "format": "int64"
+          },
+          "accountType": {
+            "type": "string",
+            "description": "账户类型",
+            "enum": [
+              "ENTERPRISE_WALLET_VIRTUAL",
+              "MEMBER_WALLET_VIRTUAL",
+              "ENTERPRISE_BANK",
+              "PERSONAL_BANK"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种（默认CNY），挂账的币种，跟账户币种没有关系",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "accountNo": {
+            "type": "string",
+            "description": "账户号"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述"
+          },
+          "relatedTargetIndentify": {
+            "type": "string",
+            "description": "关联对象唯一标识"
+          },
+          "relatedTargetName": {
+            "type": "string",
+            "description": "关联对象名称"
+          }
+        }
+      },
+      "FinancialAccountEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "placeId": {
+            "type": "integer",
+            "description": "归属地(如国家，省，市）",
+            "format": "int64"
+          },
+          "manageCompanyId": {
+            "type": "integer",
+            "description": "//账户主管方(同开户银行)，即公司id，可以是登录成功后：workspaceCompanyId，也可以是运营商公司id,还可以的其他公司id，看实际业务需要",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "账户类型",
+            "enum": [
+              "ENTERPRISE_WALLET_VIRTUAL",
+              "MEMBER_WALLET_VIRTUAL",
+              "ENTERPRISE_BANK",
+              "PERSONAL_BANK"
+            ]
+          },
+          "subjectId": {
+            "type": "integer",
+            "description": "主体id由账户类型type决定(可以是公司id、全局用户id",
+            "format": "int64"
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种（默认CNY）",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "accountNo": {
+            "type": "string",
+            "description": "账户号"
+          },
+          "name": {
+            "type": "string",
+            "description": "账户名称：个人填个人真实名称，企业填企业真实名称"
+          },
+          "bank": {
+            "type": "string",
+            "description": "银行"
+          },
+          "bankBranch": {
+            "type": "string",
+            "description": "银行支行"
+          },
+          "balance": {
+            "type": "number",
+            "description": "账户余额(可提现+冻结余额)"
+          },
+          "freezeBalance": {
+            "type": "number",
+            "description": "冻结金额"
+          },
+          "nonWithdrawBalance": {
+            "type": "number",
+            "description": "不可提现余额(如：赠送，积分兑换的都在这里)"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "主账户ID",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "主体账户管理员id(机构则填机构超级管理员/法人id,个人则填全局用户id)",
+            "format": "int64"
+          },
+          "reserveMobile": {
+            "type": "string",
+            "description": "预留手机号"
+          },
+          "reserveEmail": {
+            "type": "string",
+            "description": "预留邮箱"
+          }
+        },
+        "description": "金融账户"
+      },
+      "PageWrapperFinancialAccountEntity": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FinancialAccountEntity"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/FinancialAccountEntity"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CpqDTO": {
+        "type": "object",
+        "properties": {
+          "cacheId": {
+            "type": "integer",
+            "description": "算力额度-账户缓存id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "算力额度-账户id",
+            "format": "int64"
+          },
+          "orderIds": {
+            "type": "array",
+            "description": "算力额度-订单id列表",
+            "items": {
+              "type": "integer",
+              "description": "算力额度-订单id列表",
+              "format": "int64"
+            }
+          },
+          "cycle": {
+            "type": "string",
+            "description": "算力额度-周期：年周期如:25，月周期如:2501"
+          },
+          "totalQuota": {
+            "type": "number",
+            "description": "算力额度-总额度"
+          },
+          "used": {
+            "type": "number",
+            "description": "算力额度-已使用、消耗"
+          },
+          "remaind": {
+            "type": "number",
+            "description": "算力额度-剩余额度"
+          },
+          "warningQuota": {
+            "type": "number",
+            "description": "算力额度-预警额度"
+          }
+        },
+        "description": "算力额度"
+      },
+      "FinancialAccountDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "placeId": {
+            "type": "integer",
+            "description": "归属地(如国家，省，市）",
+            "format": "int64"
+          },
+          "manageCompanyId": {
+            "type": "integer",
+            "description": "//账户主管方(同开户银行)，即公司id，可以是登录成功后：workspaceCompanyId，也可以是运营商公司id,还可以的其他公司id，看实际业务需要",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "账户类型",
+            "enum": [
+              "ENTERPRISE_WALLET_VIRTUAL",
+              "MEMBER_WALLET_VIRTUAL",
+              "ENTERPRISE_BANK",
+              "PERSONAL_BANK"
+            ]
+          },
+          "subjectId": {
+            "type": "integer",
+            "description": "主体id由账户类型type决定(可以是公司id、全局用户id",
+            "format": "int64"
+          },
+          "currency": {
+            "type": "string",
+            "description": "币种（默认CNY）",
+            "enum": [
+              "CNY",
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY",
+              "CAD",
+              "CHF",
+              "AUD",
+              "SGD",
+              "RUB",
+              "FRF",
+              "DEM",
+              "HKD",
+              "TOKEN"
+            ]
+          },
+          "accountNo": {
+            "type": "string",
+            "description": "账户号"
+          },
+          "name": {
+            "type": "string",
+            "description": "账户名称：个人填个人真实名称，企业填企业真实名称"
+          },
+          "bank": {
+            "type": "string",
+            "description": "银行"
+          },
+          "bankBranch": {
+            "type": "string",
+            "description": "银行支行"
+          },
+          "balance": {
+            "type": "number",
+            "description": "账户余额(可提现+冻结余额)"
+          },
+          "freezeBalance": {
+            "type": "number",
+            "description": "冻结金额"
+          },
+          "nonWithdrawBalance": {
+            "type": "number",
+            "description": "不可提现余额(如：赠送，积分兑换的都在这里)"
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "主账户ID",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "主体账户管理员id(机构则填机构超级管理员/法人id,个人则填全局用户id)",
+            "format": "int64"
+          },
+          "reserveMobile": {
+            "type": "string",
+            "description": "预留手机号"
+          },
+          "reserveEmail": {
+            "type": "string",
+            "description": "预留邮箱"
+          },
+          "cpq": {
+            "$ref": "#/components/schemas/CpqDTO"
+          },
+          "password": {
+            "type": "string",
+            "description": "账户密码"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "description": "账户确认密码密码"
+          },
+          "ordersPaidCnt": {
+            "type": "integer",
+            "description": "已付款订单总数",
+            "format": "int64"
+          },
+          "placeCode": {
+            "type": "string",
+            "description": "归属地Code(如国家，省，市）"
+          }
+        }
+      },
+      "PageWrapperFinancialAccountDTO": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FinancialAccountDTO"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/FinancialAccountDTO"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeviceEventEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "消息uuid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号：挂的金融账户id",
+            "format": "int64"
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": "设备ID",
+            "format": "int64"
+          },
+          "sn": {
+            "type": "string",
+            "description": "Sn"
+          },
+          "type": {
+            "type": "string",
+            "description": "类型",
+            "enum": [
+              "EVENT_OTHER",
+              "EVENT_DEVICE_DISCOVERED",
+              "EVENT_DEVICE_ADD",
+              "EVENT_DEVICE_REMOVE",
+              "EVENT_DEVICE_ONLINE",
+              "EVENT_DEVICE_OFFLINE",
+              "EVENT_DEVICE_HEART_BEAT",
+              "EVENT_DEVICE_PROPERTY_CHANGED",
+              "EVENT_DEVICE_USE",
+              "ALARM_LOW_BATTERY",
+              "ALARM_DESTRUCTION",
+              "EVENT_DEVICE_START",
+              "EVENT_DEVICE_STOP",
+              "EVENT_DEVICE_FAULT",
+              "EVENT_CPC"
+            ]
+          },
+          "oriType": {
+            "type": "string",
+            "description": "原始类型"
+          },
+          "level": {
+            "type": "string",
+            "description": "事件级别",
+            "enum": [
+              "OTHER",
+              "INFO",
+              "ALARM",
+              "FAULT",
+              "FAULT_RECOVER"
+            ]
+          },
+          "eventTime": {
+            "type": "string",
+            "description": "事件发生时间",
+            "format": "date-time"
+          },
+          "processUserId": {
+            "type": "integer",
+            "description": "处理人用户id",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述说明"
+          },
+          "recoverTime": {
+            "type": "string",
+            "description": "恢复时间",
+            "format": "date-time"
+          },
+          "processedTime": {
+            "type": "string",
+            "description": "处理时间",
+            "format": "date-time"
+          },
+          "processStatus": {
+            "type": "string",
+            "description": "处理状态",
+            "enum": [
+              "UNPROCESS",
+              "PROCESSING",
+              "PROCESSED",
+              "TIMEOUT_TERMINATE",
+              "UNUSUAL_TERMINATE"
+            ]
+          },
+          "relateTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "relateTargetId": {
+            "type": "integer",
+            "description": "关联的目标id（如设备id,订单id,订单itemId等）",
+            "format": "int64"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          }
+        },
+        "description": "设备事件"
+      },
+      "PageWrapperDeviceEventEntity": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceEventEntity"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/DeviceEventEntity"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeviceEventDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "消息uuid"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号：挂的金融账户id",
+            "format": "int64"
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": "设备ID",
+            "format": "int64"
+          },
+          "sn": {
+            "type": "string",
+            "description": "Sn"
+          },
+          "type": {
+            "type": "string",
+            "description": "类型",
+            "enum": [
+              "EVENT_OTHER",
+              "EVENT_DEVICE_DISCOVERED",
+              "EVENT_DEVICE_ADD",
+              "EVENT_DEVICE_REMOVE",
+              "EVENT_DEVICE_ONLINE",
+              "EVENT_DEVICE_OFFLINE",
+              "EVENT_DEVICE_HEART_BEAT",
+              "EVENT_DEVICE_PROPERTY_CHANGED",
+              "EVENT_DEVICE_USE",
+              "ALARM_LOW_BATTERY",
+              "ALARM_DESTRUCTION",
+              "EVENT_DEVICE_START",
+              "EVENT_DEVICE_STOP",
+              "EVENT_DEVICE_FAULT",
+              "EVENT_CPC"
+            ]
+          },
+          "oriType": {
+            "type": "string",
+            "description": "原始类型"
+          },
+          "level": {
+            "type": "string",
+            "description": "事件级别",
+            "enum": [
+              "OTHER",
+              "INFO",
+              "ALARM",
+              "FAULT",
+              "FAULT_RECOVER"
+            ]
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "processUserId": {
+            "type": "integer",
+            "description": "处理人用户id",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "description": "描述说明"
+          },
+          "recoverTime": {
+            "type": "string",
+            "description": "恢复时间",
+            "format": "date-time"
+          },
+          "processedTime": {
+            "type": "string",
+            "description": "处理时间",
+            "format": "date-time"
+          },
+          "processStatus": {
+            "type": "string",
+            "description": "处理状态",
+            "enum": [
+              "UNPROCESS",
+              "PROCESSING",
+              "PROCESSED",
+              "TIMEOUT_TERMINATE",
+              "UNUSUAL_TERMINATE"
+            ]
+          },
+          "relateTargetType": {
+            "$ref": "#/components/schemas/ResourceTypeEnums"
+          },
+          "relateTargetId": {
+            "type": "integer",
+            "description": "关联的目标id（如设备id,订单id,订单itemId等）",
+            "format": "int64"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          },
+          "deviceUuid": {
+            "type": "string",
+            "description": "设备UUID"
+          },
+          "capability": {
+            "type": "string",
+            "description": "Capability 模块"
+          },
+          "deviceSn": {
+            "type": "string",
+            "description": "设备UUID"
+          },
+          "deviceMac": {
+            "type": "string",
+            "description": "设备mac"
+          },
+          "deviceType": {
+            "type": "string",
+            "description": "设备gateWayMac"
+          },
+          "routeDeviceUuid": {
+            "type": "string",
+            "description": "路由设备uuid"
+          },
+          "routeDeviceMac": {
+            "type": "string",
+            "description": "路由设备mac"
+          },
+          "parameter": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "PageWrapperDeviceEventDTO": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceEventDTO"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/DeviceEventDTO"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SingleResponseObject": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "DeviceEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号：挂的金融账户id",
+            "format": "int64"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "设备UUID"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "Sn"
+          },
+          "mac": {
+            "type": "string",
+            "description": "MAC地址"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品id",
+            "format": "int64"
+          },
+          "routeDeviceId": {
+            "type": "integer",
+            "description": "路由设备ID",
+            "format": "int64"
+          },
+          "assetCompanyId": {
+            "type": "integer",
+            "description": "资产所属公司(个人资产时空)",
+            "format": "int64"
+          },
+          "assetUserId": {
+            "type": "integer",
+            "description": "资产管理者",
+            "format": "int64"
+          },
+          "partnerCompanyId": {
+            "type": "integer",
+            "description": "合作公司,根据业务需求时使用，不同工作空间含义不同",
+            "format": "int64"
+          },
+          "partnerUserId": {
+            "type": "integer",
+            "description": "合作用户，根据业务需求时使用，不同工作空间含义不同",
+            "format": "int64"
+          },
+          "rentCompanyId": {
+            "type": "integer",
+            "description": "租用的公司，为c端用户时填空",
+            "format": "int64"
+          },
+          "rentUserId": {
+            "type": "integer",
+            "description": "租用人（机主或使用的人）",
+            "format": "int64"
+          },
+          "rentStartDate": {
+            "type": "string",
+            "description": "租用开始时间",
+            "format": "date-time"
+          },
+          "rentEndDate": {
+            "type": "string",
+            "description": "租用到期时间",
+            "format": "date-time"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "地区id",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string",
+            "description": "地址"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "经度"
+          },
+          "latitude": {
+            "type": "number",
+            "description": "纬度"
+          },
+          "percentage": {
+            "type": "number",
+            "description": "电量百分比/信号"
+          },
+          "manageState": {
+            "type": "string",
+            "description": "设备管理状态参考：DeviceManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "description": "固件版本"
+          },
+          "hardwareVersion": {
+            "type": "string",
+            "description": "硬件版本号"
+          },
+          "iotDeviceUuid": {
+            "type": "string",
+            "description": "设备在iot平台的uuid"
+          },
+          "deviceOriId": {
+            "type": "string",
+            "description": "设备里面原始的id,可当sn、mac如果格式符合要求"
+          },
+          "imei": {
+            "type": "string",
+            "description": "设备IMEI"
+          },
+          "status": {
+            "type": "string",
+            "description": "上线状态参考：DeviceOnlineStatusEnums",
+            "enum": [
+              "OFFLINE",
+              "ONLINE"
+            ]
+          },
+          "activedDate": {
+            "type": "string",
+            "description": "激活时间",
+            "format": "date-time"
+          },
+          "drvSdkVersion": {
+            "type": "string",
+            "description": "驱动sdk版本"
+          },
+          "iccId": {
+            "type": "string",
+            "description": "ICCID卡id"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          }
+        },
+        "description": "设备信息"
+      },
+      "PageWrapperDeviceEntity": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceEntity"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/DeviceEntity"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeviceAttachInfoVO": {
+        "type": "object",
+        "properties": {
+          "rentInfo": {
+            "$ref": "#/components/schemas/RentInfoDTO"
+          }
+        },
+        "description": "设备附加信息"
+      },
+      "DeviceDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64"
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户号：挂的金融账户id",
+            "format": "int64"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "设备UUID"
+          },
+          "name": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "sn": {
+            "type": "string",
+            "description": "Sn"
+          },
+          "mac": {
+            "type": "string",
+            "description": "MAC地址"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品id",
+            "format": "int64"
+          },
+          "routeDeviceId": {
+            "type": "integer",
+            "description": "路由设备ID",
+            "format": "int64"
+          },
+          "assetCompanyId": {
+            "type": "integer",
+            "description": "资产所属公司(个人资产时空)",
+            "format": "int64"
+          },
+          "assetUserId": {
+            "type": "integer",
+            "description": "资产管理者",
+            "format": "int64"
+          },
+          "partnerCompanyId": {
+            "type": "integer",
+            "description": "合作公司,根据业务需求时使用，不同工作空间含义不同",
+            "format": "int64"
+          },
+          "partnerUserId": {
+            "type": "integer",
+            "description": "合作用户，根据业务需求时使用，不同工作空间含义不同",
+            "format": "int64"
+          },
+          "rentCompanyId": {
+            "type": "integer",
+            "description": "租用的公司，为c端用户时填空",
+            "format": "int64"
+          },
+          "rentUserId": {
+            "type": "integer",
+            "description": "租用人（机主或使用的人）",
+            "format": "int64"
+          },
+          "rentStartDate": {
+            "type": "string",
+            "description": "租用开始时间",
+            "format": "date-time"
+          },
+          "rentEndDate": {
+            "type": "string",
+            "description": "租用到期时间",
+            "format": "date-time"
+          },
+          "areaId": {
+            "type": "integer",
+            "description": "地区id",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string",
+            "description": "地址"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "经度"
+          },
+          "latitude": {
+            "type": "number",
+            "description": "纬度"
+          },
+          "percentage": {
+            "type": "number",
+            "description": "电量百分比/信号"
+          },
+          "manageState": {
+            "type": "string",
+            "description": "设备管理状态参考：DeviceManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ]
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "description": "固件版本"
+          },
+          "hardwareVersion": {
+            "type": "string",
+            "description": "硬件版本号"
+          },
+          "iotDeviceUuid": {
+            "type": "string",
+            "description": "设备在iot平台的uuid"
+          },
+          "deviceOriId": {
+            "type": "string",
+            "description": "设备里面原始的id,可当sn、mac如果格式符合要求"
+          },
+          "imei": {
+            "type": "string",
+            "description": "设备IMEI"
+          },
+          "status": {
+            "type": "string",
+            "description": "上线状态参考：DeviceOnlineStatusEnums",
+            "enum": [
+              "OFFLINE",
+              "ONLINE"
+            ]
+          },
+          "activedDate": {
+            "type": "string",
+            "description": "激活时间",
+            "format": "date-time"
+          },
+          "drvSdkVersion": {
+            "type": "string",
+            "description": "驱动sdk版本"
+          },
+          "iccId": {
+            "type": "string",
+            "description": "ICCID卡id"
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签"
+          },
+          "attachJson": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些分账信息等)"
+          },
+          "partnerUserName": {
+            "type": "string",
+            "description": "合作方用户名"
+          },
+          "partnerUserMobile": {
+            "type": "string",
+            "description": "合作方用户手机号"
+          },
+          "partnerCompanyName": {
+            "type": "string",
+            "description": "合作方机构名"
+          },
+          "rentUserMobile": {
+            "type": "string",
+            "description": "租用人用户手机号"
+          },
+          "rentUserName": {
+            "type": "string",
+            "description": "租用人用户名"
+          },
+          "assetUserName": {
+            "type": "string",
+            "description": "资产方用户名称"
+          },
+          "assetUserMobile": {
+            "type": "string",
+            "description": "资产用户手机号"
+          },
+          "assetCompanyName": {
+            "type": "string",
+            "description": "资产公司名"
+          },
+          "model": {
+            "type": "string",
+            "description": "产品型号"
+          },
+          "brand": {
+            "type": "string",
+            "description": "品牌（冗余）"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "设备厂商"
+          },
+          "productName": {
+            "type": "string",
+            "description": "产品名"
+          },
+          "manufacturerName": {
+            "type": "string",
+            "description": "设备厂商"
+          },
+          "routeDeviceUuid": {
+            "type": "string",
+            "description": "路由设备uuid"
+          },
+          "routeDeviceMac": {
+            "type": "string",
+            "description": "路由设备mac"
+          },
+          "onlineTime": {
+            "type": "integer",
+            "description": "最近一次在线时间",
+            "format": "int64"
+          },
+          "offlineTime": {
+            "type": "integer",
+            "description": "最近一次离线时间",
+            "format": "int64"
+          },
+          "classProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "description": "classProperties ：Map<String,Object>"
+              },
+              "description": "classProperties ：Map<String,Object>"
+            },
+            "description": "classProperties ：Map<String,Object>"
+          },
+          "neddUpdate": {
+            "type": "boolean"
+          },
+          "propertyUploadTime": {
+            "type": "integer",
+            "description": "最后一次属性上报时间戳",
+            "format": "int64"
+          },
+          "tagArr": {
+            "type": "array",
+            "description": "设备标签",
+            "items": {
+              "type": "string",
+              "description": "设备标签"
+            }
+          },
+          "attachInfo": {
+            "$ref": "#/components/schemas/DeviceAttachInfoVO"
+          }
+        }
+      },
+      "PageWrapperDeviceDTO": {
+        "required": [
+          "pageNumber",
+          "pageSize"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "rowsDetailFlag": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceDTO"
+            }
+          },
+          "sort": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string"
+          },
+          "search": {
+            "$ref": "#/components/schemas/DeviceDTO"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConditionParamsWrap"
+            }
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConditionParams"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstPage": {
+            "type": "boolean"
+          },
+          "lastPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RentInfoDTO": {
+        "type": "object",
+        "properties": {
+          "orderNo": {
+            "type": "string",
+            "description": "原始订单号"
+          },
+          "deviceSn": {
+            "type": "string",
+            "description": "设备sn"
+          },
+          "desp": {
+            "type": "string",
+            "description": "描述信息"
+          },
+          "rentStartDate": {
+            "type": "string",
+            "description": "租用开始时间",
+            "format": "date-time"
+          },
+          "rentEndDate": {
+            "type": "string",
+            "description": "租用到期时间",
+            "format": "date-time"
+          }
+        },
+        "description": "租赁信息"
+      },
+      "DeviceImportBatchDTO": {
+        "type": "object",
+        "properties": {
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64"
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "资产方、运营方、",
+            "format": "int64"
+          },
+          "accountId": {
+            "type": "integer",
+            "description": "账户id：挂的金融账户id",
+            "format": "int64"
+          },
+          "devices": {
+            "type": "array",
+            "description": "设备列表",
+            "items": {
+              "$ref": "#/components/schemas/DeviceImportDTO"
+            }
+          }
+        }
+      },
+      "DeviceImportDTO": {
+        "type": "object",
+        "properties": {
+          "sn": {
+            "type": "string",
+            "description": "Sn"
+          },
+          "mac": {
+            "type": "string",
+            "description": "MAC地址"
+          },
+          "model": {
+            "type": "string",
+            "description": "型号"
+          }
+        },
+        "description": "设备列表"
+      },
+      "ListResponseDeviceEntity": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceEntity"
+            }
+          }
+        }
+      },
+      "AiTokenGenerateVo": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "description": "金融账户id",
+            "format": "int64"
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品id",
+            "format": "int64"
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": "设备id",
+            "format": "int64"
+          },
+          "expireTime": {
+            "type": "string",
+            "description": "过期时间",
+            "format": "date-time"
+          }
+        },
+        "description": "ai taken 生成器"
+      },
+      "SingleResponseOrderDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderDTO"
+          }
+        }
+      },
+      "SingleResponseFinancialAccountDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FinancialAccountDTO"
+          }
+        }
+      },
+      "SingleResponseDeviceDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DeviceDTO"
+          }
+        }
+      },
+      "ListResponseNamePariVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamePariVO"
+            }
+          }
+        }
+      },
+      "NamePariVO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object"
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "VisitTypeEnumsXX12": {
+        "type": "String",
+        "description": "NONE:无类型; NCV:新客户拜访; CR:客户关系维护; PT:项目跟踪; "
+      }
+    },
+    "securitySchemes": {
+      "x-auth-token": {
+        "type": "http",
+        "in": "header",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

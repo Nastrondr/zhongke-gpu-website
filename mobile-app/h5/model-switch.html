@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>切换模型 - 设备管理</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: linear-gradient(180deg, #0A0F1C 0%, #10182A 50%, #0A0F1C 100%);
+      --bg-card: rgba(30, 58, 138, 0.25);
+      --bg-card-light: rgba(30, 58, 138, 0.15);
+      --bg-card-hover: rgba(37, 99, 235, 0.3);
+      --border-card: rgba(37, 99, 235, 0.4);
+      --border-card-light: rgba(37, 99, 235, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-tertiary: rgba(255, 255, 255, 0.5);
+      --accent-blue: #2563eb;
+      --accent-blue-light: #60a5fa;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+
+    /* 浅色模式 - 冷白灰蓝科技风 */
+    html[data-theme="light"] {
+      --bg-primary: linear-gradient(180deg, #F6F9FC 0%, #F3F7FB 50%, #F6F9FC 100%);
+      --bg-card: #FFFFFF;
+      --bg-card-light: #FBFDFF;
+      --bg-card-hover: #F8FAFC;
+      --border-card: #D7E6FF;
+      --border-card-light: #E8F0FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #7C8CA5;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --success: #1BD4A0;
+      --warning: #D97706;
+      --error: #DC2626;
+      --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.06);
+      --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.10);
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+    
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 30px;
+    }
+    
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .status-bar .time {
+      color: var(--text-primary);
+    }
+    
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .nav-header {
+      padding: 16px 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      border-radius: 8px;
+      color: var(--accent-blue);
+    }
+
+    .back-btn:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .nav-title {
+      flex: 1;
+    }
+    
+    .nav-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    
+    .nav-title .subtitle {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 1px;
+    }
+    
+    .page-content {
+      padding: 0 16px;
+    }
+    
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 10px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+    
+    .current-model-card {
+      background: linear-gradient(135deg, rgba(37,99,235,0.35) 0%, rgba(30,58,138,0.45) 100%);
+      border: 1px solid rgba(37,99,235,0.5);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* 浅色模式 - 当前模型卡片 */
+    html[data-theme="light"] .current-model-card {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+      border: 1.5px solid #4A8DFF;
+      box-shadow: 0 4px 16px rgba(74, 141, 255, 0.12);
+    }
+    
+    .model-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    
+    .model-info {
+      flex: 1;
+    }
+    
+    .model-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    
+    .model-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .model-tag {
+      padding: 3px 8px;
+      background: rgba(37,99,235,0.25);
+      border-radius: 6px;
+      font-size: 10px;
+      color: var(--accent-blue-light);
+    }
+
+    /* 浅色模式 - 模型标签 */
+    html[data-theme="light"] .model-tag {
+      background: rgba(74, 141, 255, 0.12);
+      color: #4A8DFF;
+    }
+    
+    .model-badge {
+      padding: 4px 10px;
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 500;
+    }
+    
+    .model-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    
+    .model-status-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .model-status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .model-status-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    
+    .model-status-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .model-status-value.success {
+      color: var(--success);
+    }
+    
+    .model-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .model-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .model-item:hover {
+      border-color: rgba(37, 99, 235, 0.5);
+    }
+    
+    .model-item.current {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(30,58,138,0.2) 100%);
+    }
+
+    /* 浅色模式 - 当前模型项 */
+    html[data-theme="light"] .model-item.current {
+      border-color: var(--accent-blue);
+      background: transparent;
+    }
+    
+    .model-item-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(37,99,235,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* 浅色模式 - 模型图标 */
+    html[data-theme="light"] .model-item-icon {
+      background: rgba(74, 141, 255, 0.12);
+    }
+
+    html[data-theme="light"] .model-item-icon svg {
+      stroke: #4A8DFF;
+    }
+    
+    .model-item-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .model-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .model-item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .model-item-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .model-item-tag {
+      padding: 2px 6px;
+      background: rgba(37,99,235,0.15);
+      border-radius: 4px;
+      font-size: 9px;
+      color: var(--accent-blue-light);
+    }
+
+    /* 浅色模式 - 模型标签 */
+    html[data-theme="light"] .model-item-tag {
+      background: rgba(74, 141, 255, 0.1);
+      color: #4A8DFF;
+    }
+    
+    .model-item-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    
+    .model-item-price {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .price-tag {
+      padding: 2px 6px;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 4px;
+      font-size: 9px;
+      color: var(--success);
+    }
+
+    /* 浅色模式 - 价格标签 */
+    html[data-theme="light"] .price-tag {
+      background: rgba(22, 163, 74, 0.1);
+      color: #16A34A;
+    }
+    
+    .model-item-action {
+      flex-shrink: 0;
+    }
+    
+    .model-action-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      white-space: nowrap;
+    }
+    
+    .model-action-btn.switch {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .model-action-btn.switch:hover {
+      background: #1d4ed8;
+    }
+
+    .model-action-btn.switch:active {
+      opacity: 0.85;
+      transform: scale(0.96);
+    }
+    
+    .model-action-btn.current {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+      cursor: default;
+    }
+
+    html[data-theme="light"] .model-action-btn.current {
+      background: rgba(27, 212, 160, 0.2);
+      color: #0d9488;
+    }
+
+    .model-action-btn.disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-tertiary);
+      cursor: not-allowed;
+    }
+    
+    .record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .record-item {
+      background: var(--bg-card-light);
+      border: 1px solid var(--border-card-light);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .record-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      flex-shrink: 0;
+    }
+    
+    .record-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .record-time {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+    }
+    
+    .record-text {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    
+    .record-model {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-blue-light);
+    }
+    
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+    
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: linear-gradient(180deg, #0d1f3a 0%, #0a1628 100%);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      padding: 24px;
+      margin: 20px;
+      max-width: 320px;
+      width: 100%;
+      transform: scale(0.9);
+      transition: transform 0.25s ease;
+    }
+
+    /* 浅色模式 - 弹窗 */
+    html[data-theme="light"] .modal-overlay {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    html[data-theme="light"] .modal {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      box-shadow: 0 20px 60px rgba(67, 97, 168, 0.15);
+    }
+
+    html[data-theme="light"] .modal-btn.cancel {
+      background: #F8FAFC;
+      border: 1px solid #E8F0FF;
+      color: #475569;
+    }
+
+    html[data-theme="light"] .modal-btn.cancel:hover {
+      background: #F1F5F9;
+    }
+
+    html[data-theme="light"] .modal-btn.confirm {
+      background: #4A8DFF;
+      color: #FFFFFF;
+    }
+
+    html[data-theme="light"] .modal-btn.confirm:hover {
+      background: #3B7BF5;
+    }
+    
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+    
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .modal-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .modal-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    
+    .modal-btn.cancel {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-card);
+    }
+    
+    .modal-btn.cancel:hover {
+      background: var(--bg-card-hover);
+    }
+    
+    .modal-btn.confirm {
+      background: var(--accent-blue);
+      color: white;
+    }
+    
+    .modal-btn.confirm:hover {
+      background: #1d4ed8;
+    }
+    
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text-primary);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      pointer-events: none;
+      text-align: center;
+      max-width: 300px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    /* 浅色模式 - Toast */
+    html[data-theme="light"] .toast {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      color: #0F172A;
+      box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+
+    html[data-theme="light"] .toast.success {
+      border-color: #16A34A;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.35s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.08s; opacity: 0; }
+    .delay-2 { animation-delay: 0.15s; opacity: 0; }
+    .delay-3 { animation-delay: 0.22s; opacity: 0; }
+    .delay-4 { animation-delay: 0.29s; opacity: 0; }
+  </style>
+  <script src="/h5/js/utils/storage.js"></script>
+  <script src="/h5/js/utils/navigation.js"></script>
+  <script src="/h5/js/services/api/config.js"></script>
+  <script src="/h5/js/services/api/ApiClient.js"></script>
+  <script src="/h5/js/services/api/endpoints.js"></script>
+  <script src="/h5/js/services/api/index.js"></script>
+  <script src="/h5/js/services/themeService.js"></script>
+  <script src="/h5/js/mock/models.js"></script>
+  <script src="/h5/js/services/modelService.js"></script>
+  <script src="/h5/js/services/deviceService.js"></script>
+  <script src="/h5/js/mock/tasks.js"></script>
+  <script src="/h5/js/services/taskService.js"></script>
+  <script src="/h5/js/utils/toast.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <div class="nav-header">
+      <a href="device.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </a>
+      <div class="nav-title">
+        <h1>切换模型</h1>
+      </div>
+    </div>
+    
+    <div class="page-content">
+      <div class="section animate-in delay-1">
+        <div class="current-model-card">
+          <div class="model-header">
+            <div class="model-info">
+              <div class="model-name" id="currentModelName">加载中...</div>
+              <div class="model-tags">
+                <span class="model-tag" id="currentModelTag">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="model-desc" id="currentModelDesc">
+            适用于金融文本理解、情绪判断、资讯分析与金融文档处理。
+          </div>
+          <div class="model-status-row">
+            <div class="model-status-item">
+              <span class="model-status-label">运行状态</span>
+              <span class="model-status-value success">正常</span>
+            </div>
+            <div class="model-status-item">
+              <span class="model-status-label">最近切换</span>
+              <span class="model-status-value" id="currentSwitchTime">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="section animate-in delay-3">
+        <div class="section-title">模型切换</div>
+        <div class="model-list" id="modelListContainer"></div>
+      </div>
+      
+      <div class="section animate-in delay-4">
+        <div class="section-title">最近切换记录</div>
+        <div class="record-list" id="recordList">
+          <div class="record-item">
+            <div class="record-dot"></div>
+            <div class="record-info">
+              <span class="record-time">今天 10:32</span>
+              <span class="record-text">切换至</span>
+              <span class="record-model">FinBERT</span>
+            </div>
+          </div>
+          <div class="record-item">
+            <div class="record-dot"></div>
+            <div class="record-info">
+              <span class="record-time">昨天 17:18</span>
+              <span class="record-text">切换至</span>
+              <span class="record-model">DeepSeek-V3</span>
+            </div>
+          </div>
+          <div class="record-item">
+            <div class="record-dot"></div>
+            <div class="record-info">
+              <span class="record-time">昨天 09:45</span>
+              <span class="record-text">切换至</span>
+              <span class="record-model">GLM-4-9B-Chat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="modalOverlay" onclick="hideModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title" id="modalTitle">确认切换模型</div>
+      <div class="modal-desc" id="modalDesc">确认切换到 GPT-4？<br>切换后将应用于后续设备任务。</div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="hideModal()">取消</button>
+        <button class="modal-btn confirm" id="modalConfirm" onclick="confirmSwitch()">确认切换</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toast" id="toast"></div>
+  
+  <script>
+    // 调试模式开关（生产环境设为 false）
+    const DEBUG = false;
+    const log = (...args) => DEBUG && console.log(...args);
+
+    let currentModel = 'FinBERT';
+    let pendingSwitchModel = '';
+    let pendingSwitchTag = '';
+    
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeEl = document.querySelector('.status-bar .time');
+      if (timeEl) {
+        timeEl.textContent = `${hours}:${minutes}`;
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    window.addEventListener('load', function() {
+      loadFromStorage();
+      loadRecords();
+    });
+    
+    function showSwitchModal(modelName, modelTag) {
+      pendingSwitchModel = modelName;
+      pendingSwitchTag = modelTag;
+      
+      document.getElementById('modalTitle').textContent = '确认切换模型';
+      document.getElementById('modalDesc').innerHTML = `确认切换到 ${modelName}？<br>切换后将应用于后续设备任务。`;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+    
+    function hideModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('modalOverlay').classList.remove('show');
+    }
+    
+    function confirmSwitch() {
+      const confirmBtn = document.getElementById('modalConfirm');
+      ButtonLoading.show(confirmBtn, '切换中...');
+      hideModal();
+
+      setTimeout(() => {
+        switchModel(pendingSwitchModel, pendingSwitchTag);
+        ButtonLoading.success(confirmBtn, '切换成功');
+      }, 800);
+    }
+    
+    function switchModel(modelName, modelTag) {
+
+      const modelMap = {
+        'FinBERT': 'model-finbert',
+        'Fin-T5': 'model-fint5',
+        'DeepSeek-V3': 'model-deepseek',
+        'qwen3.5': 'model-qwen',
+        'GLM-4-9B-Chat': 'model-glm'
+      };
+
+      // ========== 1. 获取当前设备状态（用于日志）==========
+      const currentDevice = Storage.Device.getCurrentDevice();
+      const oldModel = currentDevice ? currentDevice.currentModel : '未知';
+      log('[ModelSync] 当前设备ID:', currentDevice ? currentDevice.id : '无');
+      log('[ModelSync] 写入前模型:', oldModel);
+
+      // ========== 2. 更新UI ==========
+      const modelItems = document.querySelectorAll('.model-item');
+      modelItems.forEach(item => {
+        item.classList.remove('current');
+        item.onclick = null;
+
+        const btn = item.querySelector('.model-action-btn');
+        btn.className = 'model-action-btn switch';
+        btn.textContent = '切换';
+
+        const itemId = item.id;
+        const name = item.querySelector('.model-item-name').textContent;
+
+        if (itemId === modelMap[modelName]) {
+          item.classList.add('current');
+          btn.className = 'model-action-btn current';
+          btn.textContent = '当前使用';
+        } else {
+          item.onclick = (e) => {
+            const tag = item.querySelector('.model-item-tag').textContent;
+            showSwitchModal(name, tag);
+          };
+        }
+      });
+
+      document.getElementById('currentModelName').textContent = modelName;
+
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeStr = `今天 ${hours}:${minutes}`;
+      document.getElementById('currentSwitchTime').textContent = timeStr;
+
+      // ========== 3. 写入统一设备状态源（关键修复）==========
+      saveToStorage(modelName, modelTag);
+
+      // ========== 4. 同步到 DeviceManager（关键修复）==========
+      if (typeof DeviceManager !== 'undefined') {
+        log('[ModelSync] 调用 DeviceManager.updateModel:', modelName);
+        DeviceManager.updateModel(modelName);
+      } else {
+        console.warn('[ModelSync] DeviceManager 未加载，尝试直接更新 Storage');
+        // 直接更新 Storage.Device 作为备选
+        const device = Storage.Device.getCurrentDevice() || {};
+        device.currentModel = modelName;
+        device.modelName = modelName;
+        Storage.Device.setCurrentDevice(device);
+      }
+
+      // ========== 5. 创建模型切换任务记录 ==========
+      if (typeof TaskService !== 'undefined' && TaskService.addTask) {
+        const task = {
+          name: `${modelName} 模型切换`,
+          category: '模型类',
+          source: 'model',
+          sourceName: '模型切换',
+          status: 'success',
+          relatedModelId: modelName,
+          relatedDeviceId: currentDevice ? currentDevice.id : null
+        };
+        log('[ModelSync] 创建模型切换任务记录:', task);
+        TaskService.addTask(task);
+      }
+
+      // ========== 6. 添加切换记录 ==========
+      addRecord(modelName);
+
+      log('[ModelSync] 写入后模型:', modelName);
+      log('[ModelSync] ========== 模型切换完成 ==========');
+
+      // ========== 7. 触发全局事件通知其他页面 ==========
+      window.dispatchEvent(new CustomEvent('modelSwitched', {
+        detail: { modelName: modelName, oldModel: oldModel, timestamp: Date.now() }
+      }));
+    }
+    
+    function saveToStorage(modelName, modelTag) {
+      const storageData = {
+        modelName: modelName,
+        modelTag: modelTag,
+        lastSwitchTime: new Date().toISOString()
+      };
+      localStorage.setItem('deviceModelState', JSON.stringify(storageData));
+    }
+    
+    function loadFromStorage() {
+      const saved = localStorage.getItem('deviceModelState');
+      if (!saved) return;
+
+      const data = JSON.parse(saved);
+      const modelNameEl = document.getElementById('currentModelName');
+      const switchTimeEl = document.getElementById('currentSwitchTime');
+
+      if (modelNameEl) {
+        modelNameEl.textContent = data.modelName;
+      }
+
+      if (switchTimeEl) {
+        const switchTime = new Date(data.lastSwitchTime);
+        const hours = switchTime.getHours().toString().padStart(2, '0');
+        const minutes = switchTime.getMinutes().toString().padStart(2, '0');
+        const timeStr = `今天 ${hours}:${minutes}`;
+        switchTimeEl.textContent = timeStr;
+      }
+
+      const modelItems = document.querySelectorAll('.model-item');
+
+       modelItems.forEach(item => {
+         item.classList.remove('current');
+         item.onclick = null;
+         const btn = item.querySelector('.model-action-btn');
+         if (!btn) return;
+         btn.className = 'model-action-btn switch';
+         btn.textContent = '切换';
+
+         const name = item.querySelector('.model-item-name').textContent;
+         if (name === data.modelName) {
+           item.classList.add('current');
+           btn.className = 'model-action-btn current';
+           btn.textContent = '当前使用';
+         } else {
+           item.onclick = () => {
+             const tag = item.querySelector('.model-item-tag').textContent;
+             showSwitchModal(name, tag);
+           };
+         }
+       });
+     }
+    
+    function addRecord(modelName) {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeStr = `今天 ${hours}:${minutes}`;
+      
+      let records = JSON.parse(localStorage.getItem('modelSwitchRecords') || '[]');
+      records.unshift({ model: modelName, time: timeStr, timestamp: Date.now() });
+      if (records.length > 3) {
+        records = records.slice(0, 3);
+      }
+      localStorage.setItem('modelSwitchRecords', JSON.stringify(records));
+      
+      const recordList = document.getElementById('recordList');
+      recordList.innerHTML = records.map(r => `
+        <div class="record-item">
+          <div class="record-dot"></div>
+          <div class="record-info">
+            <span class="record-time">${r.time}</span>
+            <span class="record-text">切换至</span>
+            <span class="record-model">${r.model}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function loadRecords() {
+      const records = JSON.parse(localStorage.getItem('modelSwitchRecords') || '[]');
+      if (records.length > 0) {
+        const recordList = document.getElementById('recordList');
+        recordList.innerHTML = records.map(r => `
+          <div class="record-item">
+            <div class="record-dot"></div>
+            <div class="record-info">
+              <span class="record-time">${r.time}</span>
+              <span class="record-text">切换至</span>
+              <span class="record-model">${r.model}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+    
+    function showToast(message, success) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = success ? 'toast show success' : 'toast show';
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // ==================== Service 层接入验证 ====================
+    // 验证 ModelService 可用
+    // 模型图标 SVG
+    const modelIcons = [
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="15" x2="12" y2="15"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+    ];
+
+    // 渲染模型列表
+    function renderModelList(models, currentModelId) {
+      const container = document.getElementById('modelListContainer');
+      if (!container) return;
+
+      models = Array.isArray(models) ? models : [];
+      if (models.length === 0) {
+        container.innerHTML = '<div class="empty-state">暂无模型数据</div>';
+        return;
+      }
+
+      container.innerHTML = models.map((model, index) => {
+        const isCurrent = model.id === currentModelId;
+        const icon = modelIcons[index % modelIcons.length];
+        const actionBtn = isCurrent
+          ? '<button class="model-action-btn current">当前使用</button>'
+          : '<button class="model-action-btn switch" onclick="showSwitchModal(\'' + model.name + '\', \'' + model.description + '\')">切换</button>';
+
+        return `
+          <div class="model-item ${isCurrent ? 'current' : ''}" id="model-${model.id}">
+            <div class="model-item-icon">
+              ${icon}
+            </div>
+            <div class="model-item-info">
+              <div class="model-item-header">
+                <span class="model-item-name">${model.name}</span>
+                ${isCurrent ? '<span class="model-item-tag">当前</span>' : ''}
+              </div>
+              <div class="model-item-desc">${model.description || 'AI模型'}</div>
+            </div>
+            <div class="model-item-action">
+              ${actionBtn}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function initModelData() {
+      try {
+        const models = await ModelService.getModelList();
+        const current = await ModelService.getCurrentModel();
+        const currentModelId = current?.id;
+        log('[ModelService] 模型列表加载成功:', models.length);
+        log('[ModelService] 当前模型:', current ? current.name : '无');
+
+        // 更新当前模型卡片
+        updateCurrentModelCard(current);
+
+        // 渲染模型列表
+        renderModelList(models, currentModelId);
+      } catch (e) {
+        console.error('[ModelService] 初始化失败:', e);
+      }
+    }
+
+    // 更新当前模型卡片
+    function updateCurrentModelCard(model) {
+      if (!model) return;
+
+      const nameEl = document.getElementById('currentModelName');
+      const tagEl = document.getElementById('currentModelTag');
+      const descEl = document.getElementById('currentModelDesc');
+      const timeEl = document.getElementById('currentSwitchTime');
+
+      if (nameEl) nameEl.textContent = model.name;
+      if (tagEl) tagEl.textContent = 'AI模型';
+      if (descEl) descEl.textContent = model.description || 'AI模型';
+      if (timeEl) timeEl.textContent = new Date().toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(' ', '');
+    }
+    initModelData();
+
+    // 初始化主题
+    ThemeManager.init();
+  </script>
+</body>
+</html>

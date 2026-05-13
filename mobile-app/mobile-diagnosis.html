@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>诊断服务 - 设备健康检查</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script src="/h5/js/utils/storage.js"></script>
+  <script src="/h5/js/services/themeService.js"></script>
+  <script src="/h5/js/utils/navigation.js"></script>
+  <script src="/h5/js/services/deviceService.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #09090B;
+      --bg-secondary: #18181B;
+      --bg-card: #27272A;
+      --bg-card-hover: #3F3F46;
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #FAFAFA;
+      --text-secondary: #A1A1AA;
+      --text-tertiary: #71717A;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --success: #10B981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --warning: #D97706;
+      --warning-bg: rgba(217, 119, 6, 0.15);
+      --error: #EF4444;
+      --error-bg: rgba(239, 68, 68, 0.15);
+      --border-radius: 16px;
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-secondary: #F5F9FF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FAFCFF;
+      --border-card: #E8F0FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --success: #1BD4A0;
+      --success-bg: rgba(27, 212, 160, 0.15);
+      --warning: #D97706;
+      --warning-bg: #FFF5E8;
+      --error: #DC2626;
+      --error-bg: #FEE2E2;
+      --shadow-card: 0 4px 24px rgba(67, 97, 168, 0.08);
+    }
+
+    html[data-theme="light"] .toast {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      color: #0F172A;
+      box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .app-container {
+      max-width: 100%;
+      padding: 0 16px 40px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 0;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: var(--bg-primary);
+      z-index: 10;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .back-btn:active {
+      transform: scale(0.95);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+      color: var(--text-primary);
+    }
+
+    .header-content {
+      flex: 1;
+    }
+
+    .header-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .diagnosis-result-card {
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .diagnosis-result-card.normal {
+      border-left: 4px solid var(--success);
+    }
+
+    .diagnosis-result-card.warning {
+      border-left: 4px solid var(--warning);
+    }
+
+    .diagnosis-result-card.error {
+      border-left: 4px solid var(--error);
+    }
+
+    .device-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-name::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+
+    .diagnosis-result-card.warning .device-name::before {
+      background: var(--warning);
+    }
+
+    .diagnosis-result-card.error .device-name::before {
+      background: var(--error);
+    }
+
+    .result-main {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .result-main.normal {
+      color: var(--success);
+    }
+
+    .result-main.warning {
+      color: var(--warning);
+    }
+
+    .result-main.error {
+      color: var(--error);
+    }
+
+    .result-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .result-tag.normal {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .result-tag.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .result-tag.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .result-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .check-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .check-item {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border-card);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .check-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .check-icon.normal {
+      background: var(--success-bg);
+    }
+
+    .check-icon.warning {
+      background: var(--warning-bg);
+    }
+
+    .check-icon.error {
+      background: var(--error-bg);
+    }
+
+    .check-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .check-icon.normal svg {
+      color: var(--success);
+    }
+
+    .check-icon.warning svg {
+      color: var(--warning);
+    }
+
+    .check-icon.error svg {
+      color: var(--error);
+    }
+
+    .check-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .check-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .check-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .check-status {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .check-status.normal {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .check-status.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .check-status.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .check-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    .record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .record-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 10px;
+      border: 1px solid var(--border-card);
+    }
+
+    .record-time {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+
+    .record-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .record-dot.normal {
+      background: var(--success);
+    }
+
+    .record-dot.warning {
+      background: var(--warning);
+    }
+
+    .record-dot.error {
+      background: var(--error);
+    }
+
+    .record-content {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-primary {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .action-primary:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+
+    .action-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .action-primary svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .action-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-item:active {
+      transform: scale(0.98);
+      background: var(--bg-card-hover);
+    }
+
+    .action-item svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-blue);
+    }
+
+    .action-item-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .loading-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 1000;
+      box-shadow: var(--shadow-card);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-tertiary);
+      font-size: 13px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.15s; }
+    .delay-3 { animation-delay: 0.22s; }
+    .delay-4 { animation-delay: 0.29s; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page-header">
+      <button class="back-btn" onclick="Navigation.goTo('device.html')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="header-content">
+        <div class="header-title">诊断服务</div>
+        <div class="header-subtitle">设备健康检查</div>
+      </div>
+    </div>
+
+    <div class="section animate-in delay-1">
+      <div id="resultCard" class="diagnosis-result-card normal">
+        <div class="device-name" id="deviceName">小鲸鱼智能体 A</div>
+        <div class="result-main normal" id="resultMain">设备运行正常</div>
+        <span class="result-tag normal" id="resultTag">全部检查通过</span>
+        <div class="result-desc" id="resultDesc">您的设备当前处于健康状态，所有核心服务均正常运行。</div>
+      </div>
+    </div>
+
+    <div class="section animate-in delay-2">
+      <div class="section-title">核心检查项</div>
+      <div class="check-items" id="checkItems">
+      </div>
+    </div>
+
+    <div class="section animate-in delay-3">
+      <div class="section-title">最近诊断记录</div>
+      <div class="record-list" id="recordList">
+      </div>
+    </div>
+
+    <div class="section animate-in delay-4">
+      <div class="section-title">建议操作</div>
+      <div class="action-list">
+        <button class="action-primary" id="recheckBtn" onclick="startDiagnosis()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          重新检测
+        </button>
+        <div class="action-grid">
+          <div class="action-item" onclick="handleAction('重启服务')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 2v6h-6"/>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+              <path d="M3 22v-6h6"/>
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+            </svg>
+            <span class="action-item-name">重启服务</span>
+          </div>
+          <div class="action-item" onclick="handleAction('重新连接网络')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+              <line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+            <span class="action-item-name">重新连接网络</span>
+          </div>
+          <div class="action-item" onclick="Navigation.goTo('connection-center.html')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span class="action-item-name">查看连接中心</span>
+          </div>
+          <div class="action-item" onclick="Navigation.goTo('model-switch.html')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+              <rect x="9" y="9" width="6" height="6"/>
+              <line x1="9" y1="1" x2="9" y2="4"/>
+              <line x1="15" y1="1" x2="15" y2="4"/>
+              <line x1="9" y1="20" x2="9" y2="23"/>
+              <line x1="15" y1="20" x2="15" y2="23"/>
+              <line x1="20" y1="9" x2="23" y2="9"/>
+              <line x1="20" y1="14" x2="23" y2="14"/>
+              <line x1="1" y1="9" x2="4" y2="9"/>
+              <line x1="1" y1="14" x2="4" y2="14"/>
+            </svg>
+            <span class="action-item-name">切换模型</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const DIAGNOSIS_DATA = {
+      deviceName: '小鲸鱼智能体 A',
+      checks: [
+        {
+          id: 'network',
+          name: '网络连接',
+          status: 'normal',
+          desc: '当前网络连接稳定，可正常访问云端服务'
+        },
+        {
+          id: 'model',
+          name: '模型服务',
+          status: 'normal',
+          desc: '当前模型已加载完成，可继续执行任务'
+        },
+        {
+          id: 'skill',
+          name: '技能服务',
+          status: 'normal',
+          desc: '所有技能模块正常运行'
+        },
+        {
+          id: 'connection',
+          name: '外接服务连接',
+          status: 'warning',
+          desc: '有 1 个已连接服务待重新连接'
+        },
+        {
+          id: 'storage',
+          name: '存储/同步状态',
+          status: 'normal',
+          desc: '本地数据已同步，云端备份正常'
+        }
+      ],
+      records: [
+        {
+          time: '10:24',
+          status: 'warning',
+          content: '网络波动，云端同步稍有延迟'
+        },
+        {
+          time: '09:10',
+          status: 'normal',
+          content: '模型切换成功，当前运行FinBERT模型'
+        },
+        {
+          time: '昨日 22:14',
+          status: 'normal',
+          content: '外部服务重连成功'
+        },
+        {
+          time: '昨日 18:30',
+          status: 'normal',
+          content: '设备自检完成，所有指标正常'
+        }
+      ]
+    };
+
+    let diagnosisResults = null;
+
+    function getStatusText(status) {
+      const map = {
+        normal: '正常',
+        warning: '较弱',
+        error: '异常'
+      };
+      return map[status] || '未知';
+    }
+
+    function getStatusIcon(status) {
+      if (status === 'normal') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else if (status === 'warning') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+      } else {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+      }
+    }
+
+    function renderCheckItems(data) {
+      const container = document.getElementById('checkItems');
+      container.innerHTML = data.map(item => `
+        <div class="check-item">
+          <div class="check-icon ${item.status}">
+            ${getStatusIcon(item.status)}
+          </div>
+          <div class="check-content">
+            <div class="check-header">
+              <span class="check-name">${item.name}</span>
+              <span class="check-status ${item.status}">${getStatusText(item.status)}</span>
+            </div>
+            <div class="check-desc">${item.desc}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderRecords(data) {
+      const container = document.getElementById('recordList');
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="empty-state">暂无诊断记录</div>';
+        return;
+      }
+      container.innerHTML = data.map(item => `
+        <div class="record-item">
+          <div class="record-time">${item.time}</div>
+          <div class="record-dot ${item.status}"></div>
+          <div class="record-content">${item.content}</div>
+        </div>
+      `).join('');
+    }
+
+    function updateResultCard(results) {
+      const card = document.getElementById('resultCard');
+      const main = document.getElementById('resultMain');
+      const tag = document.getElementById('resultTag');
+      const desc = document.getElementById('resultDesc');
+
+      const hasError = results.some(r => r.status === 'error');
+      const hasWarning = results.some(r => r.status === 'warning');
+
+      let status = 'normal';
+      let mainText = '设备运行正常';
+      let tagText = '全部检查通过';
+      let descText = '您的设备当前处于健康状态，所有核心服务均正常运行。';
+
+      if (hasError) {
+        const errorCount = results.filter(r => r.status === 'error').length;
+        status = 'error';
+        mainText = `发现 ${errorCount} 项异常`;
+        tagText = '需要处理';
+        descText = '检测到设备存在异常情况，建议查看详情并进行修复。';
+      } else if (hasWarning) {
+        const warnCount = results.filter(r => r.status === 'warning').length;
+        status = 'warning';
+        mainText = `发现 ${warnCount} 项需关注`;
+        tagText = '建议检查';
+        descText = '设备存在一些可优化项，建议查看详情了解具体情况。';
+      }
+
+      card.className = `diagnosis-result-card ${status}`;
+      main.className = `result-main ${status}`;
+      main.textContent = mainText;
+      tag.className = `result-tag ${status}`;
+      tag.textContent = tagText;
+      desc.textContent = descText;
+    }
+
+    function runDiagnosis() {
+      const checks = DIAGNOSIS_DATA.checks.map(check => {
+        const random = Math.random();
+        let status = 'normal';
+        if (check.id === 'connection') {
+          status = random > 0.7 ? 'warning' : 'normal';
+        } else if (check.id === 'network') {
+          status = random > 0.85 ? 'warning' : 'normal';
+        }
+        return { ...check, status };
+      });
+
+      return checks;
+    }
+
+    function startDiagnosis() {
+      const btn = document.getElementById('recheckBtn');
+      const originalContent = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<div class="loading-spinner"></div> 检测中...';
+
+      setTimeout(() => {
+        diagnosisResults = runDiagnosis();
+        renderCheckItems(diagnosisResults);
+        updateResultCard(diagnosisResults);
+
+        btn.disabled = false;
+        btn.innerHTML = originalContent;
+
+        showToast('检测完成');
+      }, 1500);
+    }
+
+    function handleAction(action) {
+      showToast(action + ' 功能开发中');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      diagnosisResults = runDiagnosis();
+      renderCheckItems(diagnosisResults);
+      renderRecords(DIAGNOSIS_DATA.records);
+      updateResultCard(diagnosisResults);
+
+      ThemeManager.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2701 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <title>个人数字大脑与AI智能体核心产品矩阵 - 中科融合算力网</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* 修复移动端右侧白边问题 */
+      html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+      }
+      
+      body {
+        background: #081A3A;
+      }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/icons.js"></script>
+    <style>
+      /* 响应式设计 - 手机端适配 */
+      @media (max-width: 768px) {
+        /* 导航栏适配 */
+        .header .container {
+          padding: 0 16px;
+        }
+        
+        .header nav {
+          height: 60px !important;
+          flex-wrap: wrap;
+        }
+        
+        .header nav > a:first-child {
+          font-size: 16px !important;
+        }
+        
+        /* 隐藏中间导航，显示汉堡菜单 */
+        .header nav > div:nth-child(2) {
+          display: none !important;
+        }
+        
+        .header nav > div:last-child {
+          gap: 8px !important;
+        }
+        
+        /* 显示汉堡按钮 */
+        .hamburger-btn {
+          display: flex !important;
+        }
+        
+        /* 隐藏桌面端CTA */
+        .desktop-cta {
+          display: none !important;
+        }
+        
+        .header nav > div:last-child a:first-child {
+          display: none;
+        }
+        
+        .header nav > div:last-child a:last-child {
+          padding: 8px 16px !important;
+          font-size: 13px !important;
+        }
+        
+        /* Hero区域适配 */
+        #hero {
+          height: auto !important;
+          min-height: 500px;
+        }
+        
+        #hero .hero-slide > div > div {
+          grid-template-columns: 1fr !important;
+          gap: 30px !important;
+          padding: 0 20px !important;
+        }
+        
+        #hero .hero-slide h1 {
+          font-size: 28px !important;
+          line-height: 1.3 !important;
+        }
+        
+        #hero .hero-slide p {
+          font-size: 14px !important;
+        }
+        
+        /* 隐藏Hero右侧装饰图形 */
+        #hero .hero-slide > div > div > div:last-child {
+          display: none !important;
+        }
+        
+        /* 通用容器适配 */
+        .container {
+          padding: 0 16px !important;
+        }
+        
+        section .container {
+          max-width: 100% !important;
+        }
+        
+        /* 所有grid布局改为单列 */
+        section .container > div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+          gap: 20px !important;
+        }
+        
+        /* 卡片布局适配 */
+        section .container > div[style*="display: grid"] {
+          grid-template-columns: 1fr !important;
+        }
+        
+        /* 标题字号适配 */
+        section h2 {
+          font-size: 22px !important;
+        }
+        
+        section h3 {
+          font-size: 16px !important;
+        }
+        
+        /* 为什么是个人数字大脑 - 4列改2列 */
+        #why-aibrain .container > div:last-child {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        /* 产品能力区域 */
+        #product-capability .container > div[style*="grid-template-columns: 1.3fr 1fr"] {
+          grid-template-columns: 1fr !important;
+        }
+        
+        #product-capability .container > div > div:first-child {
+          min-height: 250px !important;
+          padding: 40px 20px !important;
+        }
+        
+        #product-capability .container > div > div:first-child > div:first-child {
+          width: 150px !important;
+          height: 150px !important;
+        }
+        
+        #product-capability .container > div > div:first-child > div:first-child > div {
+          width: 80px !important;
+          height: 80px !important;
+        }
+        
+        /* 隐藏装饰性标签 */
+        #product-capability .container > div > div:first-child > div[style*="position: absolute"] {
+          display: none !important;
+        }
+        
+        /* 金融场景卡片 */
+        #finance-scenario .container > div:last-child > div {
+          padding: 20px !important;
+        }
+        
+        /* 接口与扩展能力 - 左右改上下 */
+        #product-capability .container > div[style*="grid-template-columns: 1fr 1.3fr"],
+        #product-capability .container > div > div[style*="grid-template-columns: 1fr 1.3fr"],
+        #interface-capability .container > div[style*="grid-template-columns: 1fr 1.3fr"] {
+          grid-template-columns: 1fr !important;
+          gap: 24px !important;
+        }
+        
+        #product-capability .container > div > div[style*="min-height: 400px"] {
+          min-height: 250px !important;
+          padding: 40px 20px !important;
+        }
+        
+        /* 接口模块的标签在小屏隐藏 */
+        #product-capability .container > div > div[style*="min-height: 400px"] > div[style*="position: absolute"],
+        #interface-capability .container > div > div[style*="min-height: 400px"] > div[style*="position: absolute"] {
+          display: none !important;
+        }
+        
+        /* 接口模块内部设备图缩小 */
+        #product-capability .container > div > div[style*="min-height: 400px"] > div[style*="width: 280px"],
+        #interface-capability .container > div > div[style*="min-height: 400px"] > div[style*="width: 280px"] {
+          width: 200px !important;
+          height: 120px !important;
+        }
+        
+        #product-capability .container > div > div[style*="min-height: 400px"] > div[style*="width: 280px"] svg {
+          width: 48px !important;
+          height: 48px !important;
+        }
+        
+        /* 金融主推场景 - 主卡片内部grid改单列 */
+        #finance-scenario > div > div > div[style*="grid-template-columns: 1.2fr 1fr"] {
+          grid-template-columns: 1fr !important;
+          gap: 24px !important;
+          text-align: center;
+        }
+        
+        #finance-scenario > div > div > div[style*="grid-template-columns: 1.2fr 1fr"] > div:last-child {
+          justify-content: center !important;
+        }
+        
+        /* 未来拓展方向 - 4列改2列再改1列 */
+        #finance-scenario .container > div > div[style*="grid-template-columns: repeat(4, 1fr)"] {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 12px !important;
+        }
+        
+        #finance-scenario .container > div > div[style*="grid-template-columns: repeat(4, 1fr)"] > div {
+          padding: 16px !important;
+        }
+        
+        #finance-scenario .container > div > div[style*="grid-template-columns: repeat(4, 1fr)"] > div > div:first-child {
+          width: 36px !important;
+          height: 36px !important;
+          margin-bottom: 8px !important;
+        }
+        
+        #finance-scenario .container > div > div[style*="grid-template-columns: repeat(4, 1fr)"] h4 {
+          font-size: 13px !important;
+        }
+        
+        /* 分布式算力生产 */
+        #distributed-computing .container > div:last-child {
+          grid-template-columns: 1fr !important;
+        }
+        
+        #distributed-computing .container > div:last-child > div:last-child {
+          height: auto !important;
+          min-height: 100px;
+        }
+        
+        /* 大模型应用 - Tab和卡片适配 */
+        #model-ecosystem .model-tabs {
+          flex-wrap: wrap;
+          gap: 8px !important;
+        }
+        
+        #model-ecosystem .model-tab {
+          padding: 10px 16px !important;
+          font-size: 13px !important;
+          flex: 1;
+          min-width: calc(50% - 4px);
+        }
+        
+        #model-ecosystem .model-category {
+          grid-template-columns: 1fr !important;
+          gap: 16px !important;
+        }
+        
+        #model-ecosystem .model-card {
+          padding: 0 !important;
+        }
+        
+        /* 联网平台 - 双形态响应式切换 */
+        #platform .platform-desktop-layout {
+          display: none !important;
+        }
+        
+        #platform .platform-mobile-layout {
+          display: block !important;
+        }
+        
+        #platform .container {
+          padding: 0 16px !important;
+        }
+        
+        #platform h2 {
+          font-size: 24px !important;
+        }
+        
+        #platform .container > div:first-child p {
+          font-size: 14px !important;
+          padding: 0 10px;
+        }
+        
+        /* 周边设备 */
+        #peripherals .container > div > div[style*="repeat(4, 1fr)"] {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        #peripherals .container > div > div[style*="repeat(5, 1fr)"] {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+        
+        #peripherals h3 {
+          font-size: 14px !important;
+        }
+        
+        /* 产品参数表格 */
+        #specs .container > div:last-child {
+          overflow-x: auto;
+        }
+        
+        #specs table {
+          min-width: 600px;
+          font-size: 13px;
+        }
+        
+        #specs th,
+        #specs td {
+          padding: 10px 12px !important;
+        }
+        
+        /* 更多福利 - 左右布局改上下 */
+        #benefits .container > div {
+          grid-template-columns: 1fr !important;
+          gap: 30px !important;
+        }
+        
+        #benefits .container > div > div:last-child > div {
+          width: 200px !important;
+          height: 400px !important;
+        }
+        
+        /* FAQ */
+        #faq .container > div:last-child {
+          grid-template-columns: 1fr !important;
+          gap: 24px !important;
+        }
+
+        #faq .container > div:last-child > div:first-child {
+          order: 1;
+        }
+
+        #faq .container > div:last-child > div:last-child {
+          order: 0;
+          position: static !important;
+        }
+
+        #faq .container > div:last-child > div {
+          padding: 16px 20px !important;
+        }
+
+        /* 咨询入口卡移动端 */
+        #faq .container > div:last-child > div:last-child > div {
+          padding: 20px !important;
+        }
+        
+        /* CTA区域 */
+        #contact-cta .container {
+          padding: 40px 20px !important;
+        }
+        
+        #contact-cta h2 {
+          font-size: 24px !important;
+        }
+        
+        #contact-cta > div > div:last-child {
+          flex-direction: column;
+          gap: 12px;
+        }
+        
+        #contact-cta > div > div:last-child a {
+          width: 100%;
+          justify-content: center;
+        }
+        
+        /* Footer */
+        .footer .footer-grid {
+          grid-template-columns: 1fr !important;
+          gap: 30px !important;
+        }
+        
+        .footer .footer-grid > div {
+          text-align: center;
+        }
+        
+        .footer .footer-links {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 12px 20px;
+        }
+        
+        .footer .footer-links li {
+          margin: 0 !important;
+        }
+        
+        .footer-bottom {
+          text-align: center;
+        }
+      }
+      
+      /* 超小屏幕适配 */
+      @media (max-width: 375px) {
+        #why-aibrain .container > div:last-child {
+          grid-template-columns: 1fr !important;
+        }
+        
+        #model-ecosystem .container > div:last-child,
+        #platform .container > div:last-child {
+          grid-template-columns: 1fr !important;
+        }
+        
+        /* 未来拓展方向超小屏单列 */
+        #finance-scenario .container > div > div[style*="grid-template-columns: repeat(4, 1fr)"] {
+          grid-template-columns: 1fr !important;
+        }
+        
+        /* 周边设备超小屏适配 */
+        #peripherals .container > div > div[style*="repeat(4, 1fr)"] {
+          grid-template-columns: 1fr !important;
+        }
+        
+        #peripherals .container > div > div[style*="repeat(5, 1fr)"] {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        /* 外接设备模块手机端专项优化 */
+        #peripherals .peripheral-cards {
+          gap: 10px !important;
+        }
+        
+        #peripherals .peripheral-card {
+          padding: 14px 12px !important;
+          min-height: auto !important;
+        }
+        
+        #peripherals .peripheral-icon {
+          width: 28px !important;
+          height: 28px !important;
+          margin-bottom: 10px !important;
+        }
+        
+        #peripherals .peripheral-icon svg {
+          width: 14px !important;
+          height: 14px !important;
+        }
+        
+        #peripherals .peripheral-title {
+          font-size: 13px !important;
+          margin-bottom: 4px !important;
+          line-height: 1.3 !important;
+        }
+        
+        #peripherals .peripheral-sub {
+          font-size: 11px !important;
+          margin-bottom: 4px !important;
+          line-height: 1.3 !important;
+        }
+        
+        #peripherals .peripheral-desc {
+          font-size: 11px !important;
+          line-height: 1.3 !important;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        #peripherals h3 {
+          margin-bottom: 14px !important;
+        }
+        
+        /* 接口模块超小屏 */
+        #product-capability .container > div > div[style*="min-height: 400px"] > div[style*="width: 280px"],
+        #interface-capability .container > div > div[style*="min-height: 400px"] > div[style*="width: 280px"] {
+          width: 160px !important;
+          height: 100px !important;
+        }
+        
+        /* 产品能力模块文字描述响应式 */
+        #product-capability p[style*="font-size: 15px"],
+        #interface-capability p[style*="font-size: 15px"] {
+          font-size: 14px !important;
+          line-height: 1.7 !important;
+          margin-bottom: 20px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 - 专题站导航 -->
+    <header class="header" style="background: #fff; border-bottom: 1px solid #e5e7eb;">
+      <div class="container">
+        <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0;">
+          <!-- 左侧：品牌文字 -->
+          <a href="#hero" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+            <span style="font-size: 17px; font-weight: 700; color: #1e293b;">中科融合算力网</span>
+          </a>
+          
+          <!-- 中间：6个主导航 - 轻量胶囊导航 -->
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <a href="#why-aibrain" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品介绍</a>
+            <a href="#product-capability" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品能力</a>
+            <a href="#finance-scenario" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">应用场景</a>
+            <a href="#platform" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">联网平台</a>
+            <a href="#specs" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品参数</a>
+            <a href="#benefits" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">更多福利</a>
+          </div>
+          
+          <!-- 右侧：返回主站 + 立即咨询 + 汉堡菜单 -->
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <a href="auth.html" class="aux-link" style="font-size: 13px; color: #94a3b8; text-decoration: none; padding: 4px 8px; transition: color 0.2s ease;">登录/注册</a>
+            <a href="javascript:void(0);" onclick="openConsultModal()" class="cta-btn desktop-cta" style="padding: 8px 18px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; font-size: 13px; font-weight: 500; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25); transition: all 0.25s ease;">立即咨询</a>
+            <!-- 汉堡菜单按钮 - 仅手机端显示 -->
+            <a href="javascript:void(0);" class="hamburger-btn" onclick="toggleMobileMenu()" style="display: none; flex-direction: column; justify-content: center; align-items: center; width: 32px; height: 32px; gap: 5px; cursor: pointer;">
+              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
+              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
+              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 登录状态检测脚本 -->
+    <script>
+      // 检查登录状态并更新导航栏
+      (function() {
+        const token = localStorage.getItem('auth_token');
+        const userStr = localStorage.getItem('auth_user');
+        
+        if (token && userStr) {
+          try {
+            const user = JSON.parse(userStr);
+            
+            // 更新桌面端导航
+            const desktopLoginLink = document.querySelector('.desktop-cta');
+            const desktopLoginAux = document.querySelector('.aux-link');
+            
+            if (desktopLoginAux) {
+              desktopLoginAux.innerHTML = '<span style="color: #2563eb; font-weight: 500;">' + user.username + '</span> | <a href="javascript:void(0);" onclick="logout()" style="color: #94a3b8;">退出</a>';
+            }
+            
+            // 更新手机端导航
+            const mobileLoginLink = document.querySelector('#mobile-menu .mobile-nav-item[href="auth.html"]');
+            if (mobileLoginLink) {
+              mobileLoginLink.innerHTML = '<span style="color: #2563eb; font-weight: 500;">' + user.username + '</span>';
+              mobileLoginLink.href = 'javascript:void(0);';
+              mobileLoginLink.onclick = function() { logout(); };
+            }
+          } catch (e) {
+            console.error('解析用户信息失败:', e);
+          }
+        }
+      })();
+      
+      // 退出登录函数
+      function logout() {
+        if (confirm('确定要退出登录吗？')) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          window.location.href = 'aibrain-new.html';
+        }
+      }
+      window.logout = logout;
+    </script>
+    
+    <!-- 手机端折叠菜单 -->
+    <div id="mobile-menu" class="mobile-menu" style="display: none; position: fixed; top: 64px; left: 0; right: 0; background: #fff; border-bottom: 1px solid #e5e7eb; z-index: 999; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <div style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="#why-aibrain" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">产品介绍</a>
+        <a href="#product-capability" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">产品能力</a>
+        <a href="#finance-scenario" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">应用场景</a>
+        <a href="#platform" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">联网平台</a>
+        <a href="#specs" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">产品参数</a>
+        <a href="#benefits" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; border-radius: 8px;">更多福利</a>
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 8px 0;">
+        <a href="auth.html" class="mobile-nav-item" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #1e293b; text-decoration: none; text-align: center; border-radius: 8px;">登录/注册</a>
+        <a href="javascript:void(0);" onclick="openConsultModal()" style="padding: 12px 16px; font-size: 15px; font-weight: 500; color: #2563eb; text-decoration: none; text-align: center; background: #eff6ff; border-radius: 8px;">立即咨询</a>
+      </div>
+    </div>
+    <style>
+      .nav-item:hover {
+        color: #334155 !important;
+        background: #f8fafc;
+      }
+      .nav-item.active {
+        color: #2563eb !important;
+        background: #eff6ff;
+        font-weight: 600;
+      }
+      .aux-link:hover {
+        color: #64748b !important;
+      }
+      .cta-btn:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+        transform: translateY(-1px);
+      }
+    </style>
+    
+    <!-- 1、Hero 首屏 - 产品家族版 -->
+    <section id="hero" class="hero-carousel" style="position: relative; height: 680px; overflow: hidden; background: #081A3A;">
+      <!-- Slide 1: 核心产品矩阵发布 -->
+      <div class="hero-slide" data-index="0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
+            <div>
+              <div style="display: inline-block; padding: 6px 14px; background: rgba(37,99,235,0.3); border-radius: 20px; margin-bottom: 20px;">
+                <span style="font-size: 12px; color: #60A5FA; font-weight: 500;">核心产品矩阵</span>
+              </div>
+              <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px; line-height: 1.2;">个人数字大脑AIBrain-3576M</h1>
+              <p style="font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 12px; line-height: 1.7;">围绕个人金融终端、便携智能助手、企业级智能体设备与 AI 算力平台，构建面向多场景的边缘智能产品体系。</p>
+              <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px;">当前主推产品：FinBrain-3576F · FinBrain-VSII · VSII AI智能体盒 · ME21 AI算力盒</p>
+              <div style="display: flex; gap: 16px;">
+                <a href="#product-matrix" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看核心产品</a>
+                <a href="#contact-cta" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">预约咨询</a>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <div style="width: 320px; height: 320px; background: linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(18,51,107,0.4) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="position: absolute; width: 260px; height: 260px; border: 1px solid rgba(37,99,235,0.3); border-radius: 50%;"></div>
+                <div style="position: absolute; width: 200px; height: 200px; border: 1px solid rgba(37,99,235,0.5); border-radius: 50%;"></div>
+                <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 48px rgba(37,99,235,0.5);">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                    <rect x="4" y="4" width="16" height="16" rx="2"/>
+                    <rect x="9" y="9" width="6" height="6"/>
+                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 2: 分布式算力生产 -->
+      <div class="hero-slide" data-index="1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0B234D 0%, #081A3A 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
+            <div>
+              <div style="display: inline-block; padding: 6px 14px; background: rgba(37,99,235,0.3); border-radius: 20px; margin-bottom: 20px;">
+                <span style="font-size: 12px; color: #60A5FA; font-weight: 500;">核心机制</span>
+              </div>
+              <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px; line-height: 1.2;">分布式算力生产</h1>
+              <p style="font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 12px; line-height: 1.7;">闲时算力调度，忙时算力生产</p>
+              <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 32px;">设备空闲时可参与训练与任务分发，需要时可调用现成能力，让终端拥有生产价值，而不只是使用价值。</p>
+              <div style="display: flex; gap: 16px;">
+                <a href="#distributed-computing" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">了解核心机制</a>
+                <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">联系咨询</a>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <div style="position: relative; width: 340px; height: 340px;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(37,99,235,0.5); z-index: 3;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; background: rgba(37,99,235,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.5);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 80px; background: rgba(37,99,235,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.5);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 80px; height: 80px; background: rgba(37,99,235,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.5);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 80px; height: 80px; background: rgba(37,99,235,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.5);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                </div>
+                <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" viewBox="0 0 340 340">
+                  <line x1="170" y1="80" x2="170" y2="130" stroke="rgba(37,99,235,0.4)" stroke-width="1" stroke-dasharray="4,4"/>
+                  <line x1="170" y1="260" x2="170" y2="210" stroke="rgba(37,99,235,0.4)" stroke-width="1" stroke-dasharray="4,4"/>
+                  <line x1="80" y1="170" x2="130" y2="170" stroke="rgba(37,99,235,0.4)" stroke-width="1" stroke-dasharray="4,4"/>
+                  <line x1="260" y1="170" x2="210" y2="170" stroke="rgba(37,99,235,0.4)" stroke-width="1" stroke-dasharray="4,4"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 3: 海量模型 + 智能体应用 -->
+      <div class="hero-slide" data-index="2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
+            <div>
+              <div style="display: inline-block; padding: 6px 14px; background: rgba(37,99,235,0.3); border-radius: 20px; margin-bottom: 20px;">
+                <span style="font-size: 12px; color: #60A5FA; font-weight: 500;">能力生态</span>
+              </div>
+              <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px; line-height: 1.2;">支持和内置海量模型<br/>+ 智能体应用</h1>
+              <p style="font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 12px; line-height: 1.7;">围绕终端能力与平台协同逻辑，承接多模型、多场景与多类型智能应用能力。</p>
+              <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 32px;">支持通用对话、内容生成、金融分析、多模态理解与垂直行业能力接入。</p>
+              <div style="display: flex; gap: 16px;">
+                <a href="#model-ecosystem" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看模型与应用</a>
+                <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">预约咨询</a>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <div style="position: relative; width: 320px; height: 320px;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(37,99,235,0.5); z-index: 3;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                    <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                    <path d="M12 2a10 10 0 0 1 10 10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 70px; height: 70px; background: rgba(37,99,235,0.25); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.4);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 70px; height: 70px; background: rgba(37,99,235,0.25); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.4);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); width: 70px; height: 70px; background: rgba(37,99,235,0.25); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.4);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 50%; right: 20px; transform: translateY(-50%); width: 70px; height: 70px; background: rgba(37,99,235,0.25); border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.4);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 60px; left: 60px; width: 60px; height: 60px; background: rgba(37,99,235,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.3);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; top: 60px; right: 60px; width: 60px; height: 60px; background: rgba(37,99,235,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.3);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; bottom: 60px; left: 60px; width: 60px; height: 60px; background: rgba(37,99,235,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.3);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </div>
+                <div style="position: absolute; bottom: 60px; right: 60px; width: 60px; height: 60px; background: rgba(37,99,235,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(37,99,235,0.3);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bar 导航 -->
+      <div class="hero-carousel-nav" style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10;">
+        <button class="carousel-dot active" data-index="0" style="width: 48px; height: 4px; background: rgba(255,255,255,0.4); border: none; border-radius: 2px; cursor: pointer; transition: all 0.3s ease; padding: 0;"></button>
+        <button class="carousel-dot" data-index="1" style="width: 48px; height: 4px; background: rgba(255,255,255,0.4); border: none; border-radius: 2px; cursor: pointer; transition: all 0.3s ease; padding: 0;"></button>
+        <button class="carousel-dot" data-index="2" style="width: 48px; height: 4px; background: rgba(255,255,255,0.4); border: none; border-radius: 2px; cursor: pointer; transition: all 0.3s ease; padding: 0;"></button>
+      </div>
+    </section>
+    
+    <script>
+    (function() {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.carousel-dot');
+      let currentIndex = 0;
+      let isAnimating = false;
+      let autoPlayInterval;
+      const stayTime = 5000;
+      const transitionTime = 1000;
+      
+      slides.forEach((slide, i) => {
+        slide.style.transition = 'none';
+        if (i === 0) {
+          slide.style.transform = 'translateX(0)';
+          slide.style.opacity = '1';
+        } else {
+          slide.style.transform = 'translateX(100%)';
+          slide.style.opacity = '0';
+        }
+      });
+      
+      setTimeout(() => {
+        slides.forEach(slide => {
+          slide.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+      }, 100);
+      
+      function showSlide(index) {
+        if (isAnimating || index === currentIndex) return;
+        isAnimating = true;
+        
+        const enteringSlide = slides[index];
+        const leavingSlide = slides[currentIndex];
+        
+        dots.forEach((dot, i) => {
+          dot.style.background = i === index ? '#2563EB' : 'rgba(255,255,255,0.4)';
+          dot.classList.toggle('active', i === index);
+        });
+        
+        enteringSlide.style.transform = 'translateX(0)';
+        enteringSlide.style.opacity = '1';
+        leavingSlide.style.transform = 'translateX(-100%)';
+        leavingSlide.style.opacity = '0';
+        
+        setTimeout(() => {
+          leavingSlide.style.transform = 'translateX(100%)';
+          currentIndex = index;
+          isAnimating = false;
+        }, transitionTime);
+      }
+      
+      function nextSlide() {
+        const nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+      }
+      
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, stayTime + transitionTime);
+      }
+      
+      function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+      }
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          stopAutoPlay();
+          showSlide(index);
+          startAutoPlay();
+        });
+      });
+      
+      startAutoPlay();
+    })();
+    </script>
+    
+    <!-- 2、核心产品矩阵 -->
+    <section id="product-matrix" class="reveal-up" style="padding: 100px 0; background: linear-gradient(180deg, #FAFBFF 0%, #F0F4FF 100%);">
+      <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 40px;">
+        <div style="text-align: center; margin-bottom: 60px;">
+          <h2 style="font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">核心产品矩阵</h2>
+          <p style="font-size: 16px; color: var(--text-light); line-height: 1.8; max-width: 700px; margin: 0 auto;">围绕个人金融终端、便携式智能助手、企业级 AI 智能体设备与通用 AI 算力平台，形成分层清晰的产品体系。</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+          <!-- 产品1: FinBrain-3576F -->
+          <div class="reveal-stagger" style="background: #fff; border-radius: 20px; padding: 32px 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.08); border: 1px solid #E5E7EB; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(15,23,42,0.12)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 40px rgba(15,23,42,0.08)';">
+            <div style="display: inline-block; padding: 6px 12px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 8px; margin-bottom: 20px;">
+              <span style="font-size: 12px; color: #fff; font-weight: 600;">主推</span>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">FinBrain-3576F</h3>
+            <p style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">个人金融数字大脑 · 标准版</p>
+            <div style="border-top: 1px solid #E5E7EB; padding-top: 16px; margin-bottom: 16px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心算力</p>
+              <p style="font-size: 12px; color: #6B7280;">RK3576 八核 + 6TOPS NPU</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心功能</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.6;">金融模型融合 · OCR识别 · 隐私计算 · 本地+云协同</p>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">应用场景</p>
+              <p style="font-size: 12px; color: #6B7280;">个人理财 · 投资分析 · 文档管理</p>
+            </div>
+          </div>
+          
+          <!-- 产品2: FinBrain-VSII -->
+          <div class="reveal-stagger" style="background: #fff; border-radius: 20px; padding: 32px 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.08); border: 1px solid #E5E7EB; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(15,23,42,0.12)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 40px rgba(15,23,42,0.08)';">
+            <div style="display: inline-block; padding: 6px 12px; background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); border-radius: 8px; margin-bottom: 20px;">
+              <span style="font-size: 12px; color: #fff; font-weight: 600;">升级</span>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">FinBrain-VSII</h3>
+            <p style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">个人金融数字大脑 · 便携版</p>
+            <div style="border-top: 1px solid #E5E7EB; padding-top: 16px; margin-bottom: 16px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心算力</p>
+              <p style="font-size: 12px; color: #6B7280;">VSII 四核 + 6.75TOPS NPU</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心功能</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.6;">移动办公 · 语音交互 · 金融智能体增强</p>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">应用场景</p>
+              <p style="font-size: 12px; color: #6B7280;">移动理财 · 投研办公</p>
+            </div>
+          </div>
+          
+          <!-- 产品3: VSII AI智能体盒 -->
+          <div class="reveal-stagger" style="background: #fff; border-radius: 20px; padding: 32px 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.08); border: 1px solid #E5E7EB; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(15,23,42,0.12)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 40px rgba(15,23,42,0.08)';">
+            <div style="display: inline-block; padding: 6px 12px; background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 8px; margin-bottom: 20px;">
+              <span style="font-size: 12px; color: #fff; font-weight: 600;">企业</span>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">VSII AI智能体盒</h3>
+            <p style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">企业级AI数字员工系统</p>
+            <div style="border-top: 1px solid #E5E7EB; padding-top: 16px; margin-bottom: 16px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心算力</p>
+              <p style="font-size: 12px; color: #6B7280;">6.75TOPS NPU + OpenClaw/FinClaw</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心功能</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.6;">自动化执行 · 私有部署 · 数据本地化</p>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">应用场景</p>
+              <p style="font-size: 12px; color: #6B7280;">银行 · 证券 · 保险 · 风控</p>
+            </div>
+          </div>
+          
+          <!-- 产品4: ME21 AI算力盒 -->
+          <div class="reveal-stagger" style="background: #fff; border-radius: 20px; padding: 32px 24px; box-shadow: 0 12px 40px rgba(15,23,42,0.08); border: 1px solid #E5E7EB; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(15,23,42,0.12)';" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 40px rgba(15,23,42,0.08)';">
+            <div style="display: inline-block; padding: 6px 12px; background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); border-radius: 8px; margin-bottom: 20px;">
+              <span style="font-size: 12px; color: #fff; font-weight: 600;">算力</span>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">ME21 AI算力盒</h3>
+            <p style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">通用AI开发与边缘计算平台</p>
+            <div style="border-top: 1px solid #E5E7EB; padding-top: 16px; margin-bottom: 16px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心算力</p>
+              <p style="font-size: 12px; color: #6B7280;">CPU + GPU + NPU (50TOPS)</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">核心功能</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.6;">本地大模型部署 · 视觉推理 · AI开发环境</p>
+            </div>
+            <div>
+              <p style="font-size: 12px; color: #374151; font-weight: 500; margin-bottom: 8px;">应用场景</p>
+              <p style="font-size: 12px; color: #6B7280;">科研 · 教育 · AI开发 · 机器人</p>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 48px;">
+          <p style="font-size: 14px; color: #6B7280;">* 以下详细能力展示以当前主推型号 <strong>FinBrain-3576F</strong> 为例</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 3、FinBrain-3576F 核心能力 -->
+    <section id="why-aibrain" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1000px; text-align: center;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 20px;">FinBrain-3576F 四大核心能力</h2>
+        <p style="font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto;">以 RK3576 八核处理器与 6TOPS NPU 为底座，围绕金融分析、文档管理、隐私计算与云端协同，构建面向个人与专业用户的边缘金融智能终端。</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+          <div class="reveal-stagger card-hover" style="padding: 28px 20px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+            </div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">金融模型融合</h3>
+            <p style="font-size: 12px; color: var(--text-light); line-height: 1.5;">集成 FinClaw 2.0 金融智能体核心，支持量化交易、风险评估、资产估值等多模型融合。</p>
+          </div>
+          <div class="reveal-stagger card-hover" style="padding: 28px 20px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">OCR 智能识别</h3>
+            <p style="font-size: 12px; color: var(--text-light); line-height: 1.5;">内置 800 万像素文档扫描摄像头，支持合同、发票、票据、身份证、银行卡等 OCR 识别。</p>
+          </div>
+          <div class="reveal-stagger card-hover" style="padding: 28px 20px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">隐私计算</h3>
+            <p style="font-size: 12px; color: var(--text-light); line-height: 1.5;">本地长效记忆存储与模型缓存，敏感数据不出设备，确保金融隐私安全。</p>
+          </div>
+          <div class="reveal-stagger card-hover" style="padding: 28px 20px; background: var(--bg-white); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,0.06); border: 1px solid #D9E6FF;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">本地+云协同</h3>
+            <p style="font-size: 12px; color: var(--text-light); line-height: 1.5;">支持 5G/WiFi6/双网口连接，实时同步文档与数据，按需调用云端能力。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 3、产品能力（核心硬件能力 + 接口与扩展能力） -->
+    <section id="product-capability" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1200px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 40px; text-align: left;">核心硬件能力</h2>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: center;">
+          <div style="position: relative; background: linear-gradient(145deg, #081A3A 0%, #0B234D 100%); border-radius: 24px; padding: 80px; display: flex; align-items: center; justify-content: center; min-height: 400px; overflow: hidden;">
+            <img src="images/product1.png" alt="FinBrain-3576F" style="width: 100%; height: 100%; object-fit: contain; position: absolute; left: 0; top: 0;" />
+            <div style="position: absolute; top: 24px; left: 32px; background: rgba(37,99,235,0.6); border-radius: 8px; padding: 8px 16px; backdrop-filter: blur(8px);">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">RK3576 八核</span>
+            </div>
+            <div style="position: absolute; top: 24px; right: 32px; background: rgba(37,99,235,0.6); border-radius: 8px; padding: 8px 16px; backdrop-filter: blur(8px);">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">6TOPS NPU</span>
+            </div>
+            <div style="position: absolute; bottom: 24px; left: 32px; background: rgba(37,99,235,0.6); border-radius: 8px; padding: 8px 16px; backdrop-filter: blur(8px);">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">800万摄像头</span>
+            </div>
+            <div style="position: absolute; bottom: 24px; right: 32px; background: rgba(37,99,235,0.6); border-radius: 8px; padding: 8px 16px; backdrop-filter: blur(8px);">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">5G/双网口</span>
+            </div>
+          </div>
+          <div>
+            <p style="font-size: 15px; color: var(--text-light); line-height: 1.8; margin-bottom: 24px;">为金融模型推理、智能体调用与边缘计算提供底层算力支撑，满足专业金融场景的本地处理与云端协同需求。</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">RK3576 八核处理器 + 6TOPS NPU 金融算力</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">本地长效记忆存储与模型缓存</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">内置 800 万像素文档扫描摄像头</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">5G/4G/WiFi6/双网口多网络接入</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 4、接口与扩展能力（FinBrain-3576F） -->
+    <section id="interface-capability" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1200px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 40px; text-align: left;">接口与扩展能力</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; align-items: center;">
+          <div>
+            <p style="font-size: 15px; color: var(--text-light); line-height: 1.8; margin-bottom: 24px;">围绕显示交互、网络接入、文档扫描与专业外设扩展，提供完整的金融终端接口能力。</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">显示与交互扩展（HDMI 2.1 / 音频输入输出）</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">网络与数据接入（5G/双网口/蓝牙/SIM卡）</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">扫描与文档处理（内置800万摄像头/外接扫描仪）</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 6px; height: 6px; background: #2563EB; border-radius: 50%;"></div>
+                <span style="font-size: 14px; color: var(--text-dark);">专业外设与串口扩展（USB/COM/存储）</span>
+              </div>
+            </div>
+          </div>
+          <div style="position: relative; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 24px; padding: 80px; display: flex; align-items: center; justify-content: center; min-height: 400px; overflow: hidden;">
+            <img src="images/product2.png" alt="接口与扩展能力" style="width: 100%; height: 100%; object-fit: contain; position: absolute; left: 0; top: 0;" />
+            <div style="position: absolute; top: 28px; right: 28px; background: #2563EB; border-radius: 8px; padding: 8px 16px;">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">双网口</span>
+            </div>
+            <div style="position: absolute; top: 28px; left: 28px; background: #2563EB; border-radius: 8px; padding: 8px 16px;">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">HDMI 2.1</span>
+            </div>
+            <div style="position: absolute; bottom: 28px; left: 28px; background: #2563EB; border-radius: 8px; padding: 8px 16px;">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">5G/SIM</span>
+            </div>
+            <div style="position: absolute; bottom: 28px; right: 28px; background: #2563EB; border-radius: 8px; padding: 8px 16px;">
+              <span style="color: #fff; font-size: 13px; font-weight: 500;">USB 3.0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 5、金融场景（FinBrain-3576F） -->
+    <section id="finance-scenario" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 40px; text-align: left;">FinBrain-3576F 应用场景</h2>
+        
+        <div style="padding: 40px; background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); border-radius: 20px; margin-bottom: 32px;">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;">
+            <div>
+              <div style="display: inline-block; padding: 5px 14px; background: rgba(37,99,235,0.4); border-radius: 20px; margin-bottom: 14px;">
+                <span style="font-size: 12px; color: #fff; font-weight: 500;">主推场景</span>
+              </div>
+              <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 12px;">个人金融数字大脑</h3>
+              <p style="font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7;">聚焦金融场景，围绕日常理财、资产分析、文档管理与隐私计算，提供面向个人与专业用户的边缘金融智能终端。</p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+              <div style="width: 160px; height: 160px; background: linear-gradient(135deg, rgba(37,99,235,0.3) 0%, rgba(18,51,107,0.5) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 24px; display: flex; align-items: center; justify-content: center;">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">核心应用场景</h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+            <div style="padding: 24px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+              <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">个人金融助理</h4>
+              <span style="font-size: 11px; color: var(--text-light); background: var(--bg-light); padding: 3px 10px; border-radius: 10px;">日常理财</span>
+            </div>
+            <div style="padding: 24px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+              <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">智能理财顾问</h4>
+              <span style="font-size: 11px; color: var(--text-light); background: var(--bg-light); padding: 3px 10px; border-radius: 10px;">分析辅助</span>
+            </div>
+            <div style="padding: 24px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+              <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">文档管理中心</h4>
+              <span style="font-size: 11px; color: var(--text-light); background: var(--bg-light); padding: 3px 10px; border-radius: 10px;">OCR识别</span>
+            </div>
+            <div style="padding: 24px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; text-align: center;">
+              <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">风险监控节点</h4>
+              <span style="font-size: 11px; color: var(--text-light); background: var(--bg-light); padding: 3px 10px; border-radius: 10px;">隐私计算</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- 6、分布式算力网络 -->
+    <section id="distributed-computing" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1000px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; text-align: center;">分布式算力生产</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; text-align: center;">让终端拥有生产能力，而不只是使用能力</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 28px;">
+          <div style="padding: 36px; background: var(--bg-white); border-radius: 18px; box-shadow: 0 10px 28px rgba(15,23,42,0.06); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 10px;">闲置时共享算力</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">设备空闲时可参与训练与任务分发，提升资源利用效率。</p>
+          </div>
+          <div style="padding: 36px; background: var(--bg-white); border-radius: 18px; box-shadow: 0 10px 28px rgba(15,23,42,0.06); border: 1px solid #D9E6FF; text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 10px;">按需调用现成能力</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">无需从零训练，可直接接入已训练模型与能力成果。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 7、模型生态 -->
+    <section id="model-ecosystem" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1200px;">
+        <h2 style="font-size: 28px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">金融模型与能力生态</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; line-height: 1.6;">围绕量化分析、风险评估、资产估值、组合优化与文档智能处理，构建面向个人金融终端的多模型协同能力体系。</p>
+        
+        <!-- 分类切换 Tab -->
+        <div class="model-tabs" style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+          <button class="model-tab active" data-category="general" style="padding: 12px 24px; border-radius: 10px; border: 1px solid rgb(15, 23, 42); background: rgb(15, 23, 42); color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+            通用对话模型
+          </button>
+          <button class="model-tab" data-category="office" style="padding: 12px 24px; border-radius: 10px; border: 1px solid #D9E6FF; background: var(--bg-white); color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+            办公与内容生成
+          </button>
+          <button class="model-tab model-tab--featured" data-category="finance" style="padding: 12px 24px; border-radius: 10px; border: 1px solid #D9E6FF; background: var(--bg-white); color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; position: relative;">
+            <span style="position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);">HOT</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              金融分析模型
+            </span>
+          </button>
+          <button class="model-tab" data-category="multimodal" style="padding: 12px 24px; border-radius: 10px; border: 1px solid #D9E6FF; background: var(--bg-white); color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+            多模态理解模型
+          </button>
+          <button class="model-tab" data-category="vertical" style="padding: 12px 24px; border-radius: 10px; border: 1px solid #D9E6FF; background: var(--bg-white); color: var(--text-dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+            垂直行业模型
+          </button>
+        </div>
+        
+        <!-- 模型卡片列表区 -->
+        <div class="model-cards-container">
+          <!-- 通用对话模型 -->
+          <div class="model-category active" data-category="general" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">GLM</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">智谱AI</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">GLM-5</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">通用对话</span>
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">长上下文</span>
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">旗舰能力</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥5 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥15 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Kimi</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">月之暗面</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">Kimi-K2.5</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">长上下文</span>
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">智能助手</span>
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">旗舰能力</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥3 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥12 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 11px;">Mini</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">MiniMax</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">MiniMax-M2.5</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年12月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #F3E8FF; color: #7C3AED; border-radius: 4px; font-size: 11px;">通用对话</span>
+                  <span style="padding: 4px 10px; background: #F3E8FF; color: #7C3AED; border-radius: 4px; font-size: 11px;">智能助手</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥2 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥8 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">DS</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">DeepSeek</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">DeepSeek-V3.2</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年2月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FEF3C7; color: #D97706; border-radius: 4px; font-size: 11px;">通用对话</span>
+                  <span style="padding: 4px 10px; background: #FEF3C7; color: #D97706; border-radius: 4px; font-size: 11px;">代码能力</span>
+                  <span style="padding: 4px 10px; background: #FEF3C7; color: #D97706; border-radius: 4px; font-size: 11px;">高性价比</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥1 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥4 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 办公与内容生成 -->
+          <div class="model-category" data-category="office" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">WPS</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">金山办公</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">WPS AI 文档生成</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年10月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">文档生成</span>
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">内容生成</span>
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">办公协同</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥4 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥12 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Doc</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">百度</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">文心一言长文本</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年11月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">长文本处理</span>
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">办公协同</span>
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">写作辅助</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥3 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥9 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">TX</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">腾讯</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">混元内容改写</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年12月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #ECFCCB; color: #65A30D; border-radius: 4px; font-size: 11px;">内容改写</span>
+                  <span style="padding: 4px 10px; background: #ECFCCB; color: #65A30D; border-radius: 4px; font-size: 11px;">写作辅助</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥2.5 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥7.5 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Ali</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">阿里巴巴</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">通义PPT助手</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">PPT辅助</span>
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">办公协同</span>
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">内容生成</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥4 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥12 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 金融分析模型 -->
+          <div class="model-category" data-category="finance" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div class="model-card model-card--featured" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease; position: relative;">
+              <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #fff; padding: 4px 12px; border-radius: 0 0 0 10px; font-size: 11px; font-weight: 600;">金融专用</div>
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Fin</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">中科融合算力网</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">FinBrain 金融问答</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布 · 专为金融领域优化</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #DBEAFE; color: #1E40AF; border-radius: 4px; font-size: 11px; font-weight: 500;">金融问答</span>
+                  <span style="padding: 4px 10px; background: #DBEAFE; color: #1E40AF; border-radius: 4px; font-size: 11px; font-weight: 500;">公告解读</span>
+                  <span style="padding: 4px 10px; background: #DBEAFE; color: #1E40AF; border-radius: 4px; font-size: 11px; font-weight: 500;">风险提示</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: #1E40AF; font-weight: 600;">¥8 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: #1E40AF; font-weight: 600;">¥24 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card model-card--featured" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease; position: relative;">
+              <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #fff; padding: 4px 12px; border-radius: 0 0 0 10px; font-size: 11px; font-weight: 600;">金融专用</div>
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Ann</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">中科融合算力网</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">公告解读专家</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布 · 上市公司公告解析</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #D1FAE5; color: #047857; border-radius: 4px; font-size: 11px; font-weight: 500;">公告解读</span>
+                  <span style="padding: 4px 10px; background: #D1FAE5; color: #047857; border-radius: 4px; font-size: 11px; font-weight: 500;">研报辅助</span>
+                  <span style="padding: 4px 10px; background: #D1FAE5; color: #047857; border-radius: 4px; font-size: 11px; font-weight: 500;">风险提示</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: #047857; font-weight: 600;">¥10 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: #047857; font-weight: 600;">¥30 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card model-card--featured" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease; position: relative;">
+              <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #fff; padding: 4px 12px; border-radius: 0 0 0 10px; font-size: 11px; font-weight: 600;">金融专用</div>
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Res</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">中科融合算力网</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">研报辅助生成</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年2月发布 · 投研报告智能辅助</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #EDE9FE; color: #6D28D9; border-radius: 4px; font-size: 11px; font-weight: 500;">研报辅助</span>
+                  <span style="padding: 4px 10px; background: #EDE9FE; color: #6D28D9; border-radius: 4px; font-size: 11px; font-weight: 500;">金融问答</span>
+                  <span style="padding: 4px 10px; background: #EDE9FE; color: #6D28D9; border-radius: 4px; font-size: 11px; font-weight: 500;">市场解读</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: #6D28D9; font-weight: 600;">¥12 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: #6D28D9; font-weight: 600;">¥36 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="model-card model-card--featured" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease; position: relative;">
+              <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #fff; padding: 4px 12px; border-radius: 0 0 0 10px; font-size: 11px; font-weight: 600;">金融专用</div>
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Mkt</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">中科融合算力网</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">市场解读助手</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年2月发布 · 实时市场动态分析</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FEE2E2; color: #B91C1C; border-radius: 4px; font-size: 11px; font-weight: 500;">市场解读</span>
+                  <span style="padding: 4px 10px; background: #FEE2E2; color: #B91C1C; border-radius: 4px; font-size: 11px; font-weight: 500;">金融问答</span>
+                  <span style="padding: 4px 10px; background: #FEE2E2; color: #B91C1C; border-radius: 4px; font-size: 11px; font-weight: 500;">风险提示</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: #B91C1C; font-weight: 600;">¥6 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: #B91C1C; font-weight: 600;">¥18 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 多模态理解模型 -->
+          <div class="model-category" data-category="multimodal" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Qwen</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">阿里巴巴</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">通义千问VL</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年11月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">图文理解</span>
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">资料识别</span>
+                  <span style="padding: 4px 10px; background: #EFF6FF; color: #2563EB; border-radius: 4px; font-size: 11px;">多模态输入</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥8 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥24 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Yi</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">零一万物</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">Yi-Vision</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年12月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">图像解析</span>
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">图文理解</span>
+                  <span style="padding: 4px 10px; background: #ECFDF5; color: #059669; border-radius: 4px; font-size: 11px;">资料识别</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥6 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥18 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 垂直行业模型 -->
+          <div class="model-category" data-category="vertical" style="display: none; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Edu</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">教育科技</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">EduBrain 教育助手</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年12月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">教育</span>
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">知识问答</span>
+                  <span style="padding: 4px 10px; background: #FCE7F3; color: #DB2777; border-radius: 4px; font-size: 11px;">学习辅助</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥3 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥9 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Med</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">医疗AI</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">MediAssist 医疗辅助</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年1月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">医疗辅助</span>
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">知识库</span>
+                  <span style="padding: 4px 10px; background: #CFFAFE; color: #0891B2; border-radius: 4px; font-size: 11px;">专业服务</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥5 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥15 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #84CC16 0%, #65A30D 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">KB</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">企业智能</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">KnowledgeBase Pro</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2024年11月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #ECFCCB; color: #65A30D; border-radius: 4px; font-size: 11px;">企业知识库</span>
+                  <span style="padding: 4px 10px; background: #ECFCCB; color: #65A30D; border-radius: 4px; font-size: 11px;">行业Agent</span>
+                  <span style="padding: 4px 10px; background: #ECFCCB; color: #65A30D; border-radius: 4px; font-size: 11px;">专业服务</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥4 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥12 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card" style="background: var(--bg-white); border-radius: 16px; border: 1px solid #E5E7EB; overflow: hidden; transition: all 0.3s ease;">
+              <div style="padding: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                  <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px;">Law</div>
+                  <div>
+                    <div style="font-size: 13px; color: var(--text-light);">法律科技</div>
+                  </div>
+                </div>
+                <h3 style="font-size: 17px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">LegalMind 法务助手</h3>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">2025年2月发布</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">专业服务</span>
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">行业Agent</span>
+                  <span style="padding: 4px 10px; background: #FFEDD5; color: #EA580C; border-radius: 4px; font-size: 11px;">知识问答</span>
+                </div>
+                <div style="border-top: 1px solid #E5E7EB; padding-top: 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                    <span style="color: var(--text-light);">输入</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥6 / M 词元</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <span style="color: var(--text-light);">输出</span>
+                    <span style="color: var(--text-dark); font-weight: 500;">¥18 / M 词元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 8、平台服务 - 主视觉级平台能力中枢图 -->
+    <section id="platform" class="reveal-up" style="padding: 100px 0 120px; background: linear-gradient(180deg, #FAFBFF 0%, #F0F4FF 100%); position: relative; overflow: hidden;">
+      <!-- 背景氛围层 -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+        <!-- 顶部渐变光晕 -->
+        <div style="position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(37,99,235,0.04) 0%, transparent 70%);"></div>
+        <!-- 底部平台底座光晕 -->
+        <div style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(37,99,235,0.06) 0%, transparent 60%);"></div>
+      </div>
+      
+      <div class="container" style="max-width: 1200px; position: relative; z-index: 1;">
+        <!-- 标题区 -->
+        <div style="text-align: center; margin-bottom: 60px;">
+          <h2 style="font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">联网平台</h2>
+          <p style="font-size: 16px; color: var(--text-light); line-height: 1.7; max-width: 560px; margin: 0 auto;">统一连接终端设备、文档数据、模型能力与云端服务，形成面向个人金融场景的协同平台中枢</p>
+        </div>
+        
+        <!-- 平台能力中枢主视觉 - 双形态响应式方案 -->
+        
+        <!-- 桌面端：中枢关系图 -->
+        <div class="platform-desktop-layout" style="position: relative; width: 1000px; height: 700px; margin: 0 auto;">
+          
+          <!-- ==================== 布局带1：顶部辅助带 (0-100px) ==================== -->
+          <div class="layout-band-top" style="position: absolute; top: 0; left: 0; width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; gap: 40px; z-index: 3;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
+              <div style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <span style="font-size: 12px; color: #64748B; white-space: nowrap;">OCR识别</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
+              <div style="width: 48px; height: 48px; min-width: 48px; min-height: 48px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <span style="font-size: 12px; color: #64748B; white-space: nowrap;">文档管理</span>
+            </div>
+          </div>
+          
+          <!-- ==================== 布局带2：中心主视觉带 (100-550px) ==================== -->
+          <svg class="layout-band-center" style="position: absolute; top: 100px; left: 0; width: 100%; height: 450px; pointer-events: none; z-index: 1;" viewBox="0 0 1000 450" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#BFDBFE;stop-opacity:0.3" />
+                <stop offset="50%" style="stop-color:#2563EB;stop-opacity:0.6" />
+                <stop offset="100%" style="stop-color:#BFDBFE;stop-opacity:0.3" />
+              </linearGradient>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            
+            <ellipse cx="500" cy="400" rx="180" ry="35" fill="none" stroke="#E0E7FF" stroke-width="1" opacity="0.5"/>
+            <ellipse cx="500" cy="400" rx="140" ry="28" fill="none" stroke="#BFDBFE" stroke-width="1" opacity="0.6"/>
+            <ellipse cx="500" cy="400" rx="100" ry="20" fill="none" stroke="#93C5FD" stroke-width="1.5" opacity="0.7"/>
+            
+            <path d="M 430 225 Q 330 180 190 140" fill="none" stroke="url(#lineGradient)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <path d="M 570 225 Q 670 180 810 140" fill="none" stroke="url(#lineGradient)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <path d="M 430 275 Q 330 320 190 410" fill="none" stroke="url(#lineGradient)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <path d="M 570 275 Q 670 320 810 410" fill="none" stroke="url(#lineGradient)" stroke-width="1.5" stroke-dasharray="4,3"/>
+            
+            <circle cx="190" cy="140" r="4" fill="#2563EB" filter="url(#glow)"/>
+            <circle cx="810" cy="140" r="4" fill="#2563EB" filter="url(#glow)"/>
+            <circle cx="190" cy="410" r="4" fill="#2563EB" filter="url(#glow)"/>
+            <circle cx="810" cy="410" r="4" fill="#2563EB" filter="url(#glow)"/>
+          </svg>
+          
+          <!-- 中心主机 -->
+          <div class="layout-band-center-core" style="position: absolute; top: 100px; left: 400px; width: 200px; height: 350px; z-index: 2;">
+            <div style="position: relative; width: 200px; height: 350px;">
+              <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 180px; height: 60px; background: radial-gradient(ellipse, rgba(37,99,235,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+              <div style="position: absolute; top: 90px; left: 50%; transform: translateX(-50%); width: 140px; height: 160px; background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%); border-radius: 20px; box-shadow: 0 20px 60px rgba(15,23,42,0.3), inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.08);">
+                <div style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #2563EB 100%); border-radius: 2px; box-shadow: 0 0 12px rgba(37,99,235,0.5);"></div>
+                <div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); width: 110px; height: 90px; background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 4px;">FB</div>
+                    <div style="font-size: 9px; color: #64748B;">3576F</div>
+                  </div>
+                  <div style="position: absolute; bottom: 8px; display: flex; gap: 4px;">
+                    <div style="width: 4px; height: 4px; background: #10B981; border-radius: 50%; box-shadow: 0 0 6px #10B981;"></div>
+                    <div style="width: 4px; height: 4px; background: #3B82F6; border-radius: 50%; box-shadow: 0 0 6px #3B82F6;"></div>
+                    <div style="width: 4px; height: 4px; background: #F59E0B; border-radius: 50%;"></div>
+                  </div>
+                </div>
+                <div style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+                  <div style="width: 20px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px;"></div>
+                  <div style="width: 6px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                  <div style="width: 20px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px;"></div>
+                </div>
+              </div>
+              <div style="position: absolute; top: 260px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); padding: 10px 24px; border-radius: 20px; box-shadow: 0 8px 24px rgba(37,99,235,0.4); white-space: nowrap;">
+                <span style="font-size: 14px; font-weight: 600; color: #fff;">联网平台中枢</span>
+              </div>
+              <div style="position: absolute; top: 175px; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; border: 1px solid rgba(37,99,235,0.1); border-radius: 50%; pointer-events: none;"></div>
+              <div style="position: absolute; top: 175px; left: 50%; transform: translate(-50%, -50%); width: 260px; height: 260px; border: 1px solid rgba(37,99,235,0.06); border-radius: 50%; pointer-events: none;"></div>
+            </div>
+          </div>
+          
+          <!-- 四个主能力节点 -->
+          <div class="layout-band-center-node" style="position: absolute; top: 100px; left: 100px; width: 180px; z-index: 2;">
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(15,23,42,0.08); backdrop-filter: blur(8px);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3); flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+                </div>
+                <span style="font-size: 14px; font-weight: 600; color: var(--text-dark); white-space: nowrap;">设备统一接入</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-light); line-height: 1.6;">连接终端设备、网络节点与场景入口，形成统一接入底座</p>
+            </div>
+          </div>
+          
+          <div class="layout-band-center-node" style="position: absolute; top: 100px; right: 100px; width: 180px; z-index: 2;">
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(15,23,42,0.08); backdrop-filter: blur(8px);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3); flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <span style="font-size: 14px; font-weight: 600; color: var(--text-dark); white-space: nowrap;">模型与能力汇聚</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-light); line-height: 1.6;">统一承接金融模型、OCR引擎与智能体能力，为应用调用提供平台入口</p>
+            </div>
+          </div>
+          
+          <div class="layout-band-center-node" style="position: absolute; top: 370px; left: 100px; width: 180px; z-index: 2;">
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(15,23,42,0.08); backdrop-filter: blur(8px);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3); flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <span style="font-size: 14px; font-weight: 600; color: var(--text-dark); white-space: nowrap;">实时状态管理</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-light); line-height: 1.6;">实时感知设备运行、连接状态与关键数据变化</p>
+            </div>
+          </div>
+          
+          <div class="layout-band-center-node" style="position: absolute; top: 370px; right: 100px; width: 180px; z-index: 2;">
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(15,23,42,0.08); backdrop-filter: blur(8px);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; min-width: 40px; min-height: 40px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3); flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                </div>
+                <span style="font-size: 14px; font-weight: 600; color: var(--text-dark); white-space: nowrap;">文档与数据同步</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-light); line-height: 1.6;">支持文档识别结果、结构化数据与本地缓存内容的协同同步</p>
+            </div>
+          </div>
+          
+          <!-- 左右辅助带 -->
+          <div class="layout-band-side-left" style="position: absolute; top: 275px; left: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); white-space: nowrap;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+              <span style="font-size: 12px; color: #475569; font-weight: 500;">5G全网通</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); white-space: nowrap;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span style="font-size: 12px; color: #475569; font-weight: 500;">云端协同</span>
+            </div>
+          </div>
+          
+          <div class="layout-band-side-right" style="position: absolute; top: 275px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); white-space: nowrap;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <span style="font-size: 12px; color: #475569; font-weight: 500;">FinClaw智能体</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); white-space: nowrap;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              <span style="font-size: 12px; color: #475569; font-weight: 500;">6 TOPS NPU</span>
+            </div>
+          </div>
+          
+          <!-- 底部说明带 -->
+          <div class="layout-band-bottom" style="position: absolute; top: 550px; left: 0; width: 100%; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 30px; z-index: 2;">
+            <div style="text-align: center; width: 520px;">
+              <p style="font-size: 13px; color: #64748B; line-height: 1.8;">以个人金融数字大脑为核心，统一连接终端设备、文档数据、模型能力与云端服务，形成面向个人金融场景的协同平台中枢</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 手机端：纵向信息流 -->
+        <div class="platform-mobile-layout" style="display: none; max-width: 100%; padding: 0 20px;">
+          
+          <!-- 主机主卡 -->
+          <div style="background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%); border-radius: 24px; padding: 32px 24px; margin-bottom: 24px; box-shadow: 0 20px 60px rgba(15,23,42,0.25); border: 1px solid rgba(255,255,255,0.08); text-align: center; position: relative;">
+            <!-- 顶部指示灯 -->
+            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #2563EB 0%, #3B82F6 50%, #2563EB 100%); border-radius: 2px; margin: 0 auto 24px; box-shadow: 0 0 12px rgba(37,99,235,0.5);"></div>
+            
+            <!-- 屏幕区域 -->
+            <div style="background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%); border-radius: 16px; padding: 32px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
+              <div style="font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px;">FB</div>
+              <div style="font-size: 12px; color: #64748B; margin-bottom: 16px;">3576F</div>
+              <div style="display: flex; justify-content: center; gap: 6px;">
+                <div style="width: 6px; height: 6px; background: #10B981; border-radius: 50%; box-shadow: 0 0 6px #10B981;"></div>
+                <div style="width: 6px; height: 6px; background: #3B82F6; border-radius: 50%; box-shadow: 0 0 6px #3B82F6;"></div>
+                <div style="width: 6px; height: 6px; background: #F59E0B; border-radius: 50%;"></div>
+              </div>
+            </div>
+            
+            <!-- 平台中枢标签 -->
+            <div style="background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); padding: 12px 28px; border-radius: 24px; display: inline-block; box-shadow: 0 8px 24px rgba(37,99,235,0.4);">
+              <span style="font-size: 15px; font-weight: 600; color: #fff;">联网平台中枢</span>
+            </div>
+          </div>
+          
+          <!-- 辅助能力标签区 -->
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 32px;">
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              OCR识别
+            </span>
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              文档管理
+            </span>
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/></svg>
+              5G全网通
+            </span>
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/></svg>
+              云端协同
+            </span>
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+              FinClaw智能体
+            </span>
+            <span style="padding: 8px 14px; background: #fff; border-radius: 20px; font-size: 12px; color: #475569; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+              6 TOPS NPU
+            </span>
+          </div>
+          
+          <!-- 四个主能力节点 - 纵向卡片流 -->
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
+            
+            <!-- 设备统一接入 -->
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(15,23,42,0.06);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+                </div>
+                <span style="font-size: 16px; font-weight: 600; color: var(--text-dark);">设备统一接入</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">连接终端设备、网络节点与外部数据源，形成统一接入底座。</p>
+            </div>
+            
+            <!-- 实时状态管理 -->
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(15,23,42,0.06);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <span style="font-size: 16px; font-weight: 600; color: var(--text-dark);">实时状态管理</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">实时感知设备运行、网络状态、算力负载与关键任务变化。</p>
+            </div>
+            
+            <!-- 文档与数据同步 -->
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(15,23,42,0.06);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                </div>
+                <span style="font-size: 16px; font-weight: 600; color: var(--text-dark);">文档与数据同步</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">支持文档识别结果、结构化数据与本地缓存内容的协同同步。</p>
+            </div>
+            
+            <!-- 模型与能力汇聚 -->
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%); border: 1px solid rgba(226,232,240,0.8); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(15,23,42,0.06);">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <span style="font-size: 16px; font-weight: 600; color: var(--text-dark);">模型与能力汇聚</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">统一承接金融模型、OCR引擎与智能体能力，为应用调用提供平台入口。</p>
+            </div>
+            
+          </div>
+          
+          <!-- 底部说明收口 -->
+          <div style="text-align: center; padding: 0 10px;">
+            <p style="font-size: 14px; color: #64748B; line-height: 1.8;">以个人金融数字大脑为核心，统一连接终端设备、文档数据、模型能力与云端服务，形成面向个人金融场景的协同平台中枢</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+    
+    <!-- 9、外设与配件 -->
+    <section id="peripherals" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">周边设备</h2>
+        <p style="font-size: 15px; color: var(--text-light); margin-bottom: 40px; line-height: 1.6;">围绕个人金融数字大脑的本地计算、文档处理、网络接入与安全部署能力，构建可扩展的终端设备生态。</p>
+
+        <div style="margin-bottom: 40px;">
+          <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">内置模块</h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+            <div class="card-hover" style="padding: 24px 20px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+              </div>
+              <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">本地计算模块</h4>
+              <p style="font-size: 13px; color: #2563EB; font-weight: 500; margin-bottom: 8px;">RK3576 八核处理器 + 6 TOPS NPU</p>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">承接本地推理、金融模型调用与智能体运行。</p>
+            </div>
+            <div class="card-hover" style="padding: 24px 20px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">网络连接模块</h4>
+              <p style="font-size: 13px; color: #2563EB; font-weight: 500; margin-bottom: 8px;">5G / Wi-Fi / 蓝牙 / 双网口接入</p>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">满足金融数据接入与多网络环境部署。</p>
+            </div>
+            <div class="card-hover" style="padding: 24px 20px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </div>
+              <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">存储与缓存模块</h4>
+              <p style="font-size: 13px; color: #2563EB; font-weight: 500; margin-bottom: 8px;">本地存储 + MicroSD 扩展</p>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">适合文档归档、缓存管理与数据承载。</p>
+            </div>
+            <div class="card-hover" style="padding: 24px 20px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">安全与系统模块</h4>
+              <p style="font-size: 13px; color: #2563EB; font-weight: 500; margin-bottom: 8px;">本地部署与设备级安全运行</p>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">兼顾隐私保护、稳定供电与系统监测。</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">外接设备</h3>
+          <div class="peripheral-cards" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
+            <div class="card-hover peripheral-card" style="padding: 20px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div class="peripheral-icon" style="width: 36px; height: 36px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h4 class="peripheral-title" style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">显示与交互</h4>
+              <p class="peripheral-sub" style="font-size: 12px; color: #2563EB; font-weight: 500; margin-bottom: 6px;">4K 显示输出与桌面交互扩展</p>
+              <p class="peripheral-desc" style="font-size: 12px; color: var(--text-light); line-height: 1.4;">适合交易看板、资料处理与业务展示。</p>
+            </div>
+            <div class="card-hover peripheral-card" style="padding: 20px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div class="peripheral-icon" style="width: 36px; height: 36px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </div>
+              <h4 class="peripheral-title" style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">麦克风阵列</h4>
+              <p class="peripheral-sub" style="font-size: 12px; color: #2563EB; font-weight: 500; margin-bottom: 6px;">语音输入与智能交互扩展</p>
+              <p class="peripheral-desc" style="font-size: 12px; color: var(--text-light); line-height: 1.4;">支持语音问答、语音控制与金融助手交互。</p>
+            </div>
+            <div class="card-hover peripheral-card" style="padding: 20px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div class="peripheral-icon" style="width: 36px; height: 36px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <h4 class="peripheral-title" style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">摄像头与扫描</h4>
+              <p class="peripheral-sub" style="font-size: 12px; color: #2563EB; font-weight: 500; margin-bottom: 6px;">内置扫描摄像头 + 外接设备</p>
+              <p class="peripheral-desc" style="font-size: 12px; color: var(--text-light); line-height: 1.4;">适合票据、合同等资料数字化处理。</p>
+            </div>
+            <div class="card-hover peripheral-card" style="padding: 20px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div class="peripheral-icon" style="width: 36px; height: 36px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </div>
+              <h4 class="peripheral-title" style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">网络与存储</h4>
+              <p class="peripheral-sub" style="font-size: 12px; color: #2563EB; font-weight: 500; margin-bottom: 6px;">SIM / 双网口 / USB 扩展</p>
+              <p class="peripheral-desc" style="font-size: 12px; color: var(--text-light); line-height: 1.4;">便于桌面终端灵活部署使用。</p>
+            </div>
+            <div class="card-hover peripheral-card" style="padding: 20px 16px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,0.05); border: 1px solid #E2E8F0; text-align: left;">
+              <div class="peripheral-icon" style="width: 36px; height: 36px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              </div>
+              <h4 class="peripheral-title" style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">办公外设</h4>
+              <p class="peripheral-sub" style="font-size: 12px; color: #2563EB; font-weight: 500; margin-bottom: 6px;">打印、采集与专业终端扩展</p>
+              <p class="peripheral-desc" style="font-size: 12px; color: var(--text-light); line-height: 1.4;">可连接打印、串口等行业设备。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- 10、规格参数 -->
+    <section id="specs" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; text-align: left;">详细参数</h2>
+        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 32px; line-height: 1.6;">以下配置以 FinBrain-3576F 标准版为例，具体交付版本可按场景选配。</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+          <!-- 核心硬件 -->
+          <div style="padding: 22px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E5E7EB;">核心硬件</h3>
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">处理器</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">RK3576 八核处理器</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">NPU</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">6 TOPS</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">GPU</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">ARM Mali G52 MC3</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">内存</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">8GB LPDDR4X（可选 16GB）</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+                <span style="color: var(--text-light); font-size: 13px;">存储</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">128GB eMMC（可选 256GB / 512GB）</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 影像与识别 -->
+          <div style="padding: 22px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E5E7EB;">影像与识别</h3>
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">内置摄像头</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">800万像素文档扫描摄像头</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">外接扫描设备</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">馈纸式 / 平板 / 高拍仪</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+                <span style="color: var(--text-light); font-size: 13px;">OCR 识别</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">合同 / 发票 / 票据 / 证件</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 网络与通信 -->
+          <div style="padding: 22px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E5E7EB;">网络与通信</h3>
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">移动网络</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">5G / 4G</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">Wi-Fi</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">WiFi 6</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">蓝牙</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">蓝牙 5.4</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">有线网络</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">LAN1 千兆 / LAN2 百兆</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+                <span style="color: var(--text-light); font-size: 13px;">专线支持</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">VPN 金融专线</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 接口扩展 -->
+          <div style="padding: 22px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E5E7EB;">接口扩展</h3>
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">显示接口</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">HDMI 2.1 OUT ×1（4K@120Hz）</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">USB 接口</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">USB 3.0 ×1 / USB 2.0 ×2 / OTG ×1</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">存储卡槽</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">Nano-SIM ×1 / MicroSD ×1</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">串口</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">COM1 / COM2 / COM3</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+                <span style="color: var(--text-light); font-size: 13px;">音频与天线</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">3.5mm MIC/SPK / 天线 ×4</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 供电与尺寸 -->
+          <div style="padding: 22px; background: var(--bg-white); border-radius: 14px; box-shadow: 0 6px 18px rgba(15,23,42,0.05); border: 1px solid #D9E6FF; grid-column: span 2;">
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #E5E7EB;">供电与尺寸</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">电源输入</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">DC 12-24V</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">尺寸</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">136 × 126.2 × 43 mm</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #F3F4F6;">
+                <span style="color: var(--text-light); font-size: 13px;">重量</span>
+                <span style="color: var(--text-dark); font-size: 13px; font-weight: 500;">约 380g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-light); text-align: center; margin-top: 24px;">具体配置以实际交付版本为准</p>
+      </div>
+    </section>
+    
+    <!-- 11、权益与福利 -->
+    <section id="benefits" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-light);">
+      <div class="container" style="max-width: 1100px;">
+        <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 80px; align-items: center;">
+          <!-- 左侧：标题、引导文案、核心福利卡、二维码 -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div>
+              <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;">更多福利</h2>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.7;">通过手机客户端与个人算力钱包，持续连接设备管理、权益沉淀与更多使用福利。</p>
+            </div>
+            
+            <!-- 核心福利卡 -->
+            <div style="padding: 28px; background: linear-gradient(135deg, #EEF4FF 0%, #DBEAFE 100%); border-radius: 16px; border: 1px solid #BFDBFE;">
+              <div style="width: 48px; height: 48px; background: var(--bg-white); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(37,99,235,0.15);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M22 10H2"/><path d="M6 18v2"/><path d="M18 18v2"/></svg>
+              </div>
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 10px;">激活个人算力钱包</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px;">沉淀个人算力权益与协同能力账户，连接更多福利与持续使用空间。</p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 4px; height: 4px; background: #2563EB; border-radius: 50%;"></div>
+                  <span style="font-size: 12px; color: var(--text-dark);">下载手机端，随时管理设备与状态</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 4px; height: 4px; background: #2563EB; border-radius: 50%;"></div>
+                  <span style="font-size: 12px; color: var(--text-dark);">获取更多福利，让算力成为可持续使用的价值入口</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 二维码下载小卡 -->
+            <div style="padding: 20px; background: var(--bg-white); border-radius: 14px; border: 1px solid #D9E6FF; display: flex; align-items: center; gap: 20px;">
+              <div style="width: 100px; height: 100px; background: #fff; border-radius: 8px; border: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;">
+                <img src="images/mobile-qrcode.png" alt="手机客户端二维码" style="width: 90px; height: 90px; object-fit: contain;">
+              </div>
+              <div>
+                <h4 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">体验手机客户端</h4>
+                <p style="font-size: 12px; color: var(--text-light); line-height: 1.5;">扫码激活"个人算力钱包"，解锁更多福利与服务入口。</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 右侧：手机主视觉 -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <!-- 手机 mockup - 正常竖向比例 -->
+            <div style="width: 280px; height: 560px; background: linear-gradient(145deg, #081A3A 0%, #0B234D 100%); border-radius: 36px; padding: 12px; box-shadow: 0 20px 60px rgba(15,23,42,0.3); position: relative;">
+              <!-- 手机屏幕 -->
+              <div style="width: 100%; height: 100%; background: linear-gradient(180deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); border-radius: 28px; overflow: hidden; position: relative;">
+                <!-- 状态栏 -->
+                <div style="height: 44px; display: flex; align-items: center; justify-content: center; position: relative;">
+                  <div style="width: 80px; height: 28px; background: #081A3A; border-radius: 0 0 14px 14px; position: absolute; top: 0;"></div>
+                  <span style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">9:41</span>
+                </div>
+                
+                <!-- 屏幕内容 -->
+                <div style="padding: 24px; display: flex; flex-direction: column; align-items: center; height: calc(100% - 44px);">
+                  <!-- App 图标 -->
+                  <div style="width: 72px; height: 72px; background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(37,99,235,0.4);">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                      <rect x="4" y="4" width="16" height="16" rx="2"/>
+                      <rect x="9" y="9" width="6" height="6"/>
+                    </svg>
+                  </div>
+                  
+                  <h4 style="font-size: 16px; color: #fff; font-weight: 600; margin-bottom: 4px;">个人数字大脑</h4>
+                  <p style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 32px;">手机客户端</p>
+                  
+                  <!-- 功能卡片预览 -->
+                  <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="padding: 14px; background: rgba(37,99,235,0.2); border-radius: 12px; border: 1px solid rgba(37,99,235,0.3);">
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 32px; height: 32px; background: rgba(37,99,235,0.4); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/><path d="M22 10H2"/><path d="M6 18v2"/><path d="M18 18v2"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <p style="font-size: 12px; color: #fff; font-weight: 500;">算力钱包</p>
+                          <p style="font-size: 10px; color: rgba(255,255,255,0.5);">查看权益与福利</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="padding: 14px; background: rgba(37,99,235,0.15); border-radius: 12px; border: 1px solid rgba(37,99,235,0.25);">
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 32px; height: 32px; background: rgba(37,99,235,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <p style="font-size: 12px; color: #fff; font-weight: 500;">设备管理</p>
+                          <p style="font-size: 10px; color: rgba(255,255,255,0.5);">远程控制与监控</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="padding: 14px; background: rgba(37,99,235,0.15); border-radius: 12px; border: 1px solid rgba(37,99,235,0.25);">
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 32px; height: 32px; background: rgba(37,99,235,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <p style="font-size: 12px; color: #fff; font-weight: 500;">智能对话</p>
+                          <p style="font-size: 10px; color: rgba(255,255,255,0.5);">AI 助手随时在线</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 下载提示文案 -->
+            <p style="font-size: 13px; color: var(--text-light); text-align: center; line-height: 1.6; margin-top: 28px;">下载手机客户端，激活"个人算力钱包"，解锁更多福利与服务入口。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 12、常见问题 -->
+    <section id="faq" class="reveal-up" style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container" style="max-width: 1100px;">
+        <h2 style="font-size: 26px; font-weight: 700; color: var(--text-dark); margin-bottom: 36px; text-align: left;">常见问题</h2>
+        <div style="display: grid; grid-template-columns: 1fr 320px; gap: 40px;">
+          <!-- 左侧：FAQ 列表 -->
+          <div style="display: grid; gap: 12px;">
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">FinBrain-3576F 和普通智能硬件有什么区别？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">它不是单一功能终端，而是集金融模型推理、文档处理、隐私计算、本地存储与云端协同于一体的边缘金融智能终端。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">是否支持本地部署与隐私计算？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">支持。设备可在本地完成敏感信息识别、分析与留存，减少关键数据外发，适合对隐私与合规性要求较高的场景。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">是否支持文档扫描与 OCR 识别？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">支持。设备内置 800 万像素文档扫描摄像头，并支持外接扫描设备，可识别合同、票据、发票、证件等多类资料。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">是否必须持续联网才能使用？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">不必须。设备支持本地处理与本地存储，同时也支持通过 5G/WiFi6/以太网接入云端能力，实现本地与云端协同。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">支持哪些金融模型能力？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">可支持量化交易、风险评估、资产估值、组合优化、信用评分、宏观经济分析等多类金融模型，并通过 FinClaw 智能体引擎进行调用与协同。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">是否支持外接扫描仪、显示器和办公外设？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">支持。设备提供 HDMI、USB、MicroSD、COM、音频接口及多网络能力，可连接显示器、扫描仪、打印设备及专业终端。</p>
+            </div>
+            <div class="card-hover" style="padding: 20px; background: var(--bg-white); border-radius: 12px; box-shadow: 0 4px 14px rgba(15,23,42,0.05); border: 1px solid #D9E6FF;">
+              <h3 style="font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">适合哪些用户与使用场景？</h3>
+              <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">适合个人理财、投资分析、文档管理、金融咨询辅助以及对隐私计算、本地部署和边缘智能有需求的专业用户。</p>
+            </div>
+          </div>
+          <!-- 右侧：咨询入口卡 -->
+          <div style="position: sticky; top: 100px; height: fit-content;">
+            <div style="padding: 28px; background: #FAFBFC; border-radius: 18px; border: 1px solid #E8ECF0; box-shadow: 0 4px 20px rgba(15,23,42,0.04);">
+              <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">咨询顾问</h3>
+              <p style="font-size: 14px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px;">获取产品介绍、方案建议与接入支持</p>
+              <button onclick="openConsultModal()" style="width: 100%; padding: 12px 24px; background: #0F172A; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer;">
+                立即咨询
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 咨询弹窗 -->
+    <div id="consultModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+      <div id="consultModalContent" style="background: #fff; border-radius: 20px; width: 90%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25); transform: translateY(20px); transition: transform 0.3s ease;">
+        <!-- 弹窗头部 -->
+        <div style="padding: 24px 28px 0; display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">联系咨询</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">欢迎咨询个人数字大脑产品能力、场景方案与合作接入</p>
+          </div>
+          <button onclick="closeConsultModal()" style="width: 32px; height: 32px; border-radius: 8px; border: none; background: #F1F5F9; color: #64748B; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <!-- 弹窗内容 -->
+        <div style="padding: 24px 28px;">
+          <!-- 联系信息列表 -->
+          <div style="display: grid; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 36px; height: 36px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: #94A3B8; margin-bottom: 2px;">联系人</div>
+                <div style="font-size: 14px; font-weight: 500; color: var(--text-dark);">王静仪</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 36px; height: 36px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: #94A3B8; margin-bottom: 2px;">微信号</div>
+                <div style="font-size: 14px; font-weight: 500; color: var(--text-dark);">13680875027</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 36px; height: 36px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: #94A3B8; margin-bottom: 2px;">邮箱</div>
+                <div style="font-size: 14px; font-weight: 500; color: var(--text-dark);">13680875027@163.com</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 36px; height: 36px; background: #F1F5F9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: #94A3B8; margin-bottom: 2px;">工作时间</div>
+                <div style="font-size: 14px; font-weight: 500; color: var(--text-dark);">周一至周五 9:00 - 18:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 弹窗底部 -->
+        <div style="padding: 20px 28px 24px; border-top: 1px solid #F1F5F9; display: flex; justify-content: flex-end; gap: 12px;">
+          <button onclick="closeConsultModal()" style="padding: 10px 20px; background: #fff; color: #475569; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;">
+            关闭
+          </button>
+          <button style="padding: 10px 20px; background: #0F172A; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;">
+            预约咨询
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 13、联系我们 -->
+    <section id="contact-cta" class="reveal-up" style="background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); padding: 80px 0;">
+      <div class="container" style="max-width: 800px; text-align: center;">
+        <h2 style="font-size: 28px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;">从终端产品到联网平台，建立更完整的个人智能入口</h2>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 32px;">无论你希望了解个人数字大脑、金融场景应用、设备扩展还是个人算力权益，中科融合算力网都提供更清晰的产品入口与咨询路径。</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">立即预约咨询</a>
+          <a href="#specs" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看产品参数</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 13、Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>AIBrain 个人数字大脑</h3>
+            <p>连接高性能算力、智能应用与个人场景的终端中枢</p>
+          </div>
+          <div>
+            <h4 class="footer-title">产品导航</h4>
+            <ul class="footer-links">
+              <li><a href="#why-aibrain">产品介绍</a></li>
+              <li><a href="#product-capability">产品能力</a></li>
+              <li><a href="#finance-scenario">应用场景</a></li>
+              <li><a href="#specs">产品参数</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">服务支持</h4>
+            <ul class="footer-links">
+              <li><a href="#platform">联网平台</a></li>
+              <li><a href="#benefits">更多福利</a></li>
+              <li><a href="#faq">常见问题</a></li>
+              <li><a href="#contact-cta">预约咨询</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4 class="footer-title">关于中科融合算力网</h4>
+            <p>中科融合算力网专注于AI算力平台建设</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 中科融合算力网. 保留所有权利.</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script type="module" src="src/main.tsx"></script>
+    <script src="js/main.js?v=20260325-3"></script>
+    
+    <!-- 模型生态分类切换脚本 -->
+    <script>
+      (function() {
+        // 模型分类切换功能
+        function initModelTabs() {
+          const tabs = document.querySelectorAll('.model-tab');
+          const categories = document.querySelectorAll('.model-category');
+          
+          tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+              const targetCategory = this.dataset.category;
+              
+              // 切换Tab样式
+              tabs.forEach(t => {
+                t.classList.remove('active');
+                t.style.background = 'var(--bg-white)';
+                t.style.color = 'var(--text-dark)';
+                t.style.borderColor = '#D9E6FF';
+              });
+
+              // 设置当前Tab为激活状态 - 使用rgb(15, 23, 42)
+              this.classList.add('active');
+              this.style.background = 'rgb(15, 23, 42)';
+              this.style.color = '#fff';
+              this.style.borderColor = 'rgb(15, 23, 42)';
+              
+              // 切换对应分类内容
+              categories.forEach(cat => {
+                if (cat.dataset.category === targetCategory) {
+                  cat.style.display = 'grid';
+                  // 添加淡入动画
+                  cat.style.opacity = '0';
+                  cat.style.transform = 'translateY(10px)';
+                  setTimeout(() => {
+                    cat.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    cat.style.opacity = '1';
+                    cat.style.transform = 'translateY(0)';
+                  }, 10);
+                } else {
+                  cat.style.display = 'none';
+                }
+              });
+            });
+          });
+        }
+        
+        // 模型卡片悬停效果
+        function initModelCardHover() {
+          const cards = document.querySelectorAll('.model-card');
+          cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+              this.style.transform = 'translateY(-4px)';
+              this.style.boxShadow = '0 12px 32px rgba(15, 23, 42, 0.1)';
+            });
+            card.addEventListener('mouseleave', function() {
+              this.style.transform = 'translateY(0)';
+              this.style.boxShadow = 'none';
+            });
+          });
+        }
+        
+        // DOM加载完成后初始化
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            initModelTabs();
+            initModelCardHover();
+          });
+        } else {
+          initModelTabs();
+          initModelCardHover();
+        }
+      })();
+
+      // 咨询弹窗功能
+      (function() {
+        const modal = document.getElementById('consultModal');
+        const modalContent = document.getElementById('consultModalContent');
+
+        // 打开弹窗
+        window.openConsultModal = function() {
+          modal.style.display = 'flex';
+          // 触发重绘以启动动画
+          setTimeout(() => {
+            modal.style.opacity = '1';
+            modalContent.style.transform = 'translateY(0)';
+          }, 10);
+          document.body.style.overflow = 'hidden';
+        };
+
+        // 关闭弹窗
+        window.closeConsultModal = function() {
+          modal.style.opacity = '0';
+          modalContent.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }, 300);
+        };
+
+        // 点击遮罩关闭
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            closeConsultModal();
+          }
+        });
+
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeConsultModal();
+          }
+        });
+
+        // 导航栏滚动监听 - 当前项高亮
+        (function() {
+          var navItems = document.querySelectorAll('.nav-item');
+          var sections = [];
+          navItems.forEach(function(item) {
+            var href = item.getAttribute('href');
+            if (href && href.startsWith('#')) {
+              var id = href.substring(1);
+              var section = document.getElementById(id);
+              if (section) {
+                sections.push({ id: id, element: section, link: item });
+              }
+            }
+          });
+
+          function updateActiveNav() {
+            var scrollPos = window.scrollY + 100;
+            var current = '';
+            sections.forEach(function(s) {
+              if (scrollPos >= s.element.offsetTop) {
+                current = s.id;
+              }
+            });
+            navItems.forEach(function(item) {
+              item.classList.remove('active');
+              if (item.getAttribute('href') === '#' + current) {
+                item.classList.add('active');
+              }
+            });
+          }
+
+          window.addEventListener('scroll', updateActiveNav);
+          updateActiveNav();
+
+          // 手机端菜单切换功能
+          function toggleMobileMenu() {
+            var menu = document.getElementById('mobile-menu');
+            var hamburger = document.querySelector('.hamburger-btn');
+            if (menu.style.display === 'none' || menu.style.display === '') {
+              menu.style.display = 'block';
+              hamburger.querySelector('span:nth-child(1)').style.transform = 'rotate(45deg) translate(5px, 5px)';
+              hamburger.querySelector('span:nth-child(2)').style.opacity = '0';
+              hamburger.querySelector('span:nth-child(3)').style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+              menu.style.display = 'none';
+              hamburger.querySelector('span:nth-child(1)').style.transform = 'none';
+              hamburger.querySelector('span:nth-child(2)').style.opacity = '1';
+              hamburger.querySelector('span:nth-child(3)').style.transform = 'none';
+            }
+          }
+          window.toggleMobileMenu = toggleMobileMenu;
+
+          // 点击菜单项后关闭菜单
+          document.querySelectorAll('.mobile-nav-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+              var menu = document.getElementById('mobile-menu');
+              var hamburger = document.querySelector('.hamburger-btn');
+              menu.style.display = 'none';
+              hamburger.querySelector('span:nth-child(1)').style.transform = 'none';
+              hamburger.querySelector('span:nth-child(2)').style.opacity = '1';
+              hamburger.querySelector('span:nth-child(3)').style.transform = 'none';
+            });
+          });
+        })();
+      })();
+    </script>
+  </body>
+</html>

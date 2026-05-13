@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>任务中心 - 个人数字大脑</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    :root {
+      --bg-primary: #0a0f1c;
+      --bg-card: rgba(30, 58, 138, 0.25);
+      --border-card: rgba(37, 99, 235, 0.4);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-tertiary: rgba(255, 255, 255, 0.5);
+      --accent-blue: #3b82f6;
+      --accent-blue-light: #60a5fa;
+      --status-running: #3b82f6;
+      --status-success: #10b981;
+      --status-failed: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部导航 */
+    .page-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      background: rgba(10, 15, 28, 0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-blue);
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 600;
+      margin-right: 32px;
+    }
+
+    /* 页面内容 */
+    .page-content {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: 32px;
+    }
+
+    /* 任务统计摘要 */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .stat-value.running {
+      color: var(--status-running);
+    }
+
+    .stat-value.success {
+      color: var(--status-success);
+    }
+
+    .stat-value.failed {
+      color: var(--status-failed);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* 状态筛选区 */
+    .filter-section {
+      margin-bottom: 20px;
+    }
+
+    .filter-bar {
+      display: flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .filter-item {
+      flex: 1;
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .filter-item:active {
+      transform: scale(0.98);
+    }
+
+    .filter-item.active {
+      background: var(--accent-blue);
+      color: var(--text-primary);
+    }
+
+    /* 任务列表 */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .task-card:active {
+      transform: scale(0.99);
+      background: rgba(30, 58, 138, 0.35);
+    }
+
+    .task-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .task-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .task-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-blue-light);
+    }
+
+    .task-icon.skill {
+      background: rgba(139, 92, 246, 0.15);
+    }
+
+    .task-icon.skill svg {
+      stroke: #a78bfa;
+    }
+
+    .task-icon.model {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .task-icon.model svg {
+      stroke: #34d399;
+    }
+
+    .task-icon.device {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .task-icon.device svg {
+      stroke: #fbbf24;
+    }
+
+    .task-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .task-source {
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 11px;
+    }
+
+    .task-status {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .task-status.running {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--status-running);
+    }
+
+    .task-status.success {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--status-success);
+    }
+
+    .task-status.failed {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--status-failed);
+    }
+
+    .task-arrow {
+      color: var(--text-tertiary);
+      margin-left: auto;
+      align-self: center;
+    }
+
+    .task-arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--text-tertiary);
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 动画 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .task-card {
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.05s; opacity: 0; }
+    .delay-2 { animation-delay: 0.1s; opacity: 0; }
+    .delay-3 { animation-delay: 0.15s; opacity: 0; }
+    .delay-4 { animation-delay: 0.2s; opacity: 0; }
+
+    /* ========== 浅色模式 ========== */
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-card: #FFFFFF;
+      --border-card: #E8F0FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #4A8DFF;
+      --status-running: #4A8DFF;
+      --status-success: #16A34A;
+      --status-failed: #DC2626;
+    }
+
+    html[data-theme="light"] body {
+      background: var(--bg-primary);
+    }
+
+    html[data-theme="light"] .page-header {
+      background: rgba(246, 250, 255, 0.9);
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    html[data-theme="light"] .back-btn {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .back-btn:active {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    html[data-theme="light"] .header-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .stat-card {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .stat-value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .stat-value.running {
+      color: var(--status-running);
+    }
+
+    html[data-theme="light"] .stat-value.success {
+      color: var(--status-success);
+    }
+
+    html[data-theme="light"] .stat-value.failed {
+      color: var(--status-failed);
+    }
+
+    html[data-theme="light"] .stat-label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .filter-bar {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .filter-item {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .filter-item.active {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    html[data-theme="light"] .task-card {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .task-card:active {
+      background: rgba(74, 141, 255, 0.08);
+    }
+
+    html[data-theme="light"] .task-icon {
+      background: rgba(74, 141, 255, 0.1);
+    }
+
+    html[data-theme="light"] .task-icon svg {
+      stroke: var(--accent-blue);
+    }
+
+    html[data-theme="light"] .task-icon.skill {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    html[data-theme="light"] .task-icon.skill svg {
+      stroke: #7C3AED;
+    }
+
+    html[data-theme="light"] .task-icon.model {
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    html[data-theme="light"] .task-icon.model svg {
+      stroke: #059669;
+    }
+
+    html[data-theme="light"] .task-icon.device {
+      background: rgba(245, 158, 11, 0.1);
+    }
+
+    html[data-theme="light"] .task-icon.device svg {
+      stroke: #D97706;
+    }
+
+    html[data-theme="light"] .task-name {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .task-meta {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .task-source {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .task-status.running {
+      background: rgba(74, 141, 255, 0.1);
+      color: var(--status-running);
+    }
+
+    html[data-theme="light"] .task-status.success {
+      background: rgba(22, 163, 74, 0.1);
+      color: var(--status-success);
+    }
+
+    html[data-theme="light"] .task-status.failed {
+      background: rgba(220, 38, 38, 0.1);
+      color: var(--status-failed);
+    }
+
+    html[data-theme="light"] .task-arrow {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .empty-state {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .empty-state svg {
+      stroke: var(--text-tertiary);
+    }
+  </style>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/utils/navigation.js"></script>
+  <script src="js/services/themeService.js"></script>
+  <script src="js/mock/tasks.js"></script>
+  <script src="js/services/taskService.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- 顶部导航 -->
+    <div class="page-header">
+      <a href="mobile-device.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <div class="header-title">任务中心</div>
+    </div>
+
+    <!-- 页面内容 -->
+    <div class="page-content">
+      <!-- 任务统计摘要 -->
+      <div class="stats-section" id="statsSection">
+        <div class="stat-card">
+          <div class="stat-value" id="totalCount">-</div>
+          <div class="stat-label">全部任务</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value running" id="runningCount">-</div>
+          <div class="stat-label">进行中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value failed" id="failedCount">-</div>
+          <div class="stat-label">异常中断</div>
+        </div>
+      </div>
+
+      <!-- 状态筛选 -->
+      <div class="filter-section">
+        <div class="filter-bar" id="filterBar">
+          <div class="filter-item active" data-filter="all">全部</div>
+          <div class="filter-item" data-filter="running">进行中</div>
+          <div class="filter-item" data-filter="success">已完成</div>
+          <div class="filter-item" data-filter="failed">异常</div>
+        </div>
+      </div>
+
+      <!-- 任务列表 -->
+      <div class="task-list" id="taskList"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // 状态文案映射
+    const STATUS_TEXT = {
+      'running': '进行中',
+      'success': '已完成',
+      'failed': '异常中断'
+    };
+
+    // 来源文案映射
+    const SOURCE_TEXT = {
+      'skill': '技能执行',
+      'model': '模型切换',
+      'device': '设备任务',
+      'sync': '数据同步'
+    };
+
+    // 任务图标
+    function getTaskIcon(source) {
+      const icons = {
+        'skill': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>`,
+        'model': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v6m0 6v10"/>
+          <path d="M1 12h6m6 0h10"/>
+        </svg>`,
+        'device': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>`,
+        'sync': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+          <path d="M16 16h5v5"/>
+        </svg>`
+      };
+      return icons[source] || icons['device'];
+    }
+
+    // 获取任务图标样式类
+    function getTaskIconClass(source) {
+      return 'task-icon ' + (source || 'device');
+    }
+
+    // 渲染统计
+    function renderStats() {
+      const stats = TaskService.getTaskStats();
+      document.getElementById('totalCount').textContent = stats.total || 0;
+      document.getElementById('runningCount').textContent = stats.running || 0;
+      document.getElementById('failedCount').textContent = stats.failed || 0;
+    }
+
+    // 渲染任务列表
+    function renderTaskList(filter = 'all') {
+      const taskList = document.getElementById('taskList');
+      let tasks = TaskService.getTaskHistory();
+
+      // 筛选
+      if (filter !== 'all') {
+        tasks = tasks.filter(t => t.status === filter);
+      }
+
+      if (tasks.length === 0) {
+        taskList.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p>暂无任务记录</p>
+          </div>
+        `;
+        return;
+      }
+
+      taskList.innerHTML = tasks.map((task, index) => `
+        <div class="task-card delay-${Math.min(index + 1, 4)}" onclick="handleTaskClick('${task.id}')">
+          <div class="task-card-header">
+            <div class="${getTaskIconClass(task.source)}">
+              ${getTaskIcon(task.source)}
+            </div>
+            <div class="task-main">
+              <div class="task-name">${task.name || task.sourceName || '任务'}</div>
+              <div class="task-meta">
+                <span class="task-source">${SOURCE_TEXT[task.source] || task.source}</span>
+                <span>${task.time || ''}</span>
+              </div>
+            </div>
+            <span class="task-status ${task.status}">${STATUS_TEXT[task.status] || task.status}</span>
+            <div class="task-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 处理任务点击
+    function handleTaskClick(taskId) {
+      showToast('任务详情开发中');
+    }
+
+    // 显示 Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // 初始化筛选器
+    function initFilter() {
+      const filterBar = document.getElementById('filterBar');
+      filterBar.addEventListener('click', function(e) {
+        const item = e.target.closest('.filter-item');
+        if (!item) return;
+
+        filterBar.querySelectorAll('.filter-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const filter = item.dataset.filter;
+        renderTaskList(filter);
+      });
+    }
+
+    // 初始化页面
+    function initPage() {
+      console.log('[TaskCenter] 初始化页面，开始加载任务数据');
+      renderStats();
+      renderTaskList();
+      initFilter();
+
+      // 检查任务总数
+      const tasks = TaskService.getTaskHistory();
+      console.log('[TaskCenter] 当前任务总数:', tasks.length);
+      console.log('[TaskCenter] 任务列表:', tasks.map(t => ({ name: t.name, source: t.source, status: t.status })));
+    }
+
+    // 监听新任务事件
+    window.addEventListener('skillExecuted', function(e) {
+      console.log('[TaskCenter] 收到 skillExecuted 事件:', e.detail);
+      console.log('[TaskCenter] 重新渲染任务列表');
+      renderStats();
+      renderTaskList(document.querySelector('.filter-item.active')?.dataset.filter || 'all');
+    });
+
+    // 监听模型切换事件
+    window.addEventListener('modelSwitched', function(e) {
+      console.log('[TaskCenter] 收到 modelSwitched 事件:', e.detail);
+      console.log('[TaskCenter] 重新渲染任务列表');
+      renderStats();
+      renderTaskList(document.querySelector('.filter-item.active')?.dataset.filter || 'all');
+    });
+
+    // 监听页面显示事件（从其他页面返回时刷新）
+    window.addEventListener('pageshow', function(e) {
+      console.log('[TaskCenter] pageshow 事件触发，刷新任务列表');
+      renderStats();
+      renderTaskList(document.querySelector('.filter-item.active')?.dataset.filter || 'all');
+    });
+
+    // 初始化主题
+    ThemeManager.init();
+
+    // 启动
+    initPage();
+  </script>
+</body>
+</html>

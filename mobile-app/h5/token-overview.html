@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>词元总览 - 个人小鲸鱼-数字大脑</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/h5/js/utils/storage.js"></script>
+  <script src="/h5/js/services/themeService.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: linear-gradient(180deg, #0A0F1C 0%, #10182A 50%, #0A0F1C 100%);
+      --bg-card: rgba(30, 58, 138, 0.25);
+      --bg-card-hover: rgba(37, 99, 235, 0.3);
+      --border-card: rgba(37, 99, 235, 0.4);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-tertiary: rgba(255, 255, 255, 0.5);
+      --accent-blue: #2563eb;
+      --accent-blue-light: #60a5fa;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+    
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 30px;
+    }
+    
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .status-bar .time {
+      color: var(--text-primary);
+    }
+    
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .nav-header {
+      padding: 16px 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      border-radius: 8px;
+      color: var(--accent-blue);
+    }
+
+    .back-btn:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .nav-title {
+      flex: 1;
+    }
+    
+    .nav-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    
+    .nav-title .subtitle {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 1px;
+    }
+    
+    .page-content {
+      padding: 0 16px;
+    }
+    
+    .section {
+      margin-bottom: 16px;
+    }
+    
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 10px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+    
+    .stats-overview {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .stat-card.primary {
+      background: linear-gradient(135deg, rgba(37,99,235,0.35) 0%, rgba(30,58,138,0.45) 100%);
+      border: 1px solid rgba(37,99,235,0.5);
+      padding: 16px 10px;
+    }
+    
+    .stat-card .label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+    
+    .stat-card.primary .label {
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .stat-card .value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    
+    .stat-card.primary .value {
+      font-size: 26px;
+      background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .stat-card .unit {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    
+    .stat-card.primary .unit {
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .tab-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 4px;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .tab-btn.active {
+      background: var(--accent-blue);
+      color: var(--text-primary);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .overview-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(30, 58, 138, 0.5) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.5);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .overview-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, transparent 70%);
+    }
+    
+    .overview-card .label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    
+    .overview-card .main-value {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    
+    .overview-card .main-value .unit {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    .overview-card .convert {
+      font-size: 14px;
+      color: var(--success);
+      margin-bottom: 20px;
+    }
+    
+    .overview-card .stats-row {
+      display: flex;
+      gap: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .overview-card .stat-item {
+      flex: 1;
+    }
+    
+    .overview-card .stat-item .stat-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+    
+    .overview-card .stat-item .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .chart-tabs {
+      display: flex;
+      gap: 3px;
+      background: rgba(15, 23, 42, 0.4);
+      padding: 2px;
+      border-radius: 6px;
+    }
+    
+    .chart-tab {
+      padding: 5px 12px;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .chart-tab.active {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    /* 浅色模式 - 图表切换 Tab */
+    html[data-theme="light"] .chart-tabs {
+      background: rgba(74, 141, 255, 0.15);
+    }
+
+    html[data-theme="light"] .chart-tab {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .chart-tab.active {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .chart-container {
+      height: 150px;
+      position: relative;
+    }
+    
+    .breakdown-list {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .breakdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(37, 99, 235, 0.12);
+    }
+    
+    .breakdown-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .breakdown-item:first-child {
+      padding-top: 0;
+    }
+    
+    .breakdown-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(37, 99, 235, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .breakdown-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+    
+    .breakdown-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .breakdown-name {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .breakdown-bar {
+      height: 3px;
+      background: rgba(37, 99, 235, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .breakdown-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%);
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+    
+    .breakdown-bar-fill.green {
+      background: linear-gradient(90deg, #10b981 0%, #22d3d1 100%);
+    }
+    
+    .breakdown-value {
+      text-align: right;
+      flex-shrink: 0;
+      min-width: 52px;
+    }
+    
+    .breakdown-amount {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .breakdown-percent {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    
+    .source-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .source-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .source-rank {
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #1d4ed8 100%);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .source-rank.top {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    
+    .source-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .source-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    
+    .source-meta {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .source-tag {
+      padding: 2px 5px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 500;
+    }
+    
+    .source-tag.warning {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+    
+    .source-tag.success {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+    
+    .source-value {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    
+    .source-amount {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-blue-light);
+    }
+    
+    .source-amount.green {
+      color: var(--success);
+    }
+    
+    .source-unit {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    
+    .record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .record-item {
+      background: rgba(30, 58, 138, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .record-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .record-dot.green {
+      background: var(--success);
+    }
+    
+    .record-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .record-name {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .record-time {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    
+    .record-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #f87171;
+    }
+    
+    .record-value.green {
+      color: var(--success);
+    }
+
+    /* 浅色模式 - 记录列表 */
+    html[data-theme="light"] .record-item {
+      background: rgba(74, 141, 255, 0.08);
+      border: 1px solid rgba(74, 141, 255, 0.15);
+    }
+
+    html[data-theme="light"] .record-name {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .record-value {
+      color: #f87171;
+    }
+
+    html[data-theme="light"] .record-value.green {
+      color: var(--success);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    
+    .summary-card .label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+    
+    .summary-card .value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    
+    .summary-card .value.up {
+      color: var(--success);
+    }
+    
+    .source-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    
+    .source-section .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    
+    .source-list-2 {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .source-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .source-item .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .source-item .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .source-item .icon.device {
+      background: rgba(37, 99, 235, 0.3);
+    }
+    
+    .source-item .icon.task {
+      background: rgba(16, 185, 129, 0.3);
+    }
+    
+    .source-item .icon.model {
+      background: rgba(245, 158, 11, 0.3);
+    }
+    
+    .source-item .icon.platform {
+      background: rgba(139, 92, 246, 0.3);
+    }
+    
+    .source-item .info .name {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    
+    .source-item .info .percent {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    
+    .source-item .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.35s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.08s; opacity: 0; }
+    .delay-2 { animation-delay: 0.15s; opacity: 0; }
+    .delay-3 { animation-delay: 0.22s; opacity: 0; }
+    .delay-4 { animation-delay: 0.29s; opacity: 0; }
+    .delay-5 { animation-delay: 0.36s; opacity: 0; }
+
+    /* ========== 浅色模式 ========== */
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FAFCFF;
+      --border-card: #E8F0FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --success: #1BD4A0;
+      --warning: #D97706;
+    }
+
+    html[data-theme="light"] body {
+      background: var(--bg-primary);
+    }
+
+    html[data-theme="light"] .nav-header {
+      background: rgba(246, 250, 255, 0.9);
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    html[data-theme="light"] .back-btn {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .back-btn:hover {
+      background: var(--bg-card-hover);
+    }
+
+    html[data-theme="light"] .nav-title h1 {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .nav-title .subtitle {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .stat-card {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+      backdrop-filter: none;
+    }
+
+    html[data-theme="light"] .stat-card.primary {
+      background: linear-gradient(135deg, #E8F2FF 0%, #F0F7FF 100%);
+      border-color: #D8E7FF;
+    }
+
+    html[data-theme="light"] .stat-card .label {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .stat-card.primary .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .stat-card .value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .stat-card.primary .value {
+      background: linear-gradient(135deg, #4A8DFF 0%, #2563EB 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    html[data-theme="light"] .stat-card .unit {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .stat-card.primary .unit {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .tab-header {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .tab-btn {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .tab-btn.active {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    html[data-theme="light"] .overview-card {
+      background: linear-gradient(135deg, #E8F2FF 0%, #F0F7FF 100%);
+      border-color: #D8E7FF;
+    }
+
+    html[data-theme="light"] .overview-card .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .overview-card .main-value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="light"] .overview-card .main-value .unit {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .overview-card .convert {
+      color: var(--success);
+    }
+
+    html[data-theme="light"] .overview-card .stats-row {
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="light"] .overview-card .stat-item .stat-label {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="light"] .section-title {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="light"] .section-title::before {
+      background: var(--accent-blue);
+    }
+
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text-primary);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      pointer-events: none;
+      text-align: center;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    html[data-theme="light"] .toast {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      color: #0F172A;
+      box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="nav-header">
+      <a href="home.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </a>
+      <div class="nav-title">
+        <h1>词元钱包</h1>
+      </div>
+    </div>
+    
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>正在开发</span>
+    </div>
+    
+    <!-- Tab 切换 -->
+    <div class="page-content">
+      <div class="tab-header">
+        <button class="tab-btn active" onclick="switchTab('income')">收益</button>
+        <button class="tab-btn" onclick="switchTab('expense')">消耗</button>
+      </div>
+    </div>
+    
+    <!-- 收益内容 -->
+    <div class="tab-content active" id="income-content">
+      <div class="page-content">
+        <!-- 收益总览卡 -->
+        <div class="overview-card">
+          <div class="label">今日收益</div>
+          <div class="main-value">
+            <span style="font-size: 42px;">12.8</span><span class="unit">M</span>
+          </div>
+          <div class="convert">≈ ¥12.80</div>
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-label">本月累计</div>
+              <div class="stat-value">384M</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">累计总收益</div>
+              <div class="stat-value">2.56G</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 收益趋势图 -->
+        <div class="section animate-in delay-2">
+          <div class="section-title">收益趋势</div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">每日收益走势</div>
+            </div>
+            <div class="chart-container">
+              <canvas id="incomeChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 收益摘要 -->
+        <div class="section animate-in delay-3">
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="label">今日收益</div>
+              <div class="value up">+12.8M</div>
+            </div>
+            <div class="summary-card">
+              <div class="label">昨日收益</div>
+              <div class="value">+11.5M</div>
+            </div>
+            <div class="summary-card">
+              <div class="label">7日平均</div>
+              <div class="value up">+12M</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 收益来源 -->
+        <div class="section animate-in delay-4">
+          <div class="section-title">收益来源</div>
+          <div class="source-section">
+            <div class="source-list-2">
+              <div class="source-item">
+                <div class="left">
+                  <div class="icon device">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                      <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                    </svg>
+                  </div>
+                  <div class="info">
+                    <div class="name">设备共享收益</div>
+                    <div class="percent">占比 45%</div>
+                  </div>
+                </div>
+                <div class="value">5.76M</div>
+              </div>
+              <div class="source-item">
+                <div class="left">
+                  <div class="icon task">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
+                  <div class="info">
+                    <div class="name">协同任务收益</div>
+                    <div class="percent">占比 30%</div>
+                  </div>
+                </div>
+                <div class="value">3.84M</div>
+              </div>
+              <div class="source-item">
+                <div class="left">
+                  <div class="icon model">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                      <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                    </svg>
+                  </div>
+                  <div class="info">
+                    <div class="name">模型调用分成</div>
+                    <div class="percent">占比 18%</div>
+                  </div>
+                </div>
+                <div class="value">2.3M</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 最近收益记录 -->
+        <div class="section animate-in delay-5">
+          <div class="section-title">最近收益</div>
+          <div class="record-list">
+            <div class="record-item">
+              <div class="record-dot green"></div>
+              <div class="record-info">
+                <div class="record-name">设备共享</div>
+                <div class="record-time">14:20</div>
+              </div>
+              <div class="record-value green">+2.4M</div>
+            </div>
+            <div class="record-item">
+              <div class="record-dot green"></div>
+              <div class="record-info">
+                <div class="record-name">任务完成</div>
+                <div class="record-time">12:15</div>
+              </div>
+              <div class="record-value green">+1.8M</div>
+            </div>
+            <div class="record-item">
+              <div class="record-dot green"></div>
+              <div class="record-info">
+                <div class="record-name">模型分成</div>
+                <div class="record-time">10:30</div>
+              </div>
+              <div class="record-value green">+0.9M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 消耗内容 -->
+    <div class="tab-content" id="expense-content">
+      <div class="page-content">
+        <!-- 消耗总览卡 -->
+        <div class="overview-card">
+          <div class="label">今日消耗</div>
+          <div class="main-value">
+            <span style="font-size: 42px;">45.2</span><span class="unit">K</span>
+          </div>
+          <div class="convert" style="color: var(--accent-blue-light);">≈ ¥0.05</div>
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-label">本周消耗</div>
+              <div class="stat-value">318K</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">剩余余额</div>
+              <div class="stat-value">2.56M</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 消耗趋势图 -->
+        <div class="section animate-in delay-2">
+          <div class="section-title">消耗趋势</div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">24小时消耗趋势</div>
+              <div class="chart-tabs">
+                <div class="chart-tab active" onclick="switchExpenseChart('today')">今日</div>
+                <div class="chart-tab" onclick="switchExpenseChart('week')">本周</div>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="expenseChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 消耗构成 -->
+        <div class="section animate-in delay-3">
+          <div class="section-title">消耗构成</div>
+          <div class="breakdown-list">
+            <div class="breakdown-item">
+              <div class="breakdown-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <div class="breakdown-content">
+                <div class="breakdown-name">AI 对话</div>
+                <div class="breakdown-bar">
+                  <div class="breakdown-bar-fill" style="width: 40%;"></div>
+                </div>
+              </div>
+              <div class="breakdown-value">
+                <div class="breakdown-amount">18.1K</div>
+                <div class="breakdown-percent">40%</div>
+              </div>
+            </div>
+            
+            <div class="breakdown-item">
+              <div class="breakdown-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <div class="breakdown-content">
+                <div class="breakdown-name">文档解析</div>
+                <div class="breakdown-bar">
+                  <div class="breakdown-bar-fill" style="width: 27%;"></div>
+                </div>
+              </div>
+              <div class="breakdown-value">
+                <div class="breakdown-amount">12.2K</div>
+                <div class="breakdown-percent">27%</div>
+              </div>
+            </div>
+            
+            <div class="breakdown-item">
+              <div class="breakdown-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <div class="breakdown-content">
+                <div class="breakdown-name">智能体调用</div>
+                <div class="breakdown-bar">
+                  <div class="breakdown-bar-fill" style="width: 20%;"></div>
+                </div>
+              </div>
+              <div class="breakdown-value">
+                <div class="breakdown-amount">8.9K</div>
+                <div class="breakdown-percent">20%</div>
+              </div>
+            </div>
+            
+            <div class="breakdown-item">
+              <div class="breakdown-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                  <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                  <rect x="9" y="9" width="6" height="6"/>
+                </svg>
+              </div>
+              <div class="breakdown-content">
+                <div class="breakdown-name">设备控制</div>
+                <div class="breakdown-bar">
+                  <div class="breakdown-bar-fill" style="width: 9%;"></div>
+                </div>
+              </div>
+              <div class="breakdown-value">
+                <div class="breakdown-amount">4.1K</div>
+                <div class="breakdown-percent">9%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 高消耗来源 -->
+        <div class="section animate-in delay-4">
+          <div class="section-title">高消耗来源</div>
+          <div class="source-list">
+            <div class="source-card">
+              <div class="source-rank top">1</div>
+              <div class="source-info">
+                <div class="source-name">智能对话</div>
+                <div class="source-meta">
+                  <span>14:22</span>
+                  <span class="source-tag">高耗</span>
+                </div>
+              </div>
+              <div class="source-value">
+                <div class="source-amount">12.6K</div>
+              </div>
+            </div>
+            
+            <div class="source-card">
+              <div class="source-rank top">2</div>
+              <div class="source-info">
+                <div class="source-name">长文档解析</div>
+                <div class="source-meta">
+                  <span>13:48</span>
+                  <span class="source-tag warning">峰值</span>
+                </div>
+              </div>
+              <div class="source-value">
+                <div class="source-amount">9.4K</div>
+              </div>
+            </div>
+            
+            <div class="source-card">
+              <div class="source-rank">3</div>
+              <div class="source-info">
+                <div class="source-name">市场分析任务</div>
+                <div class="source-meta">
+                  <span>11:10</span>
+                </div>
+              </div>
+              <div class="source-value">
+                <div class="source-amount">8.1K</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 最近消耗记录 -->
+        <div class="section animate-in delay-5">
+          <div class="section-title">最近消耗</div>
+          <div class="record-list">
+            <div class="record-item">
+              <div class="record-dot"></div>
+              <div class="record-info">
+                <div class="record-name">智能对话</div>
+                <div class="record-time">14:22</div>
+              </div>
+              <div class="record-value">-3.2K</div>
+            </div>
+            
+            <div class="record-item">
+              <div class="record-dot"></div>
+              <div class="record-info">
+                <div class="record-name">文档解析</div>
+                <div class="record-time">13:48</div>
+              </div>
+              <div class="record-value">-6.8K</div>
+            </div>
+            
+            <div class="record-item">
+              <div class="record-dot"></div>
+              <div class="record-info">
+                <div class="record-name">市场解读</div>
+                <div class="record-time">11:10</div>
+              </div>
+              <div class="record-value">-4.5K</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // 时间更新功能（如果存在状态栏）
+    function updateTime() {
+      const timeEl = document.querySelector('.status-bar .time');
+      if (timeEl) {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        timeEl.textContent = `${hours}:${minutes}`;
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    function switchTab(tab) {
+      const tabs = document.querySelectorAll('.tab-btn');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      if (tab === 'income') {
+        tabs[0].classList.add('active');
+        document.getElementById('income-content').classList.add('active');
+      } else {
+        tabs[1].classList.add('active');
+        document.getElementById('expense-content').classList.add('active');
+        // 切换到消耗 tab 时初始化图表
+        setTimeout(initExpenseChartIfNeeded, 100);
+      }
+    }
+    
+    // 收益图表
+    const incomeData = [8.2, 9.5, 7.8, 10.2, 9.8, 11.5, 12.8];
+    const incomeLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
+    let incomeChart = null;
+
+    function initIncomeChart() {
+      const ctx = document.getElementById('incomeChart');
+      if (!ctx) return;
+
+      if (incomeChart) {
+        incomeChart.destroy();
+      }
+
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const isLightMode = currentTheme === 'light';
+      const incomeColor = isLightMode ? '#26E1AC' : '#10b981';
+
+      const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 150);
+      gradient.addColorStop(0, 'rgba(27, 212, 160, 0.35)');
+      gradient.addColorStop(1, 'rgba(27, 212, 160, 0)');
+
+      incomeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: incomeLabels,
+          datasets: [{
+            label: '词元收益',
+            data: incomeData,
+            borderColor: incomeColor,
+            backgroundColor: gradient,
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: incomeColor,
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#10b981',
+              borderColor: 'rgba(37, 99, 235, 0.4)',
+              borderWidth: 1,
+              cornerRadius: 6,
+              padding: 10,
+              displayColors: false,
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y.toFixed(1) + 'M';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.4)',
+                font: {
+                  size: 10
+                }
+              },
+              border: {
+                display: false
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(37, 99, 235, 0.08)',
+                drawBorder: false
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.4)',
+                font: {
+                  size: 10
+                },
+                callback: function(value) {
+                  return value + 'M';
+                }
+              },
+              border: {
+                display: false
+              },
+              beginAtZero: true
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          }
+        }
+      });
+    }
+
+    // 在 DOMContentLoaded 后初始化图表，延迟确保容器渲染完成
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initIncomeChart, 100);
+    });
+    
+    const todayData = [0.6, 0.5, 0.4, 0.5, 1.0, 1.5, 1.8, 2.8, 3.2, 2.5, 2.2, 2.8, 3.0, 3.6, 3.8, 3.2, 2.8, 2.5, 2.2, 1.8, 1.5, 1.2, 1.0, 0.6];
+    const weekData = [38, 42, 48, 52, 35, 52, 51];
+    const labels = ['00', '02', '04', '06', '08', '10', '12', '14', '16', '18', '20', '22'];
+    const weekLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+    
+    let expenseChart = null;
+    
+    function createExpenseChart(data, labelData, isWeek = false) {
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      
+      if (expenseChart) {
+        expenseChart.destroy();
+      }
+      
+      const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+      gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
+      gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
+      
+      expenseChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labelData,
+          datasets: [{
+            label: '词元消耗',
+            data: data,
+            borderColor: '#60a5fa',
+            backgroundColor: gradient,
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#60a5fa',
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#60a5fa',
+              borderColor: 'rgba(37, 99, 235, 0.4)',
+              borderWidth: 1,
+              cornerRadius: 6,
+              padding: 10,
+              displayColors: false,
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y.toFixed(1) + (isWeek ? 'M' : 'K');
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.4)',
+                font: {
+                  size: 10
+                }
+              },
+              border: {
+                display: false
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(37, 99, 235, 0.08)',
+                drawBorder: false
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.4)',
+                font: {
+                  size: 10
+                },
+                callback: function(value) {
+                  return value + (isWeek ? 'M' : 'K');
+                }
+              },
+              border: {
+                display: false
+              },
+              beginAtZero: true
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          }
+        }
+      });
+    }
+    
+    // 消耗图表延迟初始化，等到 tab 显示时再创建
+    let expenseChartInitialized = false;
+
+    function initExpenseChartIfNeeded() {
+      if (!expenseChartInitialized) {
+        createExpenseChart(todayData, labels, false);
+        expenseChartInitialized = true;
+      }
+    }
+
+    function switchExpenseChart(type) {
+      const tabs = document.querySelectorAll('.chart-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      if (type === 'today') {
+        tabs[0].classList.add('active');
+        createExpenseChart(todayData, labels, false);
+      } else {
+        tabs[1].classList.add('active');
+        createExpenseChart(weekData, weekLabels, true);
+      }
+    }
+
+    // 初始化主题
+    ThemeManager.init();
+  </script>
+</body>
+</html>

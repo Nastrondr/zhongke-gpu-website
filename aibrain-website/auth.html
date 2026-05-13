@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录/注册 - 中科融合算力网</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --bg-light: #f8fafc;
+      --border: #e2e8f0;
+      --white: #ffffff;
+      --error: #ef4444;
+      --success: #22c55e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .auth-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .auth-header {
+      text-align: center;
+      padding: 40px 40px 32px;
+      background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%);
+    }
+
+    .auth-header h1 {
+      color: var(--white);
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .auth-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+
+    .auth-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .auth-tab:hover:not(.active) {
+      color: var(--text-dark);
+    }
+
+    .auth-form {
+      padding: 32px 40px 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s;
+      background: var(--white);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: #94a3b8;
+    }
+
+    .form-group .error-text {
+      color: var(--error);
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-group.error input {
+      border-color: var(--error);
+    }
+
+    .form-group.error .error-text {
+      display: block;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .auth-message {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .auth-message.error {
+      background: #fef2f2;
+      color: var(--error);
+      border: 1px solid #fecaca;
+      display: block;
+    }
+
+    .auth-message.success {
+      background: #f0fdf4;
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+      display: block;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .back-home a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-home a:hover {
+      text-decoration: underline;
+    }
+
+    .form-panel {
+      display: none;
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      .auth-header {
+        padding: 32px 24px 24px;
+      }
+
+      .auth-form {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>中科融合算力网</h1>
+        <p>登录后享受更多服务</p>
+      </div>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">登录</div>
+        <div class="auth-tab" data-tab="register">注册</div>
+      </div>
+
+      <div class="auth-form">
+        <!-- 登录表单 -->
+        <div class="form-panel active" id="loginPanel">
+          <div class="auth-message" id="loginMessage"></div>
+
+          <form id="loginForm">
+            <div class="form-group" id="loginEmailGroup">
+              <label>邮箱地址</label>
+              <input type="email" id="loginEmail" placeholder="请输入邮箱" required>
+              <div class="error-text" id="loginEmailError"></div>
+            </div>
+
+            <div class="form-group" id="loginPasswordGroup">
+              <label>密码</label>
+              <input type="password" id="loginPassword" placeholder="请输入密码" required>
+              <div class="error-text" id="loginPasswordError"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="loginBtn">登录</button>
+          </form>
+        </div>
+
+        <!-- 注册表单 -->
+        <div class="form-panel" id="registerPanel">
+          <div class="auth-message" id="registerMessage"></div>
+
+          <form id="registerForm">
+            <div class="form-group" id="registerUsernameGroup">
+              <label>用户名</label>
+              <input type="text" id="registerUsername" placeholder="请输入用户名" required>
+              <div class="error-text" id="registerUsernameError"></div>
+            </div>
+
+            <div class="form-group" id="registerEmailGroup">
+              <label>邮箱地址</label>
+              <input type="email" id="registerEmail" placeholder="请输入邮箱" required>
+              <div class="error-text" id="registerEmailError"></div>
+            </div>
+
+            <div class="form-group" id="registerPasswordGroup">
+              <label>密码</label>
+              <input type="password" id="registerPassword" placeholder="请输入密码（至少6位）" required>
+              <div class="error-text" id="registerPasswordError"></div>
+            </div>
+
+            <div class="form-group" id="registerConfirmGroup">
+              <label>确认密码</label>
+              <input type="password" id="registerConfirm" placeholder="请再次输入密码" required>
+              <div class="error-text" id="registerConfirmError"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="registerBtn">注册</button>
+          </form>
+        </div>
+
+        <div class="back-home">
+          <a href="aibrain-new.html">返回首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api/auth';
+
+    // Tab 切换
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tabName + 'Panel').classList.add('active');
+        
+        clearErrors();
+      });
+    });
+
+    // 清除错误提示
+    function clearErrors() {
+      document.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
+      document.querySelectorAll('.auth-message').forEach(m => {
+        m.className = 'auth-message';
+        m.textContent = '';
+      });
+    }
+
+    // 显示错误
+    function showError(groupId, errorId, message) {
+      document.getElementById(groupId).classList.add('error');
+      document.getElementById(errorId).textContent = message;
+    }
+
+    // 显示消息
+    function showMessage(type, message) {
+      const msgEl = document.getElementById(type + 'Message');
+      msgEl.className = 'auth-message ' + type;
+      msgEl.textContent = message;
+    }
+
+    // 保存 token 和用户信息
+    function saveAuth(token, user) {
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_user', JSON.stringify(user));
+    }
+
+    // 登录
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginBtn');
+
+      btn.disabled = true;
+      btn.textContent = '登录中...';
+
+      try {
+        const res = await fetch(API_URL + '/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || '登录失败');
+        }
+
+        saveAuth(data.token, data.user);
+        showMessage('success', '登录成功，正在跳转...');
+        
+        setTimeout(() => {
+          window.location.href = 'aibrain-new.html';
+        }, 1000);
+
+      } catch (err) {
+        showMessage('error', err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '登录';
+      }
+    });
+
+    // 注册
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const username = document.getElementById('registerUsername').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const confirm = document.getElementById('registerConfirm').value;
+      const btn = document.getElementById('registerBtn');
+
+      // 验证
+      if (password !== confirm) {
+        showError('registerConfirmGroup', 'registerConfirmError', '两次密码输入不一致');
+        return;
+      }
+
+      if (password.length < 6) {
+        showError('registerPasswordGroup', 'registerPasswordError', '密码长度至少6位');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '注册中...';
+
+      try {
+        const res = await fetch(API_URL + '/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || '注册失败');
+        }
+
+        saveAuth(data.token, data.user);
+        showMessage('success', '注册成功，正在跳转...');
+        
+        setTimeout(() => {
+          window.location.href = 'aibrain-new.html';
+        }, 1000);
+
+      } catch (err) {
+        showMessage('error', err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '注册';
+      }
+    });
+
+    // 检查是否已登录
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      // 已登录，跳转到首页
+      window.location.href = 'aibrain-new.html';
+    }
+  </script>
+</body>
+</html>

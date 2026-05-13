@@ -23,520 +23,422 @@
           <div class="nav-toggle" role="button" tabindex="0">☰</div>
           <ul class="nav-menu">
             <li><a href="index.html">首页</a></li>
-            <li>
-              <a href="products.html">产品与服务</a>
-              <ul class="dropdown">
-                <li><a href="digital-brain.html">个人数字大脑</a></li>
-                <li><a href="products.html#bare-metal">裸金属租赁</a></li>
-                <li><a href="products.html#gpu-time">卡时销售</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="computing-center.html">算力中心</a>
-              <ul class="dropdown">
-                <li><a href="computing-center.html#center-construction">算力中心建设</a></li>
-                <li><a href="computing-center.html#ai">人工智能</a></li>
-                <li><a href="computing-center.html#robotics">机器人</a></li>
-              </ul>
-            </li>
+            <li><a href="products.html" class="active">产品与服务</a></li>
+            <li><a href="computing-center.html">算力中心</a></li>
             <li><a href="news-policy.html">政策与新闻</a></li>
-            <li>
-              <a href="resources.html">资源中心</a>
-              <ul class="dropdown">
-                <li><a href="resources.html#hardware">硬件产品</a></li>
-                <li><a href="resources.html#peripherals">周边设备</a></li>
-                <li><a href="resources.html#ai-apps">AI应用</a></li>
-              </ul>
-            </li>
             <li><a href="about.html">关于我们</a></li>
             <li><a href="contact.html">联系咨询</a></li>
           </ul>
           <div class="nav-actions">
-            <a href="#" class="login-btn">登录</a>
-            <a href="#" class="login-btn">注册</a>
-            <a href="contact.html" class="quote-btn">获取报价</a>
+            <a href="contact.html" class="quote-btn">联系咨询</a>
           </div>
         </nav>
       </div>
     </header>
-    
-    <!-- 产品详情 -->
-    <section style="padding: 80px 0;">
-      <div class="container">
-        <div style="display: flex; align-items: center; margin-bottom: 40px; margin-top: 20px;">
-          <a href="products.html" class="btn btn-secondary" style="margin-right: 24px; background-color: transparent; color: var(--primary); border: 2px solid var(--primary);">
-            ← 返回产品与服务
-          </a>
-          <div class="section-title" style="flex: 1; margin-left: 40px;">
-            <h2>GPU卡时销售</h2>
-            <p>按时间灵活计费，秒级资源开通，按需弹性扩展</p>
-          </div>
+
+    <!-- Hero 区域 -->
+    <section style="background: radial-gradient(circle at 50% 30%, rgba(79,99,255,0.38), transparent 36%), linear-gradient(180deg, #030622 0%, #07104A 52%, #0A1D70 100%); padding: 120px 0 80px;">
+      <div class="container" style="max-width: 900px; text-align: center;">
+        <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px;">GPU卡时销售</h1>
+        <p style="font-size: 17px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 32px;">按时间灵活计费，秒级资源开通，按需弹性扩展</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <a href="contact.html" style="display: inline-flex; align-items: center; padding: 12px 24px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none;">获取方案</a>
         </div>
-        <div class="grid grid-cols-2">
-          <div>
-            <h3>产品特点</h3>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
-              <li>按时间灵活计费，按需使用</li>
-              <li>秒级资源开通，快速投入使用</li>
-              <li>按需弹性扩展，满足峰值需求</li>
-              <li>多地区资源分布，就近选择</li>
-              <li>自助管理，操作简单便捷</li>
-            </ul>
-            <h3>适用场景</h3>
-            <ul style="margin-bottom: 24px; padding-left: 0; text-align: center;">
-              <li>短期AI模型训练</li>
-              <li>原型验证和实验</li>
-              <li>峰值算力需求</li>
-              <li>学生和研究人员使用</li>
-              <li>小型企业和个人开发者</li>
-            </ul>
-          </div>
-          <div class="card" style="padding: 32px; display: flex; flex-direction: column; gap: 20px;">
-            <h3 style="margin: 0;">计费方式</h3>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-              <p style="margin: 0;"><strong>按小时计费:</strong> 灵活使用，按实际使用时长收费</p>
-              <p style="margin: 0;"><strong>按天计费:</strong> 适合中长期使用，价格更优惠</p>
-              <p style="margin: 0;"><strong>套餐包:</strong> 预购卡时，享受更多折扣</p>
-              <p style="margin: 0;"><strong>包月包年:</strong> 长期使用可享受更多优惠</p>
+      </div>
+    </section>
+
+    <!-- 产品优势 -->
+    <section style="padding: 80px 0; background-color: var(--bg-section);">
+      <div class="container">
+        <div class="section-title" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">为什么选择卡时销售</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+          <div style="padding: 28px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
-            <h3 style="margin: 0;">支持的GPU型号</h3>
-            <p style="margin: 0;">NVIDIA H100, GH200, A100, RTX 4090, L40等</p>
-            <a href="contact.html" class="btn btn-primary" style="align-self: flex-start; margin-top: 8px;">获取报价</a>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">按需计费</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">按实际使用时长收费，灵活控制成本</p>
+          </div>
+          <div style="padding: 28px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">秒级开通</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">快速部署，快速投入使用</p>
+          </div>
+          <div style="padding: 28px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">弹性扩展</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">按需弹性扩展，满足峰值需求</p>
+          </div>
+          <div style="padding: 28px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">自助管理</h3>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">操作简单便捷，轻松上手</p>
           </div>
         </div>
       </div>
     </section>
-    
-    <!-- 算力产品信息 -->
-    <section style="padding: 80px 0;">
+
+    <!-- 适用场景 -->
+    <section style="padding: 80px 0; background-color: var(--bg-white);">
       <div class="container">
-        <div class="section-title">
-          <h2>卡时租赁产品</h2>
+        <div class="section-title" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">适用场景</h2>
         </div>
-        <style>
-          /* 表格样式 */
-          .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 40px 0;
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-          }
-          
-          .comparison-table th,
-          .comparison-table td {
-            padding: 24px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-          }
-          
-          .comparison-table th {
-            background-color: var(--bg-light);
-            font-weight: 600;
-            color: var(--text-dark);
-          }
-          
-          .comparison-table tr:hover {
-            background-color: rgba(0, 102, 255, 0.02);
-          }
-          
-          /* 产品卡片样式 */
-          .product-card-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 96px;
-          }
-          
-          .product-card {
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-          }
-          
-          .product-card:hover {
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-          }
-          
-          .card-header {
-            background: linear-gradient(135deg, #243b67, #2d4a7a, #3a5a8c);
-            color: white;
-            padding: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-          }
-          
-          .card-price {
-            background-color: transparent;
-            color: var(--text-dark);
-            padding: 16px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border-bottom: 1px solid var(--border-color);
-          }
-          
-          .card-price::before {
-            content: '💰';
-            color: var(--primary);
-          }
-          
-          .card-body {
-            background-color: #ffffff;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-          }
-          
-          .card-body ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-          }
-          
-          .card-body li {
-            margin-bottom: 12px;
-            color: var(--text-base);
-            font-size: 14px;
-            line-height: 24px;
-          }
-          
-          .purchase-btn {
-            background-color: var(--primary);
-            color: #ffffff;
-            border: 2px solid var(--primary);
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: auto;
-            align-self: center;
-            margin-top: auto;
-            margin-bottom: 20px;
-          }
-          
-          .purchase-btn:hover {
-            background-color: var(--primary-light);
-            color: #ffffff;
-            border: 2px solid var(--primary-light);
-          }
-          
-          /* 响应式设计 */
-          @media (max-width: 1024px) {
-            .product-card-container {
-              grid-template-columns: repeat(2, 1fr);
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .product-card-container {
-              grid-template-columns: 1fr;
-            }
-          }
-        </style>
-        <div class="product-card-container">
-          <!-- 产品1：GZYH1001 - 1卡H100 -->
-          <div class="product-card">
-            <div class="card-header">
-              H100-SXM-80GB × 1
-            </div>
-            <div class="card-price">
-              21.54元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：18</li>
-                <li>gpu型号：H100-SXM-80GB * 1卡</li>
-                <li>显存（G）：80</li>
-                <li>内存（G）：200</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品2：GZYH1002 - 2卡H100 -->
-          <div class="product-card">
-            <div class="card-header">
-              H100-SXM-80GB × 2
-            </div>
-            <div class="card-price">
-              43.08元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：36</li>
-                <li>gpu型号：H100-SXM-80GB * 2卡</li>
-                <li>显存（G）：160</li>
-                <li>内存（G）：400</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品3：GZYH1003 - 4卡H100 -->
-          <div class="product-card">
-            <div class="card-header">
-              H100-SXM-80GB × 4
-            </div>
-            <div class="card-price">
-              81.16元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：72</li>
-                <li>gpu型号：H100-SXM-80GB * 4卡</li>
-                <li>显存（G）：320</li>
-                <li>内存（G）：800</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品4：GZYH1004 - 8卡H100 -->
-          <div class="product-card">
-            <div class="card-header">
-              H100-SXM-80GB × 8
-            </div>
-            <div class="card-price">
-              172.32元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：144</li>
-                <li>gpu型号：H100-SXM-80GB * 8卡</li>
-                <li>显存（G）：640</li>
-                <li>内存（G）：1600</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品5：GZYH1005 - GH200-MIG 1G -->
-          <div class="product-card">
-            <div class="card-header">
-              GH200-MIG 1G.12GB
-            </div>
-            <div class="card-price">
-              5.70元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：48</li>
-                <li>gpu型号：GH200-MIG 1G.12GB * 1</li>
-                <li>显存（G）：80</li>
-                <li>内存（G）：100</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品6：GZYH1006 - GH200-MIG 2G -->
-          <div class="product-card">
-            <div class="card-header">
-              GH200-MIG 2G.24GB
-            </div>
-            <div class="card-price">
-              11.40元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：48</li>
-                <li>gpu型号：GH200-MIG 2G.24GB * 1</li>
-                <li>显存（G）：80</li>
-                <li>内存（G）：150</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品7：GZYH1007 - GH200-MIG 4G -->
-          <div class="product-card">
-            <div class="card-header">
-              GH200-MIG 4G.48GB
-            </div>
-            <div class="card-price">
-              22.80元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：48</li>
-                <li>gpu型号：GH200-MIG 4G.48GB * 1</li>
-                <li>显存（G）：80</li>
-                <li>内存（G）：200</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-          
-          <!-- 产品8：GZYH1008 - GH200-SXM -->
-          <div class="product-card">
-            <div class="card-header">
-              GH200-SXM-480GB
-            </div>
-            <div class="card-price">
-              39.90元/小时
-            </div>
-            <div class="card-body">
-              <ul>
-                <li>cpu型号：Xeon E5</li>
-                <li>cpu（核）：48</li>
-                <li>gpu型号：GH200-SXM-480GB * 1</li>
-                <li>显存（G）：80</li>
-                <li>内存（G）：200</li>
-                <li>节点互联：--</li>
-                <li>操作系统：ubuntu22.04</li>
-              </ul>
-            </div>
-          <button class="purchase-btn">确认选购</button>
-        </div>
-        </div>
-        
-        <!-- 翻页导航 -->
-        <div class="pagination">
-          <div class="pagination-dot active"></div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+          <div style="padding: 24px; background: var(--bg-section); border-radius: 16px; text-align: center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" style="margin-bottom: 12px;"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">短期AI训练</h4>
+            <p style="font-size: 12px; color: var(--text-light);">原型验证和实验</p>
+          </div>
+          <div style="padding: 24px; background: var(--bg-section); border-radius: 16px; text-align: center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" style="margin-bottom: 12px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">峰值算力需求</h4>
+            <p style="font-size: 12px; color: var(--text-light);">临时增加算力</p>
+          </div>
+          <div style="padding: 24px; background: var(--bg-section); border-radius: 16px; text-align: center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" style="margin-bottom: 12px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">研究人员</h4>
+            <p style="font-size: 12px; color: var(--text-light);">学生和科研人员</p>
+          </div>
+          <div style="padding: 24px; background: var(--bg-section); border-radius: 16px; text-align: center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2" style="margin-bottom: 12px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <h4 style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">个人开发者</h4>
+            <p style="font-size: 12px; color: var(--text-light);">小型企业和团队</p>
+          </div>
         </div>
       </div>
     </section>
-    
-    <!-- GPU型号详细参数 -->
-    <section style="padding: 80px 0; background-color: #F5F7FA;">
+
+    <!-- 计费方式 -->
+    <section style="padding: 80px 0; background-color: var(--bg-section);">
       <div class="container">
-        <div class="section-title">
-          <h2>GPU型号详细参数</h2>
+        <div class="section-title" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">灵活的计费方式</h2>
         </div>
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th>GPU型号</th>
-              <th>显存</th>
-              <th>CUDA核心</th>
-              <th>FP32性能</th>
-              <th>适用场景</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>A100</td>
-              <td>40GB/80GB</td>
-              <td>6912</td>
-              <td>19.5 TFLOPS</td>
-              <td>大规模AI训练、科学计算</td>
-            </tr>
-            <tr>
-              <td>H100</td>
-              <td>80GB</td>
-              <td>16896</td>
-              <td>60 TFLOPS</td>
-              <td>超大规模AI训练、高性能计算</td>
-            </tr>
-            <tr>
-              <td>GH200</td>
-              <td>480GB</td>
-              <td>18432</td>
-              <td>67 TFLOPS</td>
-              <td>超大规模AI训练、大模型推理</td>
-            </tr>
-            <tr>
-              <td>RTX 4090</td>
-              <td>24GB</td>
-              <td>16384</td>
-              <td>83 TFLOPS</td>
-              <td>中小型AI训练、游戏开发</td>
-            </tr>
-            <tr>
-              <td>L40</td>
-              <td>48GB</td>
-              <td>18176</td>
-              <td>45 TFLOPS</td>
-              <td>AI推理、图形渲染、科学计算</td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+          <div style="padding: 32px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">按小时计费</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">灵活使用，按实际使用时长收费</p>
+          </div>
+          <div style="padding: 32px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">按天计费</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">适合中长期使用，价格更优惠</p>
+          </div>
+          <div style="padding: 32px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">套餐包</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">预购卡时，享受更多折扣</p>
+          </div>
+          <div style="padding: 32px 24px; background: var(--bg-white); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); text-align: center;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(79,99,255,0.10), rgba(109,140,255,0.16)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F63FF" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">包月包年</h3>
+            <p style="font-size: 14px; color: var(--text-light); line-height: 1.6;">长期使用可享受更多优惠</p>
+          </div>
+        </div>
       </div>
     </section>
-    
-    <div id="root"></div>
-    
+
+    <!-- 产品方案 -->
+    <section style="padding: 80px 0; background-color: var(--bg-section);">
+      <div class="container">
+        <div class="section-title" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">产品方案</h2>
+        </div>
+
+        <!-- H100 系列 -->
+        <div style="margin-bottom: 48px;">
+          <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px; text-align: center;">H100 系列</h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+            <!-- 产品1 -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #4F63FF, #6D8CFF); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">H100-SXM-80GB × 1</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">21.54<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥15,509/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 18核</div>
+                  <div>显存：80GB</div>
+                  <div>内存：200GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- 产品2 -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #4F63FF, #6D8CFF); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">H100-SXM-80GB × 2</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">43.08<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥31,018/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 36核</div>
+                  <div>显存：160GB</div>
+                  <div>内存：400GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- 产品3 -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #4F63FF, #6D8CFF); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">H100-SXM-80GB × 4</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">81.16<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥58,435/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 72核</div>
+                  <div>显存：320GB</div>
+                  <div>内存：800GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- 产品4 - 主推 -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 2px solid #4F63FF; overflow: hidden; transition: var(--transition); position: relative;">
+              <div style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; font-size: 11px; font-weight: 600; border-radius: 999px;">主推</div>
+              <div style="background: linear-gradient(135deg, #4F63FF, #6D8CFF); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">H100-SXM-80GB × 8</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">172.32<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥124,070/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 144核</div>
+                  <div>显存：640GB</div>
+                  <div>内存：1600GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GH200 系列 -->
+        <div>
+          <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px; text-align: center;">GH200 系列</h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+            <!-- GH200 1G -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #07104A, #0A1D70); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">GH200-MIG 1G.12GB</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">5.70<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥4,104/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 48核</div>
+                  <div>显存：80GB</div>
+                  <div>内存：100GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #07104A, #0A1D70); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- GH200 2G -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #07104A, #0A1D70); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">GH200-MIG 2G.24GB</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">11.40<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥8,208/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 48核</div>
+                  <div>显存：80GB</div>
+                  <div>内存：150GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #07104A, #0A1D70); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- GH200 4G -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #07104A, #0A1D70); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">GH200-MIG 4G.48GB</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">22.80<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥16,416/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 48核</div>
+                  <div>显存：80GB</div>
+                  <div>内存：200GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #07104A, #0A1D70); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+            <!-- GH200 SXM -->
+            <div style="background: var(--bg-white); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-card); overflow: hidden; transition: var(--transition);">
+              <div style="background: linear-gradient(135deg, #07104A, #0A1D70); padding: 20px; text-align: center;">
+                <span style="color: #fff; font-size: 16px; font-weight: 600;">GH200-SXM-480GB</span>
+              </div>
+              <div style="padding: 24px; text-align: center;">
+                <div style="font-size: 32px; font-weight: 700; color: #4F63FF; margin-bottom: 4px;">39.90<span style="font-size: 16px; font-weight: 400; color: var(--text-light);">元/小时</span></div>
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">约 ¥28,728/月</div>
+                <div style="text-align: left; font-size: 13px; color: var(--text-base); line-height: 1.8;">
+                  <div>CPU：Xeon E5 × 48核</div>
+                  <div>显存：480GB</div>
+                  <div>内存：200GB</div>
+                  <div>系统：ubuntu22.04</div>
+                </div>
+                <a href="contact.html" style="display: block; margin-top: 20px; padding: 12px 24px; background: linear-gradient(135deg, #07104A, #0A1D70); color: #fff; border-radius: 12px; font-size: 14px; font-weight: 500; text-decoration: none;">立即咨询</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GPU参数表 -->
+    <section style="padding: 80px 0; background-color: var(--bg-white);">
+      <div class="container">
+        <div class="section-title" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">GPU型号参数</h2>
+        </div>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; background: var(--bg-white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-card);">
+            <thead>
+              <tr style="background: linear-gradient(135deg, #07104A, #0A1D70);">
+                <th style="padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px;">GPU型号</th>
+                <th style="padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px;">显存</th>
+                <th style="padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px;">CUDA核心</th>
+                <th style="padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px;">FP32性能</th>
+                <th style="padding: 16px 20px; text-align: left; color: #fff; font-weight: 600; font-size: 14px;">适用场景</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-card);">
+                <td style="padding: 16px 20px; font-weight: 600; color: var(--text-dark);">A100</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">40GB / 80GB</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">6912</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">19.5 TFLOPS</td>
+                <td style="padding: 16px 20px; color: var(--text-light);">大规模AI训练、科学计算</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-card);">
+                <td style="padding: 16px 20px; font-weight: 600; color: var(--text-dark);">H100</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">80GB</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">16896</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">60 TFLOPS</td>
+                <td style="padding: 16px 20px; color: var(--text-light);">超大规模AI训练、高性能计算</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-card);">
+                <td style="padding: 16px 20px; font-weight: 600; color: var(--text-dark);">GH200</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">480GB</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">18432</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">67 TFLOPS</td>
+                <td style="padding: 16px 20px; color: var(--text-light);">超大规模AI训练，大模型推理</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-card);">
+                <td style="padding: 16px 20px; font-weight: 600; color: var(--text-dark);">RTX 4090</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">24GB</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">16384</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">83 TFLOPS</td>
+                <td style="padding: 16px 20px; color: var(--text-light);">中小型AI训练，游戏开发</td>
+              </tr>
+              <tr>
+                <td style="padding: 16px 20px; font-weight: 600; color: var(--text-dark);">L40</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">48GB</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">9728</td>
+                <td style="padding: 16px 20px; color: var(--text-base);">65 TFLOPS</td>
+                <td style="padding: 16px 20px; color: var(--text-light);">推理部署、视频处理</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background: var(--gradient-cta); padding: 80px 0; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 300px; background: radial-gradient(circle at 50% 0%, rgba(79,99,255,0.16), transparent 40%); pointer-events: none;"></div>
+      <div class="container">
+        <div style="max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+          <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px;">获取专属方案</h2>
+          <p style="font-size: 16px; color: var(--text-light); line-height: 1.7; max-width: 550px; margin: 0 auto 32px;">根据您的业务需求，定制GPU配置与计费方案</p>
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: linear-gradient(135deg, #4F63FF, #6D8CFF); border: none; border-radius: 14px; color: #FFFFFF; font-size: 15px; font-weight: 600; text-decoration: none; box-shadow: 0 14px 35px rgba(79,99,255,0.35);">联系咨询</a>
+            <a href="products.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: var(--bg-white); border: 1px solid var(--border-card); border-radius: 14px; color: var(--text-dark); font-size: 15px; font-weight: 500; text-decoration: none; box-shadow: var(--shadow-card);">返回产品与服务</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 页脚 -->
     <footer class="footer">
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <h3>中科融算网</h3>
-            <p>专注于AI算力平台建设，为企业提供高性能、高可靠性的算力服务</p>
+            <img src="images/logo3.png" alt="中科融算网" style="height: 40px; margin-bottom: 16px;">
+            <p>中科融算面向企业团队与专业场景，提供稳定、可控、可扩展的高性能算力资源与服务。</p>
           </div>
           <div>
-            <h4 class="footer-title">产品与服务</h4>
+            <h4 class="footer-title">产品服务</h4>
             <ul class="footer-links">
-              <li><a href="digital-brain.html">个人数字大脑</a></li>
-              <li><a href="products.html">裸金属租赁</a></li>
-              <li><a href="products.html">卡时销售</a></li>
+              <li><a href="bare-metal.html">裸金属租赁</a></li>
+              <li><a href="gpu-time.html">卡时销售</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">支持</h4>
+            <ul class="footer-links">
               <li><a href="contact.html">联系咨询</a></li>
+              <li><a href="news-policy.html">帮助中心</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="footer-title">资源与动态</h4>
+            <h4 class="footer-title">关于我们</h4>
             <ul class="footer-links">
-              <li><a href="resources.html">资源中心</a></li>
-              <li><a href="news-policy.html">政策与新闻</a></li>
-              <li><a href="about.html">关于我们</a></li>
+              <li><a href="about.html">公司简介</a></li>
+              <li><a href="news-policy.html">最新动态</a></li>
             </ul>
-          </div>
-          <div class="footer-contact">
-            <h4 class="footer-title">联系方式</h4>
-            <p>联系人: 田杰</p>
-            <p>电话: 0755-86168478</p>
-            <p>手机: 13603075697</p>
-            <p>邮箱: tianjie@szsbay.com</p>
-            <p>地址: 深圳市南山区粤海街道高新区社区科技南路18号深圳湾科技生态园12栋裙楼833</p>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 中科融算网. 保留所有权利.</p>
-          <p style="margin-top: 10px;">邮箱: tianjie@szsbay.com | 电话: 0755-86168478 | 手机: 13603075697</p>
+          <p>© 2024 中科融算网. 保留所有权利.</p>
         </div>
       </div>
     </footer>
-    
-    <script type="module" src="src/main.tsx"></script>
-    <script src="js/main.js?v=20260325-3"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const navActions = document.querySelector('.nav-actions');
+        if (navToggle && navMenu) {
+          navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            if (navActions) navActions.classList.toggle('active');
+            navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+          });
+        }
+      });
+    </script>
   </body>
 </html>

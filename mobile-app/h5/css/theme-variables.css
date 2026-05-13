@@ -1,0 +1,200 @@
+/**
+ * theme-variables.css - 全局主题变量
+ * 
+ * 深色模式：深蓝夜空科技控制台风格
+ * 浅色模式：冷白灰蓝科技控制台风格
+ * 
+ * 使用方式：
+ * 1. 在页面中引入此文件
+ * 2. 通过 html[data-theme="dark"] 或 html[data-theme="light"] 切换
+ * 3. 使用 var(--variable-name) 引用颜色
+ */
+
+/* ==================== 基础变量（默认深色模式）==================== */
+:root {
+  /* 主色调 */
+  --primary: #6366F1;
+  --primary-light: #818CF8;
+  --primary-dark: #5B35E6;
+  --primary-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  
+  /* 背景色 */
+  --bg-primary: #0A1628;
+  --bg-secondary: #0F172A;
+  --bg-tertiary: #1E293B;
+  --bg-card: rgba(30, 41, 59, 0.6);
+  --bg-card-solid: #162033;
+  --bg-input: #111317;
+  --bg-hover: rgba(99, 102, 241, 0.08);
+  --bg-active: rgba(99, 102, 241, 0.15);
+  
+  /* 文字色 */
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
+  
+  /* 边框色 */
+  --border-primary: rgba(148, 163, 184, 0.15);
+  --border-secondary: rgba(148, 163, 184, 0.08);
+  --border-focus: rgba(99, 102, 241, 0.5);
+  
+  /* 状态色 */
+  --success: #10B981;
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --warning: #F59E0B;
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  --error: #EF4444;
+  --error-bg: rgba(239, 68, 68, 0.15);
+  --info: #3B82F6;
+  --info-bg: rgba(59, 130, 246, 0.15);
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+  
+  /* 底部导航 */
+  --nav-bg: #111317;
+  --nav-text: #9DB2CE;
+  --nav-text-active: #FFFFFF;
+  --nav-highlight: #613EEA;
+}
+
+/* ==================== 浅色模式变量 ==================== */
+html[data-theme="light"] {
+  /* 主色调（保持一致） */
+  --primary: #6366F1;
+  --primary-light: #818CF8;
+  --primary-dark: #5B35E6;
+  --primary-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  
+  /* 背景色 */
+  --bg-primary: #F1F5F9;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E2E8F0;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-solid: #FFFFFF;
+  --bg-input: #FFFFFF;
+  --bg-hover: rgba(99, 102, 241, 0.06);
+  --bg-active: rgba(99, 102, 241, 0.12);
+  
+  /* 文字色 */
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-tertiary: #64748B;
+  --text-muted: #94A3B8;
+  --text-inverse: #F8FAFC;
+  
+  /* 边框色 */
+  --border-primary: rgba(148, 163, 184, 0.25);
+  --border-secondary: rgba(148, 163, 184, 0.15);
+  --border-focus: rgba(99, 102, 241, 0.4);
+  
+  /* 状态色（保持一致） */
+  --success: #10B981;
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --warning: #F59E0B;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --error: #EF4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --info: #3B82F6;
+  --info-bg: rgba(59, 130, 246, 0.1);
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.2);
+  
+  /* 底部导航 */
+  --nav-bg: #FFFFFF;
+  --nav-text: #64748B;
+  --nav-text-active: #6366F1;
+  --nav-highlight: #6366F1;
+}
+
+/* ==================== 工具类 ==================== */
+
+/* 背景色 */
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+.bg-card { background-color: var(--bg-card); }
+.bg-input { background-color: var(--bg-input); }
+
+/* 文字色 */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-muted { color: var(--text-muted); }
+
+/* 边框 */
+.border-primary { border-color: var(--border-primary); }
+.border-secondary { border-color: var(--border-secondary); }
+
+/* 渐变文字 */
+.text-gradient {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 渐变背景 */
+.bg-gradient {
+  background: var(--primary-gradient);
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+}
+
+/* 输入框样式 */
+.input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+  border-radius: 999px;
+}
+
+.input:focus {
+  border-color: var(--border-focus);
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+html[data-theme="light"] .input::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+/* 按钮样式 */
+.btn-primary {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: 999px;
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 999px;
+}
+
+/* 过渡动画 */
+.theme-transition {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}

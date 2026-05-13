@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>词元生产 - 个人数字大脑</title>
+  <script>
+    // 在页面渲染前应用主题，防止闪烁
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: linear-gradient(180deg, #0a1628 0%, #0d1f3a 50%, #0a1628 100%);
+      --bg-card: rgba(30, 58, 138, 0.25);
+      --bg-card-hover: rgba(37, 99, 235, 0.3);
+      --border-card: rgba(37, 99, 235, 0.4);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-tertiary: rgba(255, 255, 255, 0.5);
+      --accent-blue: #2563eb;
+      --accent-blue-light: #60a5fa;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    /* 浅色模式 - 冷白灰蓝科技风 */
+    html[data-theme="light"] {
+      --bg-primary: linear-gradient(180deg, #F6F9FC 0%, #F3F7FB 50%, #F6F9FC 100%);
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FBFDFF;
+      --border-card: #D7E6FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #7C8CA5;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --success: #16A34A;
+      --warning: #D97706;
+      --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.06);
+      --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.10);
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+    
+    /* 手机容器 */
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 100px;
+    }
+    
+    /* 状态栏 */
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .status-bar .time {
+      color: var(--text-primary);
+    }
+    
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    /* 顶部返回区 */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px 16px;
+    }
+    
+    .page-header .back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px;
+      margin-left: -8px;
+    }
+    
+    .page-header .title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .page-header .more {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-tertiary);
+    }
+    
+    /* 页面内容 */
+    .page-content {
+      padding: 0 16px 20px;
+    }
+    
+    /* 收益总览卡 */
+    .overview-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(30, 58, 138, 0.5) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.5);
+      border-radius: 24px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .overview-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, transparent 70%);
+    }
+    
+    .overview-card .label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    
+    .overview-card .main-value {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    
+    .overview-card .main-value .unit {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    .overview-card .convert {
+      font-size: 15px;
+      color: var(--success);
+      margin-bottom: 24px;
+    }
+    
+    .overview-card .stats-row {
+      display: flex;
+      gap: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .overview-card .stat-item {
+      flex: 1;
+    }
+    
+    .overview-card .stat-item .stat-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+    
+    .overview-card .stat-item .stat-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    /* 图表区域 */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    
+    .chart-section .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    
+    /* 时间切换 */
+    .time-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .time-tab {
+      flex: 1;
+      padding: 8px 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      background: transparent;
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .time-tab.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: var(--text-primary);
+    }
+    
+    /* 图表容器 */
+    .chart-container {
+      height: 180px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    
+    /* SVG 图表 */
+    .chart-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* 收益明细摘要 */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    
+    .summary-card .label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+    
+    .summary-card .value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    
+    .summary-card .value.up {
+      color: var(--success);
+    }
+    
+    /* 收益来源分析 */
+    .source-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    
+    .source-section .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    
+    .source-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .source-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .source-item .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .source-item .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .source-item .icon.device {
+      background: rgba(37, 99, 235, 0.3);
+    }
+    
+    .source-item .icon.task {
+      background: rgba(16, 185, 129, 0.3);
+    }
+    
+    .source-item .icon.model {
+      background: rgba(245, 158, 11, 0.3);
+    }
+    
+    .source-item .icon.platform {
+      background: rgba(139, 92, 246, 0.3);
+    }
+    
+    .source-item .info .name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    
+    .source-item .info .percent {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    
+    .source-item .value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    /* 设备贡献排行 */
+    .device-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    
+    .device-section .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    
+    .device-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .device-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 12px;
+    }
+    
+    .device-item .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .device-item .rank {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .device-item .rank.top {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #fff;
+    }
+    
+    .device-item .rank.normal {
+      background: rgba(37, 99, 235, 0.3);
+      color: var(--text-secondary);
+    }
+    
+    .device-item .name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .device-item .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-blue-light);
+    }
+    
+    /* 底部操作 */
+    .bottom-actions {
+      display: flex;
+      gap: 12px;
+      padding: 0 16px;
+      margin-top: 8px;
+    }
+    
+    .btn-primary {
+      flex: 1;
+      padding: 14px;
+      background: var(--accent-blue);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+    
+    .btn-secondary {
+      flex: 1;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+    
+    /* 安全区适配 */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .app-container {
+        padding-bottom: calc(100px + env(safe-area-inset-bottom));
+      }
+    }
+    
+    /* 小屏幕适配 */
+    @media (max-width: 390px) {
+      .overview-card .main-value {
+        font-size: 40px;
+      }
+      
+      .summary-grid {
+        gap: 10px;
+      }
+      
+      .summary-card {
+        padding: 14px 8px;
+      }
+
+      .summary-card .value {
+        font-size: 16px;
+      }
+    }
+  </style>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/services/themeService.js"></script>
+  <script src="js/utils/navigation.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- 状态栏 -->
+    <!-- 顶部返回区 -->
+    <div class="page-header">
+      <a href="mobile-app.html" class="back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>返回</span>
+      </a>
+      <span class="title">词元生产</span>
+      <div class="more">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- 页面内容 -->
+    <div class="page-content">
+      <!-- 收益总览卡 -->
+      <div class="overview-card">
+        <div class="label">今日收益</div>
+        <div class="main-value">
+          <span style="font-size: 48px;">12.8</span><span class="unit" style="font-size: 24px; margin-left: 4px;">M</span>
+        </div>
+        <div class="convert">≈ ¥12.80</div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-label">本月累计</div>
+            <div class="stat-value">384M</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">累计总收益</div>
+            <div class="stat-value">2.56G</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 收益趋势图表 -->
+      <div class="chart-section">
+        <div class="section-title">每日词元收益趋势</div>
+        
+        <!-- 时间维度切换 -->
+        <div class="time-tabs">
+          <button class="time-tab active">7天</button>
+          <button class="time-tab">30天</button>
+          <button class="time-tab">90天</button>
+        </div>
+        
+        <!-- 图表 -->
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 340 180" preserveAspectRatio="none">
+            <!-- 渐变定义 -->
+            <defs>
+              <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.4" />
+                <stop offset="100%" style="stop-color:#2563eb;stop-opacity:0.05" />
+              </linearGradient>
+            </defs>
+            
+            <!-- 网格线 -->
+            <line x1="0" y1="45" x2="340" y2="45" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+            <line x1="0" y1="90" x2="340" y2="90" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+            <line x1="0" y1="135" x2="340" y2="135" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+            
+            <!-- 面积填充 -->
+            <path d="M 0,150 L 48,120 L 97,100 L 145,130 L 194,80 L 242,60 L 291,90 L 340,40 L 340,180 L 0,180 Z" 
+                  fill="url(#areaGradient)"/>
+            
+            <!-- 主折线 -->
+            <path d="M 0,150 L 48,120 L 97,100 L 145,130 L 194,80 L 242,60 L 291,90 L 340,40" 
+                  fill="none" stroke="#60a5fa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- 数据点 -->
+            <circle cx="0" cy="150" r="4" fill="#60a5fa"/>
+            <circle cx="48" cy="120" r="4" fill="#60a5fa"/>
+            <circle cx="97" cy="100" r="4" fill="#60a5fa"/>
+            <circle cx="145" cy="130" r="4" fill="#60a5fa"/>
+            <circle cx="194" cy="80" r="4" fill="#60a5fa"/>
+            <circle cx="242" cy="60" r="5" fill="#fff" stroke="#60a5fa" stroke-width="2"/>
+            <circle cx="291" cy="90" r="4" fill="#60a5fa"/>
+            <circle cx="340" cy="40" r="4" fill="#60a5fa"/>
+          </svg>
+        </div>
+        
+        <!-- 日期标签 -->
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); padding: 0 4px;">
+          <span>12/08</span>
+          <span>12/09</span>
+          <span>12/10</span>
+          <span>12/11</span>
+          <span>12/12</span>
+          <span>12/13</span>
+          <span>12/14</span>
+        </div>
+      </div>
+      
+      <!-- 收益明细摘要 -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="label">今日收益</div>
+          <div class="value up">+12.8M</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">昨日收益</div>
+          <div class="value">+11.52M</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">7日平均</div>
+          <div class="value">+12M</div>
+        </div>
+      </div>
+      
+      <!-- 收益来源分析 -->
+      <div class="source-section">
+        <div class="section-title">收益来源分析</div>
+        <div class="source-list">
+          <div class="source-item">
+            <div class="left">
+              <div class="icon device">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                </svg>
+              </div>
+              <div class="info">
+                <div class="name">设备共享收益</div>
+                <div class="percent">占比 45%</div>
+              </div>
+            </div>
+            <div class="value">5.76M</div>
+          </div>
+          <div class="source-item">
+            <div class="left">
+              <div class="icon task">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <div class="info">
+                <div class="name">协同任务收益</div>
+                <div class="percent">占比 30%</div>
+              </div>
+            </div>
+            <div class="value">3.84M</div>
+          </div>
+          <div class="source-item">
+            <div class="left">
+              <div class="icon model">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                  <path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+              <div class="info">
+                <div class="name">模型调用分成</div>
+                <div class="percent">占比 18%</div>
+              </div>
+            </div>
+            <div class="value">2.3M</div>
+          </div>
+          <div class="source-item">
+            <div class="left">
+              <div class="icon platform">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                  <path d="M12 2l9 4.9V17L12 22l-9-4.9V7z"/>
+                </svg>
+              </div>
+              <div class="info">
+                <div class="name">平台激励收益</div>
+                <div class="percent">占比 7%</div>
+              </div>
+            </div>
+            <div class="value">0.9M</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 设备贡献排行 -->
+      <div class="device-section">
+        <div class="section-title">设备贡献排行</div>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="left">
+              <div class="rank top">1</div>
+              <div class="name">AIBrain-客厅</div>
+            </div>
+            <div class="value">5.2M</div>
+          </div>
+          <div class="device-item">
+            <div class="left">
+              <div class="rank normal">2</div>
+              <div class="name">AIBrain-书房</div>
+            </div>
+            <div class="value">4.3M</div>
+          </div>
+          <div class="device-item">
+            <div class="left">
+              <div class="rank normal">3</div>
+              <div class="name">AIBrain-卧室</div>
+            </div>
+            <div class="value">3.3M</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 底部操作入口 -->
+    <div class="bottom-actions">
+      <a href="mobile-app.html" class="btn-secondary">返回首页</a>
+      <a href="mobile-app.html" class="btn-primary">查看设备管理</a>
+    </div>
+  </div>
+  
+  <script>
+    // 检查登录状态
+    function checkLoginStatus() {
+      const isLoggedIn = Storage.Auth.isLoggedIn() || Storage.getSession('auth_is_logged_in');
+      if (!isLoggedIn) {
+        Navigation.replaceTo('mobile-login.html');
+        return false;
+      }
+      return true;
+    }
+
+    // 初始化主题
+    ThemeManager.init();
+
+    // 页面加载时检查登录状态
+    checkLoginStatus();
+  </script>
+</body>
+</html>
