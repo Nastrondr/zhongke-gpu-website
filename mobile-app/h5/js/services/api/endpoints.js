@@ -49,7 +49,7 @@ const ApiEndpoints = {
       // 设备能力调用接口（正确路径）
       invork: { 
         method: 'POST', 
-        path: '/manage/api/v1/devices/:id/iot/capbility/invork'
+        path: '/manage/api/v1/devices/:id/iot/capbility/invoke'
       }
     }
   },
@@ -72,8 +72,6 @@ const ApiEndpoints = {
   skill: {
     list: { method: 'GET', path: '/skills' },
     execute: { method: 'POST', path: '/skills/execute' },
-    history: { method: 'GET', path: '/skills/history' },
-    supported: { method: 'GET', path: '/skills/supported' }
   },
 
   // 任务相关

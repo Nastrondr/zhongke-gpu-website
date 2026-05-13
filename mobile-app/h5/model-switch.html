@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>切换模型 - 设备管理</title>
+  <link rel="stylesheet" href="css/theme-variables.css">
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -14,46 +15,27 @@
     })();
   </script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    /* 薄层兼容映射 - 使用 theme-variables.css 并保留页面局部变量 */
     :root,
     html[data-theme="dark"] {
-      --bg-primary: linear-gradient(180deg, #0A0F1C 0%, #10182A 50%, #0A0F1C 100%);
       --bg-card: rgba(30, 58, 138, 0.25);
       --bg-card-light: rgba(30, 58, 138, 0.15);
       --bg-card-hover: rgba(37, 99, 235, 0.3);
       --border-card: rgba(37, 99, 235, 0.4);
       --border-card-light: rgba(37, 99, 235, 0.2);
-      --text-primary: #ffffff;
-      --text-secondary: rgba(255, 255, 255, 0.7);
-      --text-tertiary: rgba(255, 255, 255, 0.5);
-      --accent-blue: #2563eb;
-      --accent-blue-light: #60a5fa;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --error: #ef4444;
+      --accent-blue: var(--primary);
+      --accent-blue-light: var(--primary-light, var(--primary));
+      --text-tertiary: var(--text-muted);
     }
-
-    /* 浅色模式 - 冷白灰蓝科技风 */
     html[data-theme="light"] {
-      --bg-primary: linear-gradient(180deg, #F6F9FC 0%, #F3F7FB 50%, #F6F9FC 100%);
       --bg-card: #FFFFFF;
       --bg-card-light: #FBFDFF;
       --bg-card-hover: #F8FAFC;
       --border-card: #D7E6FF;
       --border-card-light: #E8F0FF;
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-tertiary: #7C8CA5;
-      --accent-blue: #4A8DFF;
+      --accent-blue: var(--primary);
       --accent-blue-light: #6BA8FF;
-      --success: #1BD4A0;
-      --warning: #D97706;
-      --error: #DC2626;
+      --text-tertiary: #7C8CA5;
       --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.06);
       --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.10);
     }

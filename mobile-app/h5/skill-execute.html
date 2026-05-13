@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>执行技能 - 设备管理</title>
+  <link rel="stylesheet" href="css/theme-variables.css">
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -14,103 +15,44 @@
     })();
   </script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* 薄层兼容映射 - 使用 theme-variables.css 并保留页面局部变量 */
     :root,
     html[data-theme="dark"] {
-      --bg-primary: linear-gradient(180deg, #0A0F1C 0%, #10182A 50%, #0A0F1C 100%);
-      --bg-secondary: #10182A;
       --card-bg: #111C31;
       --card-hover: #16233D;
-      --border-primary: rgba(96, 165, 250, 0.28);
-      --border-secondary: rgba(148, 163, 184, 0.16);
-      --divider: rgba(148, 163, 184, 0.10);
-      --text-primary: #F8FAFC;
-      --text-secondary: #CBD5E1;
-      --text-tertiary: #94A3B8;
-      --text-muted: #64748B;
-      --brand-primary: #60A5FA;
-      --brand-secondary: #3B82F6;
-      --accent-blue: #60A5FA;
-      --accent-cyan: #22C7D6;
-      --success: #22C55E;
-      --warning: #F59E0B;
-      --error: #EF4444;
-      --info: #38BDF8;
-      --chart-grid: rgba(148, 163, 184, 0.10);
-      --tooltip-bg: #16233D;
-      --tooltip-title: #F8FAFC;
-      --tooltip-body: #CBD5E1;
+      --accent-blue: var(--primary);
+      --brand-primary: var(--primary);
+      --brand-secondary: var(--primary);
       --border-radius-sm: 10px;
       --border-radius: 16px;
       --border-radius-lg: 20px;
+      --tooltip-bg: #16233D;
+      --tooltip-title: #F8FAFC;
+      --tooltip-body: #CBD5E1;
     }
-
     html[data-theme="light"] {
-      /* 页面背景 - 奶白底 */
-      --bg-primary: #F6FAFF;
-      --bg-secondary: #F5F9FF;
-      
-      /* 卡片系统 - 白卡片 + 次级块 */
       --card-bg: #FFFFFF;
       --card-bg-soft: #F5F9FF;
       --card-highlight: linear-gradient(135deg, #F0F7FF 0%, #E8F2FF 100%);
-      --bg-card: #FFFFFF;
-      --bg-card-hover: #FAFCFF;
       --card-hover: #FAFCFF;
-      
-      /* 边框 - 轻蓝描边 */
-      --border-card: #E8F0FF;
-      --border-primary: #E8F0FF;
-      --border-secondary: rgba(140, 170, 220, 0.12);
-      --border-accent: #D8E7FF;
-      --divider: rgba(140, 170, 220, 0.08);
-      
-      /* 文字 - 清晰层次 */
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-tertiary: #6B7A90;
-      --text-muted: #94A3B8;
-      
-      /* 品牌色 - 柔和亮蓝 */
-      --brand-primary: #4A8DFF;
+      --brand-primary: var(--primary);
       --brand-secondary: #6BA8FF;
       --brand-soft: #EAF3FF;
       --icon-bg: #EAF3FF;
-      
-      /* 功能色 */
-      --accent-cyan: #0891B2;
-      --success: #1BD4A0;
       --success-bg: rgba(27, 212, 160, 0.15);
-      --warning: #D97706;
       --warning-bg: #FFF5E8;
-      --error: #DC2626;
       --error-bg: #FDECEC;
-      --info: #0284C7;
       --info-bg: #E0F2FE;
-      
-      /* 图表 */
-      --chart-grid: rgba(140, 170, 220, 0.06);
-      
-      /* 悬浮框 */
-      --tooltip-bg: #FFFFFF;
-      --tooltip-title: #0F172A;
-      --tooltip-body: #475569;
-      
-      /* 阴影 - 轻阴影 */
       --shadow-card: 0 10px 30px rgba(89, 123, 189, 0.08);
       --shadow-card-hover: 0 14px 40px rgba(89, 123, 189, 0.12);
       --shadow-soft: 0 2px 8px rgba(89, 123, 189, 0.04);
       --shadow-icon: 0 4px 12px rgba(74, 141, 255, 0.15);
-      
-      /* 圆角 - 更柔和 */
       --border-radius-sm: 10px;
       --border-radius: 16px;
       --border-radius-lg: 20px;
+      --tooltip-bg: #FFFFFF;
+      --tooltip-title: #0F172A;
+      --tooltip-body: #475569;
     }
 
     /* 浅色模式卡片样式 - 白卡 + 轻阴影 */

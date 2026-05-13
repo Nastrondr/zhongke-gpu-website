@@ -12,11 +12,11 @@
 
 /* ==================== 基础变量（默认深色模式）==================== */
 :root {
-  /* 主色调 */
-  --primary: #6366F1;
-  --primary-light: #818CF8;
-  --primary-dark: #5B35E6;
-  --primary-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  /* 主色调 - 采用 home.html 蓝色体系 */
+  --primary: #60A5FA;
+  --primary-light: #93C5FD;
+  --primary-strong: #3B82F6;
+  --primary-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
   
   /* 背景色 */
   --bg-primary: #0A1628;
@@ -25,8 +25,8 @@
   --bg-card: rgba(30, 41, 59, 0.6);
   --bg-card-solid: #162033;
   --bg-input: #111317;
-  --bg-hover: rgba(99, 102, 241, 0.08);
-  --bg-active: rgba(99, 102, 241, 0.15);
+  --bg-hover: rgba(96, 165, 250, 0.08);
+  --bg-active: rgba(96, 165, 250, 0.15);
   
   /* 文字色 */
   --text-primary: #F8FAFC;
@@ -36,7 +36,7 @@
   --text-inverse: #0F172A;
   
   /* 边框色 */
-  --border-primary: rgba(148, 163, 184, 0.15);
+  --border-primary: rgba(96, 165, 250, 0.28);
   --border-secondary: rgba(148, 163, 184, 0.08);
   --border-focus: rgba(99, 102, 241, 0.5);
   
@@ -61,25 +61,70 @@
   --nav-text: #9DB2CE;
   --nav-text-active: #FFFFFF;
   --nav-highlight: #613EEA;
+  
+  /* ===== 兼容别名（来源于 home.html 成熟视觉）===== */
+  /* 品牌色别名 - 使用蓝色体系 */
+  --brand-primary: var(--primary);
+  --brand-secondary: var(--primary-strong);
+  --brand-gradient: var(--primary-gradient);
+  --accent-blue: var(--primary);
+  --accent-cyan: #22C7D6;
+  
+  /* 紫色辅助色 - 保留原紫色作为特殊场景 */
+  --accent-purple: #6366F1;
+  --accent-purple-strong: #4F46E5;
+  --accent-purple-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  
+  /* 卡片相关别名 */
+  --card-bg: var(--bg-card);
+  --card-hover: #16233D;
+  --bg-card-hover: var(--card-hover);
+  --border-card: var(--border-primary);
+  --border-card-light: var(--border-secondary);
+  --card-highlight: transparent;
+  
+  /* 圆角变量 */
+  --border-radius-sm: 10px;
+  --border-radius: 16px;
+  --border-radius-lg: 20px;
+  
+  /* 浮层阴影 */
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  
+  /* 图表颜色 */
+  --chart-income: #22C7D6;
+  --chart-expense: var(--primary);
+  --chart-grid: rgba(148, 163, 184, 0.10);
+  
+  /* 提示框 */
+  --tooltip-bg: #16233D;
+  --tooltip-title: #F8FAFC;
+  --tooltip-body: #CBD5E1;
+  
+  /* 分割线 */
+  --divider: rgba(148, 163, 184, 0.10);
 }
 
 /* ==================== 浅色模式变量 ==================== */
 html[data-theme="light"] {
-  /* 主色调（保持一致） */
-  --primary: #6366F1;
-  --primary-light: #818CF8;
-  --primary-dark: #5B35E6;
-  --primary-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  /* 主色调 - 采用 home.html 蓝色体系 */
+  --primary: #4A8DFF;
+  --primary-light: #6BA8FF;
+  --primary-strong: #2563EB;
+  --primary-gradient: linear-gradient(135deg, #4A8DFF 0%, #6BA8FF 100%);
   
   /* 背景色 */
-  --bg-primary: #F1F5F9;
-  --bg-secondary: #FFFFFF;
+  --bg-primary: #F6FAFF;
+  --bg-secondary: #F5F9FF;
   --bg-tertiary: #E2E8F0;
-  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card: #FFFFFF;
   --bg-card-solid: #FFFFFF;
   --bg-input: #FFFFFF;
-  --bg-hover: rgba(99, 102, 241, 0.06);
-  --bg-active: rgba(99, 102, 241, 0.12);
+  --bg-hover: rgba(74, 141, 255, 0.06);
+  --bg-active: rgba(74, 141, 255, 0.12);
   
   /* 文字色 */
   --text-primary: #0F172A;
@@ -112,8 +157,60 @@ html[data-theme="light"] {
   /* 底部导航 */
   --nav-bg: #FFFFFF;
   --nav-text: #64748B;
-  --nav-text-active: #6366F1;
-  --nav-highlight: #6366F1;
+  --nav-text-active: var(--primary);
+  --nav-highlight: var(--primary);
+  
+  /* ===== 兼容别名（来源于 home.html 成熟视觉）===== */
+  /* 品牌色别名 - 使用蓝色体系 */
+  --brand-primary: var(--primary);
+  --brand-secondary: var(--primary-light);
+  --brand-gradient: var(--primary-gradient);
+  --accent-blue: var(--primary);
+  --accent-cyan: #0891B2;
+  
+  /* 紫色辅助色 - 保留原紫色作为特殊场景 */
+  --accent-purple: #6366F1;
+  --accent-purple-strong: #4F46E5;
+  --accent-purple-gradient: linear-gradient(135deg, #6366F1, #5B35E6);
+  
+  /* 卡片相关别名 */
+  --card-bg: #FFFFFF;
+  --card-hover: #FAFCFF;
+  --bg-card-hover: var(--card-hover);
+  --border-card: #E8F0FF;
+  --border-card-light: rgba(140, 170, 220, 0.12);
+  --card-highlight: linear-gradient(135deg, #F0F7FF 0%, #E8F2FF 100%);
+  
+  /* 圆角变量 */
+  --border-radius-sm: 10px;
+  --border-radius: 16px;
+  --border-radius-lg: 20px;
+  
+  /* 浮层阴影 */
+  --shadow-card: 0 10px 30px rgba(89, 123, 189, 0.08);
+  --shadow-card-hover: 0 14px 40px rgba(89, 123, 189, 0.12);
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 2px 8px rgba(89, 123, 189, 0.04);
+  --shadow-icon: 0 4px 12px rgba(74, 141, 255, 0.15);
+  
+  /* 图表颜色 */
+  --chart-income: #0891B2;
+  --chart-expense: #4A8DFF;
+  --chart-grid: rgba(140, 170, 220, 0.06);
+  
+  /* 提示框 */
+  --tooltip-bg: #FFFFFF;
+  --tooltip-title: #0F172A;
+  --tooltip-body: #475569;
+  
+  /* 分割线 */
+  --divider: rgba(140, 170, 220, 0.08);
+  
+  /* 功能色背景 */
+  --success-bg: rgba(38, 225, 172, 0.15);
+  --warning-bg: #FFF5E8;
+  --error-bg: #FDECEC;
+  --info-bg: #E0F2FE;
 }
 
 /* ==================== 工具类 ==================== */

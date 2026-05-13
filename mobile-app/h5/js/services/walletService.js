@@ -8,11 +8,33 @@
  */
 
 const WalletService = {
+  // 钱包接口开关 - 后端接口未接入前保持关闭
+  ENABLE_WALLET_API: false,
+  
+  // 兜底钱包数据
+  FALLBACK_WALLET_DATA: {
+    balance: 2.56,
+    unit: 'M',
+    convert: '¥2.56',
+    todayIncome: 12.8,
+    todayExpense: 45.2,
+    totalIncome: 0,
+    totalExpense: 0,
+    source: 'fallback',
+    status: 'mock'
+  },
+
   /**
    * 获取完整钱包数据
    * @returns {Promise<Object>}
    */
   async getWalletData() {
+    // 如果钱包接口未接入，使用兜底数据
+    if (!this.ENABLE_WALLET_API) {
+      console.warn('[WalletService] 钱包接口未接入，使用兜底数据');
+      return this.FALLBACK_WALLET_DATA;
+    }
+    
     try {
       const response = await Api.Wallet.getOverview();
       if (response && (response.code === '0' || response.success)) {
@@ -28,12 +50,10 @@ const WalletService = {
         };
       }
     } catch (error) {
-      console.error('[WalletService] 获取钱包数据失败:', error);
+      console.warn('[WalletService] 钱包接口请求失败，使用兜底数据:', error);
+      return this.FALLBACK_WALLET_DATA;
     }
-    if (window.WalletMock) {
-      return await window.WalletMock.getWalletData();
-    }
-    return null;
+    return this.FALLBACK_WALLET_DATA;
   },
 
   /**

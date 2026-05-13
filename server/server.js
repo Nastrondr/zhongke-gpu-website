@@ -8,8 +8,12 @@ const fs = require('fs');
 
 const app = express();
 const PORT = 3000;
-const JWT_SECRET = 'zhongke-gpu-website-secret-key-2024';
+const JWT_SECRET = process.env.JWT_SECRET || 'zhongke-gpu-website-secret-key-2024';
 const DATA_FILE = path.join(__dirname, 'database.json');
+
+if (!process.env.JWT_SECRET) {
+  console.warn('[安全警告] JWT_SECRET 未通过环境变量设置，使用默认密钥。建议生产环境设置 JWT_SECRET 环境变量');
+}
 
 // 中间件
 app.use(cors());

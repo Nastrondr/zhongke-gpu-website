@@ -1,82 +1,82 @@
-// Toast 通知工具
+// Toast 通知工具 - 统一风格
 // 用法: Toast.show('操作成功', 'success'), Toast.show('加载中...', 'loading')
 
 const Toast = {
-  container: null,
-
-  init() {
-    if (this.container) return;
-    this.container = document.createElement('div');
-    this.container.id = 'toast-container';
-    this.container.style.cssText = `
-      position: fixed;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    `;
-    document.body.appendChild(this.container);
-  },
-
   show(message, type = 'info', duration = 2500) {
-    this.init();
+    // 移除旧 toast
+    const oldToast = document.querySelector('.app-toast');
+    if (oldToast) oldToast.remove();
 
     const toast = document.createElement('div');
-    const bgColors = {
+    const accentColors = {
       success: '#10B981',
       error: '#EF4444',
       warning: '#F59E0B',
       info: '#3B82F6',
-      loading: '#6B7280'
+      loading: '#6366F1'
     };
-    const icons = {
-      success: '✓',
-      error: '✕',
-      warning: '⚠',
-      info: 'ℹ',
-      loading: ''
-    };
+    const accent = accentColors[type] || accentColors.info;
+    
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const isHtmlDark = document.documentElement.classList.contains('dark') || document.documentElement.classList.contains('theme-dark');
+    const isDarkMode = isDark || isHtmlDark;
 
+    toast.className = 'app-toast app-toast--' + type;
     toast.style.cssText = `
-      padding: 12px 20px;
-      background: ${bgColors[type] || bgColors.info};
-      color: white;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      position: fixed;
+      top: calc(16px + env(safe-area-inset-top));
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      width: max-content;
+      min-width: 220px;
+      max-width: calc(100vw - 32px);
+      margin: 0;
+      transform: translate3d(-50%, -10px, 0);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 99999;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      max-width: 280px;
-      text-align: center;
+      padding: 12px 20px;
+      border-radius: 16px;
+      transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+      --toast-accent: ${accent};
+      ${isDarkMode ? `
+        background: rgba(15, 23, 42, 0.95);
+        color: #F8FAFC;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+      ` : `
+        background: rgba(255, 255, 255, 0.95);
+        color: #0F172A;
+        border: 1px solid rgba(226, 232, 240, 0.92);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 1px 0 rgba(255, 255, 255, 0.70) inset;
+      `}
     `;
 
-    toast.innerHTML = type === 'loading'
-      ? `<span style="width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block;"></span> ${message}`
-      : `<span>${icons[type] || ''}</span> ${message}`;
+    const isLoading = type === 'loading';
+    const content = isLoading 
+      ? `<span class="app-toast-spinner"></span> ${message}`
+      : message;
 
-    this.container.appendChild(toast);
+    toast.innerHTML = `<span class="app-toast-message">${content}</span>`;
 
-    // 触发动画
+    // 直接挂载到 body
+    document.body.appendChild(toast);
+
     requestAnimationFrame(() => {
       toast.style.opacity = '1';
-      toast.style.transform = 'translateY(0)';
+      toast.style.transform = 'translate3d(-50%, 0, 0)';
+      toast.style.pointerEvents = 'auto';
     });
 
-    // 自动移除
     if (type !== 'loading') {
       setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-10px)';
+        toast.style.transform = 'translate3d(-50%, -10px, 0)';
         setTimeout(() => toast.remove(), 300);
       }, duration);
     }
@@ -84,13 +84,10 @@ const Toast = {
     return toast;
   },
 
-  // 隐藏所有 toast
   hideAll() {
-    if (!this.container) return;
-    this.container.innerHTML = '';
+    document.querySelectorAll('.app-toast').forEach(t => t.remove());
   },
 
-  // Loading 状态
   loading(message = '加载中...') {
     return this.show(message, 'loading', 0);
   },
@@ -99,7 +96,7 @@ const Toast = {
     return this.show(message, 'success', duration);
   },
 
-  error(message, duration = 3000) {
+  error(message, duration = 2500) {
     return this.show(message, 'error', duration);
   },
 
@@ -112,142 +109,101 @@ const Toast = {
   }
 };
 
-// 按钮加载状态工具
+// Button Loading 工具
 const ButtonLoading = {
-  // 保存按钮原始状态
-  _originalStates: new WeakMap(),
-
-  // 显示按钮加载状态
-  show(button, loadingText = '处理中...') {
-    if (!button) return;
-
-    // 保存原始状态
-    if (!this._originalStates.has(button)) {
-      this._originalStates.set(button, {
-        text: button.innerHTML,
-        disabled: button.disabled
-      });
+  set(btn, loading, text) {
+    if (!btn) return;
+    btn.disabled = loading;
+    if (loading) {
+      btn.classList.add('btn-loading');
+      if (text) btn.dataset.originalText = btn.textContent || btn.innerText;
+    } else {
+      btn.classList.remove('btn-loading');
+      if (btn.dataset.originalText) btn.textContent = btn.dataset.originalText;
     }
-
-    // 设置加载状态
-    button.disabled = true;
-    button.dataset.originalText = button.innerHTML;
-    button.innerHTML = `
-      <span style="display: inline-flex; align-items: center; gap: 6px;">
-        <span style="width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: btn-spin 0.6s linear infinite;"></span>
-        ${loadingText}
-      </span>
-    `;
-    button.classList.add('btn-loading');
-
-    // 添加旋转动画
-    if (!document.getElementById('btn-loading-style')) {
-      const style = document.createElement('style');
-      style.id = 'btn-loading-style';
-      style.textContent = `
-        @keyframes btn-spin {
-          to { transform: rotate(360deg); }
-        }
-        .btn-loading {
-          opacity: 0.8;
-          cursor: not-allowed;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  },
-
-  // 隐藏按钮加载状态
-  hide(button) {
-    if (!button) return;
-
-    const original = this._originalStates.get(button);
-    if (original) {
-      button.disabled = original.disabled;
-      button.innerHTML = original.text;
-      button.classList.remove('btn-loading');
-    }
-  },
-
-  // 完成后显示成功状态
-  success(button, successText = '成功', duration = 1500) {
-    if (!button) return;
-
-    const original = this._originalStates.get(button);
-    button.disabled = true;
-    button.innerHTML = `
-      <span style="display: inline-flex; align-items: center; gap: 6px;">
-        <span style="font-size: 14px;">✓</span>
-        ${successText}
-      </span>
-    `;
-    button.classList.add('btn-success');
-
-    setTimeout(() => {
-      if (original) {
-        button.disabled = original.disabled;
-        button.innerHTML = original.text;
-        button.classList.remove('btn-success');
-      }
-    }, duration);
-  },
-
-  // 完成后显示错误状态
-  error(button, errorText = '失败', duration = 2000) {
-    if (!button) return;
-
-    const original = this._originalStates.get(button);
-    button.disabled = true;
-    button.innerHTML = `
-      <span style="display: inline-flex; align-items: center; gap: 6px;">
-        <span style="font-size: 14px;">✕</span>
-        ${errorText}
-      </span>
-    `;
-    button.classList.add('btn-error');
-
-    setTimeout(() => {
-      if (original) {
-        button.disabled = original.disabled;
-        button.innerHTML = original.text;
-        button.classList.remove('btn-error');
-      }
-    }, duration);
-  },
-
-  // 清除所有按钮状态
-  clearAll() {
-    // WeakMap 需要手动清理，这里只是移除样式
   }
 };
 
-// 添加按钮成功/错误状态样式
+// 添加按钮状态样式
 const btnStateStyle = document.createElement('style');
 btnStateStyle.textContent = `
-  .btn-success {
-    background: #10B981 !important;
-    opacity: 1 !important;
+  .btn-loading { opacity: 0.7; pointer-events: none; }
+  .btn-loading::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
   }
-  .btn-error {
-    background: #EF4444 !important;
-    opacity: 1 !important;
-  }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .btn-success { background: #10B981 !important; }
+  .btn-error { background: #EF4444 !important; opacity: 1 !important; }
 `;
 document.head.appendChild(btnStateStyle);
 
-// 添加旋转动画样式
-if (!document.getElementById('toast-animations')) {
-  const style = document.createElement('style');
-  style.id = 'toast-animations';
-  style.textContent = `
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  `;
-  document.head.appendChild(style);
-}
+// Toast 样式
+const toastStyle = document.createElement('style');
+toastStyle.textContent = `
+  .app-toast {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top));
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate3d(-50%, 0, 0);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-toast-message {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    min-width: 0;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+  }
+  .app-toast--loading .app-toast-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .app-toast-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(99, 102, 241, 0.24);
+    border-top-color: #6366F1;
+    border-radius: 999px;
+    animation: appToastSpin 780ms linear infinite;
+  }
+  @keyframes appToastSpin { to { transform: rotate(360deg); } }
+  .app-toast--success { --toast-accent: #10B981; }
+  .app-toast--error { --toast-accent: #EF4444; }
+  .app-toast--warning { --toast-accent: #F59E0B; }
+  .app-toast--info { --toast-accent: #3B82F6; }
+  .app-toast--loading { --toast-accent: #6366F1; }
+`;
+document.head.appendChild(toastStyle);
 
-// 导出到全局
+// 全局方法
 window.Toast = Toast;
 window.ButtonLoading = ButtonLoading;
+window.AppToast = {
+  show(message, options = {}) {
+    const type = options.type || 'info';
+    const duration = options.duration || 2500;
+    Toast.show(message, type, duration);
+  },
+  success(message, duration) { Toast.success(message, duration); },
+  error(message, duration) { Toast.error(message, duration); },
+  warning(message, duration) { Toast.warning(message, duration); },
+  info(message, duration) { Toast.info(message, duration); },
+  loading(message) { Toast.loading(message); }
+};

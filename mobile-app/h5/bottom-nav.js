@@ -351,6 +351,11 @@ function handleNavClick(item, index) {
       sessionStorage.removeItem('currentTab');
     }
     
+    // 返回home.html时清除入口加载标记
+    if (config.page === 'home.html') {
+      sessionStorage.removeItem('fromAgentEntryLoading');
+    }
+    
     // 跳转到其他页面
     setTimeout(() => {
       if (config.page === 'home.html' && config.target) {
@@ -376,3 +381,29 @@ if (document.readyState === 'loading') {
 } else {
   initBottomNav();
 }
+
+// 页面隐藏时隐藏 loading 弹窗（禁止触发 show，只能 hide）
+window.addEventListener('pagehide', function() {
+  console.log('[BottomNav] pagehide: hide loading popup only, do not show');
+  hideLoadingPopup();
+});
+
+// 页面显示时清理任何残留 loading
+window.addEventListener('pageshow', function() {
+  console.log('[BottomNav] pageshow: cleanup if needed');
+  hideLoadingPopup();
+});
+
+// visibilitychange 只能 hide，不能 show
+window.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'hidden') {
+    console.log('[BottomNav] visibility hidden: hide loading popup');
+    hideLoadingPopup();
+  }
+});
+
+// popstate 只能 hide，不能 show
+window.addEventListener('popstate', function() {
+  console.log('[BottomNav] popstate: hide loading popup');
+  hideLoadingPopup();
+});

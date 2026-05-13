@@ -24,108 +24,47 @@
       box-sizing: border-box;
     }
     
+    /* 薄层兼容映射 - 使用全局变量并保留局部语义别名 */
     :root,
     html[data-theme="dark"] {
-      --bg-primary: #0A0F1C;
-      --bg-secondary: #10182A;
-      --card-bg: #111C31;
+      /* 保留局部卡片变量 - 语义别名 */
+      --card-bg: var(--bg-card);
       --card-hover: #16233D;
-      --border-primary: rgba(96, 165, 250, 0.28);
-      --border-secondary: rgba(148, 163, 184, 0.16);
-      --divider: rgba(148, 163, 184, 0.10);
-      --text-primary: #F8FAFC;
-      --text-secondary: #CBD5E1;
-      --text-tertiary: #94A3B8;
-      --text-muted: #64748B;
-      --brand-primary: #60A5FA;
-      --brand-secondary: #3B82F6;
-      --accent-blue: #60A5FA;
-      --accent-blue-light: #93C5FD;
-      --accent-cyan: #22C7D6;
-      --brand-gradient: linear-gradient(135deg, #4A8DFF 0%, #3B7AE8 100%);
-      --success: #22C55E;
-      --warning: #F59E0B;
-      --error: #EF4444;
-      --info: #38BDF8;
+      --border-card: var(--border-primary);
+      --border-card-light: var(--border-secondary);
+      --border-accent: rgba(96, 165, 250, 0.35);
+      --divider: var(--border-secondary);
+      
+      /* 局部图标背景 */
+      --icon-bg: rgba(96, 165, 250, 0.1);
+      --icon-bg-active: var(--bg-active);
+      
+      /* 模态框 */
       --modal-bg: rgba(22, 35, 61, 0.95);
       --modal-card-bg: #111C31;
-      --chart-grid: rgba(148, 163, 184, 0.10);
-      --tooltip-bg: #16233D;
-      --tooltip-title: #F8FAFC;
-      --tooltip-body: #CBD5E1;
-      --border-radius-sm: 10px;
-      --border-radius: 16px;
-      --border-radius-lg: 20px;
+      
+      /* 图表 */
+      --chart-grid: var(--border-secondary);
     }
 
     html[data-theme="light"] {
-      /* 页面背景 - 奶白底 */
-      --bg-primary: #F6FAFF;
-      --bg-secondary: #F5F9FF;
-      
-      /* 卡片系统 - 白卡片 + 次级块 */
-      --card-bg: #FFFFFF;
+      /* 保留局部卡片变量 */
+      --card-bg: var(--bg-card);
       --card-bg-soft: #F5F9FF;
       --card-highlight: linear-gradient(135deg, #F0F7FF 0%, #E8F2FF 100%);
-      --bg-card: #FFFFFF;
-      --bg-card-hover: #FAFCFF;
       --card-hover: #FAFCFF;
-      
-      /* 边框 - 轻蓝描边 */
-      --border-card: #E8F0FF;
-      --border-primary: #E8F0FF;
-      --border-secondary: rgba(140, 170, 220, 0.12);
+      --border-card: var(--border-primary);
+      --border-card-light: var(--border-secondary);
       --border-accent: #D8E7FF;
       --divider: rgba(140, 170, 220, 0.08);
       
-      /* 文字 - 清晰层次 */
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-tertiary: #6B7A90;
-      --text-muted: #94A3B8;
-      
-      /* 品牌色 - 柔和亮蓝 */
-      --brand-primary: #4A8DFF;
-      --brand-secondary: #6BA8FF;
-      --brand-soft: #EAF3FF;
+      /* 图标背景 */
       --icon-bg: #EAF3FF;
+      --icon-bg-active: var(--bg-active);
       
-      /* 功能色 */
-      --accent-blue: #2563EB;
-      --accent-blue-light: #60A5FA;
-      --accent-cyan: #0891B2;
-      --brand-gradient: linear-gradient(135deg, #4A8DFF 0%, #2563EB 100%);
-      --success: #1BD4A0;
-      --success-bg: rgba(27, 212, 160, 0.15);
-      --warning: #D97706;
-      --warning-bg: #FFF5E8;
-      --error: #DC2626;
-      --error-bg: #FDECEC;
-      --info: #0284C7;
-      --info-bg: #E0F2FE;
-      
-      /* 弹窗 */
-      --modal-bg: rgba(246, 250, 255, 0.98);
-      --modal-card-bg: #FFFFFF;
-      
-      /* 图表 */
-      --chart-grid: rgba(140, 170, 220, 0.06);
-      
-      /* 悬浮框 */
-      --tooltip-bg: #FFFFFF;
-      --tooltip-title: #0F172A;
-      --tooltip-body: #475569;
-      
-      /* 阴影 - 轻阴影 */
-      --shadow-card: 0 10px 30px rgba(89, 123, 189, 0.08);
-      --shadow-card-hover: 0 14px 40px rgba(89, 123, 189, 0.12);
-      --shadow-soft: 0 2px 8px rgba(89, 123, 189, 0.04);
-      --shadow-icon: 0 4px 12px rgba(74, 141, 255, 0.15);
-      
-      /* 圆角 - 更柔和 */
-      --border-radius-sm: 10px;
-      --border-radius: 16px;
-      --border-radius-lg: 20px;
+      /* 模态框 */
+      --modal-bg: rgba(255, 255, 255, 0.95);
+      --modal-card-bg: var(--bg-card);
     }
 
     /* 浅色模式卡片样式 - 白卡 + 轻阴影 */
@@ -247,26 +186,26 @@
       color: var(--brand-primary);
     }
 
-    /* 浅色模式 - 信号条颜色（白色，无发光） */
+    /* 浅色模式 - 信号条颜色（品牌绿色） */
     html[data-theme="light"] .device-main-card .signal-bar {
-      background: rgba(255, 255, 255, 0.9) !important;
+      background: var(--success) !important;
       box-shadow: none;
     }
 
     html[data-theme="light"] .device-main-card[data-signal="weak"] .signal-bar:nth-child(1),
     html[data-theme="light"] .device-main-card[data-signal="weak"] .signal-bar:nth-child(2) {
-      background: rgba(255, 255, 255, 0.9) !important;
+      background: var(--success) !important;
       box-shadow: none;
     }
 
     html[data-theme="light"] .device-main-card[data-signal="weak"] .signal-bar:nth-child(3),
     html[data-theme="light"] .device-main-card[data-signal="weak"] .signal-bar:nth-child(4) {
-      background: rgba(255, 255, 255, 0.3) !important;
+      background: rgba(16, 185, 129, 0.3) !important;
       box-shadow: none;
     }
 
     html[data-theme="light"] .device-main-card[data-signal="strong"] .signal-bar {
-      background: rgba(255, 255, 255, 0.9) !important;
+      background: var(--success) !important;
       box-shadow: none;
     }
 
@@ -2409,6 +2348,129 @@
     .delay-5 { animation-delay: 0.36s; opacity: 0; }
     .delay-6 { animation-delay: 0.43s; opacity: 0; }
     .delay-7 { animation-delay: 0.50s; opacity: 0; }
+  /* 设备对话加载弹窗 */
+    .device-chat-loading {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+    }
+    .device-chat-loading.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .device-chat-loading-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.28);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 180ms ease;
+    }
+    html[data-theme="dark"] .device-chat-loading-mask {
+      background: rgba(2, 6, 23, 0.58);
+      backdrop-filter: blur(14px);
+    }
+    .device-chat-loading-card {
+      position: relative;
+      width: min(320px, calc(100vw - 48px));
+      padding: 24px 22px 22px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      text-align: center;
+      animation: loadingCardIn 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    html[data-theme="dark"] .device-chat-loading-card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+    }
+    @keyframes loadingCardIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .device-chat-loading-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+    }
+    .device-chat-loading-icon::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(59, 130, 246, 0.28);
+      border-radius: 24px;
+      animation: iconPulse 1.6s infinite;
+    }
+    @keyframes iconPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+    .device-chat-loading-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+      fill: none;
+    }
+    .device-chat-loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+    html[data-theme="dark"] .device-chat-loading-title {
+      color: #F1F5F9;
+    }
+    .device-chat-loading-desc {
+      font-size: 14px;
+      color: #64748B;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+    .device-chat-loading-progress {
+      height: 5px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    html[data-theme="dark"] .device-chat-loading-progress {
+      background: rgba(148, 163, 184, 0.18);
+    }
+    .device-chat-loading-progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #38BDF8 0%, #3B82F6 50%, #6366F1 100%);
+      border-radius: 999px;
+      transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .device-chat-loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+    .device-chat-loading-steps .step-item {
+      transition: color 0.2s ease;
+    }
+    .device-chat-loading-steps .step-item.active {
+      color: #3B82F6;
+      font-weight: 600;
+    }
   </style>
   <script src="/h5/js/utils/storage.js"></script>
   <script src="/h5/js/utils/navigation.js"></script>
@@ -2454,60 +2516,55 @@
           <!-- 背景装饰 -->
           <div style="position: absolute; top: -30%; right: -10%; width: 120px; height: 120px; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);"></div>
           
-          <!-- 右上角信号 -->
-          <div class="device-signal" data-signal="strong" style="position: absolute; top: 16px; right: 18px;">
-            <div class="signal-bars">
-              <div class="signal-bar"></div>
-              <div class="signal-bar"></div>
-              <div class="signal-bar"></div>
-              <div class="signal-bar"></div>
-            </div>
-          </div>
-          
           <!-- 上部：设备信息 -->
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <div style="width: 44px; height: 44px; background: rgba(255,255,255,0.18); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1.8" style="width: 22px; height: 22px;">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <rect x="7" y="7" width="3" height="3"/>
-                <rect x="14" y="7" width="3" height="3"/>
-                <rect x="7" y="14" width="3" height="3"/>
-                <rect x="14" y="14" width="3" height="3"/>
+          <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+            <div style="flex: 1; min-width: 0; padding-top: 2px;">
+              <div id="deviceCardName" style="font-size: 21px; font-weight: 700; color: white; letter-spacing: -0.3px;">深蕾小龙虾 chip(39B0)</div>
+              <div id="deviceCardId" style="font-size: 13px; color: rgba(255,255,255,0.7);">435E98-435E989A39B0</div>
+            </div>
+            <button onclick="handleAction('重新连接', '正在重新连接...')" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s;" title="重新连接">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                <path d="M21 3v5h-5"/>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                <path d="M8 16H3v5"/>
               </svg>
-            </div>
-            <div style="flex: 1; min-width: 0;">
-              <div style="font-size: 22px; font-weight: 700; color: white; margin-bottom: 3px; letter-spacing: -0.3px;">深蕾小龙虾 chip(39B0)</div>
-              <div style="font-size: 13px; color: rgba(255,255,255,0.7);">435E98-435E989A39B0</div>
-            </div>
+            </button>
           </div>
           
           <!-- 中部：三栏信息容器 -->
           <div style="background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 16px; padding: 14px 16px; margin-bottom: 16px;">
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-              <!-- 状态 -->
+              <!-- 连接 -->
               <div style="text-align: center;">
-                <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 5px;">状态</div>
-                <div style="font-size: 13px; font-weight: 600; color: white;">● 在线</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 5px;">连接</div>
+                <div id="deviceConnectionStatus" style="display: flex; justify-content: center; align-items: center; height: 20px;">
+                  <div class="signal-bars" style="height: 16px; display: flex; align-items: flex-end; gap: 2px;">
+                    <div class="signal-bar" style="width: 3px; height: 4px; background: var(--success); border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 7px; background: var(--success); border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 10px; background: var(--success); border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 13px; background: var(--success); border-radius: 1px;"></div>
+                  </div>
+                </div>
               </div>
               <!-- 智能体 -->
               <div style="text-align: center; border-left: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15);">
                 <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 5px;">智能体</div>
-                <div style="font-size: 13px; font-weight: 600; color: white;">运行中</div>
+                <div id="deviceAgentStatus" style="font-size: 13px; font-weight: 600; color: white;">未检测</div>
               </div>
               <!-- 模型 -->
               <div style="text-align: center;">
                 <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 5px;">模型</div>
-                <div style="font-size: 13px; font-weight: 600; color: white;">Qwen 3.6</div>
+                <div id="deviceModelText" style="font-size: 13px; font-weight: 600; color: white;">未配置</div>
               </div>
             </div>
           </div>
           
-          <!-- 底部：操作按钮和算力摘要 -->
+          <!-- 底部：算力摘要 -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
-            <button onclick="handleAction('重新连接', '正在重新连接...')" style="padding: 10px 18px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 14px; color: white; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; height: 40px;">
-              重新连接
-            </button>
+            <div></div>
             <div id="computeSummary" style="font-size: 12px; color: rgba(255,255,255,0.82);">
+              <!-- TODO: 等待真实算力消耗接口或字段接入 -->
               算力：暂无记录
             </div>
           </div>
@@ -2518,7 +2575,7 @@
       <div style="margin-bottom: 12px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">已装配模型</span>
-          <span onclick="Navigation.goTo('model-switch.html')" style="font-size: 11px; color: var(--primary); cursor: pointer;">修改 ></span>
+          <span onclick="Navigation.goTo('model-skill.html')" style="font-size: 11px; color: var(--primary); cursor: pointer;">修改 ></span>
         </div>
         <div style="background: var(--card-bg); border: 1px solid var(--border-card); border-radius: 12px; padding: 12px; margin-bottom: 12px;">
           <div style="display: flex; align-items: center; gap: 10px;">
@@ -2537,7 +2594,7 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">已装配技能</span>
-          <span onclick="Navigation.goTo('skill-execute.html')" style="font-size: 11px; color: var(--primary); cursor: pointer;">执行 ></span>
+          <span onclick="Navigation.goTo('model-skill.html')" style="font-size: 11px; color: var(--primary); cursor: pointer;">执行 ></span>
         </div>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
           <div style="background: var(--card-bg); border: 1px solid var(--border-card); border-radius: 10px; padding: 10px;">
@@ -2580,20 +2637,20 @@
         <div style="background: var(--card-bg); border-radius: 16px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
             <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">应用连接</span>
-            <span style="font-size: 11px; color: var(--text-tertiary);">查看全部 ></span>
+            <span style="font-size: 11px; color: var(--text-tertiary); cursor: pointer;" onclick="window.location.href='connection-center.html'">查看全部 ></span>
           </div>
           <div style="display: flex; gap: 14px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 5px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--success);"></span>
-              <span style="font-size: 11px; color: var(--text-secondary);">飞书 已连接</span>
+              <span style="font-size: 11px; color: var(--text-secondary);">飞书</span>
             </div>
             <div style="display: flex; align-items: center; gap: 5px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-tertiary);"></span>
-              <span style="font-size: 11px; color: var(--text-secondary);">微信 待接入</span>
+              <span style="font-size: 11px; color: var(--text-secondary);">微信</span>
             </div>
             <div style="display: flex; align-items: center; gap: 5px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--success);"></span>
-              <span style="font-size: 11px; color: var(--text-secondary);">文档库 已挂载</span>
+              <span style="font-size: 11px; color: var(--text-secondary);">文档库</span>
             </div>
           </div>
         </div>
@@ -2601,21 +2658,21 @@
 
       <!-- 最近活动 -->
       <div class="section animate-in delay-4" style="margin-bottom: 12px;">
-        <div style="background: var(--card-bg); border-radius: 16px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="background: var(--card-bg); border-radius: 16px; padding: 14px 16px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
             <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">最近活动</span>
-            <span style="font-size: 11px; color: var(--text-tertiary);">查看全部 ></span>
+            <span style="font-size: 11px; color: var(--text-tertiary); cursor: pointer;" onclick="window.location.href='task-center.html'">查看全部 ></span>
           </div>
           <div style="text-align: center; padding: 14px 10px;">
             <div style="font-size: 12px; color: var(--text-primary); margin-bottom: 3px;">暂无设备活动</div>
-            <div style="font-size: 11px; color: var(--text-tertiary);">完成任务或同步设备后，将在这里显示记录</div>
+            <div style="font-size: 11px; color: var(--text-tertiary);">
           </div>
         </div>
       </div>
 
       <!-- 其他设备（默认收起） -->
       <div class="section animate-in delay-4" id="otherDevicesSection" style="margin-bottom: 12px; display: none;">
-        <div style="background: var(--card-bg); border-radius: 16px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="background: var(--card-bg); border-radius: 16px; padding: 14px 16px;">
           <div id="otherDevicesSummary" onclick="toggleOtherDevices()" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
             <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">其他设备</span>
             <span style="font-size: 11px; color: var(--text-tertiary);">还有 2 台设备 <span id="toggleArrow">></span></span>
@@ -2626,7 +2683,7 @@
 
       <!-- 设备管理 -->
       <div class="section animate-in delay-5" style="margin-bottom: 12px;">
-        <div style="background: var(--card-bg); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="background: var(--card-bg); border-radius: 16px; overflow: hidden;">
           <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); padding: 14px 16px; border-bottom: 1px solid var(--border-card);">设备管理</div>
           <div onclick="handleAction('查看运行日志', '正在加载...')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-card); cursor: pointer;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -2805,6 +2862,32 @@
   </div>
   
   <div class="toast" id="toast"></div>
+  
+  <!-- 设备对话加载弹窗 -->
+  <div class="device-chat-loading" id="deviceChatLoading">
+    <div class="device-chat-loading-mask"></div>
+    <div class="device-chat-loading-card">
+      <div class="device-chat-loading-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <rect x="7" y="7" width="3" height="3"/>
+          <rect x="14" y="7" width="3" height="3"/>
+          <rect x="7" y="14" width="3" height="3"/>
+          <rect x="14" y="14" width="3" height="3"/>
+        </svg>
+      </div>
+      <div class="device-chat-loading-title">正在连接小龙虾</div>
+      <div class="device-chat-loading-desc" id="loadingDesc">正在确认设备身份…</div>
+      <div class="device-chat-loading-progress">
+        <div class="device-chat-loading-progress-bar" id="loadingProgressBar"></div>
+      </div>
+      <div class="device-chat-loading-steps">
+        <span class="step-item active">设备</span>
+        <span class="step-item" id="stepService">服务</span>
+        <span class="step-item" id="stepChannel">通道</span>
+      </div>
+    </div>
+  </div>
   
   <script>
     // 调试模式开关（生产环境设为 false）
@@ -3163,26 +3246,121 @@
     // 打开小龙虾对话页
     function openOpenclawChat() {
       const device = DeviceManager.getDevice();
+      console.log('[DeviceChat] current device:', device);
+      console.log('[DeviceChat] id:', device?.id);
+      console.log('[DeviceChat] deviceId:', device?.deviceId);
+      console.log('[DeviceChat] status:', device?.status);
+      console.log('[DeviceChat] manageState:', device?.manageState);
+      console.log('[DeviceChat] onlineTime:', device?.onlineTime);
+      console.log('[DeviceChat] offlineTime:', device?.offlineTime);
+      console.log('[DeviceChat] uuid:', device?.uuid);
+      console.log('[DeviceChat] iotDeviceUuid:', device?.iotDeviceUuid);
+      console.log('[DeviceChat] routeDeviceUuid:', device?.routeDeviceUuid);
+      console.log('[DeviceChat] routeDeviceId:', device?.routeDeviceId);
+      console.log('[DeviceChat] resolvedDeviceUuid:', device?.resolvedDeviceUuid);
+      console.log('[DeviceChat] isOnline:', device?.isOnline);
       
+      // 1. 如果没有 currentDevice
       if (!device) {
-        showToast('请先选择设备');
+        showToast('未选择设备');
         return;
       }
       
-      if (!device.isOnline) {
-        showToast('设备离线，暂无法对话');
-        return;
-      }
-      
-      const deviceUuid = device.iotDeviceUuid || device.uuid || device.routeDeviceUuid;
+      // 2. 检查 resolvedDeviceUuid（设备标识）
+      const deviceUuid = device.resolvedDeviceUuid || device.iotDeviceUuid || device.uuid || device.routeDeviceUuid || device.routeDeviceId;
       if (!deviceUuid) {
         showToast('设备标识缺失，无法连接智能体');
         return;
       }
       
-      // 跳转并带上deviceId
+      // 3. 如果 isOnline === false，不阻止进入，只显示提示
+      if (!device.isOnline) {
+        showToast('设备显示离线，将尝试连接智能体服务');
+      }
+      
+      // 4. 跳转并带上真实 deviceId，使用加载弹窗
       const deviceId = device.id || device.deviceId;
-      window.location.href = '/h5/device-chat.html?deviceId=' + deviceId;
+      showDeviceChatLoading({
+        deviceName: device.name || '设备',
+        onComplete: () => {
+          window.location.href = '/h5/device-chat.html?deviceId=' + deviceId;
+        }
+      });
+    }
+    
+    // 显示设备对话加载弹窗
+    function showDeviceChatLoading(options = {}) {
+      const { deviceName = '设备', minDuration = 1200, onComplete } = options;
+      
+      const loadingEl = document.getElementById('deviceChatLoading');
+      const descEl = document.getElementById('loadingDesc');
+      const progressBar = document.getElementById('loadingProgressBar');
+      const stepService = document.getElementById('stepService');
+      const stepChannel = document.getElementById('stepChannel');
+      
+      if (!loadingEl || !descEl || !progressBar) {
+        onComplete?.();
+        return;
+      }
+      
+      // 显示弹窗
+      loadingEl.classList.add('show');
+      
+      // 阶段配置
+      const phases = [
+        { percent: '20%', desc: '正在确认设备身份…', steps: ['设备'] },
+        { percent: '45%', desc: '正在检测智能体服务…', steps: ['设备', '服务'] },
+        { percent: '72%', desc: '正在建立对话通道…', steps: ['设备', '服务', '通道'] },
+        { percent: '100%', desc: '准备进入设备对话…', steps: ['设备', '服务', '通道'] }
+      ];
+      
+      let currentPhase = 0;
+      let startTime = Date.now();
+      
+      // 阶段更新函数
+      const updatePhase = (phase) => {
+        if (phase >= phases.length) return;
+        currentPhase = phase;
+        const p = phases[phase];
+        
+        if (descEl) descEl.textContent = p.desc;
+        if (progressBar) progressBar.style.width = p.percent;
+        
+        // 更新步骤点
+        if (stepService) stepService.classList.toggle('active', p.steps.length > 1);
+        if (stepChannel) stepChannel.classList.toggle('active', p.steps.length > 2);
+      };
+      
+      // 启动阶段动画
+      const runPhases = () => {
+        if (currentPhase < phases.length - 1) {
+          setTimeout(() => {
+            updatePhase(currentPhase + 1);
+            runPhases();
+          }, 360);
+        }
+      };
+      
+      // 开始动画
+      updatePhase(0);
+      setTimeout(runPhases, 360);
+      
+      // 完成后跳转
+      const complete = () => {
+        updatePhase(phases.length - 1);
+        setTimeout(() => {
+          loadingEl.classList.remove('show');
+          onComplete?.();
+        }, 320);
+      };
+      
+      // 确保最小显示时间
+      const elapsed = Date.now() - startTime;
+      if (elapsed >= minDuration) {
+        complete();
+      } else {
+        setTimeout(complete, minDuration - elapsed);
+      }
     }
 
     function handleAction(action, message) {
@@ -3643,8 +3821,8 @@
       }
     });
 
-    // 切换当前设备（视觉切换，无需后端接口）
-    function switchToDevice(deviceId) {
+    // 切换当前设备（同时刷新设备状态）
+    async function switchToDevice(deviceId) {
       const dropdown = document.getElementById('deviceListDropdown');
       dropdown.style.display = 'none';
       deviceDropdownOpen = false;
@@ -3663,7 +3841,18 @@
         return;
       }
       
-      // 视觉切换当前设备（不调用后端）
+      // 先刷新设备详情获取最新状态
+      try {
+        const freshDevice = await DeviceManager.getDeviceDetail(deviceId);
+        if (freshDevice) {
+          device = freshDevice;
+          console.log('[DevicePage] 已刷新设备状态:', device.isOnline);
+        }
+      } catch (e) {
+        console.warn('[DevicePage] 刷新设备状态失败，使用缓存:', e);
+      }
+      
+      // 更新当前设备
       DeviceManager.setDevice(device);
       
       // 更新UI
@@ -3680,8 +3869,8 @@
       showToast('已选择 ' + (device.name || '设备'));
     }
 
-    // 卡片式切换设备
-    function switchToDeviceCard(deviceId) {
+    // 卡片式切换设备（同时刷新设备状态）
+    async function switchToDeviceCard(deviceId) {
       // 查找设备
       const device = deviceListCache.find(d => {
         return d.id === deviceId || 
@@ -3696,7 +3885,18 @@
         return;
       }
       
-      // 视觉切换当前设备
+      // 先刷新设备详情获取最新状态
+      try {
+        const freshDevice = await DeviceManager.getDeviceDetail(deviceId);
+        if (freshDevice) {
+          device = freshDevice;
+          console.log('[DevicePage] 已刷新设备状态:', device.isOnline);
+        }
+      } catch (e) {
+        console.warn('[DevicePage] 刷新设备状态失败，使用缓存:', e);
+      }
+      
+      // 更新当前设备
       DeviceManager.setDevice(device);
       
       // 重新渲染页面
@@ -4090,14 +4290,86 @@
       const deviceIdEl = document.querySelector('.device-id');
       const modelEl = document.getElementById('deviceCurrentModel');
 
+      // ========== 1. 设备名称（来自真实API: name字段）==========
+      const deviceName = currentDevice.name || currentDevice.productName || currentDevice.model || '未命名设备';
+      const nameEl = document.getElementById('deviceCardName');
+      if (nameEl) {
+        nameEl.textContent = deviceName;
+      }
+
+      // ========== 2. 设备编号（来自真实API: sn/uuid字段）==========
+      const deviceId = currentDevice.sn || currentDevice.uuid || currentDevice.iotDeviceUuid || currentDevice.mac || '--';
+      const idEl = document.getElementById('deviceCardId');
+      if (idEl) {
+        idEl.textContent = deviceId;
+      }
+
+      // ========== 3. 连接状态（来自真实API: status字段）==========
+      const status = currentDevice.status ? currentDevice.status.toLowerCase() : 'offline';
+      const isOnline = ['running', 'online', 'active'].includes(status);
+      
+      // 更新连接状态栏的信号标
+      const connectionEl = document.getElementById('deviceConnectionStatus');
+      if (connectionEl) {
+        const signalBars = connectionEl.querySelector('.signal-bars');
+        if (signalBars) {
+          const bars = signalBars.querySelectorAll('.signal-bar');
+          if (isOnline) {
+            // 在线：显示绿色信号
+            bars.forEach(bar => {
+              bar.style.background = 'var(--success)';
+              bar.style.opacity = '1';
+            });
+          } else {
+            // 离线：显示弱化信号
+            bars.forEach(bar => {
+              bar.style.background = 'var(--text-tertiary)';
+              bar.style.opacity = '0.3';
+            });
+          }
+        }
+      }
+
+      // ========== 4. 智能体状态（需调用queryRunInfo，暂无时显示未检测）==========
+      const agentStatusEl = document.getElementById('deviceAgentStatus');
+      if (agentStatusEl) {
+        // TODO: 等待真实queryRunInfo接口接入
+        // 暂时显示"未检测"，等待小龙虾连接建立后更新
+        agentStatusEl.textContent = '未检测';
+      }
+
+      // ========== 5. 模型（来自本地配置或设备attachJson字段）==========
+      // 优先级：本地当前模型 > device.attachJson.model > device.classProperties > 未配置
+      let modelName = '未配置';
+      const currentModel = Storage.Model.getCurrentModel();
+      if (currentModel && currentModel.name) {
+        modelName = currentModel.name;
+      } else if (currentDevice.attachJson) {
+        try {
+          const attach = typeof currentDevice.attachJson === 'string' 
+            ? JSON.parse(currentDevice.attachJson) 
+            : currentDevice.attachJson;
+          modelName = attach.model || attach.classProperties || '未配置';
+        } catch (e) {
+          modelName = '未配置';
+        }
+      } else if (currentDevice.classProperties) {
+        modelName = currentDevice.classProperties;
+      }
+      const modelTextEl = document.getElementById('deviceModelText');
+      if (modelTextEl) {
+        modelTextEl.textContent = modelName;
+      }
+
+      // 更新其他位置的显示
       if (deviceNameEl) {
-        deviceNameEl.textContent = currentDevice.name || '小鲸鱼-数字大脑';
+        deviceNameEl.textContent = deviceName;
       }
       if (deviceIdEl) {
-        deviceIdEl.textContent = currentDevice.deviceId || '';
+        deviceIdEl.textContent = deviceId;
       }
       if (modelEl) {
-        modelEl.innerHTML = (currentDevice.modelName || '未知') + ' <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.5; margin-left: 2px;"><path d="M9 18l6-6-6-6"/></svg>';
+        modelEl.innerHTML = modelName + ' <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.5; margin-left: 2px;"><path d="M9 18l6-6-6-6"/></svg>';
       }
     }
 

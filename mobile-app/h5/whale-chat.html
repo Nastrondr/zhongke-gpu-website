@@ -25,47 +25,40 @@
   <link rel="stylesheet" href="css/theme-variables.css">
   <link rel="stylesheet" href="bottom-nav.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* 薄层兼容映射 - 使用全局变量并保留小鲸鱼特有颜色 */
     :root,
     html[data-theme="dark"] {
+      /* 页面背景使用全局变量 */
       --bg-primary: linear-gradient(180deg, #0a1628 0%, #0d1f3a 50%, #0a1628 100%);
-      --bg-card: rgba(30, 58, 138, 0.25);
-      --bg-card-hover: rgba(37, 99, 235, 0.3);
+      --bg-card: var(--bg-card);
+      --bg-card-hover: #16233D;
       --bg-input: rgba(15, 23, 42, 0.8);
-      --border-card: rgba(37, 99, 235, 0.4);
-      --border-input: rgba(37, 99, 235, 0.5);
-      --text-primary: #ffffff;
-      --text-secondary: rgba(255, 255, 255, 0.7);
-      --text-tertiary: rgba(255, 255, 255, 0.5);
-      --accent-blue: #2563eb;
-      --accent-blue-light: #60a5fa;
+      --border-card: var(--border-primary);
+      --border-input: var(--border-focus);
+      --text-primary: var(--text-primary);
+      --text-secondary: var(--text-secondary);
+      --text-tertiary: var(--text-tertiary);
+      --accent-blue: var(--primary);
+      --accent-blue-light: var(--primary-light);
       --accent-cyan: #06b6d4;
-      --success: #10b981;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      --success: var(--success);
     }
 
     /* 浅色模式 - 专业 AI 对话风格 */
     html[data-theme="light"] {
       --bg-primary: #F7FAFC;
-      --bg-card: #FFFFFF;
+      --bg-card: var(--bg-card);
       --bg-card-hover: #FBFDFF;
       --bg-input: #F8FAFC;
-      --border-card: #E2E8F0;
+      --border-card: var(--border-primary);
       --border-input: #D7E3F8;
-      --text-primary: #334155;
-      --text-secondary: #475569;
-      --text-tertiary: #94A3B8;
-      --accent-blue: #2563EB;
-      --accent-blue-light: #3B82F6;
+      --text-primary: var(--text-primary);
+      --text-secondary: var(--text-secondary);
+      --text-tertiary: var(--text-tertiary);
+      --accent-blue: var(--primary);
+      --accent-blue-light: var(--primary-light);
       --accent-cyan: #0891B2;
-      --success: #10B981;
-      --shadow-card: 0 4px 14px rgba(15, 23, 42, 0.035);
-      --shadow-card-hover: 0 8px 20px rgba(15, 23, 42, 0.08);
+      --success: var(--success);
     }
     
     body {
@@ -110,7 +103,10 @@
     .header {
       background: rgba(10, 22, 40, 0.95);
       backdrop-filter: blur(20px);
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
     }
 
@@ -1036,26 +1032,26 @@
       bottom: 0;
       left: 0;
       right: 0;
+      display: flex;
+      justify-content: center;
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
       background: transparent;
       z-index: 60;
-    }
-
-    /* 浅色模式 - 输入区 */
-    html[data-theme="light"] .input-area {
-      background: transparent;
     }
 
     .input-wrapper {
       display: flex;
       align-items: center;
       gap: 14px;
+      width: var(--bottom-control-width);
+      height: var(--bottom-control-height);
+      min-height: var(--bottom-control-height);
+      max-height: var(--bottom-control-height);
+      margin: 0 auto;
       background: #111317;
       border-radius: 999px;
-      padding: 8px 14px;
-      min-height: 64px;
-      max-width: 398px;
-      margin: 0 auto;
+      padding: 0 14px;
+      box-sizing: border-box;
     }
 
     /* 浅色模式 - 输入框包装 */
@@ -2586,6 +2582,137 @@
       color: #8b5cf6;
       cursor: pointer;
     }
+  /* 智能体加载弹窗 */
+    .agent-loading {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+    }
+    .agent-loading.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .agent-loading-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.28);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 180ms ease;
+    }
+    html[data-theme="dark"] .agent-loading-mask {
+      background: rgba(2, 6, 23, 0.58);
+      backdrop-filter: blur(14px);
+    }
+    .agent-loading-card {
+      position: relative;
+      width: min(320px, calc(100vw - 48px));
+      padding: 24px 22px 22px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      text-align: center;
+      animation: loadingCardIn 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    html[data-theme="dark"] .agent-loading-card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+    }
+    @keyframes loadingCardIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .agent-loading-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+    }
+    .agent-loading-icon::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      border-radius: 24px;
+      animation: iconPulse 1.6s infinite;
+    }
+    @keyframes iconPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+    .agent-loading-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+      fill: none;
+    }
+    .agent-loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+    html[data-theme="dark"] .agent-loading-title {
+      color: #F1F5F9;
+    }
+    .agent-loading-desc {
+      font-size: 14px;
+      color: #64748B;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+    .agent-loading-progress {
+      height: 5px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    html[data-theme="dark"] .agent-loading-progress {
+      background: rgba(148, 163, 184, 0.18);
+    }
+    .agent-loading-progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #22D3EE 0%, #06B6D4 50%, #8B5CF6 100%);
+      border-radius: 999px;
+      transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    /* 深色模式修复 */
+    html[data-theme="dark"] .welcome-title {
+      background: linear-gradient(135deg, #F8FAFC 0%, #38BDF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    html[data-theme="dark"] .welcome-subtitle {
+      color: #22D3EE;
+    }
+    html[data-theme="dark"] .welcome-desc {
+      color: #94A3B8;
+    }
+    html[data-theme="dark"] .model-switcher svg {
+      stroke: #94A3B8;
+    }
+    html[data-theme="dark"] #welcomeBubble {
+      background: rgba(30, 41, 59, 0.8) !important;
+      border: 1px solid rgba(51, 65, 85, 0.5) !important;
+      color: #F8FAFC !important;
+    }
   </style>
 </head>
 <body class="page-whale-chat">
@@ -2823,7 +2950,7 @@
     <!-- 技能条 -->
     <div class="skills-bar-wrapper">
       <div class="skills-scroll">
-        <span class="skill-tag" onclick="sendSkill('文档处理')" style="position:relative;display:inline-block;">文档处理<span style="position:absolute;top:-6px;right:-6px;background:#FEF3C7;color:#D97706;font-size:9px;padding:1px 4px;border-radius:4px;font-weight:600;">测试</span></span>
+        <span class="skill-tag" onclick="sendSkill('文档处理')">文档处理</span>
         <span class="skill-tag" onclick="sendSkill('行情速览')">行情速览</span>
         <span class="skill-tag" onclick="sendSkill('资讯总结')">资讯总结</span>
         <span class="skill-tag" onclick="sendSkill('风险提示')">风险提示</span>
@@ -2871,7 +2998,7 @@
     </div>
 
     <!-- 多模态输入菜单 -->
-    <div class="attach-menu" id="attachMenu" style="display: none; position: fixed; bottom: 95px; left: 16px; right: 16px; background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); z-index: 9999;">
+    <div class="attach-menu" id="attachMenu" style="display: none; position: fixed; bottom: 95px; left: 16px; right: 16px; background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: none; z-index: 9999;">
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
         <div class="attach-option" onclick="handleMultimodalUpload('image')" style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: var(--card-bg-soft); border-radius: 12px; cursor: pointer; transition: all 0.2s;">
           <div style="width: 40px; height: 40px; background: rgba(37, 99, 235, 0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
@@ -4982,6 +5109,82 @@
       }, 2000);
     }
     
+    // 智能体入口加载弹窗
+    let isAgentLoading = false;
+    function showAgentEntryLoading(options = {}) {
+      const {
+        title = '正在唤醒小鲸鱼',
+        minDuration = 1200,
+        onComplete
+      } = options;
+      
+      if (isAgentLoading) {
+        onComplete?.();
+        return;
+      }
+      
+      const loadingEl = document.getElementById('agentLoading');
+      const titleEl = document.getElementById('agentLoadingTitle');
+      const descEl = document.getElementById('agentLoadingDesc');
+      const progressBar = document.getElementById('agentLoadingProgressBar');
+      
+      if (!loadingEl || !descEl || !progressBar) {
+        onComplete?.();
+        return;
+      }
+      
+      isAgentLoading = true;
+      loadingEl.classList.add('show');
+      
+      if (titleEl) titleEl.textContent = title;
+      
+      const phases = [
+        { percent: '20%', desc: '正在连接个人数字大脑…' },
+        { percent: '45%', desc: '正在加载对话上下文…' },
+        { percent: '72%', desc: '正在准备智能助手…' },
+        { percent: '100%', desc: '即将进入…' }
+      ];
+      
+      let currentPhase = 0;
+      let startTime = Date.now();
+      
+      const updatePhase = (phase) => {
+        if (phase >= phases.length) return;
+        currentPhase = phase;
+        const p = phases[phase];
+        if (descEl) descEl.textContent = p.desc;
+        if (progressBar) progressBar.style.width = p.percent;
+      };
+      
+      const runPhases = () => {
+        if (currentPhase < phases.length - 1) {
+          setTimeout(() => {
+            updatePhase(currentPhase + 1);
+            runPhases();
+          }, 360);
+        }
+      };
+      
+      updatePhase(0);
+      setTimeout(runPhases, 360);
+      
+      const complete = () => {
+        updatePhase(phases.length - 1);
+        setTimeout(() => {
+          loadingEl.classList.remove('show');
+          isAgentLoading = false;
+          onComplete?.();
+        }, 320);
+      };
+      
+      const elapsed = Date.now() - startTime;
+      if (elapsed >= minDuration) {
+        complete();
+      } else {
+        setTimeout(complete, minDuration - elapsed);
+      }
+    }
+    
     // 获取设备链接
     const deviceLink = accountData && accountData.deviceLink
       ? accountData.deviceLink
@@ -5296,8 +5499,16 @@
     
     // 页面卸载时清理
     window.addEventListener('beforeunload', function() {
+      console.log('[WhaleChat] pagehide: hide entry loading only, do not show');
       if (workbenchIframe.src) {
         workbenchIframe.src = '';
+      }
+    });
+    
+    // 页面隐藏时关闭残留loading弹窗
+    window.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') {
+        console.log('[WhaleChat] visibility hidden: hide loading if any');
       }
     });
 
@@ -5645,9 +5856,9 @@
 
     function handleReturnToSkills() {
       if (typeof Navigation !== 'undefined' && Navigation.goTo) {
-        Navigation.goTo('skill-execute.html?from=chat');
+        Navigation.goTo('model-skill.html?from=chat');
       } else {
-        window.location.href = 'skill-execute.html?from=chat';
+        window.location.href = 'model-skill.html?from=chat';
       }
     }
 
@@ -6189,19 +6400,17 @@
 
     // ==================== 返回首页 ====================
     function goToHome() {
-      if (typeof Navigation !== 'undefined' && Navigation.goTo) {
-        Navigation.goTo('home.html');
-      } else {
-        window.location.href = 'home.html';
-      }
+      console.log('[WhaleChat] goToHome called, navigating to home.html');
+      // 强制刷新避免缓存
+      window.location.replace('home.html?_t=' + Date.now());
     }
 
     // ==================== 跳转到执行技能页 ====================
     function goToSkillExecute() {
       if (typeof Navigation !== 'undefined' && Navigation.goTo) {
-        Navigation.goTo('skill-execute.html?from=chat');
+        Navigation.goTo('model-skill.html?from=chat');
       } else {
-        window.location.href = 'skill-execute.html?from=chat';
+        window.location.href = 'model-skill.html?from=chat';
       }
     }
   </script>
@@ -6270,4 +6479,23 @@
   </div>
   <script src="bottom-nav.js"></script>
 </body>
+  
+  <!-- 小鲸鱼/智能体加载弹窗 -->
+  <div class="agent-loading" id="agentLoading">
+    <div class="agent-loading-mask"></div>
+    <div class="agent-loading-card">
+      <div class="agent-loading-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 16v-4"/>
+          <path d="M12 8h.01"/>
+        </svg>
+      </div>
+      <div class="agent-loading-title" id="agentLoadingTitle">正在唤醒小鲸鱼</div>
+      <div class="agent-loading-desc" id="agentLoadingDesc">正在连接个人数字大脑…</div>
+      <div class="agent-loading-progress">
+        <div class="agent-loading-progress-bar" id="agentLoadingProgressBar"></div>
+      </div>
+    </div>
+  </div>
 </html>

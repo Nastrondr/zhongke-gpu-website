@@ -15,6 +15,7 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="css/theme-variables.css">
+  <link rel="stylesheet" href="css/splash.css">
   <link rel="stylesheet" href="bottom-nav.css">
   <style>
     * {
@@ -1257,6 +1258,111 @@
       color: #0F172A;
       box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
     }
+    /* 设备对话加载弹窗 */
+    .device-chat-loading {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+    }
+    .device-chat-loading.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .device-chat-loading-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.28);
+      backdrop-filter: blur(12px);
+    }
+    html[data-theme="dark"] .device-chat-loading-mask {
+      background: rgba(2, 6, 23, 0.58);
+      backdrop-filter: blur(14px);
+    }
+    .device-chat-loading-card {
+      position: relative;
+      width: min(320px, calc(100vw - 48px));
+      padding: 24px 22px 22px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      text-align: center;
+      animation: loadingCardIn 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    html[data-theme="dark"] .device-chat-loading-card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+    }
+    @keyframes loadingCardIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .device-chat-loading-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .device-chat-loading-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+      fill: none;
+    }
+    .device-chat-loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+    html[data-theme="dark"] .device-chat-loading-title {
+      color: #F1F5F9;
+    }
+    .device-chat-loading-desc {
+      font-size: 14px;
+      color: #64748B;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+    .device-chat-loading-progress {
+      height: 5px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    html[data-theme="dark"] .device-chat-loading-progress {
+      background: rgba(148, 163, 184, 0.18);
+    }
+    .device-chat-loading-progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #38BDF8 0%, #3B82F6 50%, #6366F1 100%);
+      border-radius: 999px;
+      transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .device-chat-loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+    .device-chat-loading-steps .step-item {
+      transition: color 0.2s ease;
+    }
+    .device-chat-loading-steps .step-item.active {
+      color: #3B82F6;
+      font-weight: 600;
+    }
   </style>
   
   <!-- Toast 提示 -->
@@ -1356,7 +1462,6 @@
           </div>
           <div id="deviceNameDisplay" style="font-size: 22px; font-weight: 700; color: var(--text-primary);">小鲸鱼-数字大脑 01</div>
         </div>
-        <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 14px;">设备已关联当前账号</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
           <div class="info-block" style="background: var(--card-bg-soft); border-radius: var(--border-radius-sm); padding: 14px;">
             <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 6px;">当前任务</div>
@@ -1398,17 +1503,16 @@
       </a>
 
       <!-- 小鲸鱼快捷入口 - 第二核心入口 -->
-      <a href="whale-chat.html" id="whaleQuickCard" class="quick-card" style="background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 14px;">
-        <div class="quick-icon icon-wrapper" id="whaleQuickIcon" style="width: 44px; height: 44px; flex-shrink: 0; background: var(--icon-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+      <a href="device-chat.html" id="whaleQuickCard" class="quick-card" onclick="handleWhaleEntry(event)" style="background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 14px;">
+        <div class="quick-icon icon-wrapper" id="whaleQuickIcon" style="width: 36px; height: 36px; flex-shrink: 0; background: var(--icon-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
             <line x1="8" y1="21" x2="16" y2="21"></line>
             <line x1="12" y1="17" x2="12" y2="21"></line>
           </svg>
         </div>
         <div style="flex: 1;">
-          <div class="quick-title" id="whaleQuickTitle" style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px;">与小鲸鱼聊天</div>
-          <div class="quick-subtitle" id="whaleQuickSubtitle" style="font-size: 12px; color: var(--text-tertiary);">金融助手</div>
+          <div class="quick-title" id="whaleQuickTitle" style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px;">与设备聊天</div>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
           <path d="M9 18l6-6-6-6"/>
@@ -1476,10 +1580,6 @@
         <div class="user-info" style="flex: 1;">
           <h2 id="userName" style="font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">User_9527</h2>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="status-pill online" id="bindStatus" style="display: flex; align-items: center; gap: 4px; padding: 3px 8px; background: var(--success-bg); border-radius: 12px; font-size: 10px; color: var(--success); font-weight: 500;">
-              <span style="width: 5px; height: 5px; background: currentColor; border-radius: 50%;"></span>
-              已认证
-            </span>
             <span class="status-pill" id="deviceStatus" style="padding: 3px 8px; background: var(--card-bg-soft); border-radius: 12px; font-size: 10px; color: var(--text-tertiary);">待绑定</span>
           </div>
         </div>
@@ -1523,7 +1623,6 @@
             <div style="font-size: 12px; color: var(--text-tertiary);">共 1 个设备</div>
           </div>
           <div style="display: flex; align-items: center; gap: 4px;">
-            <span style="font-size: 12px; color: var(--text-tertiary);">查看列表</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
               <path d="M9 18l6-6-6-6"/>
             </svg>
@@ -1542,7 +1641,7 @@
             </div>
             <div>
               <div style="font-size: 14px; font-weight: 600;">模型与技能</div>
-              <div style="font-size: 12px; color: var(--text-tertiary);">管理模型和技能配置</div>
+              <div style="font-size: 12px; color: var(--text-tertiary);"></div>
             </div>
           </div>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
@@ -1709,6 +1808,32 @@
       </div>
     </div>
   </div>
+
+  <!-- 设备对话加载弹窗 -->
+  <div class="device-chat-loading" id="deviceChatLoading">
+    <div class="device-chat-loading-mask"></div>
+    <div class="device-chat-loading-card">
+      <div class="device-chat-loading-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <rect x="7" y="7" width="3" height="3"/>
+          <rect x="14" y="7" width="3" height="3"/>
+          <rect x="7" y="14" width="3" height="3"/>
+          <rect x="14" y="14" width="3" height="3"/>
+        </svg>
+      </div>
+      <div class="device-chat-loading-title">正在连接小龙虾</div>
+      <div class="device-chat-loading-desc" id="loadingDesc">正在确认设备身份…</div>
+      <div class="device-chat-loading-progress">
+        <div class="device-chat-loading-progress-bar" id="loadingProgressBar"></div>
+      </div>
+      <div class="device-chat-loading-steps">
+        <span class="step-item active">设备</span>
+        <span class="step-item" id="stepService">服务</span>
+        <span class="step-item" id="stepChannel">通道</span>
+      </div>
+    </div>
+  </div>
   
   <script>
     // 显示"正在开发"提示
@@ -1728,14 +1853,13 @@
       const implementedPages = [
         'device.html',
         'connection-center.html',
-        'whale-chat.html',
-        'model-switch.html',
+        'device-chat.html',
+        'model-skill.html',
         'index.html',
         'token-overview.html',
         'topup.html',
         'account-binding.html',
         'task-center.html',
-        'skill-execute.html',
         'token-consumption.html',
         'token-production.html'
       ];
@@ -1783,6 +1907,81 @@
               showDevelopingToast();
             });
           }
+        }
+      });
+    }
+    
+    // 显示设备对话加载弹窗
+    function showDeviceChatLoading(options = {}) {
+      const { onComplete } = options;
+      
+      const loadingEl = document.getElementById('deviceChatLoading');
+      const descEl = document.getElementById('loadingDesc');
+      const progressBar = document.getElementById('loadingProgressBar');
+      const stepService = document.getElementById('stepService');
+      const stepChannel = document.getElementById('stepChannel');
+      
+      if (!loadingEl || !descEl || !progressBar) {
+        onComplete?.();
+        return;
+      }
+      
+      // 使用 class 控制显示
+      loadingEl.classList.add('show');
+      
+      const phases = [
+        { percent: '20%', desc: '正在确认设备身份…', steps: ['设备'] },
+        { percent: '45%', desc: '正在检测智能体服务…', steps: ['设备', '服务'] },
+        { percent: '72%', desc: '正在建立对话通道…', steps: ['设备', '服务', '通道'] },
+        { percent: '100%', desc: '准备进入设备对话…', steps: ['设备', '服务', '通道'] }
+      ];
+      
+      let currentPhase = 0;
+      
+      const updatePhase = (phase) => {
+        if (phase >= phases.length) return;
+        currentPhase = phase;
+        const p = phases[phase];
+        
+        if (descEl) descEl.textContent = p.desc;
+        if (progressBar) progressBar.style.width = p.percent;
+        
+        // 使用 class 控制 active 状态
+        if (stepService) stepService.classList.toggle('active', p.steps.length > 1);
+        if (stepChannel) stepChannel.classList.toggle('active', p.steps.length > 2);
+      };
+      
+      const runPhases = () => {
+        if (currentPhase < phases.length - 1) {
+          setTimeout(() => {
+            updatePhase(currentPhase + 1);
+            runPhases();
+          }, 360);
+        }
+      };
+      
+      updatePhase(0);
+      setTimeout(runPhases, 360);
+      
+      const complete = () => {
+        updatePhase(phases.length - 1);
+        setTimeout(() => {
+          loadingEl.classList.remove('show');
+          onComplete?.();
+        }, 320);
+      };
+      
+      setTimeout(complete, 450);
+    }
+    
+    // 小鲸鱼入口点击处理
+    function handleWhaleEntry(e) {
+      e.preventDefault();
+      console.log('[EntryLoading] device chat entry clicked');
+      showDeviceChatLoading({
+        onComplete: () => {
+          console.log('[EntryLoading] navigating to device-chat');
+          window.location.href = 'device-chat.html';
         }
       });
     }
@@ -1874,23 +2073,43 @@
     function updateWhaleStatus(bindStatus, agentName) {
       const currentAgentName = agentName || '智能体';
       const subtitle = currentAgentName === '星崽' ? '智能助手' : '金融助手';
-      const quickTitle = '与小鲸鱼聊天';
+      const quickTitle = '与设备聊天';
 
-      if (bindStatus === 'pending') {
-        whaleQuickCard.classList.add('pending');
-        whaleQuickCard.href = 'account-binding.html';
+      if (whaleQuickTitle) {
         whaleQuickTitle.textContent = quickTitle;
-        whaleQuickSubtitle.textContent = '待绑定';
-      } else if (bindStatus === 'bound') {
-        whaleQuickCard.classList.remove('pending');
-        whaleQuickCard.href = 'whale-chat.html';
-        whaleQuickTitle.textContent = quickTitle;
-        whaleQuickSubtitle.textContent = subtitle;
+      }
+      
+      if (whaleQuickSubtitle) {
+        if (bindStatus === 'pending') {
+          if (whaleQuickCard) {
+            whaleQuickCard.classList.add('pending');
+            whaleQuickCard.href = 'account-binding.html';
+          }
+          whaleQuickSubtitle.textContent = '待绑定';
+        } else if (bindStatus === 'bound') {
+          if (whaleQuickCard) {
+            whaleQuickCard.classList.remove('pending');
+            whaleQuickCard.href = 'device-chat.html';
+          }
+          whaleQuickSubtitle.textContent = subtitle;
+        } else {
+          if (whaleQuickCard) {
+            whaleQuickCard.classList.remove('pending');
+            whaleQuickCard.href = 'device-chat.html';
+          }
+          whaleQuickSubtitle.textContent = subtitle;
+        }
       } else {
-        whaleQuickCard.classList.remove('pending');
-        whaleQuickCard.href = 'whale-chat.html';
-        whaleQuickTitle.textContent = quickTitle;
-        whaleQuickSubtitle.textContent = subtitle;
+        // 没有 subtitle 元素时只更新标题和链接
+        if (whaleQuickCard) {
+          if (bindStatus === 'pending') {
+            whaleQuickCard.classList.add('pending');
+            whaleQuickCard.href = 'account-binding.html';
+          } else {
+            whaleQuickCard.classList.remove('pending');
+            whaleQuickCard.href = 'device-chat.html';
+          }
+        }
       }
     }
     
@@ -2043,28 +2262,53 @@
       updateThemeOptions();
     }
 
-    // 更新钱包卡片显示
+    // 更新钱包卡片显示 - 使用兜底数据保护首页
     async function updateWalletCard() {
-      const walletData = await WalletService.getWalletData();
-      if (!walletData) return;
+      try {
+        const walletData = await WalletService.getWalletData();
+        if (!walletData) {
+          renderWalletFallback();
+          return;
+        }
 
+        const balanceEl = document.getElementById('walletBalance');
+        const balanceUnitEl = document.getElementById('walletBalanceUnit');
+        const todayIncomeEl = document.getElementById('walletTodayIncome');
+        const todayExpenseEl = document.getElementById('walletTodayExpense');
+        
+        // 使用兜底数据时标记
+        const isFallback = walletData.source === 'fallback';
+
+        if (balanceEl) {
+          balanceEl.textContent = walletData.balance != null ? walletData.balance : '--';
+        }
+        if (balanceUnitEl) {
+          balanceUnitEl.textContent = walletData.unit || walletData.balanceUnit || '';
+        }
+        if (todayIncomeEl) {
+          todayIncomeEl.textContent = walletData.todayIncome != null 
+            ? '+' + WalletService.formatAmount(walletData.todayIncome, walletData.todayIncomeUnit) + ' 今日收益'
+            : '--';
+        }
+        if (todayExpenseEl) {
+          todayExpenseEl.textContent = walletData.todayExpense != null
+            ? '-' + WalletService.formatAmount(walletData.todayExpense, walletData.todayExpenseUnit) + ' 今日消耗'
+            : '--';
+        }
+        
+        if (isFallback) {
+          console.log('[Home] 钱包使用兜底数据');
+        }
+      } catch (error) {
+        console.warn('[Home] 钱包加载失败，使用兜底:', error);
+        renderWalletFallback();
+      }
+    }
+    
+    // 渲染钱包兜底
+    function renderWalletFallback() {
       const balanceEl = document.getElementById('walletBalance');
-      const balanceUnitEl = document.getElementById('walletBalanceUnit');
-      const todayIncomeEl = document.getElementById('walletTodayIncome');
-      const todayExpenseEl = document.getElementById('walletTodayExpense');
-
-      if (balanceEl) {
-        balanceEl.textContent = walletData.balance;
-      }
-      if (balanceUnitEl) {
-        balanceUnitEl.textContent = walletData.balanceUnit;
-      }
-      if (todayIncomeEl) {
-        todayIncomeEl.textContent = '+' + WalletService.formatAmount(walletData.todayIncome, walletData.todayIncomeUnit) + ' 今日收益';
-      }
-      if (todayExpenseEl) {
-        todayExpenseEl.textContent = '-' + WalletService.formatAmount(walletData.todayExpense, walletData.todayExpenseUnit) + ' 今日消耗';
-      }
+      if (balanceEl) balanceEl.textContent = '--';
     }
 
     // 初始化钱包趋势图
@@ -2224,12 +2468,54 @@
       ThemeManager.registerChart(walletChart);
     }
 
-    // 更新设备卡片显示 - 从真实API获取数据
-    async function updateDeviceCard() {
-      log('[HomePage] 更新设备卡片显示');
+    // 防重入标志
+    let isDeviceCardUpdating = false;
+    let lastDeviceCardUpdateTime = 0;
+    const DEVICE_CARD_UPDATE_INTERVAL = 5000; // 5秒内不重复请求
+
+    // 更新设备卡片显示 - 从真实API获取数据（带防重复保护）
+    async function updateDeviceCard(options = {}) {
+      const { force = false, reason = 'normal' } = options;
+      const now = Date.now();
+      
+      // 防止重复调用
+      if (!force && isDeviceCardUpdating) {
+        console.log('[HomeDebug] updateDeviceCard skipped: already running');
+        return;
+      }
+      
+      // 5秒内不重复请求（force可跳过）
+      if (!force && now - lastDeviceCardUpdateTime < DEVICE_CARD_UPDATE_INTERVAL) {
+        console.log('[HomeDebug] updateDeviceCard skipped: too frequent, reason:', reason);
+        return;
+      }
+      
+      isDeviceCardUpdating = true;
+      lastDeviceCardUpdateTime = now;
+      
+      console.log('[HomeDebug] updateDeviceCard called, reason:', reason);
       try {
+        console.log('[HomeDebug] calling DeviceManager.getDevices()');
         // 从API获取真实设备数据
         const devices = await DeviceManager.getDevices();
+        console.log('[HomeDebug] getDevices returned:', devices);
+        
+        // 调用设备详情API获取更多信息（如当前模型）
+        const firstDevice = devices && devices[0];
+        if (firstDevice && firstDevice.id) {
+          try {
+            const detail = await DeviceManager.getDeviceDetail(firstDevice.id);
+            if (detail) {
+              // 合并详情信息
+              firstDevice.currentModel = detail.currentModel || detail.aiModel || '--';
+              firstDevice.taskStatus = detail.taskStatus || firstDevice.taskStatus;
+              console.log('[HomeDebug] device detail:', detail);
+            }
+          } catch (e) {
+            console.warn('[HomeDebug] getDeviceDetail failed:', e);
+          }
+        }
+        
         if (devices && devices.length > 0) {
           // 更新全局defaultDevice用于兜底
           DeviceManager.defaultDevice = { ...devices[0] };
@@ -2238,7 +2524,7 @@
           // 同步到Storage用于页面刷新后兜底
           Storage.Device.setCurrentDevice(DeviceManager.defaultDevice);
         } else {
-          // DEV ONLY: 无设备时显示空状态（不显示假设备）
+          // 无设备时显示空状态
           const token = Storage.Auth.getToken();
           if (token && token.startsWith('dev-')) {
             log('[HomePage] DEV MODE: no devices, showing empty state');
@@ -2263,50 +2549,97 @@
             };
           }
         }
+        
+        // 渲染设备卡片
+        DeviceManager.renderHomeDeviceCard();
       } catch (error) {
         console.error('[HomePage] 获取设备数据失败:', error);
         // 失败兜底
         DeviceManager.defaultDevice = {
           name: '--',
           isOnline: false,
-          taskStatus: '未获取',
+          taskStatus: '加载失败',
           currentModel: '--',
           deviceCount: 0,
           onlineCount: 0
         };
+        DeviceManager.renderHomeDeviceCard();
+      } finally {
+        isDeviceCardUpdating = false;
       }
-      // 渲染设备卡片
-      DeviceManager.renderHomeDeviceCard();
     }
 
-    // 监听设备状态变化事件
+    // 监听设备状态变化事件（加防抖，最少5秒才刷新一次）
+    let lastDeviceStatusRefreshAt = 0;
     window.addEventListener('deviceStatusChanged', function(e) {
       log('[HomePage] 收到 deviceStatusChanged 事件:', e.detail);
-      updateDeviceCard();
-      // 同时更新我的页设备状态
+      const now = Date.now();
+      if (now - lastDeviceStatusRefreshAt < DEVICE_CARD_UPDATE_INTERVAL) {
+        log('[HomePage] deviceStatusChanged too frequent, skip');
+        return;
+      }
+      lastDeviceStatusRefreshAt = now;
+      updateDeviceCard({ reason: 'deviceStatusChanged' });
       DeviceManager.renderProfilePage();
     });
 
     // 监听模型切换事件
     window.addEventListener('modelSwitched', function(e) {
       log('[HomePage] 收到 modelSwitched 事件:', e.detail);
-      updateDeviceCard();
+      updateDeviceCard({ reason: 'modelSwitched' });
     });
 
-    // 监听页面显示事件（从其他页面返回时刷新）
+    // 监听页面显示事件（bfcache恢复时强制刷新一次）
     window.addEventListener('pageshow', function(e) {
-      log('[HomePage] pageshow 事件触发，刷新设备卡片');
-      updateDeviceCard();
+      log('[HomePage] pageshow 事件触发');
+      
+      // 清理残留的 loading 弹窗
+      const navPopup = document.getElementById('nav-loading-popup');
+      if (navPopup) {
+        console.log('[HomePage] pageshow: cleanup nav-loading-popup');
+        navPopup.remove();
+      }
+      
+      // 清理 sessionStorage 状态
+      sessionStorage.removeItem('fromAgentEntryLoading');
+      
+      // 重新设置底部导航 active 状态
+      if (window.BottomNav && typeof BottomNav.setActiveByPage === 'function') {
+        BottomNav.setActiveByPage('home');
+      } else if (window.bottomNavConfig) {
+        // 手动更新底部导航 active 状态
+        const items = document.querySelectorAll('.nav-item');
+        items.forEach((item, index) => {
+          if (bottomNavConfig.items && bottomNavConfig.items[index]) {
+            const config = bottomNavConfig.items[index];
+            if (config.id === 'home' || config.id === 'device' || config.id === 'service' || config.id === 'profile') {
+              item.classList.toggle('active', config.id === 'home');
+            }
+          }
+        });
+        sessionStorage.setItem('currentTab', 'home');
+      }
+      
+      if (e.persisted) {
+        updateDeviceCard({ force: true, reason: 'pageshow-bfcache' });
+      }
     });
+
+    // 手动刷新入口（可在控制台调用 window.refreshHomeDeviceCard()）
+    window.refreshHomeDeviceCard = async function() {
+      console.log('[HomeDebug] manual refresh device card');
+      lastDeviceCardUpdateTime = 0;
+      await updateDeviceCard({ force: true, reason: 'manual' });
+    };
 
     // 页面加载时更新所有卡片
     (async function initPage() {
       ThemeManager.init();
       DeviceManager.init();
 
-      // [DEBUG] 临时屏蔽钱包干扰，聚焦认证和设备链路
-      // await updateWalletCard();
-      // initWalletChart();
+      // 启用词元钱包
+      await updateWalletCard();
+      initWalletChart();
 
       await updateDeviceCard();
       updateUserCard();
@@ -2370,6 +2703,20 @@
       }
     });
   </script>
+  <script src="js/utils/splash.js"></script>
   <script src="bottom-nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        AppSplash.show({
+          duration: 2000,
+          force: new URLSearchParams(location.search).get('splash') === '1'
+        });
+      } catch (e) {
+        console.warn('[Splash] init failed:', e);
+      }
+      initLinkHandlers();
+    });
+  </script>
 </body>
 </html>

@@ -2,6 +2,10 @@
  * 设备状态管理服务
  * 统一管理设备状态，为接入后端做准备
  */
+
+// 调试开关（生产环境设为 false）
+const DEBUG_DEVICE = false;
+
 const DeviceManager = {
   // 设备状态常量
   STATUS: {
@@ -83,14 +87,18 @@ const DeviceManager = {
       // 调用四象接口
       const response = await Api.Device.getList(userId, requestBody);
 
-      console.log('[Trial] device list raw response:', response);
+      if (DEBUG_DEVICE) {
+        console.log('[Trial] device list raw response:', response);
+      }
 
       if (response && (response.success === true || response.code === '0' || response.code === 0)) {
         // 从PageWrapperDeviceDTO中提取设备数组
         const devices = response.data?.rows || response.rows || [];
 
-        console.log('[Trial] devices array:', devices);
-        console.log('[Trial] first device keys:', Object.keys(devices[0] || {}));
+        if (DEBUG_DEVICE) {
+          console.log('[Trial] devices array:', devices);
+          console.log('[Trial] first device keys:', Object.keys(devices[0] || {}));
+        }
 
         // 缓存到 Storage
         if (devices.length > 0) {
@@ -101,8 +109,10 @@ const DeviceManager = {
 
         return devices.map(device => this._normalizeDevice(device, devices.length));
       }
-      
-      console.log('[Trial] API returned but success not true, response:', response);
+
+      if (DEBUG_DEVICE) {
+        console.log('[Trial] API returned but success not true, response:', response);
+      }
     } catch (error) {
       console.error('[DeviceManager] 获取设备列表失败:', error);
     }
@@ -124,27 +134,46 @@ const DeviceManager = {
       return [current];
     }
 
-    // 最差兜底：返回默认设备（仅正式环境）
-    return [{ ...this.defaultDevice }];
+    // 没有真实设备和缓存，返回空数组
+    return [];
   },
 
   /**
-   * 统一设备字段映射（从四象API数据到前端格式）
-   * @param {Object} device - 四象API返回的设备数据
-   * @param {number} totalCount - 设备总数
-   * @returns {Object}
-   */
+ * 统一设备字段映射（从四象API数据到前端格式）
+ * @param {Object} device - 四象API返回的设备数据
+ * @param {number} totalCount - 设备总数
+ * @returns {Object}
+ */
   _normalizeDevice(device, totalCount = 1) {
+    // 判断设备是否在线: status 为 running/online/active 时认为在线
+    const status = device.status ? device.status.toLowerCase() : 'offline';
+    const isOnline = ['running', 'online', 'active'].includes(status);
+    
+    // 解析设备唯一标识（用于小龙虾连接）
+    const resolvedDeviceUuid = device.iotDeviceUuid || device.uuid || device.routeDeviceUuid || device.routeDeviceId || '';
+    
     return {
       deviceId: device.id || device.sn || '',
+      id: device.id || '',
       name: device.name || '未知设备',
       type: device.type || '',
       sn: device.sn || '',
       uuid: device.uuid || '',
-      // 四象 status: ONLINE/OFFLINE
-      isOnline: device.status === 'ONLINE',
+      // 设备唯一标识 (用于小龙虾连接)
+      iotDeviceUuid: device.iotDeviceUuid || '',
+      routeDeviceUuid: device.routeDeviceUuid || '',
+      routeDeviceId: device.routeDeviceId || '',
+      // 统一的设备标识（用于小龙虾连接）
+      resolvedDeviceUuid: resolvedDeviceUuid,
+      // 设备状态: API 返回 status 为 running/online/active 表示在线
+      isOnline: isOnline,
       // 原始状态值
-      status: device.status ? device.status.toLowerCase() : 'offline',
+      status: status,
+      // manageState 字段
+      manageState: device.manageState || '',
+      // 在线时间
+      onlineTime: device.onlineTime || '',
+      offlineTime: device.offlineTime || '',
       // 任务状态（后端暂无），统一 fallback
       taskStatus: '空闲中',
       // AI模型（后端model字段是产品型号，非AI模型）
@@ -178,7 +207,13 @@ const DeviceManager = {
    * @returns {Object} 设备数据
    */
   getDevice() {
-    return Storage.Device.getCurrentDevice() || this.defaultDevice;
+    // 优先使用 Storage 中的真实设备，不使用 defaultDevice 兜底
+    const device = Storage.Device.getCurrentDevice();
+    if (device && device.id) {
+      return device;
+    }
+    // 只有在 Storage 中完全没有设备时才返回空（不再使用 defaultDevice）
+    return null;
   },
 
   /**

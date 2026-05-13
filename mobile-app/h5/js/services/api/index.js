@@ -194,7 +194,11 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] sendChat:', { deviceId, message, url, requestBody });
+      console.log('[OPENCLAW] sendChat:', { deviceId, message, url });
+      console.log('[OpenClawSend] userInput:', message);
+      console.log('[OpenClawSend] requestId:', requestBody.Parameter.parameter.data.id);
+      console.log('[OpenClawSend] idempotencyKey:', requestBody.Parameter.parameter.data.params.idempotencyKey);
+      console.log('[OpenClawSend] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody);
     },
 
@@ -384,9 +388,6 @@ const Api = {
       };
       
       console.log('[OPENCLAW] deleteEvent:', { deviceId, tsStart, tsEnd, url });
-      return apiClient.post(url, requestBody);
-    },
-      
       return apiClient.post(url, requestBody);
     },
 

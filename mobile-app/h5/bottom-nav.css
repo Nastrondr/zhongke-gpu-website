@@ -1,10 +1,27 @@
-/* 底部导航样式 - 固定深色模式 */
+/* 底部导航样式 - 深浅色模式支持 */
 
 :root {
   --bottom-nav-icon-inactive: #9DB2CE;
   --bottom-nav-icon-active: #FFFFFF;
   --bottom-nav-bg: #1E1E1E;
   --bottom-nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* 统一高度变量 */
+  --bottom-control-height: 64px;
+  --bottom-control-width: min(398px, calc(100vw - 32px));
+}
+
+/* 深色模式 */
+html[data-theme="dark"] {
+  --bottom-nav-icon-inactive: #9DB2CE;
+  --bottom-nav-icon-active: #FFFFFF;
+  --bottom-nav-bg: #1E1E1E;
+  --bottom-nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 渐变和阴影 - 深浅色统一 */
+:root,
+html[data-theme="dark"],
+html[data-theme="light"] {
   --bottom-nav-highlight-gradient: linear-gradient(135deg, #613EEA 0%, #613EEA 100%);
   --bottom-nav-highlight-shadow: 0 2px 8px rgba(97, 62, 234, 0.25);
 }
@@ -15,8 +32,10 @@
   left: 50%;
   right: auto;
   bottom: calc(18px + env(safe-area-inset-bottom));
-  width: min(398px, calc(100vw - 32px));
-  height: 64px;
+  width: var(--bottom-control-width);
+  height: var(--bottom-control-height);
+  min-height: var(--bottom-control-height);
+  max-height: var(--bottom-control-height);
   transform: translateX(-50%);
   background: var(--bottom-nav-bg);
   border-radius: 999px;
