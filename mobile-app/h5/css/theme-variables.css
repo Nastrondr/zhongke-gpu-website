@@ -77,8 +77,7 @@
   
   /* 卡片相关别名 */
   --card-bg: var(--bg-card);
-  --card-hover: #16233D;
-  --bg-card-hover: var(--card-hover);
+  --bg-card-hover: #16233D;
   --border-card: var(--border-primary);
   --border-card-light: var(--border-secondary);
   --card-highlight: transparent;
@@ -89,10 +88,11 @@
   --border-radius-lg: 20px;
   
   /* 浮层阴影 */
-  --shadow-card: none;
-  --shadow-card-hover: none;
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.2);
   --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.15);
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-icon: 0 4px 12px rgba(0, 0, 0, 0.3);
   
   /* 图表颜色 */
   --chart-income: #22C7D6;
