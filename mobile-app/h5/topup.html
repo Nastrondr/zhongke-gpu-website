@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>词元充值 - 个人小鲸鱼-数字大脑</title>
+  <title>词元充值 - 个人萤火虫-数字大脑</title>
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -681,6 +681,143 @@
       border: 1px solid #D7E6FF;
       color: #0F172A;
       box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+
+    /* 深色模式覆盖 */
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .header {
+      background: var(--bg-card);
+      border-bottom-color: var(--border-card);
+    }
+
+    html[data-theme="dark"] .header .back,
+    html[data-theme="dark"] .header .title,
+    html[data-theme="dark"] .header .skip {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .header .subtitle {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .amount-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .amount-item:hover {
+      border-color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .amount-item.active {
+      background: rgba(74, 141, 255, 0.15);
+      border-color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .amount-item .price {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .amount-item.active .price {
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .custom-input-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .custom-input-wrapper .yuan {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .custom-input-wrapper input {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .wallet-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .wallet-card .card-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .wallet-card .card-title svg {
+      stroke: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .wallet-card .balance-item .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .wallet-card .balance-item .value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .wallet-card .token-info {
+      background: rgba(74, 141, 255, 0.1);
+    }
+
+    html[data-theme="dark"] .wallet-card .token-info .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .wallet-card .token-info .value {
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .wallet-card .desc {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .voucher-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .voucher-card .left .icon {
+      background: rgba(74, 141, 255, 0.15);
+    }
+
+    html[data-theme="dark"] .voucher-card .left .icon svg {
+      stroke: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .voucher-card .voucher-info .voucher-label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .voucher-card .voucher-info .voucher-value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .voucher-card .redeem-btn {
+      background: rgba(74, 141, 255, 0.15);
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .voucher-card .btn {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    html[data-theme="dark"] .corporate-section .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
   </style>
   <script src="/h5/js/utils/storage.js"></script>

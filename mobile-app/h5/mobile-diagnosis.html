@@ -71,6 +71,63 @@
       box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
     }
 
+    html[data-theme="dark"] .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 深色模式 - 通用覆盖 */
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .card-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .card-desc {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .status-badge {
+      background: var(--bg-card-hover);
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .section-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .item-label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .item-value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .result-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .result-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .result-message {
+      color: var(--text-secondary);
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
       background: var(--bg-primary);
@@ -550,7 +607,7 @@
 
     <div class="section animate-in delay-1">
       <div id="resultCard" class="diagnosis-result-card normal">
-        <div class="device-name" id="deviceName">小鲸鱼智能体 A</div>
+        <div class="device-name" id="deviceName">萤火虫智能体 A</div>
         <div class="result-main normal" id="resultMain">设备运行正常</div>
         <span class="result-tag normal" id="resultTag">全部检查通过</span>
         <div class="result-desc" id="resultDesc">您的设备当前处于健康状态，所有核心服务均正常运行。</div>
@@ -629,7 +686,7 @@
 
   <script>
     const DIAGNOSIS_DATA = {
-      deviceName: '小鲸鱼智能体 A',
+      deviceName: '萤火虫智能体 A',
       checks: [
         {
           id: 'network',

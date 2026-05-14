@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>词元消耗分析 - 个人小鲸鱼-数字大脑</title>
+  <title>词元消耗分析 - 个人萤火虫-数字大脑</title>
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -583,6 +583,57 @@
       border: 1px solid #D7E6FF;
       color: #0F172A;
       box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+
+    /* 深色模式覆盖 */
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .nav-header {
+      background: transparent;
+    }
+
+    html[data-theme="dark"] .back-btn {
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .nav-title h1 {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .chart-tabs {
+      background: transparent;
+    }
+
+    html[data-theme="dark"] .chart-tab {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .chart-tab.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .record-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .record-name {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .record-value {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
   </style>
 </head>

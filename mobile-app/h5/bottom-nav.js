@@ -316,7 +316,7 @@ function handleNavClick(item, index) {
     currentActiveIndex = index;
     
     // 2. 显示加载弹窗
-    showLoadingPopup('正在加载小鲸鱼...');
+    showLoadingPopup('正在加载萤火虫...');
     
     // 3. 延迟300ms后跳转
     setTimeout(() => {

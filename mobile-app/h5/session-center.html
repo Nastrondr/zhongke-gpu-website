@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>会话中心 - 个人数字大脑</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/theme-variables.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    .page-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .back-btn svg { width: 20px; height: 20px; }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      width: 40px;
+    }
+
+    .page-content {
+      padding: 72px 16px 100px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .session-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .session-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .session-item:active {
+      transform: scale(0.98);
+    }
+
+    .session-item.active {
+      border-color: var(--brand-primary);
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .session-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .session-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .session-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    .session-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .session-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .session-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-card);
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn.primary {
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    .action-btn.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--error);
+    }
+
+    .action-btn.secondary {
+      background: var(--card-hover);
+      color: var(--text-secondary);
+    }
+
+    .fab {
+      position: fixed;
+      bottom: 32px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      border: none;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .fab svg { width: 24px; height: 24px; stroke: white; }
+
+    .fab:active { transform: scale(0.95); }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--brand-primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-btn.cancel {
+      background: var(--card-hover);
+      color: var(--text-secondary);
+    }
+
+    .modal-btn.confirm {
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    .modal-btn.danger {
+      background: var(--error);
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      opacity: 0.3;
+    }
+
+    .empty-text {
+      font-size: 15px;
+      color: var(--text-tertiary);
+    }
+
+    .toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(16, 185, 129, 0.95);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .toast.active { opacity: 1; }
+
+    .toast.error { background: rgba(239, 68, 68, 0.95); }
+
+    /* 深色模式覆盖 */
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .page-header {
+      background: var(--bg-card);
+      border-bottom-color: var(--border-card);
+    }
+
+    html[data-theme="dark"] .back-btn {
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .page-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .search-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .search-input {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .search-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .filter-tabs {
+      background: transparent;
+    }
+
+    html[data-theme="dark"] .filter-tab {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .filter-tab.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .session-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .session-card:active {
+      background: rgba(74, 141, 255, 0.08);
+    }
+
+    html[data-theme="dark"] .session-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .session-preview {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .session-time {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .session-tag {
+      background: rgba(74, 141, 255, 0.15);
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .empty-state {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .empty-icon {
+      stroke: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .new-session-btn {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+  </style>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/services/themeService.js"></script>
+  <script src="js/utils/navigation.js"></script>
+  <script src="js/utils/toast.js"></script>
+  <script src="js/services/sessionService.js"></script>
+</head>
+<body>
+  <div class="page-header">
+    <a href="device-chat.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <polyline points="9 18 3 12 9 6"/>
+      </svg>
+      <span>返回</span>
+    </a>
+    <div class="page-title">会话管理</div>
+    <div class="header-actions"></div>
+  </div>
+
+  <div class="page-content">
+    <div class="section-title">我的会话</div>
+    <div class="session-list" id="sessionList">
+      <div class="empty-state">
+        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <p class="empty-text">暂无会话记录</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="fab" onclick="openCreateModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  </button>
+
+  <div class="modal-overlay" id="createModal">
+    <div class="modal-content">
+      <div class="modal-title">新建会话</div>
+      <div class="form-group">
+        <label class="form-label">会话名称</label>
+        <input type="text" class="form-input" id="newSessionLabel" placeholder="输入会话名称">
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeCreateModal()">取消</button>
+        <button class="modal-btn confirm" onclick="createSession()">创建</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-content">
+      <div class="modal-title">确认删除</div>
+      <p style="text-align: center; color: var(--text-secondary); margin-bottom: 8px;">
+        确定要删除会话 "<span id="deleteSessionName"></span>" 吗？
+      </p>
+      <p style="text-align: center; color: var(--error); font-size: 13px;">
+        此操作不可恢复
+      </p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeDeleteModal()">取消</button>
+        <button class="modal-btn danger" onclick="confirmDelete()">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="renameModal">
+    <div class="modal-content">
+      <div class="modal-title">重命名会话</div>
+      <div class="form-group">
+        <label class="form-label">新名称</label>
+        <input type="text" class="form-input" id="renameSessionLabel" placeholder="输入新名称">
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeRenameModal()">取消</button>
+        <button class="modal-btn confirm" onclick="confirmRename()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let sessions = [];
+    let currentSessionKey = 'agent:main:main';
+    let pendingDeleteKey = null;
+    let pendingRenameKey = null;
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.toggle('error', isError);
+      toast.classList.add('active');
+      setTimeout(() => toast.classList.remove('active'), 2000);
+    }
+
+    function formatTime(timestamp) {
+      if (!timestamp) return '--';
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = now - date;
+      if (diff < 60000) return '刚刚';
+      if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
+      if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
+      if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`;
+      return `${date.getMonth() + 1}-${date.getDate()}`;
+    }
+
+    function renderSessions() {
+      const list = document.getElementById('sessionList');
+      if (sessions.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <p class="empty-text">暂无会话记录，点击 + 创建新会话</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = sessions.map(session => `
+        <div class="session-item ${session.key === currentSessionKey ? 'active' : ''}" data-key="${session.key}">
+          <div class="session-header">
+            <span class="session-label">${session.label}</span>
+            ${session.key === currentSessionKey ? '<span class="session-badge">当前</span>' : ''}
+          </div>
+          <div class="session-meta">
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              ${session.messageCount || 0} 条消息
+            </span>
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              ${formatTime(session.lastActivityMs)}
+            </span>
+          </div>
+          <div class="session-actions">
+            ${session.key !== currentSessionKey ? `
+              <button class="action-btn primary" onclick="switchToSession('${session.key}')">切换</button>
+            ` : ''}
+            <button class="action-btn secondary" onclick="openRenameModal('${session.key}', '${session.label}')">重命名</button>
+            <button class="action-btn danger" onclick="openDeleteModal('${session.key}', '${session.label}')">删除</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function switchToSession(sessionKey) {
+      SessionManager.setCurrentSession(sessionKey);
+      currentSessionKey = sessionKey;
+      showToast('已切换到: ' + sessions.find(s => s.key === sessionKey)?.label);
+      renderSessions();
+    }
+
+    function openCreateModal() {
+      document.getElementById('createModal').classList.add('active');
+      document.getElementById('newSessionLabel').value = '';
+      document.getElementById('newSessionLabel').focus();
+    }
+
+    function closeCreateModal() {
+      document.getElementById('createModal').classList.remove('active');
+    }
+
+    async function createSession() {
+      const label = document.getElementById('newSessionLabel').value.trim();
+      if (!label) {
+        showToast('请输入会话名称', true);
+        return;
+      }
+
+      const sessionKey = `session_${Date.now()}`;
+      await SessionManager.create(sessionKey, label);
+      sessions = (await SessionManager.list()).payload.sessions;
+      closeCreateModal();
+      showToast('会话创建成功');
+      renderSessions();
+    }
+
+    function openDeleteModal(sessionKey, label) {
+      pendingDeleteKey = sessionKey;
+      document.getElementById('deleteSessionName').textContent = label;
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+      pendingDeleteKey = null;
+    }
+
+    async function confirmDelete() {
+      if (!pendingDeleteKey) return;
+      await SessionManager.delete(pendingDeleteKey);
+      sessions = (await SessionManager.list()).payload.sessions;
+      closeDeleteModal();
+      showToast('会话已删除');
+      renderSessions();
+    }
+
+    function openRenameModal(sessionKey, label) {
+      pendingRenameKey = sessionKey;
+      document.getElementById('renameSessionLabel').value = label;
+      document.getElementById('renameModal').classList.add('active');
+      document.getElementById('renameSessionLabel').focus();
+    }
+
+    function closeRenameModal() {
+      document.getElementById('renameModal').classList.remove('active');
+      pendingRenameKey = null;
+    }
+
+    async function confirmRename() {
+      const newLabel = document.getElementById('renameSessionLabel').value.trim();
+      if (!newLabel) {
+        showToast('请输入新名称', true);
+        return;
+      }
+
+      if (pendingRenameKey) {
+        await SessionManager.rename(pendingRenameKey, newLabel);
+        sessions = (await SessionManager.list()).payload.sessions;
+      }
+      closeRenameModal();
+      showToast('会话已重命名');
+      renderSessions();
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      ThemeManager.init();
+      SessionManager.init();
+
+      currentSessionKey = SessionManager.getCurrentSession();
+      sessions = (await SessionManager.list()).payload.sessions || [];
+
+      if (sessions.length === 0) {
+        await SessionManager.create('agent:main:main', '主会话', 'default');
+        sessions = (await SessionManager.list()).payload.sessions;
+      }
+
+      renderSessions();
+    });
+  </script>
+</body>
+</html>

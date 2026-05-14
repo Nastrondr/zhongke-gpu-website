@@ -1,4 +1,4 @@
-/* 底部导航样式 - 深浅色模式支持 */
+/* 底部导航样式 - 始终固定深色模式 */
 
 :root {
   --bottom-nav-icon-inactive: #9DB2CE;
@@ -10,12 +10,19 @@
   --bottom-control-width: min(398px, calc(100vw - 32px));
 }
 
-/* 深色模式 */
-html[data-theme="dark"] {
-  --bottom-nav-icon-inactive: #9DB2CE;
-  --bottom-nav-icon-active: #FFFFFF;
-  --bottom-nav-bg: #1E1E1E;
-  --bottom-nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* html 和 body 确保全屏 */
+html, body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 底部导航始终使用深色模式，不受页面 data-theme 影响 */
+.bottom-nav,
+html[data-theme="light"] .bottom-nav {
+  --bottom-nav-icon-inactive: #9DB2CE !important;
+  --bottom-nav-icon-active: #FFFFFF !important;
+  --bottom-nav-bg: #1E1E1E !important;
+  --bottom-nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* 渐变和阴影 - 深浅色统一 */
@@ -28,10 +35,10 @@ html[data-theme="light"] {
 
 /* 底部导航容器 */
 .bottom-nav {
-  position: fixed;
-  left: 50%;
-  right: auto;
-  bottom: calc(18px + env(safe-area-inset-bottom));
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(18px + env(safe-area-inset-bottom)) !important;
   width: var(--bottom-control-width);
   height: var(--bottom-control-height);
   min-height: var(--bottom-control-height);
@@ -40,7 +47,7 @@ html[data-theme="light"] {
   background: var(--bottom-nav-bg);
   border-radius: 999px;
   box-shadow: var(--bottom-nav-shadow);
-  z-index: 1000;
+  z-index: 9999 !important;
   overflow: hidden;
 }
 

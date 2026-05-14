@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>我的设备 - 设备管理</title>
+  <link rel="icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="shortcut icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon2.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="数字大脑">
+  <meta name="application-name" content="数字大脑">
   <script>
     (function() {
       const savedTheme = localStorage.getItem('app_theme_mode');
@@ -477,7 +487,6 @@
     
     .device-main-card {
       background: linear-gradient(135deg, rgba(37,99,235,0.35) 0%, rgba(30,58,138,0.45) 100%);
-      border: 1px solid rgba(37,99,235,0.5);
       border-radius: 16px;
       padding: 16px;
       backdrop-filter: blur(10px);
@@ -3280,10 +3289,23 @@
       
       // 4. 跳转并带上真实 deviceId，使用加载弹窗
       const deviceId = device.id || device.deviceId;
+      const numericDeviceId = Number(deviceId);
+      if (!Number.isFinite(numericDeviceId)) {
+        console.error('[Device] invalid numeric deviceId for chat:', { 
+          deviceId, 
+          iotDeviceUuid: device.iotDeviceUuid,
+          routeDeviceId: device.routeDeviceId,
+          sn: device.sn 
+        });
+        showToast('设备ID异常，请重新选择设备');
+        return;
+      }
+      
+      console.log('[Device] entering chat with numericDeviceId:', numericDeviceId);
       showDeviceChatLoading({
         deviceName: device.name || '设备',
         onComplete: () => {
-          window.location.href = '/h5/device-chat.html?deviceId=' + deviceId;
+          window.location.href = '/h5/device-chat.html?deviceId=' + numericDeviceId;
         }
       });
     }
@@ -4023,7 +4045,7 @@
               </svg>
               <span>返回</span>
             </div>
-            <p class="modal-desc">请粘贴小鲸鱼-数字大脑的专属绑定链接</p>
+            <p class="modal-desc">请粘贴萤火虫-数字大脑的专属绑定链接</p>
             <div class="input-group">
               <label class="input-label">设备链接</label>
               <input type="text" id="deviceLinkInput" class="input-field" placeholder="粘贴设备链接" maxlength="200">
@@ -4150,7 +4172,7 @@
       previousStep = 'scan';
       currentDeviceData = {
         id: 'XY-01-A8F3',
-        name: '小鲸鱼-数字大脑 01',
+        name: '萤火虫-数字大脑 01',
         model: 'FinBERT',
         skills: 6
       };
@@ -4213,7 +4235,7 @@
         previousStep = 'link';
         currentDeviceData = {
           id: 'XY-01-A8F3',
-          name: '小鲸鱼-数字大脑 01',
+          name: '萤火虫-数字大脑 01',
           model: 'FinBERT',
           skills: 6
         };

@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小鲸鱼 - 金融智能助手</title>
-  <link rel="apple-touch-icon" href="/h5/icons/apple-touch-icon.png">
-  <link rel="manifest" href="/h5/manifest.json">
-  <meta name="theme-color" content="#2563EB">
+  <title>萤火虫 - 金融智能助手</title>
+  <link rel="icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="shortcut icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon2.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="小鲸鱼助手">
+  <meta name="apple-mobile-web-app-title" content="数字大脑">
+  <meta name="application-name" content="数字大脑">
+  <meta name="theme-color" content="#2563EB">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
   <script>
@@ -25,23 +31,23 @@
   <link rel="stylesheet" href="css/theme-variables.css">
   <link rel="stylesheet" href="bottom-nav.css">
   <style>
-    /* 薄层兼容映射 - 使用全局变量并保留小鲸鱼特有颜色 */
+    /* 薄层兼容映射 - 使用全局变量并保留萤火虫特有颜色 */
     :root,
     html[data-theme="dark"] {
       /* 页面背景使用全局变量 */
       --bg-primary: linear-gradient(180deg, #0a1628 0%, #0d1f3a 50%, #0a1628 100%);
-      --bg-card: var(--bg-card);
+      --bg-card: rgba(30, 41, 59, 0.6);
       --bg-card-hover: #16233D;
       --bg-input: rgba(15, 23, 42, 0.8);
-      --border-card: var(--border-primary);
-      --border-input: var(--border-focus);
-      --text-primary: var(--text-primary);
-      --text-secondary: var(--text-secondary);
-      --text-tertiary: var(--text-tertiary);
-      --accent-blue: var(--primary);
-      --accent-blue-light: var(--primary-light);
+      --border-card: rgba(51, 65, 85, 0.5);
+      --border-input: rgba(99, 102, 241, 0.5);
+      --text-primary: #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --accent-blue: #60A5FA;
+      --accent-blue-light: #3B82F6;
       --accent-cyan: #06b6d4;
-      --success: var(--success);
+      --success: #34D399;
     }
 
     /* 浅色模式 - 专业 AI 对话风格 */
@@ -321,7 +327,7 @@
     }
     
     .mascot-placeholder::before {
-      content: '小鲸鱼';
+      content: '萤火虫';
       font-size: 12px;
       color: var(--text-tertiary);
     }
@@ -341,7 +347,7 @@
       50% { transform: scale(1.1); opacity: 0.2; }
     }
     
-    /* ==================== 小鲸鱼吉祥物组件 ==================== */
+    /* ==================== 萤火虫吉祥物组件 ==================== */
     
     /* 主吉祥物 - 欢迎区版本 */
     .whale-mascot {
@@ -764,8 +770,37 @@
       color: #2563EB;
     }
 
+    .message-action-btn.liked {
+      color: var(--success);
+    }
+
+    .message-action-btn.liked:hover {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
     html[data-theme="light"] .message-action-btn.liked {
-      color: #10b981;
+      color: #10B981;
+    }
+
+    html[data-theme="light"] .message-action-btn.liked:hover {
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    /* 点踩激活状态 - 红色 */
+    .message-action-btn.disliked {
+      color: #EF4444;
+    }
+
+    .message-action-btn.disliked:hover {
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    html[data-theme="light"] .message-action-btn.disliked {
+      color: #DC2626;
+    }
+
+    html[data-theme="light"] .message-action-btn.disliked:hover {
+      background: rgba(220, 38, 38, 0.1);
     }
 
     html[data-theme="light"] .message-action-btn.disliked {
@@ -1033,10 +1068,12 @@
       left: 0;
       right: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-      background: transparent;
+      background: linear-gradient(to top, var(--bg-primary) 80%, transparent);
       z-index: 60;
+      gap: 8px;
     }
 
     .input-wrapper {
@@ -1052,6 +1089,67 @@
       border-radius: 999px;
       padding: 0 14px;
       box-sizing: border-box;
+    }
+
+    /* 图片预览区域样式 - 支持深浅色模式 */
+    .input-area .image-preview-container {
+      width: var(--bottom-control-width);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 12px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .input-area .preview-item {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-card-hover);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-area .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .input-area .preview-item .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .input-area .preview-item .file-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 4px 6px;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 10px;
+      color: white;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /* 浅色模式 - 输入框包装 */
@@ -1221,7 +1319,7 @@
       gap: 8px;
     }
 
-    /* 在小鲸鱼页面隐藏悬浮吉祥物 */
+    /* 在萤火虫页面隐藏悬浮吉祥物 */
     body:not(.page-whale-chat) .mascot-container {
       display: flex;
     }
@@ -2713,6 +2811,314 @@
       border: 1px solid rgba(51, 65, 85, 0.5) !important;
       color: #F8FAFC !important;
     }
+
+    /* ==================== 深色模式补充覆盖 ==================== */
+
+    /* 模型菜单 - 深色模式 */
+    html[data-theme="dark"] .model-menu {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 模型选项 - 深色模式 */
+    html[data-theme="dark"] .model-option {
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .model-option:hover,
+    html[data-theme="dark"] .model-option.active {
+      background: rgba(37, 99, 235, 0.3);
+      color: #F8FAFC;
+    }
+
+    /* 技能栏 - 深色模式 */
+    html[data-theme="dark"] .skills-bar {
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    /* 技能标签 - 深色模式 */
+    html[data-theme="dark"] .skill-tag {
+      border-color: rgba(51, 65, 85, 0.5);
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .skill-tag:hover,
+    html[data-theme="dark"] .skill-tag:active {
+      background: rgba(37, 99, 235, 0.2);
+      border-color: rgba(37, 99, 235, 0.5);
+    }
+
+    /* 附件菜单 - 深色模式 */
+    html[data-theme="dark"] .attach-menu {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    html[data-theme="dark"] .attach-menu-item {
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .attach-menu-item:hover {
+      background: rgba(37, 99, 235, 0.2);
+    }
+
+    /* Toast 提示 - 深色模式 */
+    html[data-theme="dark"] .toast {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      color: #F8FAFC;
+    }
+
+    html[data-theme="dark"] .toast.success {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34D399;
+    }
+
+    html[data-theme="dark"] .toast.error {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #FCA5A5;
+    }
+
+    html[data-theme="dark"] .toast.warning {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: #FCD34D;
+    }
+
+    /* 输入区域 - 深色模式 */
+    html[data-theme="dark"] .chat-avatar.user {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.3));
+    }
+
+    html[data-theme="dark"] .chat-avatar.user svg {
+      stroke: #60A5FA;
+    }
+
+    /* 对话气泡 - 深色模式 */
+    html[data-theme="dark"] .chat-message.assistant .chat-bubble {
+      background: rgba(30, 41, 59, 0.6);
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .chat-message.user .chat-bubble {
+      background: rgba(37, 99, 235, 0.3);
+      color: #F8FAFC;
+    }
+
+    html[data-theme="dark"] .chat-time {
+      color: #64748B;
+    }
+
+    /* 技能操作按钮 - 深色模式 */
+    html[data-theme="dark"] .skill-action-btn {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .skill-action-btn:hover {
+      background: rgba(37, 99, 235, 0.3);
+      border-color: rgba(37, 99, 235, 0.5);
+    }
+
+    /* 结果卡片 - 深色模式 */
+    html[data-theme="dark"] .result-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    html[data-theme="dark"] .result-card-header {
+      background: rgba(15, 23, 42, 0.5);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+    }
+
+    html[data-theme="dark"] .result-card-title {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .result-card-content {
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .result-card-actions {
+      border-top: 1px solid rgba(51, 65, 85, 0.3);
+    }
+
+    html[data-theme="dark"] .result-action-btn {
+      background: rgba(37, 99, 235, 0.2);
+      color: #60A5FA;
+    }
+
+    html[data-theme="dark"] .result-action-btn:active {
+      background: rgba(37, 99, 235, 0.4);
+    }
+
+    /* 文件卡片 - 深色模式 */
+    html[data-theme="dark"] .result-file-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .result-file-card:active {
+      background: rgba(37, 99, 235, 0.2);
+    }
+
+    /* 加载动画 - 深色模式 */
+    html[data-theme="dark"] .agent-loading-mask {
+      background: rgba(10, 22, 40, 0.9);
+    }
+
+    html[data-theme="dark"] .agent-loading-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    html[data-theme="dark"] .agent-loading-title {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .agent-loading-progress {
+      background: rgba(51, 65, 85, 0.5);
+    }
+
+    /* 欢迎气泡 - 深色模式 */
+    html[data-theme="dark"] .welcome-title {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .welcome-subtitle {
+      color: #94A3B8;
+    }
+
+    html[data-theme="dark"] .welcome-desc {
+      color: #94A3B8;
+    }
+
+    /* 头部按钮 - 深色模式 */
+    html[data-theme="dark"] .header-history-btn svg,
+    html[data-theme="dark"] .header-new-btn svg {
+      stroke: #CBD5E1;
+    }
+
+    /* 模态框标题 - 深色模式 */
+    html[data-theme="dark"] .modal-title {
+      color: #F1F5F9;
+    }
+
+    /* 输入区域 - 深色模式 */
+    html[data-theme="dark"] .input-wrapper {
+      background: #111317;
+    }
+
+    html[data-theme="dark"] .chat-input {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .chat-input::placeholder {
+      color: #64748B;
+    }
+
+    html[data-theme="dark"] .input-btn svg {
+      stroke: #94A3B8;
+    }
+
+    /* 图片预览区域 - 深色模式 */
+    html[data-theme="dark"] .input-area .image-preview-container {
+      background: rgba(30, 41, 59, 0.8);
+    }
+
+    html[data-theme="dark"] .input-area .preview-item {
+      background: rgba(20, 30, 50, 0.8);
+    }
+
+    html[data-theme="dark"] .input-area .file-info {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    /* 消息操作按钮 - 深色模式 */
+    html[data-theme="dark"] .message-action-btn {
+      color: #64748B;
+    }
+
+    html[data-theme="dark"] .message-action-btn:hover {
+      background: rgba(37, 99, 235, 0.2);
+      color: #60A5FA;
+    }
+
+    html[data-theme="dark"] .message-action-btn.liked {
+      color: #34D399;
+    }
+
+    html[data-theme="dark"] .message-action-btn.disliked {
+      color: #FCA5A5;
+    }
+
+    /* 技能栏 wrapper - 深色模式 */
+    html[data-theme="dark"] .skills-bar-wrapper {
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    /* 头部 - 深色模式 */
+    html[data-theme="dark"] .header {
+      background: rgba(10, 22, 40, 0.95);
+    }
+
+    html[data-theme="dark"] .header-top {
+      background: rgba(10, 22, 40, 0.95);
+    }
+
+    html[data-theme="dark"] .header .title {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .header .back svg,
+    html[data-theme="dark"] .header .more svg {
+      stroke: #CBD5E1;
+    }
+
+    /* 模型切换器 - 深色模式 */
+    html[data-theme="dark"] .model-switcher {
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .model-switcher:hover {
+      background: rgba(37, 99, 235, 0.2);
+    }
+
+    html[data-theme="dark"] .model-switcher .current-model {
+      color: #F1F5F9;
+    }
+
+    html[data-theme="dark"] .model-switcher svg {
+      stroke: #94A3B8;
+    }
+
+    /* 会话管理抽屉 - 深色模式补充 */
+    html[data-theme="dark"] .drawer-user-sub {
+      color: #94A3B8;
+    }
+
+    html[data-theme="dark"] .drawer-model-label {
+      color: #64748B;
+    }
+
+    html[data-theme="dark"] .drawer-model-sub {
+      color: #94A3B8;
+    }
+
+    html[data-theme="dark"] .drawer-history-item-summary {
+      color: #64748B;
+    }
+
+    html[data-theme="dark"] .drawer-history-item-time {
+      color: #475569;
+    }
   </style>
 </head>
 <body class="page-whale-chat">
@@ -2750,14 +3156,14 @@
     
     <!-- 主内容 -->
     <main class="main-content">
-      <!-- 欢迎区 - 带吉祥物 -->
-      <section class="welcome-section">
-        <!-- 小鲸鱼角色（默认） -->
+      <!-- 欢迎区 - 带吉祥物（隐藏） -->
+      <section class="welcome-section" style="display: none;">
+        <!-- 萤火虫角色（默认） -->
         <div class="whale-mascot" id="whaleMascot" onclick="greetWhale()">
           <div class="whale-mascot__glow"></div>
           <div class="whale-stage">
             <img class="whale-fin whale-fin--back" src="images/whale-fin-left.svg" alt="">
-            <img class="whale-body" src="images/whale-body-open.svg" alt="小鲸鱼">
+            <img class="whale-body" src="images/yinghuochong-logo.png" alt="萤火虫">
             <img class="whale-fin whale-fin--front" src="images/whale-fin-right.svg" alt="">
           </div>
         </div>
@@ -2834,7 +3240,7 @@
           </svg>
         </div>
         
-        <h1 class="welcome-title">小鲸鱼</h1>
+        <h1 class="welcome-title">萤火虫</h1>
         <p class="welcome-subtitle">金融智能助手</p>
       </section>
 
@@ -2843,11 +3249,11 @@
         <!-- 助手欢迎消息 -->
         <div class="chat-message assistant welcome-message">
           <div class="chat-avatar assistant">
-            <img src="images/whale-body-open.svg" alt="" style="width: 24px; height: 24px; object-fit: contain;">
+            <img src="images/yinghuochong-logo.png" alt="" style="width: 24px; height: 24px; object-fit: contain;">
           </div>
           <div class="chat-content">
             <div class="chat-bubble" id="welcomeBubble">
-              你好，我是小鲸鱼。<br><br>
+              你好，我是萤火虫。<br><br>
               你可以输入文字任务，也可以上传图片、文档、表格或票据资料。我会根据内容引导你完成识别、整理、分析和报告生成。
             </div>
             <div class="chat-time">刚刚</div>
@@ -2967,19 +3373,8 @@
     <div class="input-area" id="inputArea">
       <!-- 隐藏的文件输入框 -->
       <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv" style="display: none;" onchange="handleFileSelected(event)">
-      <!-- 文件预览区域 -->
-      <div id="imagePreviewArea" style="display: none; padding: 8px 16px;">
-        <div id="filePreviewContainer" style="display: inline-flex; align-items: center; gap: 10px; background: var(--card-bg-soft); border-radius: 12px; padding: 10px 14px; max-width: calc(100% - 32px);">
-          <div id="filePreviewIcon" style="width: 44px; height: 44px; background: #DBEAFE; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <img id="previewImage" src="" style="width: 36px; height: 36px; object-fit: contain; border-radius: 6px; display: none;">
-          </div>
-          <div style="flex: 1; min-width: 0;">
-            <div id="previewFileName" style="font-size: 13px; font-weight: 500; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></div>
-            <div id="previewFileType" style="font-size: 11px; color: var(--text-tertiary);"></div>
-          </div>
-          <button onclick="removeAttachedFile()" style="width: 24px; height: 24px; background: rgba(0,0,0,0.1); color: var(--text-secondary); border: none; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">×</button>
-        </div>
-      </div>
+      <!-- 多图预览区域 -->
+      <div id="imagePreviewContainer" class="image-preview-container" style="display: none;"></div>
       <div class="input-wrapper">
         <button class="input-btn" id="attachBtn" onclick="toggleAttachMenu()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3074,7 +3469,7 @@
             <line x1="8" y1="21" x2="16" y2="21"></line>
             <line x1="12" y1="17" x2="12" y2="21"></line>
           </svg>
-          小鲸鱼 - 金融贷款
+          萤火虫 - 金融贷款
         </div>
         <button class="chat-panel-close" onclick="toggleChatPanel()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3169,6 +3564,7 @@
     // ========== 设备模式 ==========
     let deviceMode = false;
     let currentDevice = null;
+    let currentStreamController = null; // 用于 abort 正在进行中的 stream 请求
 
     // 显示设备引导
     function showDeviceGuide() {
@@ -3570,11 +3966,11 @@
     });
 
     // 流式聊天函数
-    async function streamChat(messages) {
+    async function streamChat(messages, onStatus) {
       const url = `https://www.test.zhisuancf.cn/zhisuancf/manage/api/v1/ai/${AI_PROVIDER}/stream/nothinking/proxy/v1/chat/completions`;
 
       const requestBody = {
-        model: currentModelId, // 使用当前选中的模型
+        model: currentModelId,
         messages: messages,
         stream: true,
         reasoning_effort: 'none',
@@ -3586,10 +3982,46 @@
         }
       };
 
+      // 如果有正在进行的请求，先取消
+      if (currentStreamController) {
+        console.log('[WhaleStream] aborting previous request');
+        currentStreamController.abort();
+        currentStreamController = null;
+      }
+
+      // 创建新的 AbortController
+      const controller = new AbortController();
+      currentStreamController = controller;
+      const signal = controller.signal;
+
+      // 120秒超时
+      const timeoutId = setTimeout(() => {
+        console.log('[WhaleStream] timeout reached, aborting');
+        controller.abort();
+      }, 120000);
+
+      console.log('[WhaleStream] start', { url, model: currentModelId, messageCount: messages.length });
+      console.log('[WhaleStream] requestBody model:', requestBody.model);
+      console.log('[WhaleStream] requestBody stream:', requestBody.stream);
+      console.log('[WhaleStream] requestBody messages[0] role:', messages[0]?.role);
+      console.log('[WhaleStream] requestBody messages[1] role:', messages[1]?.role);
+      console.log('[WhaleStream] requestBody messages[1] content type:', Array.isArray(messages[1]?.content) ? 'array' : typeof messages[1]?.content);
+      if (Array.isArray(messages[1]?.content)) {
+        console.log('[WhaleStream] requestBody messages[1] content items:', messages[1].content.map((c, i) => ({ i, type: c.type, textLen: c.text?.length, imgUrlLen: c.image_url?.url?.length })));
+      }
+      onStatus?.('connecting');
+
       try {
         const token = Storage.Auth.getToken();
-        log('[StreamChat] Token:', token ? token.substring(0, 20) + '...' : 'NULL');
-        log('[StreamChat] URL:', url);
+        console.log('[WhaleStream] request headers', {
+          hasToken: !!token,
+          tokenPrefix: token ? token.slice(0, 20) : '',
+          contentType: 'application/json'
+        });
+
+        onStatus?.('waiting');
+
+        console.log('[WhaleStream] full request body preview:', JSON.stringify(requestBody).substring(0, 1000));
         const response = await fetch(url, {
           method: 'POST',
           headers: {
@@ -3597,51 +4029,72 @@
             'x-auth-token': token || '',
             'x-app-key': 'h5-app'
           },
-          body: JSON.stringify(requestBody)
+          body: JSON.stringify(requestBody),
+          signal: signal
+        });
+
+        console.log('[WhaleStream] fetch response', {
+          status: response.status,
+          ok: response.ok,
+          contentType: response.headers.get('content-type')
         });
 
         if (!response.ok) {
-          log('[StreamChat] HTTP错误:', response.status, response.statusText);
+          const errorText = await response.text();
+          console.error('[WhaleStream] HTTP error', response.status, errorText);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        log('[StreamChat] 响应状态:', response.status);
-        log('[StreamChat] response.body:', response.body);
+        clearTimeout(timeoutId);
+        currentStreamController = null;
+        onStatus?.('streaming');
+
         return response;
       } catch (error) {
-        log('[StreamChat] 请求失败:', error);
-        log('[StreamChat] 错误类型:', error.name);
-        log('[StreamChat] 错误消息:', error.message);
+        clearTimeout(timeoutId);
+        currentStreamController = null;
+
+        if (error.name === 'AbortError') {
+          console.log('[WhaleStream] request aborted');
+          throw new Error('请求已取消');
+        }
+
+        console.error('[WhaleStream] error', error.name, error.message);
+        onStatus?.('error');
         throw error;
       }
     }
 
     // 解析SSE流
     function parseSSEStream(response, onChunk, onComplete, onError) {
-      log('[SSE] 开始解析流');
+      console.log('[WhaleStream] reader creating...');
       const reader = response.body.getReader();
-      log('[SSE] Reader获取成功');
+      console.log('[WhaleStream] reader created');
       const decoder = new TextDecoder();
       let buffer = '';
+      let chunkCount = 0;
+      let accumulatedLength = 0;
 
       function read() {
         reader.read().then(({ done, value }) => {
-          log('[SSE] read done:', done, 'value:', value ? value.length : 0);
+          console.log('[WhaleStream] read', { done, valueLength: value?.length });
           if (done) {
             if (buffer.length > 0) {
               processBuffer();
             }
-            log('[SSE] 流结束');
+            console.log('[WhaleStream] complete', { chunkCount, accumulatedLength });
             onComplete();
             return;
           }
 
-          buffer += decoder.decode(value, { stream: true });
-          log('[SSE] buffer当前长度:', buffer.length);
+          const chunkText = decoder.decode(value, { stream: true });
+          console.log('[WhaleStream] raw chunk', chunkText.substring(0, 200));
+          buffer += chunkText;
+          chunkCount++;
           processBuffer();
           read();
         }).catch(e => {
-          log('[SSE] 读取错误:', e);
+          console.error('[WhaleStream] read error', e.name, e.message);
           onError(e);
         });
       }
@@ -3654,17 +4107,19 @@
           if (line.startsWith('data: ')) {
             const data = line.slice(6).trim();
             if (data === '[DONE]') {
+              console.log('[WhaleStream] received [DONE]');
               return;
             }
             try {
               const json = JSON.parse(data);
-              // 提取content
               const content = json.choices?.[0]?.delta?.content;
               if (content) {
+                console.log('[WhaleStream] parsed text', content.substring(0, 100));
+                accumulatedLength += content.length;
                 onChunk(content);
               }
             } catch (e) {
-              log('[SSE] 解析失败:', data);
+              console.log('[WhaleStream] parse failed:', data.substring(0, 100));
             }
           }
         }
@@ -3675,7 +4130,7 @@
 
     // 吉祥物状态
     let isChatPanelOpen = false;
-    let bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '小鲸鱼随时待命'];
+    let bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '萤火虫随时待命'];
     let bubbleIndex = 0;
     
     // 初始化气泡提示循环
@@ -3767,7 +4222,7 @@
             assistantMessage.className = 'chat-message assistant';
             assistantMessage.innerHTML = `
               <div class="chat-avatar assistant">
-                <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+                <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
               </div>
               <div class="chat-content">
                 <div class="chat-bubble">收到你的问题："${message}"，我来为你分析...</div>
@@ -3815,7 +4270,7 @@
     
     // 5帧眨眼动画控制器
     const whaleStates = {
-      opened: 'images/whale-body-open.svg',
+      opened: 'images/yinghuochong-logo.png',
       halfclosed: 'images/whale-body-half.svg',
       closed: 'images/whale-body-closed.svg'
     };
@@ -3884,7 +4339,7 @@
         backFin.classList.add('animating');
       }
       
-      let greetings = ['你好！我是小鲸鱼', '有什么可以帮你的吗？', '随时为你服务！'];
+      let greetings = ['你好！我是萤火虫', '有什么可以帮你的吗？', '随时为你服务！'];
       if (currentAgentName === '星崽') {
         greetings = ['你好！我是星崽', '有什么可以帮你的吗？', '随时为你服务！'];
       }
@@ -4013,129 +4468,123 @@
     }
 
     // ==================== 处理文件选择 ====================
-    // 存储当前附加的文件数据
-    let attachedFileData = null;
-    let attachedFileName = null;
-    let attachedFileType = null;
+    // 存储当前附加的文件数据（支持多文件）
+    let attachedFiles = []; // [{name, type, data, size, id}]
 
     function handleFileSelected(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
 
-      log('[FileUpload] 选择了文件:', file.name, file.size, file.type);
+      log('[FileUpload] 选择了文件:', files.map(f => f.name).join(', '));
 
-      // 判断文件类型
-      const fileName = file.name.toLowerCase();
-      let fileType = 'document';
+      files.forEach(file => {
+        const fileName = file.name.toLowerCase();
+        let fileType = 'document';
 
-      if (fileName.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/)) {
-        fileType = 'image';
-      } else if (fileName.match(/\.(xls|xlsx|csv)$/)) {
-        fileType = 'spreadsheet';
-      } else if (fileName.match(/\.(pdf|doc|docx|txt)$/)) {
-        fileType = 'document';
-      }
-
-      // 存储文件数据
-      attachedFileName = file.name;
-      attachedFileType = fileType;
-
-      // 读取文件
-      if (fileType === 'image') {
-        // 图片文件读取为 base64
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          attachedFileData = e.target.result;
-          showFilePreview(fileType, file.name, file.size, attachedFileData);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        // 文档和表格只存储文件信息，不读取内容
-        attachedFileData = null;
-        showFilePreview(fileType, file.name, file.size, null);
-      }
-
-      // 清空 input 以便重复选择同一文件
-      event.target.value = '';
-
-      // 聚焦到输入框
-      const chatInput = document.getElementById('chatInput');
-      if (chatInput) {
-        chatInput.focus();
-      }
-    }
-
-    // ==================== 显示文件预览 ====================
-    function showFilePreview(fileType, fileName, fileSize, dataUrl) {
-      const previewArea = document.getElementById('imagePreviewArea');
-      const previewImage = document.getElementById('previewImage');
-      const previewFileName = document.getElementById('previewFileName');
-      const previewFileType = document.getElementById('previewFileType');
-      const filePreviewIcon = document.getElementById('filePreviewIcon');
-
-      if (!previewArea || !previewFileName) return;
-
-      // 文件类型配置
-      const typeConfig = {
-        image: { label: '图片', color: '#DBEAFE', icon: 'image' },
-        document: { label: '文档', color: '#DCFCE7', icon: 'document' },
-        spreadsheet: { label: '表格', color: '#FEF3C7', icon: 'spreadsheet' }
-      };
-
-      const config = typeConfig[fileType] || typeConfig.document;
-
-      if (fileType === 'image' && dataUrl) {
-        if (previewImage) previewImage.src = dataUrl;
-        if (previewImage) previewImage.style.display = 'block';
-        if (filePreviewIcon) filePreviewIcon.style.background = config.color;
-        if (previewFileType) previewFileType.textContent = config.label;
-      } else {
-        // 非图片文件显示图标
-        if (previewImage) {
-          previewImage.src = '';
-          previewImage.style.display = 'none';
+        if (fileName.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/)) {
+          fileType = 'image';
+        } else if (fileName.match(/\.(xls|xlsx|csv)$/)) {
+          fileType = 'spreadsheet';
+        } else if (fileName.match(/\.(pdf|doc|docx|txt)$/)) {
+          fileType = 'document';
         }
-        if (filePreviewIcon) filePreviewIcon.style.background = config.color;
 
-        // 插入 SVG 图标
-        const iconSvg = fileType === 'spreadsheet'
-          ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>`
-          : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+        const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
 
-        if (filePreviewIcon) filePreviewIcon.innerHTML = iconSvg;
-        if (previewFileType) previewFileType.textContent = config.label;
-      }
+        if (fileType === 'image') {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const fileData = {
+              id: fileId,
+              name: file.name,
+              type: fileType,
+              data: e.target.result,
+              size: file.size
+            };
+            attachedFiles.push(fileData);
+            addPreviewItem(fileData);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          const fileData = {
+            id: fileId,
+            name: file.name,
+            type: fileType,
+            data: null,
+            size: file.size
+          };
+          attachedFiles.push(fileData);
+          addPreviewItem(fileData);
+        }
+      });
 
-      if (previewFileName) previewFileName.textContent = fileName;
-      if (previewArea) previewArea.style.display = 'block';
+      event.target.value = '';
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) chatInput.focus();
     }
 
-    // ==================== 移除附加的文件 ====================
+    // ==================== 添加预览项 ====================
+    function addPreviewItem(fileData) {
+      const container = document.getElementById('imagePreviewContainer');
+      if (!container) return;
+
+      container.style.display = 'flex';
+
+      const item = document.createElement('div');
+      item.className = 'preview-item';
+      item.dataset.fileId = fileData.id;
+
+      if (fileData.type === 'image' && fileData.data) {
+        item.innerHTML = `
+          <img src="${fileData.data}" alt="${fileData.name}">
+          <button class="remove-btn" onclick="removePreviewItem('${fileData.id}')">×</button>
+        `;
+      } else {
+        const iconColor = fileData.type === 'spreadsheet' ? '#F59E0B' : '#10B981';
+        const iconSvg = fileData.type === 'spreadsheet'
+          ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>`
+          : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+        item.innerHTML = `
+          <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--card-bg);">${iconSvg}</div>
+          <button class="remove-btn" onclick="removePreviewItem('${fileData.id}')">×</button>
+          <div class="file-info">${fileData.name}</div>
+        `;
+      }
+
+      container.appendChild(item);
+      log('[FileUpload] 添加预览项:', fileData.name, '总共:', attachedFiles.length);
+    }
+
+    // ==================== 移除预览项 ====================
+    function removePreviewItem(fileId) {
+      attachedFiles = attachedFiles.filter(f => f.id !== fileId);
+      const item = document.querySelector(`[data-file-id="${fileId}"]`);
+      if (item) item.remove();
+
+      const container = document.getElementById('imagePreviewContainer');
+      if (container && attachedFiles.length === 0) {
+        container.style.display = 'none';
+      }
+
+      log('[FileUpload] 移除文件, 剩余:', attachedFiles.length);
+    }
+
+    // 兼容旧接口
     function removeAttachedFile() {
-      attachedFileData = null;
-      attachedFileName = null;
-      attachedFileType = null;
+      attachedFiles = [];
+      const container = document.getElementById('imagePreviewContainer');
+      if (container) {
+        container.innerHTML = '';
+        container.style.display = 'none';
+      }
+    }
 
-      const previewArea = document.getElementById('imagePreviewArea');
-      const previewImage = document.getElementById('previewImage');
-      const filePreviewIcon = document.getElementById('filePreviewIcon');
-
-      if (previewArea) {
-        previewArea.style.display = 'none';
-      }
-      if (previewImage) {
-        previewImage.src = '';
-        previewImage.style.display = 'none';
-      }
-      if (filePreviewIcon) {
-        filePreviewIcon.innerHTML = '';
-      }
-
-      // 清空文件输入
-      const fileInput = document.getElementById('fileInput');
-      if (fileInput) {
-        fileInput.value = '';
-      }
+    // ==================== 显示文件预览（兼容旧接口） ====================
+    function showFilePreview(fileType, fileName, fileSize, dataUrl) {
+      const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+      const fileData = { id: fileId, name: fileName, type: fileType, data: dataUrl, size: fileSize };
+      attachedFiles.push(fileData);
+      addPreviewItem(fileData);
     }
 
     // ==================== 格式化文件大小 ====================
@@ -4236,7 +4685,7 @@
       card.className = 'chat-message assistant result-card';
       card.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
         </div>
         <div class="chat-content">
           <div class="chat-bubble result-file-card" style="padding: 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055); cursor: pointer;" onclick="viewSummary()">
@@ -4276,7 +4725,7 @@
       card.className = 'chat-message assistant summary-card';
       card.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
         </div>
         <div class="chat-content">
           <div class="chat-bubble" style="padding: 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);">
@@ -4303,7 +4752,7 @@
       card.className = 'chat-message assistant risk-card';
       card.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
         </div>
         <div class="chat-content">
           <div class="chat-bubble" style="padding: 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);">
@@ -4346,7 +4795,7 @@
       card.className = 'chat-message assistant table-card';
       card.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
         </div>
         <div class="chat-content">
           <div class="chat-bubble" style="padding: 14px;">
@@ -4383,7 +4832,7 @@
       card.className = 'chat-message assistant image-result-card';
       card.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+          <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
         </div>
         <div class="chat-content">
           <div class="chat-bubble" style="padding: 14px;">
@@ -4436,6 +4885,22 @@
     // ========== 文本处理工具 ==========
     function isCreativeTask(text) {
       return /写一篇|写个|散文|文章|文案|脚本|报告|描绘|描述|创作/.test(text);
+    }
+
+    function shouldUseArticleLayout(userMessage) {
+      const text = String(userMessage || '').trim();
+      const articleKeywords = [
+        '写一篇', '生成一篇', '整理成文章', '生成文章',
+        '写笔记', '整理笔记', '会议纪要', '学习笔记',
+        '生成报告', '分析报告', '总结报告',
+        '写方案', '策划方案', '产品方案', '需求文档',
+        '写脚本', '宣传脚本', '视频脚本',
+        '写文案', '宣传文案', '公众号', '小红书',
+        '整理成文档', '整理成段落', '正式一点',
+        '分段写', '结构化输出', '详细展开',
+        '写一篇', '帮我写', '帮我生成', '生成一份'
+      ];
+      return articleKeywords.some(keyword => text.includes(keyword));
     }
 
     function cleanMarkdownText(text) {
@@ -4543,9 +5008,122 @@
 
     function scrollToBottom() { const c = document.getElementById('chatSection'); if (c) c.scrollTop = c.scrollHeight; }
 
-    function addUserMessage(text) { const c = document.getElementById('chatSection'); const m = document.createElement('div'); m.className = 'chat-message user'; m.innerHTML = '<div class="chat-avatar user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div></div>'; c.appendChild(m); scrollToBottom(); }
+    function addUserMessage(text) {
+      lastUserMessage = text; // 保存用户消息，用于重新回答
+      const c = document.getElementById('chatSection');
+      const m = document.createElement('div');
+      m.className = 'chat-message user';
+      m.innerHTML = '<div class="chat-avatar user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div></div>';
+      c.appendChild(m);
+      scrollToBottom();
+    }
 
-    function addAssistantMessage(text, actions) { const c = document.getElementById('chatSection'); const m = document.createElement('div'); m.className = 'chat-message assistant'; m.innerHTML = '<div class="chat-avatar assistant"><img src="images/whale-body-open.svg" alt="" style="width:20px;height:20px;object-fit:contain"></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div><div class="message-actions"><button class="message-action-btn" title="点赞"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg></button><button class="message-action-btn" title="复制"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div></div>'; c.appendChild(m); if (actions && actions.length > 0) { const d = document.createElement('div'); d.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;margin-bottom:18px;margin-left:42px'; actions.forEach(a => { const b = document.createElement('button'); b.className = 'skill-action-btn'; b.textContent = a; b.onclick = function() { handleSkillAction(a); }; d.appendChild(b); }); m.querySelector('.chat-content').appendChild(d); } scrollToBottom(); }
+    // 存储上一条用户消息（用于重新回答）
+    let lastUserMessage = '';
+
+    // 复制消息内容
+    function copyMessageContent(messageElement) {
+      const bubble = messageElement.querySelector('.chat-bubble') || messageElement.querySelector('.bubble-content');
+      if (bubble) {
+        const text = bubble.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          showDemoToast('已复制到剪贴板');
+        }).catch(() => {
+          showDemoToast('复制失败');
+        });
+      }
+    }
+
+    // 点赞消息
+    function likeMessage(messageElement) {
+      const btn = messageElement.querySelector('[title="点赞"]');
+      if (btn) {
+        btn.classList.toggle('liked');
+        const isLiked = btn.classList.contains('liked');
+        
+        // 取消点踩
+        const dislikeBtn = messageElement.querySelector('[title="点踩"]');
+        if (dislikeBtn) dislikeBtn.classList.remove('liked');
+        
+        showDemoToast(isLiked ? '已点赞' : '已取消点赞');
+      }
+    }
+
+    // 点踩消息
+    function dislikeMessage(messageElement) {
+      const btn = messageElement.querySelector('[title="点踩"]');
+      if (btn) {
+        btn.classList.toggle('disliked');
+        const isDisliked = btn.classList.contains('disliked');
+
+        // 取消点赞
+        const likeBtn = messageElement.querySelector('[title="点赞"]');
+        if (likeBtn) likeBtn.classList.remove('liked');
+
+        showDemoToast(isDisliked ? '已点踩' : '已取消点踩');
+      }
+    }
+
+    // 重新回答
+    function regenerateMessage(messageElement) {
+      if (lastUserMessage) {
+        showDemoToast('正在重新生成...');
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) {
+          chatInput.value = lastUserMessage;
+          // 删除当前助手消息
+          messageElement.remove();
+          // 触发发送
+          setTimeout(() => {
+            const sendBtn = document.getElementById('sendBtn');
+            if (sendBtn) sendBtn.click();
+          }, 300);
+        }
+      } else {
+        showDemoToast('没有可重新回答的消息');
+      }
+    }
+
+    // 为消息气泡添加操作按钮功能
+    function attachMessageActions(messageElement, text) {
+      const actions = messageElement.querySelector('.message-actions');
+      if (actions) {
+        const likeBtn = actions.querySelector('[title="点赞"]');
+        const dislikeBtn = actions.querySelector('[title="点踩"]');
+        const copyBtn = actions.querySelector('[title="复制"]');
+        const regenerateBtn = actions.querySelector('[title="重新回答"]');
+
+        if (likeBtn) likeBtn.onclick = () => likeMessage(messageElement);
+        if (dislikeBtn) dislikeBtn.onclick = () => dislikeMessage(messageElement);
+        if (copyBtn) copyBtn.onclick = () => copyMessageContent(messageElement);
+        if (regenerateBtn) regenerateBtn.onclick = () => regenerateMessage(messageElement);
+      }
+    }
+
+    function addAssistantMessage(text, actions) {
+      const c = document.getElementById('chatSection');
+      const m = document.createElement('div');
+      m.className = 'chat-message assistant';
+      m.innerHTML = '<div class="chat-avatar assistant"><img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain"></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div><div class="message-actions"><button class="message-action-btn" title="点赞"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg></button><button class="message-action-btn" title="点踩"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 14V2"/><path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/></svg></button><button class="message-action-btn" title="复制"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><button class="message-action-btn" title="重新回答"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div></div>';
+      c.appendChild(m);
+      
+      // 添加按钮功能
+      attachMessageActions(m, text);
+      
+      if (actions && actions.length > 0) {
+        const d = document.createElement('div');
+        d.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;margin-bottom:18px;margin-left:42px';
+        actions.forEach(a => {
+          const b = document.createElement('button');
+          b.className = 'skill-action-btn';
+          b.textContent = a;
+          b.onclick = function() { handleSkillAction(a); };
+          d.appendChild(b);
+        });
+        m.querySelector('.chat-content').appendChild(d);
+      }
+      scrollToBottom();
+    }
 
     function addTaskCard(title, desc, status) { const c = document.getElementById('chatSection'); const t = document.createElement('div'); t.className = 'task-card'; t.id = 'currentTaskCard'; t.style.cssText = 'background:rgba(30,58,138,0.2);border:1px solid rgba(37,99,235,0.25);border-radius:12px;padding:14px;margin:10px 0 10px 42px;max-width:85%'; t.innerHTML = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:32px;height:32px;background:rgba(37,99,235,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">'+title+'</div></div><div style="font-size:12px;color:var(--text-secondary)" class="task-desc">'+desc+'</div>'; c.appendChild(t); scrollToBottom(); }
 
@@ -4741,45 +5319,72 @@
       ];
 
       // 构建用户消息（支持多模态）
-      if (attachedFileData) {
+      if (attachedFiles.length > 0) {
         // 有文件数据（图片）的多模态消息
-        messages.push({
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: content
-            },
-            {
+        const userContent = [{ type: 'text', text: content }];
+        attachedFiles.forEach(file => {
+          if (file.type === 'image') {
+            console.log('[WhaleStream] adding image to message', {
+              name: file.name,
+              size: file.size,
+              dataLength: file.data?.length,
+              dataPrefix: file.data?.substring(0, 50)
+            });
+            userContent.push({
               type: 'image_url',
-              image_url: {
-                url: attachedFileData
-              }
-            }
-          ]
+              image_url: { url: file.data }
+            });
+          }
         });
-      } else if (attachedFileName) {
-        // 只有文件名的消息（文档、表格等暂不支持base64）
-        messages.push({
-          role: 'user',
-          content: content + '\n\n[附件: ' + attachedFileName + ']'
-        });
+        console.log('[WhaleStream] userContent array:', JSON.stringify(userContent, null, 2).substring(0, 500));
+        messages.push({ role: 'user', content: userContent });
       } else {
         messages.push({ role: 'user', content: content });
       }
 
       // 清除附加的文件
-      removeAttachedFile();
+      attachedFiles = [];
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      if (previewContainer) {
+        previewContainer.innerHTML = '';
+        previewContainer.style.display = 'none';
+      }
 
       // 创建助手消息占位
       const assistantBubble = createAssistantBubble();
       let fullResponseText = '';
+      let hasReceivedContent = false;
 
       // 保存用户输入用于后续判断
       window._lastUserInput = content;
 
+      // 状态更新回调
+      function onStreamStatus(status) {
+        console.log('[WhaleStream] status:', status);
+        const bubbleEl = assistantBubble.querySelector('.chat-bubble');
+        if (!bubbleEl) return;
+
+        switch (status) {
+          case 'connecting':
+            bubbleEl.textContent = '正在连接...';
+            break;
+          case 'waiting':
+            bubbleEl.textContent = '等待模型响应...';
+            break;
+          case 'streaming':
+            if (!hasReceivedContent) {
+              hasReceivedContent = true;
+              bubbleEl.textContent = '';
+            }
+            break;
+          case 'error':
+            bubbleEl.textContent = '请求失败';
+            break;
+        }
+      }
+
       // 流式调用AI
-      streamChat(messages)
+      streamChat(messages, onStreamStatus)
         .then(response => {
           parseSSEStream(
             response,
@@ -4790,7 +5395,10 @@
             },
             () => {
               // 完成
-              log('[StreamChat] 完成');
+              console.log('[WhaleStream] stream complete, text length:', fullResponseText.length);
+              if (fullResponseText.length === 0) {
+                appendToAssistantBubble(assistantBubble, '\n\n[暂未收到模型返回内容，请稍后重试]');
+              }
               finalizeAssistantMessage(assistantBubble, fullResponseText);
               input.disabled = false;
               sendBtn.disabled = false;
@@ -4799,7 +5407,7 @@
             },
             (error) => {
               // 错误
-              log('[StreamChat] 错误:', error);
+              console.error('[WhaleStream] stream error:', error);
               appendToAssistantBubble(assistantBubble, '\n\n[连接失败，请重试]');
               input.disabled = false;
               sendBtn.disabled = false;
@@ -4808,8 +5416,8 @@
           );
         })
         .catch(error => {
-          log('[StreamChat] 请求失败:', error);
-          appendToAssistantBubble(assistantBubble, '\n\n[网络错误，请检查连接]');
+          console.error('[WhaleStream] request failed:', error);
+          appendToAssistantBubble(assistantBubble, '\n\n[网络错误：' + error.message + ']');
           input.disabled = false;
           sendBtn.disabled = false;
           sendBtn.classList.remove('sending');
@@ -4822,7 +5430,7 @@
       const message = input.value.trim();
 
       // 如果既没有文字也没有附加文件，忽略
-      if (!message && !attachedFileName) {
+      if (!message && attachedFiles.length === 0) {
         return;
       }
 
@@ -4838,8 +5446,10 @@
       sendBtn.classList.add('sending');
 
       // 如果有附加文件，先显示文件卡片
-      if (attachedFileName) {
-        addUserUploadCard(attachedFileType || 'document', attachedFileName, formatFileSize(0), attachedFileData);
+      if (attachedFiles.length > 0) {
+        attachedFiles.forEach(file => {
+          addUserUploadCard(file.type, file.name, formatFileSize(file.size), file.data);
+        });
       }
 
       // 添加用户文字消息（如果有）
@@ -4852,7 +5462,7 @@
       textarea.style.height = 'auto';
 
       // 构建消息内容
-      let content = message || '请分析这个文件';
+      let content = message || '请分析这些文件';
 
       // 如果是创作类任务，追加格式要求
       if (isCreativeTask(content)) {
@@ -4865,35 +5475,29 @@
       ];
 
       // 构建用户消息（支持多模态）
-      if (attachedFileData) {
+      if (attachedFiles.length > 0) {
         // 有文件数据（图片）的多模态消息
-        messages.push({
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: content
-            },
-            {
+        const userContent = [{ type: 'text', text: content }];
+        attachedFiles.forEach(file => {
+          if (file.type === 'image') {
+            userContent.push({
               type: 'image_url',
-              image_url: {
-                url: attachedFileData
-              }
-            }
-          ]
+              image_url: { url: file.data }
+            });
+          }
         });
-      } else if (attachedFileName) {
-        // 只有文件名的消息（文档、表格等暂不支持base64）
-        messages.push({
-          role: 'user',
-          content: content + '\n\n[附件: ' + attachedFileName + ']'
-        });
+        messages.push({ role: 'user', content: userContent });
       } else {
         messages.push({ role: 'user', content: content });
       }
 
       // 清除附加的文件
-      removeAttachedFile();
+      attachedFiles = [];
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      if (previewContainer) {
+        previewContainer.innerHTML = '';
+        previewContainer.style.display = 'none';
+      }
 
       // 创建助手消息占位
       const assistantBubble = createAssistantBubble();
@@ -4947,7 +5551,7 @@
       msg.className = 'chat-message assistant';
       msg.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width:20px;height:20px;object-fit:contain">
+          <img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain">
         </div>
         <div class="chat-content">
           <div class="chat-bubble">正在思考...</div>
@@ -4981,9 +5585,10 @@
       const cleanedText = formatTextForMobile(fullText);
       const userInput = window._lastUserInput || '';
 
-      const isCreative = isCreativeTask(userInput);
+      const useArticle = shouldUseArticleLayout(userInput);
+      console.log('[Render] finalizeAssistantMessage', { useArticle, userInput: userInput.substring(0, 50) });
 
-      if (isLongContent(cleanedText) || isCreative) {
+      if (useArticle) {
         const title = extractTitle(cleanedText);
         const bodyLines = cleanedText.split('\n').map(l => l.trim()).filter(Boolean);
         const body = bodyLines.slice(1).join('\n');
@@ -5077,7 +5682,7 @@
     const accountData = Storage.getSession('auth_account_data') || Storage.get('auth_account_data');
     
     // 获取当前账号的智能体名称
-    const currentAgentName = accountData && accountData.agentName ? accountData.agentName : '小鲸鱼';
+    const currentAgentName = accountData && accountData.agentName ? accountData.agentName : '萤火虫';
     
     // 工作台相关 DOM 元素
     const workbenchSection = document.getElementById('workbenchSection');
@@ -5113,7 +5718,7 @@
     let isAgentLoading = false;
     function showAgentEntryLoading(options = {}) {
       const {
-        title = '正在唤醒小鲸鱼',
+        title = '正在唤醒萤火虫',
         minDuration = 1200,
         onComplete
       } = options;
@@ -5247,7 +5852,7 @@
           log('Updated bubble to: 你好，我是星崽！');
         }
       } else {
-        bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '小鲸鱼随时待命'];
+        bubbleMessages = ['需要帮忙吗？', '点击咨询金融问题', '萤火虫随时待命'];
       }
       
       // 根据账号切换角色形象
@@ -5269,7 +5874,7 @@
           panelInput.placeholder = '请输入设备、场景或控制指令';
         }
       } else {
-        // 显示小鲸鱼角色
+        // 显示萤火虫角色
         if (whaleMascot) whaleMascot.style.display = 'block';
         if (starMascot) starMascot.style.display = 'none';
       }
@@ -5900,7 +6505,7 @@
       msg.className = 'chat-message assistant';
       msg.innerHTML = `
         <div class="chat-avatar assistant">
-          <img src="images/whale-body-open.svg" alt="" style="width:20px;height:20px;object-fit:contain">
+          <img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain">
         </div>
         <div class="chat-content">
           <div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>
@@ -6113,11 +6718,11 @@
       chatSection.innerHTML = `
         <div class="chat-message assistant welcome-message">
           <div class="chat-avatar assistant">
-            <img src="images/whale-body-open.svg" alt="" style="width: 24px; height: 24px; object-fit: contain;">
+            <img src="images/yinghuochong-logo.png" alt="" style="width: 24px; height: 24px; object-fit: contain;">
           </div>
           <div class="chat-content">
             <div class="chat-bubble">
-              你好，我是小鲸鱼。<br><br>
+              你好，我是萤火虫。<br><br>
               你可以输入文字任务，也可以上传图片、文档、表格或票据资料。我会根据内容引导你完成识别、整理、分析和报告生成。
             </div>
             <div class="chat-time">刚刚</div>
@@ -6300,7 +6905,7 @@
       let html = `
         <div class="chat-message assistant">
           <div class="chat-avatar assistant">
-            <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+            <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
           </div>
           <div class="chat-content">
             <div class="chat-bubble">${escapeHtml(msg.text).replace(/\n/g, '<br>')}</div>
@@ -6341,7 +6946,7 @@
       return `
         <div class="chat-message assistant">
           <div class="chat-avatar assistant">
-            <img src="images/whale-body-open.svg" alt="" style="width: 20px; height: 20px; object-fit: contain;">
+            <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
           </div>
           <div class="chat-content">
             <div class="chat-bubble result-file-card" style="padding: 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055); cursor: pointer;" onclick="viewSummary()">
@@ -6480,7 +7085,7 @@
   <script src="bottom-nav.js"></script>
 </body>
   
-  <!-- 小鲸鱼/智能体加载弹窗 -->
+  <!-- 萤火虫/智能体加载弹窗 -->
   <div class="agent-loading" id="agentLoading">
     <div class="agent-loading-mask"></div>
     <div class="agent-loading-card">
@@ -6491,7 +7096,7 @@
           <path d="M12 8h.01"/>
         </svg>
       </div>
-      <div class="agent-loading-title" id="agentLoadingTitle">正在唤醒小鲸鱼</div>
+      <div class="agent-loading-title" id="agentLoadingTitle">正在唤醒萤火虫</div>
       <div class="agent-loading-desc" id="agentLoadingDesc">正在连接个人数字大脑…</div>
       <div class="agent-loading-progress">
         <div class="agent-loading-progress-bar" id="agentLoadingProgressBar"></div>

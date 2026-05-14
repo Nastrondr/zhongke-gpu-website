@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>词元生产 - 个人小鲸鱼-数字大脑</title>
+  <title>词元生产 - 个人萤火虫-数字大脑</title>
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -493,6 +493,67 @@
       .summary-card .value {
         font-size: 16px;
       }
+    }
+
+    /* 深色模式覆盖 */
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .page-header {
+      background: transparent;
+    }
+
+    html[data-theme="dark"] .back {
+      color: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .page-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .stat-card .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .stat-card .value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .summary-card .label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .summary-card .value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .summary-card .unit {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .tab-bar {
+      background: transparent;
+    }
+
+    html[data-theme="dark"] .tab-item {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .tab-item.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
     }
   </style>
   <script src="/h5/js/utils/storage.js"></script>

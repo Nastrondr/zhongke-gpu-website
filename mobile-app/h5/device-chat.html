@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>小龙虾设备对话</title>
+  <link rel="icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="shortcut icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon2.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="数字大脑">
+  <meta name="application-name" content="数字大脑">
   <link rel="stylesheet" href="css/theme-variables.css">
   <style>
     /* 薄层兼容映射 - 使用全局变量并保留聊天特有颜色 */
@@ -176,6 +186,27 @@
     .header-status.offline { background: rgba(100, 116, 139, 0.12); color: #64748B; }
     .header-status.error { background: rgba(239, 68, 68, 0.12); color: #DC2626; }
 
+    .header-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .header-action:hover {
+      background: rgba(96, 165, 250, 0.15);
+      color: var(--brand-primary);
+    }
+
+    .header-action svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* 设备信息 */
     .device-info {
       display: flex;
@@ -280,6 +311,87 @@
       border: 1px solid var(--accent-red);
     }
 
+    .chat-message .message-content {
+      line-height: 1.6;
+    }
+
+    .chat-message.loading {
+      opacity: 0.7;
+    }
+
+    .chat-message.streaming::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-left: 8px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .bubble-status {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .chat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-primary);
+      border-radius: 8px;
+      margin: 8px 0;
+      overflow: hidden;
+    }
+
+    .chat-card .card-header {
+      background: var(--bg-secondary);
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .chat-card .card-body {
+      padding: 12px;
+    }
+
+    .command-output-text {
+      background: var(--bg-primary);
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 0;
+    }
+
+    .card-toggle {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 4px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .card-toggle:hover {
+      background: var(--bg-hover);
+    }
+
     /* Markdown 渲染样式 */
     .chat-message strong {
       font-weight: 700;
@@ -382,9 +494,9 @@
     }
     .chat-input::placeholder { color: #94A3B8; font-size: 15px; }
     .send-btn {
-      width: 52px;
-      height: 52px;
-      min-width: 52px;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
       border-radius: 50%;
       background: linear-gradient(135deg, #3B82F6, #2563EB);
       border: none;
@@ -435,7 +547,7 @@
       返回
     </a>
     <div class="header-title">设备对话</div>
-    <div class="header-status" id="serviceStatus">服务正常</div>
+    <div class="header-status" id="serviceStatus"></div>
   </div>
 
   <!-- 设备信息 -->
@@ -480,9 +592,11 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 11a6 6 0 0 0-9.93-4.93M18 8v6M15 8h.01M10 21V5"/></svg>
       打招呼
     </button>
-    <button class="quick-cmd" onclick="startNewSession()" style="color: var(--success);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-      新会话
+    <button class="quick-cmd" onclick="window.location.href='/h5/session-center.html'" style="color: var(--success);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      管理会话
     </button>
   </div>
 
@@ -522,7 +636,7 @@
     const runtimeState = {
       deviceOnline: false,
       deviceStatusText: '设备状态未知',
-      
+      wsAlive:false,
       openclawOnline: false,
       openclawStatusText: '检测中',
       
@@ -531,42 +645,76 @@
     
     // 更新状态显示
     function updateStatusDisplay() {
+      console.log('[DeviceChat] updateStatusDisplay');
       const statusDot = document.getElementById('statusDot');
       const statusText = document.getElementById('statusText');
-      
-      if (statusDot && statusText) {
-        // 右上角显示小龙虾服务状态
-        statusDot.className = 'status-dot ' + (runtimeState.openclawOnline ? 'online' : 'offline');
-        statusText.textContent = runtimeState.openclawOnline ? '服务正常' : '服务未启动';
+      const deviceStatusText = document.getElementById('deviceStatusText');
+      console.log('[DeviceChat] updateStatusDisplay runtimeState:', runtimeState);
+      const { deviceOnline, openclawOnline, wsAlive } = runtimeState;
+
+      console.log('[DeviceChat] updateStatusDisplay deviceOnline:', deviceOnline, 'openclawOnline:', openclawOnline, 'wsAlive:', wsAlive);
+
+      // 计算综合状态文本
+      let overallStatus = '';
+      let dotClass = 'offline';
+
+      if (!deviceOnline) {
+        overallStatus = '设备离线';
+        dotClass = 'offline';
+      } else if (deviceOnline && !openclawOnline) {
+        overallStatus = '设备在线 · 服务未启动';
+        dotClass = 'warning';
+      } else if (deviceOnline && wsAlive) {
+        overallStatus = '设备在线 · 服务已启动';
+        dotClass = 'online';
       }
-      
+
+      // 右上角状态胶囊
+      if (statusDot && statusText) {
+        statusDot.className = 'status-dot ' + dotClass;
+        statusText.textContent = overallStatus;
+      }
+
       // 更新设备状态显示
       const deviceStatusDot = document.getElementById('deviceStatusDot');
-      const deviceStatusText = document.getElementById('deviceStatusText');
-      
-      if (deviceStatusDot && deviceStatusText) {
-        deviceStatusDot.className = 'status-dot ' + (runtimeState.deviceOnline ? 'online' : 'offline');
-        deviceStatusText.textContent = runtimeState.deviceStatusText;
+      if (deviceStatusDot && deviceStatusDot) {
+        deviceStatusDot.className = 'status-dot ' + (deviceOnline ? 'online' : 'offline');
+      }
+      if (deviceStatusText) {
+        deviceStatusText.textContent = deviceOnline ? '设备在线' : '设备离线';
       }
     }
     
     // 查询小龙虾服务状态
     async function checkOpenclawStatus(deviceId) {
+      console.log('[DeviceChat] checkOpenclawStatus deviceId:', deviceId);
       try {
         const result = await window.OpenClawChatService.queryOpenClawStatus(deviceId);
-        runtimeState.openclawOnline = result.wasLive;
-        runtimeState.openclawStatusText = result.error 
-          ? '检测失败' 
-          : (result.wasLive ? '在线' : '离线');
-        console.log('[StateDebug] openclawOnline wasLive:', result.wasLive);
+        console.log('[DeviceChat] checkOpenclawStatus result:', result);
+        console.log('[DeviceChat] checkOpenclawStatus wasLive:', result.wasLive);
+        const wasLive = result.wsAlive;
+        runtimeState.openclawOnline = wasLive;
+        runtimeState.openclawStatusText = wasLive ? '在线' : '离线';
+        runtimeState.canChat = result.wsAvlie;
+        runtimeState.wsAlive = result.wsAvlie;
+        
+        updateStatusDisplay();
+
+        if (wasLive) {
+          // 服务已上线
+          clearSystemNotice('openclaw_offline_notice');
+        } else {
+          // 服务仍未上线
+          addSystemNoticeOnce('openclaw_offline_notice', '萤火虫服务未在线，请确认服务已启动后重试。', 'warning');
+        }
       } catch (e) {
+        console.error('[DeviceChat] checkOpenclawStatus failed:', e);
         runtimeState.openclawOnline = false;
         runtimeState.openclawStatusText = '检测失败';
-        console.error('[StateDebug] openclaw status check failed:', e);
+        runtimeState.canChat = false;
+        updateStatusDisplay();
+        addSystemNoticeOnce('openclaw_offline_notice', '萤火虫服务未在线，请确认服务已启动后重试。', 'warning');
       }
-      
-      runtimeState.canChat = runtimeState.openclawOnline;
-      updateStatusDisplay();
     }
     
     // 初始化运行时状态
@@ -583,9 +731,22 @@
       console.log('[StateDebug] deviceOnline:', runtimeState.deviceOnline, device?.status, device?.manageState);
       
       // 小龙虾服务状态
-      const deviceUuid = window.OpenClawChatService.resolveDeviceUuid(device);
-      if (deviceUuid) {
-        await checkOpenclawStatus(deviceUuid);
+      const numericDeviceId = resolveNumericDeviceId(device);
+      if (numericDeviceId) {
+        console.log('[OpenClawDevice] numericDeviceId:', numericDeviceId, typeof numericDeviceId);
+        console.log('[OpenClawDevice] iotDeviceUuid:', device?.iotDeviceUuid);
+        console.log('[OpenClawDevice] routeDeviceId:', device?.routeDeviceId);
+        console.log('[OpenClawDevice] sn:', device?.sn);
+        await checkOpenclawStatus(numericDeviceId);
+      }
+
+      // 根据状态显示不同的消息
+      if (runtimeState.deviceOnline && runtimeState.openclawOnline) {
+        addAssistantMessage('萤火虫已就绪，可以帮你查询设备状态、执行任务或处理资料。');
+      } else if (runtimeState.deviceOnline && !runtimeState.openclawOnline) {
+        addSystemNoticeOnce('openclaw_offline_notice', '设备在线，但萤火虫服务未启动。请点击右上角刷新检测，或启动服务后再试。', 'warning');
+      } else {
+        addSystemNoticeOnce('device_offline_notice', '设备离线，请检查设备网络或电源。', 'error');
       }
     }
     
@@ -635,13 +796,50 @@
       return params.get('deviceId');
     }
 
+    // 解析数字型 deviceId（用于 API 路径）
+    // 注意：此函数只返回数字 ID，不返回字符串 UUID
+    function resolveNumericDeviceId(device, fallbackId) {
+      // 优先使用 device.id 或 device.deviceId
+      const rawId = device?.id || device?.deviceId || fallbackId;
+      const numericId = Number(rawId);
+      
+      if (!Number.isFinite(numericId)) {
+        // 如果是 UUID 字符串，返回 null 并记录错误
+        console.error('[DeviceId] invalid numeric device id', {
+          rawId,
+          deviceId: device?.id,
+          deviceDeviceId: device?.deviceId,
+          fallbackId,
+          iotDeviceUuid: device?.iotDeviceUuid,
+          routeDeviceId: device?.routeDeviceId,
+          sn: device?.sn
+        });
+        return null;
+      }
+      
+      console.log('[DeviceId] numericDeviceId:', numericId, typeof numericId);
+      return numericId;
+    }
+
+    // 从设备对象中提取数字 ID（更宽松的解析）
+    function extractNumericDeviceId(device) {
+      if (!device) return null;
+      
+      // 尝试多种来源
+      const id = device.id || device.deviceId;
+      if (!id) return null;
+      
+      const numericId = Number(id);
+      return Number.isFinite(numericId) ? numericId : null;
+    }
+
     // 初始化
     async function init() {
       // 初始化主题
       ThemeManager.init();
       
-      const deviceId = getDeviceIdFromUrl();
-      log('[DeviceChat] init, deviceId:', deviceId);
+      const urlDeviceId = getDeviceIdFromUrl();
+      log('[DeviceChat] init, url deviceId:', urlDeviceId);
 
       // 从存储获取设备列表
       const deviceList = Storage.Device.getDeviceList() || [];
@@ -649,32 +847,93 @@
       log('[DeviceChat] deviceList:', deviceList);
       log('[DeviceChat] cached:', cached);
       
-      // 根据 deviceId 查找设备（兼容字符串和数字比较）
-      if (deviceId) {
-        // 将 deviceId 转为数字比较
-        const targetId = parseInt(deviceId, 10);
-        currentDevice = deviceList.find(d => d.id === targetId || d.deviceId === deviceId || String(d.id) === deviceId) || cached;
-        log('[DeviceChat] found device:', currentDevice);
+      // 尝试从 URL 获取数字 ID，或从缓存/列表中找到对应设备
+      let targetDevice = null;
+      let numericDeviceId = null;
+      
+      if (urlDeviceId) {
+        // 尝试将 URL 中的 ID 转为数字
+        numericDeviceId = Number(urlDeviceId);
+        
+        if (Number.isFinite(numericDeviceId)) {
+          // URL 中是数字 ID，直接使用
+          targetDevice = deviceList.find(d => d.id === numericDeviceId || String(d.id) === urlDeviceId) || cached;
+        } else {
+          // URL 中是 UUID 或其他字符串，在设备列表中查找
+          log('[DeviceChat] URL deviceId is not numeric, searching device list...');
+          targetDevice = deviceList.find(d => 
+            d.iotDeviceUuid === urlDeviceId || 
+            d.uuid === urlDeviceId || 
+            d.routeDeviceUuid === urlDeviceId ||
+            d.routeDeviceId === urlDeviceId ||
+            d.sn === urlDeviceId
+          ) || cached;
+          
+          // 如果找到设备，提取数字 ID
+          if (targetDevice) {
+            numericDeviceId = extractNumericDeviceId(targetDevice);
+          }
+        }
       } else {
-        currentDevice = cached;
+        // 没有 URL deviceId，使用缓存设备
+        targetDevice = cached;
+        numericDeviceId = extractNumericDeviceId(targetDevice);
       }
+      
+      currentDevice = targetDevice;
+      log('[DeviceChat] found device:', currentDevice);
+      log('[DeviceChat] numericDeviceId:', numericDeviceId);
 
       if (!currentDevice) {
         showError('未找到设备，请从设备页进入');
         return;
       }
+      
+      // 验证数字 deviceId
+      if (!numericDeviceId) {
+        log('[DeviceChat] numericDeviceId is null, checking device...', currentDevice);
+        // 尝试最后从 currentDevice 提取
+        numericDeviceId = extractNumericDeviceId(currentDevice);
+        if (!numericDeviceId) {
+          showError('设备ID异常，请重新进入设备对话');
+          return;
+        }
+      }
+      
+      log('[DeviceChat] validated numericDeviceId:', numericDeviceId);
 
       // 显示设备信息
       renderDeviceInfo();
       
-      // 初始化运行时状态（设备状态 + 小龙虾服务状态）
+      // 初始化运行时状态（设备状态 + 萤火虫服务状态）
       await initRuntimeState(currentDevice);
-      
+
       // 初始化聊天服务
       window.OpenClawChatService.init(currentDevice);
-      
-      // 添加欢迎消息
-      addAssistantMessage('小龙虾已就绪，可以帮你查询设备状态、执行任务或处理资料。');
+
+      // 启动轮询系统（恢复轮询 -> 空闲轮询）
+      if (numericDeviceId && runtimeState.openclawOnline) {
+        window.OpenClawChatService.startPolling(numericDeviceId, {
+          onRecoveryProgress: (count) => {
+            console.log('[UI] recovery progress:', count);
+          },
+          onLifecycleStart: (runId) => {
+            console.log('[UI] lifecycle start during idle:', runId);
+          },
+          onAssistantUpdate: (text) => {
+            console.log('[UI] assistant update during idle:', text.slice(0, 50));
+          },
+          onCommandOutput: (output, info) => {
+            console.log('[UI] command output during idle:', info);
+          },
+          onFinal: (text) => {
+            console.log('[UI] final during idle:', text.slice(0, 50));
+          },
+          onIdle: () => {
+            console.log('[UI] now in idle polling mode');
+          }
+        });
+      }
     }
 
     // 渲染设备信息
@@ -713,70 +972,168 @@
       const input = document.getElementById('chatInput');
       const sendBtn = document.getElementById('sendBtn');
       const message = (customMessage || input.value || '').trim();
-      
+
       if (!message || isProcessing) return;
       if (!currentDevice) {
         showError('未绑定设备');
         return;
       }
 
-      // 检查 deviceUuid
       const deviceUuid = window.OpenClawChatService.resolveDeviceUuid(currentDevice);
       if (!deviceUuid) {
-        showError('当前设备缺少 iotDeviceUuid / uuid，暂无法连接小龙虾');
+        showError('当前设备缺少 iotDeviceUuid / uuid，暂无法连接萤火虫');
         return;
       }
 
-      // 检查小龙虾服务状态（使用wasLive判断）
+      // 状态拦截
+      if (!runtimeState.deviceOnline) {
+        addSystemNoticeOnce('device_offline_notice', '设备离线，无法发送指令。请检查设备网络或电源。', 'error');
+        return;
+      }
+
       if (!runtimeState.openclawOnline) {
-        showError('小龙虾服务未在线，请先重新检测');
+        addSystemNoticeOnce('openclaw_offline_notice', '设备在线，但萤火虫服务未启动。请先重新检测或启动服务。', 'warning');
         return;
       }
 
-      // 禁用输入
+      const turnId = 'turn_' + Date.now();
+      console.log('[Turn]', turnId, 'sending:', message);
+
       isProcessing = true;
       input.disabled = true;
       sendBtn.disabled = true;
 
-      // 添加用户消息
       addUserMessage(message);
       input.value = '';
 
-      // 添加loading
-      const loadingId = addLoadingMessage('小龙虾正在处理...');
+      // 创建助手消息气泡
+      const assistantMessageId = addAssistantMessage('正在发送指令...', {
+        status: 'loading',
+        turnId: turnId
+      });
+
+      let commandCardId = null;
+
+      const updateCurrentAssistant = (text, options = {}) => {
+        updateAssistantMessage(assistantMessageId, text, options);
+      };
+
+      const addCommandCard = (output, index) => {
+        const container = document.getElementById('chatContainer');
+        const card = document.createElement('div');
+        card.className = 'chat-card command-output';
+
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        header.textContent = '执行结果 #' + (index + 1);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+
+        const pre = document.createElement('pre');
+        pre.className = 'command-output-text';
+        pre.textContent = output.length > 500 ? output.substring(0, 500) + '...' : output;
+
+        body.appendChild(pre);
+
+        if (output.length > 500) {
+          const toggle = document.createElement('button');
+          toggle.className = 'card-toggle';
+          toggle.textContent = '点击展开全部';
+          toggle.onclick = () => {
+            pre.textContent = pre.textContent.includes('...') ? output : output.substring(0, 500) + '...';
+            toggle.textContent = pre.textContent.includes('...') ? '点击收起' : '点击展开全部';
+          };
+          body.appendChild(toggle);
+        }
+
+        card.appendChild(header);
+        card.appendChild(body);
+        container.appendChild(card);
+        scrollToBottom();
+
+        return card.id;
+      };
 
       try {
-        // 发送消息
-        const response = await window.OpenClawChatService.sendMessageAndWait(currentDevice, message);
-        
-        // 移除loading
-        removeMessage(loadingId);
-        
-        // 显示响应
-        if (response.success) {
-          if (response.data) {
-            addAssistantMessage(response.data);
-          } else if (response.msg) {
-            if (response.timeout) {
-              // 超时但有消息
-              addAssistantMessage(response.msg);
-            } else {
-              addAssistantMessage(response.msg);
+        const response = await window.OpenClawChatService.sendMessageAndWait(currentDevice, message, {
+          // Lifecycle 事件
+          onLifecycleStart: (runId, data) => {
+            console.log('[UI] lifecycle start:', runId);
+            updateCurrentAssistant('萤火虫正在分析问题...', { status: 'loading' });
+          },
+
+          onLifecycleEnd: (data) => {
+            console.log('[UI] lifecycle end');
+          },
+
+          // Assistant 更新
+          onAssistantUpdate: (text) => {
+            console.log('[UI] assistant update, len:', text.length);
+            updateCurrentAssistant(text, { status: 'streaming' });
+          },
+
+          // 命令输出
+          onCommandOutput: (output, info) => {
+            console.log('[UI] command output:', info);
+            if (!commandCardId) {
+              commandCardId = addCommandCard(output, info.index);
+            }
+          },
+
+          // Final 完成
+          onFinal: (text, extra) => {
+            console.log('[UI] final:', text.slice(0, 100));
+            updateCurrentAssistant(text, { status: 'done', final: true });
+          },
+
+          // 警告提示
+          onWarning: (msg) => {
+            console.log('[UI] warning:', msg);
+            updateCurrentAssistant(msg, { status: 'loading' });
+          },
+
+          // 进入空闲状态
+          onIdle: () => {
+            console.log('[UI] idle polling');
+          }
+        });
+
+        // 处理返回结果
+        if (response?.success && response?.text) {
+          updateCurrentAssistant(response.text, { status: 'done', final: response.isFinal });
+
+          if (response.warning && !response.isFinal) {
+            const bubble = document.querySelector(`[data-message-id="${assistantMessageId}"]`);
+            if (bubble) {
+              bubble.classList.add('warning');
+              const warn = document.createElement('div');
+              warn.className = 'chat-warning';
+              warn.textContent = response.warning;
+              bubble.appendChild(warn);
             }
           }
-        } else {
-          showError(response.msg || '通信失败');
-        }
-      } catch (error) {
-        removeMessage(loadingId);
-        showError(error.message || '通信失败');
-      }
 
-      // 恢复输入
-      input.disabled = false;
-      sendBtn.disabled = false;
-      isProcessing = false;
-      input.focus();
+          if (response.commandOutputs?.length > 0 && !commandCardId) {
+            response.commandOutputs.forEach((cmd, idx) => {
+              addCommandCard(cmd.text, idx);
+            });
+          }
+        } else if (!response?.success) {
+          updateCurrentAssistant(response?.msg || '通信失败', { status: 'error' });
+        } else {
+          updateCurrentAssistant('暂未返回可读结果，请稍后重试。', { status: 'error' });
+        }
+
+      } catch (error) {
+        console.error('[Turn] error:', error);
+        updateCurrentAssistant(error.message || '通信失败', { status: 'error' });
+      } finally {
+        input.disabled = false;
+        sendBtn.disabled = false;
+        isProcessing = false;
+        input.focus();
+      }
     }
 
     // 添加用户消息
@@ -789,22 +1146,113 @@
       scrollToBottom();
     }
 
-    // 添加助手消息
-    function addAssistantMessage(message, rawJson = null) {
+    // 渲染消息内容（支持 Markdown）
+    function renderMessageContent(text) {
+      if (typeof renderAssistantMarkdown === 'function') {
+        return renderAssistantMarkdown(text);
+      }
+      return text;
+    }
+
+    // 添加助手消息（带 data-message-id）
+    function addAssistantMessage(message, options = {}) {
       const container = document.getElementById('chatContainer');
+      const id = options.id || `assistant_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      
       const div = document.createElement('div');
       div.className = 'chat-message assistant';
+      div.dataset.messageId = id;
+      div.dataset.turnId = options.turnId || '';
       
-      if (rawJson) {
-        // 显示原始JSON
-        div.innerHTML = message + '<div class="chat-raw-toggle" onclick="toggleRaw(this)">▼ 点击展开原始JSON</div>';
-        div.dataset.raw = rawJson;
-      } else {
-        div.innerHTML = renderAssistantMarkdown(message);
+      if (options.isError) {
+        div.classList.add('error');
+      }
+      
+      if (options.warning) {
+        div.classList.add('warning');
+      }
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.innerHTML = renderMessageContent(message);
+      div.appendChild(contentDiv);
+      
+      if (options.warning) {
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'chat-warning';
+        warningDiv.textContent = options.warning;
+        div.appendChild(warningDiv);
       }
       
       container.appendChild(div);
       scrollToBottom();
+      
+      console.log('[UIRender] addAssistantMessage', { id, textPreview: String(message).slice(0, 50) });
+      return id;
+    }
+
+    // 更新助手消息内容
+    function updateAssistantMessage(messageId, text, options = {}) {
+      const el = document.querySelector(`[data-message-id="${messageId}"]`);
+      
+      if (!el) {
+        console.error('[UIRender] assistant message not found:', messageId);
+        return false;
+      }
+      
+      const contentEl = 
+        el.querySelector('.message-content') || 
+        el.querySelector('.bubble-content') || 
+        el.querySelector('.assistant-content') ||
+        el;
+      
+      contentEl.innerHTML = renderMessageContent(text);
+      
+      el.classList.remove('loading', 'streaming', 'error', 'warning');
+      if (options.status) {
+        el.classList.add(options.status);
+      }
+      
+      console.log('[UIRender] updateAssistantMessage', { 
+        messageId, 
+        textPreview: String(text).slice(0, 80),
+        status: options.status 
+      });
+      
+      scrollToBottom();
+      return true;
+    }
+
+    // 添加助手气泡（可更新的，兼容旧接口）
+    function addAssistantBubble(message, status = null) {
+      const container = document.getElementById('chatContainer');
+      const id = `bubble_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      
+      const div = document.createElement('div');
+      div.className = 'chat-message assistant';
+      div.dataset.messageId = id;
+      
+      if (status) {
+        div.classList.add(status);
+      }
+      
+      const bubbleContent = document.createElement('div');
+      bubbleContent.className = 'bubble-content';
+      bubbleContent.textContent = message;
+      div.appendChild(bubbleContent);
+      
+      if (status) {
+        const bubbleStatus = document.createElement('div');
+        bubbleStatus.className = 'bubble-status';
+        bubbleStatus.textContent = status;
+        div.appendChild(bubbleStatus);
+      }
+      
+      container.appendChild(div);
+      scrollToBottom();
+      
+      console.log('[UIRender] addAssistantBubble', { id, status, textPreview: String(message).slice(0, 50) });
+      return id;
     }
 
     // 添加loading消息
@@ -827,6 +1275,23 @@
       div.textContent = message;
       container.appendChild(div);
       scrollToBottom();
+    }
+
+    function addSystemNoticeOnce(id, text, type = 'warning') {
+      if (document.querySelector(`[data-notice-id="${id}"]`)) return;
+
+      const container = document.getElementById('chatContainer');
+      const notice = document.createElement('div');
+      notice.className = `chat-message system-notice ${type}`;
+      notice.dataset.noticeId = id;
+      notice.textContent = text;
+      container.appendChild(notice);
+      scrollToBottom();
+    }
+
+    function clearSystemNotice(id) {
+      const notice = document.querySelector(`[data-notice-id="${id}"]`);
+      if (notice) notice.remove();
     }
 
     // 移除消息

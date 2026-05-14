@@ -677,7 +677,7 @@
         username: 'admin',
         password: '123456',
         verified: true,
-        agentName: '小鲸鱼智能体',
+        agentName: '萤火虫智能体',
         deviceLink: '',
         bindStatus: 'none'
       },
@@ -685,7 +685,7 @@
         username: 'demo',
         password: 'demo123',
         verified: true,
-        agentName: '小鲸鱼智能体',
+        agentName: '萤火虫智能体',
         deviceLink: '',
         bindStatus: 'none'
       },
@@ -693,7 +693,7 @@
         username: 'adminA',
         password: 'A123456',
         verified: true,
-        agentName: '小鲸鱼-个人数字大脑',
+        agentName: '萤火虫-个人数字大脑',
         deviceLink: '',
         bindStatus: 'none'
       },
@@ -709,7 +709,7 @@
         username: 'test',
         password: 'test123',
         verified: true,
-        agentName: '小鲸鱼',
+        agentName: '萤火虫',
         deviceLink: '',
         bindStatus: 'bound'
       }
@@ -729,7 +729,7 @@
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
           </svg>
         </div>
-        <h1 class="brand-title">小鲸鱼-个人数字大脑</h1>
+        <h1 class="brand-title">萤火虫-个人数字大脑</h1>
         <p class="brand-welcome">欢迎登录，继续查看设备、词元与智能服务</p>
       </div>
 
@@ -817,7 +817,7 @@
             <line x1="12" y1="17" x2="12" y2="21"></line>
           </svg>
         </div>
-        <h3 class="delivery-title" id="deliveryTitle">小鲸鱼 已交付</h3>
+        <h3 class="delivery-title" id="deliveryTitle">萤火虫 已交付</h3>
       </div>
 
       <p class="delivery-desc">
@@ -827,7 +827,7 @@
       <div class="delivery-info">
         <div class="info-item">
           <div class="info-label">智能体名称</div>
-          <div class="info-value agent-name" id="agentName">小鲸鱼智能体 A</div>
+          <div class="info-value agent-name" id="agentName">萤火虫智能体 A</div>
         </div>
         <div class="info-item">
           <div class="info-label">专属设备链接</div>
@@ -950,7 +950,7 @@
         Storage.Auth.setAccountData({
           username: 'adminA',
           password: 'A123456',
-          agentName: '小鲸鱼-个人数字大脑',
+          agentName: '萤火虫-个人数字大脑',
           deviceLink: '',
           bindStatus: 'none'
         });
@@ -1059,7 +1059,7 @@
     });
 
     // 检查是否已登录
-    const savedUser = Storage.get('auth_login_user');
+    const savedUser = (window.Storage && Storage.get) ? Storage.get('auth_login_user') : localStorage.getItem('auth_login_user');
     if (savedUser) {
       usernameInput.value = savedUser;
       document.getElementById('rememberMe').checked = true;

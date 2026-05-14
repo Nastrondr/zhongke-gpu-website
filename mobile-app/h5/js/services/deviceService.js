@@ -32,7 +32,7 @@ const DeviceManager = {
   // 默认设备数据（模拟后端数据）
   defaultDevice: {
     id: 'XY-01-A8F3',
-    name: '小鲸鱼-数字大脑 01',
+    name: '萤火虫-数字大脑 01',
     status: 'online', // online, offline, busy, error
     isOnline: true,
     taskStatus: '空闲中',

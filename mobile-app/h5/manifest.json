@@ -1,16 +1,23 @@
 {
-  "name": "小鲸鱼助手",
-  "short_name": "小鲸鱼",
-  "description": "金融智能助手",
-  "start_url": "/h5/whale-chat.html",
+  "name": "数字大脑",
+  "short_name": "数字大脑",
+  "description": "个人数字大脑移动端",
+  "start_url": "./home.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#F7FAFC",
-  "theme_color": "#2563EB",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/h5/icons/apple-touch-icon.png",
+      "src": "./apple-touch-icon2.png",
       "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./apple-touch-icon2.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }

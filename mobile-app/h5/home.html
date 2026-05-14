@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>个人小鲸鱼-数字大脑 - 手机客户端</title>
+  <title>个人萤火虫-数字大脑 - 手机客户端</title>
+  <link rel="icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="shortcut icon" type="image/png" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon2.png">
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="./apple-touch-icon2.png">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="数字大脑">
+  <meta name="application-name" content="数字大脑">
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -240,7 +251,7 @@
       stroke-width: 2.5;
     }
 
-    /* 小鲸鱼 - 活力橙 */
+    /* 萤火虫 - 活力橙 */
     html[data-theme="light"] #whaleQuickIcon {
       background: linear-gradient(135deg, #F97316 0%, #FBBF24 100%) !important;
       box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
@@ -1460,7 +1471,7 @@
               <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
             </svg>
           </div>
-          <div id="deviceNameDisplay" style="font-size: 22px; font-weight: 700; color: var(--text-primary);">小鲸鱼-数字大脑 01</div>
+          <div id="deviceNameDisplay" style="font-size: 20px; font-weight: 700; color: var(--text-primary);">萤火虫-数字大脑 01</div>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
           <div class="info-block" style="background: var(--card-bg-soft); border-radius: var(--border-radius-sm); padding: 14px;">
@@ -1502,7 +1513,7 @@
         </div>
       </a>
 
-      <!-- 小鲸鱼快捷入口 - 第二核心入口 -->
+      <!-- 萤火虫快捷入口 - 第二核心入口 -->
       <a href="device-chat.html" id="whaleQuickCard" class="quick-card" onclick="handleWhaleEntry(event)" style="background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 14px;">
         <div class="quick-icon icon-wrapper" id="whaleQuickIcon" style="width: 36px; height: 36px; flex-shrink: 0; background: var(--icon-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
@@ -1519,26 +1530,23 @@
         </svg>
       </a>
 
-      <!-- 词元钱包 - 后续开放 -->
-      <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 16px; opacity: 0.6;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div class="icon-wrapper" style="width: 40px; height: 40px; background: var(--icon-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <rect x="2" y="6" width="20" height="12" rx="2"/><path d="M22 10H2"/><path d="M6 18v2"/><path d="M18 18v2"/>
-              </svg>
-            </div>
-            <span style="font-size: 15px; font-weight: 600; color: var(--text-primary);">词元钱包</span>
-            <span style="font-size: 10px; color: var(--text-tertiary); background: var(--card-bg-soft); padding: 2px 8px; border-radius: 10px;">后续开放</span>
-          </div>
+      <!-- 词元钱包 -->
+      <a href="token-overview.html" class="quick-card wallet-card" style="background: var(--card-bg); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 14px;">
+        <div class="icon-wrapper" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2">
+            <rect x="2" y="6" width="20" height="12" rx="2"/><path d="M22 10H2"/><path d="M6 18v2"/><path d="M18 18v2"/>
+          </svg>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <div>
-            <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 6px;">账户余额</div>
-            <div style="font-size: 36px; font-weight: 700; color: var(--text-primary); display: flex; align-items: baseline;"><span id="walletBalance">--</span><span id="walletBalanceUnit" style="font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-left: 4px;"></span></div>
-          </div>
+        <div style="flex: 1;">
+          <div style="font-size: 15px; font-weight: 600; color: var(--text-primary);">词元钱包</div>
         </div>
-      </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+          <div style="font-size: 28px; font-weight: 700; color: var(--text-primary); display: flex; align-items: baseline;"><span id="walletBalance">2.56</span><span style="font-size: 16px; font-weight: 500; color: var(--text-secondary); margin-left: 2px;">M</span></div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </a>
     </div>
     
     <!-- 行业应用页 -->
@@ -1792,7 +1800,7 @@
     </div>
   </div>
 
-  <!-- 小鲸鱼未绑定提醒弹层 -->
+  <!-- 萤火虫未绑定提醒弹层 -->
   <div class="bottom-sheet" id="whaleBindSheet">
     <div class="bottom-sheet-content">
       <h3 class="bottom-sheet-title" id="bindSheetTitle">智能体尚未绑定</h3>
@@ -1974,7 +1982,7 @@
       setTimeout(complete, 450);
     }
     
-    // 小鲸鱼入口点击处理
+    // 萤火虫入口点击处理
     function handleWhaleEntry(e) {
       e.preventDefault();
       console.log('[EntryLoading] device chat entry clicked');
@@ -2054,7 +2062,7 @@
 
 
 
-    // ==================== 小鲸鱼状态联动 ====================
+    // ==================== 萤火虫状态联动 ====================
 
     // 确保绑定提示弹层在加载时是隐藏的
     const whaleBindSheet = document.getElementById('whaleBindSheet');
@@ -2062,14 +2070,14 @@
       whaleBindSheet.classList.remove('active');
     }
 
-    // 小鲸鱼相关 DOM 元素
+    // 萤火虫相关 DOM 元素
     const whaleQuickCard = document.getElementById('whaleQuickCard');
     const whaleQuickTitle = document.getElementById('whaleQuickTitle');
     const whaleQuickSubtitle = document.getElementById('whaleQuickSubtitle');
     const goBindBtn = document.getElementById('goBindBtn');
     const laterBtn = document.getElementById('laterBtn');
 
-    // 更新小鲸鱼入口状态
+    // 更新萤火虫入口状态
     function updateWhaleStatus(bindStatus, agentName) {
       const currentAgentName = agentName || '智能体';
       const subtitle = currentAgentName === '星崽' ? '智能助手' : '金融助手';
@@ -2154,7 +2162,7 @@
       }
     }
 
-    // 初始化小鲸鱼状态
+    // 初始化萤火虫状态
     const currentUserForWhale = UserService.getCurrentUser();
     if (currentUserForWhale && currentUserForWhale.accountData) {
       updateWhaleStatus(currentUserForWhale.accountData.bindStatus, currentUserForWhale.accountData.agentName);

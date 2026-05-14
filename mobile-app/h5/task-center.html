@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>任务中心 - 个人小鲸鱼-数字大脑</title>
+  <title>任务中心 - 个人萤火虫-数字大脑</title>
   <script>
     // 在页面渲染前应用主题，防止闪烁
     (function() {
@@ -516,6 +516,162 @@
     }
 
     html[data-theme="light"] .empty-state svg {
+      stroke: var(--text-tertiary);
+    }
+
+    /* 深色模式覆盖 */
+    html[data-theme="dark"] {
+      --bg-primary: #09090B;
+      --bg-card: #18181B;
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #FAFAFA;
+      --text-secondary: #A1A1AA;
+      --text-tertiary: #71717A;
+      --accent-blue: #4A8DFF;
+      --accent-blue-light: #6BA8FF;
+      --status-running: #4A8DFF;
+      --status-success: #26E1AC;
+      --status-failed: #EF4444;
+    }
+
+    html[data-theme="dark"] body {
+      background: var(--bg-primary);
+    }
+
+    html[data-theme="dark"] .page-header {
+      background: rgba(24, 24, 27, 0.95);
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    html[data-theme="dark"] .back-btn {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .back-btn:active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    html[data-theme="dark"] .header-title {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .stat-card {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="dark"] .stat-value {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .stat-value.running {
+      color: var(--status-running);
+    }
+
+    html[data-theme="dark"] .stat-value.success {
+      color: var(--status-success);
+    }
+
+    html[data-theme="dark"] .stat-value.failed {
+      color: var(--status-failed);
+    }
+
+    html[data-theme="dark"] .stat-label {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .filter-bar {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="dark"] .filter-item {
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .filter-item.active {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    html[data-theme="dark"] .task-card {
+      background: var(--bg-card);
+      border-color: var(--border-card);
+    }
+
+    html[data-theme="dark"] .task-card:active {
+      background: rgba(74, 141, 255, 0.15);
+    }
+
+    html[data-theme="dark"] .task-icon {
+      background: rgba(74, 141, 255, 0.15);
+    }
+
+    html[data-theme="dark"] .task-icon svg {
+      stroke: var(--accent-blue);
+    }
+
+    html[data-theme="dark"] .task-icon.skill {
+      background: rgba(139, 92, 246, 0.15);
+    }
+
+    html[data-theme="dark"] .task-icon.skill svg {
+      stroke: #A78BFA;
+    }
+
+    html[data-theme="dark"] .task-icon.model {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    html[data-theme="dark"] .task-icon.model svg {
+      stroke: #34D399;
+    }
+
+    html[data-theme="dark"] .task-icon.device {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    html[data-theme="dark"] .task-icon.device svg {
+      stroke: #FBBF24;
+    }
+
+    html[data-theme="dark"] .task-name {
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .task-meta {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .task-source {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+    }
+
+    html[data-theme="dark"] .task-status.running {
+      background: rgba(74, 141, 255, 0.15);
+      color: var(--status-running);
+    }
+
+    html[data-theme="dark"] .task-status.success {
+      background: rgba(27, 212, 160, 0.15);
+      color: var(--status-success);
+    }
+
+    html[data-theme="dark"] .task-status.failed {
+      background: rgba(220, 38, 38, 0.15);
+      color: var(--status-failed);
+    }
+
+    html[data-theme="dark"] .task-arrow {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .empty-state {
+      color: var(--text-tertiary);
+    }
+
+    html[data-theme="dark"] .empty-state svg {
       stroke: var(--text-tertiary);
     }
   </style>

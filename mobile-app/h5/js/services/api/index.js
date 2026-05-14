@@ -204,9 +204,17 @@ const Api = {
 
     // 查询设备事件
     async queryEvent(deviceId, tsStart, limit = 10) {
+      const numericId = Number(deviceId);
+      if (!Number.isFinite(numericId)) {
+        throw new Error('[OpenClawDeviceId] queryEvent deviceId must be numeric, got: ' + deviceId);
+      }
+      
       const endpoint = ApiEndpoints.device.openclaw.invork;
-      const path = endpoint.path.replace(':id', deviceId);
+      const path = endpoint.path.replace(':id', numericId);
       const url = ApiEndpoints.buildUrl(path);
+      
+      console.log('[OpenClawDeviceId] queryEvent final url:', url);
+      console.log('[OpenClawDeviceId] queryEvent path deviceId:', numericId);
       
       const requestBody = {
         Plugin_Name: 'com.szsbay.kernel',
@@ -230,9 +238,18 @@ const Api = {
 
     // 查询运行状态
     async queryRunInfo(deviceId) {
+      const numericId = Number(deviceId);
+      if (!Number.isFinite(numericId)) {
+        throw new Error('[OpenClawDeviceId] deviceId must be numeric, got: ' + deviceId);
+      }
+      
       const endpoint = ApiEndpoints.device.openclaw.invork;
-      const path = endpoint.path.replace(':id', deviceId);
+      const path = endpoint.path.replace(':id', numericId);
       const url = ApiEndpoints.buildUrl(path);
+      
+      console.log('[OpenClawDeviceId] final invoke url:', url);
+      console.log('[OpenClawDeviceId] path deviceId:', numericId);
+      console.log('[OpenClawDeviceId] typeof deviceId:', typeof numericId);
       
       const requestBody = {
         Plugin_Name: 'com.szsbay.kernel',
@@ -254,8 +271,13 @@ const Api = {
 
     // 启动websocket
     async startWebsocket(deviceId, uri, token) {
+      const numericId = Number(deviceId);
+      if (!Number.isFinite(numericId)) {
+        throw new Error('[OpenClawDeviceId] startWebsocket deviceId must be numeric, got: ' + deviceId);
+      }
+      
       const endpoint = ApiEndpoints.device.openclaw.invork;
-      const path = endpoint.path.replace(':id', deviceId);
+      const path = endpoint.path.replace(':id', numericId);
       const url = ApiEndpoints.buildUrl(path);
       
       const requestBody = {

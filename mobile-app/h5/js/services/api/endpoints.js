@@ -46,7 +46,7 @@ const ApiEndpoints = {
 
     // 小龙虾设备命令（OPENCLAW_MANAGER 网关扩展）
     openclaw: {
-      // 设备能力调用接口（正确路径）
+      // 设备能力调用接口（注：后端只有这个拼写）
       invork: { 
         method: 'POST', 
         path: '/manage/api/v1/devices/:id/iot/capbility/invoke'
