@@ -1,132 +1,117 @@
-# h5/js 文件夹结构优化建议
+# h5 文件夹结构优化建议
 
 > 创建时间：2025-05-14
-> 文件路径：`mobile-app/h5/js/`
+> 更新：2025-05-14 (扩展到整个 h5 文件夹)
+> 文件路径：`mobile-app/h5/`
 
 ---
 
-## 一、当前问题
+## 一、JS 目录优化（已部分完成）
 
-### 1.1 入口文件不一致
+### 1.1 入口文件一致性 ✅
 
 | 目录 | index.js | 状态 |
 |------|---------|------|
 | mock/ | ✅ 存在 | 正常 |
 | services/ | ✅ 存在 | 正常 |
 | services/api/ | ✅ 存在 | 正常 |
-| **utils/** | ❌ **缺失** | **需补充** |
+| **utils/** | ✅ 已新增 | **已完成** |
 
-### 1.2 分散文件
+### 1.2 分散文件处理 ✅
 
-| 文件 | 问题 | 建议 |
-|------|------|------|
-| `icons.js` | 独立根目录，未使用 | 删除或确认用途 |
-| `main.js` | 独立根目录 | 合并到 utils 或删除 |
-
-### 1.3 命名不规范
-
-| 当前 | 建议 |
+| 文件 | 状态 |
 |------|------|
-| deviceService.js | 保持 |
-| openclawChatService.js | 保持 |
-| sessionService.js | 保持 |
+| icons.js | ✅ 已删除 |
+| main.js | ✅ 已删除 |
 
 ---
 
-## 二、优化方案
+## 二、全局路径问题（扩展检查）
 
-### 2.1 推荐目录结构
+### 2.1 JS 引用路径混合
 
-```
-js/
-├── index.js              ← 新增 (可选：统一入口)
-├── mock/
-│   ├── index.js       ✅
-│   ├── devices.js
-│   ├── models.js
-│   ├── skills.js
-│   ├── tasks.js
-│   ├── user.js
-│   └── wallet.js
-├── services/
-│   ├── index.js       ✅
-│   ├── api/
-│   │   ├── index.js ✅
-│   │   ├── ApiClient.js
-│   │   ├── config.js
-│   │   ├── endpoints.js
-│   │   ├── index.js
-│   │   └── models.js
-│   └──
-│       ├── deviceService.js
-│       ├── modelService.js
-│       ├── openclawChatService.js
-│       ├── sessionService.js
-│       ├── skillService.js
-│       ├── taskService.js
-│       ├── themeService.js
-│       ├── userService.js
-│       └── walletService.js
-└── utils/
-    ├── index.js       ← ✅ 新增
-    ├── navigation.js
-    ├── skeleton.js
-    ├── splash.js
-    ├── storage.js
-    └── toast.js
-```
+| 引用方式 | 文件数 | 说明 |
+|----------|--------|------|
+| `/h5/js/...` | 30+ 处 | 绝对路径 |
+| `js/...` | 20+ 处 | 相对路径 |
 
-### 2.2 分散文件处理
+**问题**：路径不统一，部分页面用 `/h5/js/`，部分用 `js/`
 
-| 文件 | 动作 | 原因 |
-|------|------|------|
-| icons.js | ❓ 待定 | 需确认是否使用 |
-| main.js | ❓ 待定 | 需确认是否使用 |
+### 2.2 CSS 引用路径
+
+| 引用方式 | 文件数 | 说明 |
+|----------|--------|------|
+| `css/...` | 13 处 | 统一使用 ✅ |
 
 ---
 
-## 三、使用方式
+## 三、新发现的问题
 
-### 3.1 引入方式对比
+### 3.1 路径不统一问题
 
-```javascript
-// ❌ 旧方式 (直接引入)
-import { Storage } from '/h5/js/utils/storage.js';
-import { Navigation } from '/h5/js/utils/navigation.js';
+| 页面 | JS 路径风格 |
+|------|------------|
+| device.html | `/h5/js/...` |
+| home.html | `/h5/js/...` |
+| whale-chat.html | `/h5/js/...` |
+| index.html | `/h5/js/...` |
+| device-chat.html | `js/...` |
+| skill-execute.html | `js/...` |
 
-// ✅ 新方式 (通过 index.js 统一入口)
-import { Storage, Navigation } from '/h5/js/utils/index.js';
+### 3.2 建议统一方案
+
+统一使用相对路径 `js/`，原因：
+- 移动位置后路径不受影响
+- Vite 迁移更方便
+
+---
+
+## 四、优化清单
+
+### 已完成 ✅
+- [x] utils/index.js 入口
+- [x] 删除 icons.js
+- [x] 删除 main.js
+
+### 待处理
+- [ ] 统一 JS 引用路径 (30+ 文件)
+- [ ] 删除 api-test.html (测试文件)
+- [ ] 删除 REDUNDANCY.md (如已完成)
+- [ ] 删除 EVALUATION.md (如已完成)
+- [ ] 删除 VITE_MIGRATION.md (如已完成)
+
+---
+
+## 五、实施建议
+
+### 5.1 路径统一脚本
+
+```bash
+# 替换所有 /h5/js/ 为 js/
+find . -name "*.html" -exec sed -i '' 's|/h5/js/|js/|g' {} \;
 ```
 
-### 3.2 代码示例
+### 5.2 测试文件清理
 
-```html
-<!-- 批量引入 utils -->
-<script type="module">
-  import { Storage, Navigation, Toast } from './js/utils/index.js';
-
-  // 使用
-  const user = Storage.Auth.getCurrentUser();
-  Navigation.goTo('home.html');
-</script>
+```bash
+# 删除测试文件
+rm api-test.html
 ```
 
 ---
 
-## 四、实施清单
-
-- [x] 新增 `utils/index.js` 入口 - ✅ 已完成
-
-待确认：
-- [ ] 检查 `icons.js` 用途
-- [ ] 检查 `main.js` 用途
-- [ ] 决定是否删除或保留
-
----
-
-## 五、向后兼容
+## 六、向后兼容
 
 当前优化**不影响**现有代码：
-- 原有直接引入方式仍然可用
+- 现有路径仍可正常工作
 - 新增 index.js 是额外入口
 - 无破坏性变更
+
+---
+
+## 七、风险提示
+
+| 操作 | 风险 | 缓解 |
+|------|------|------|
+| 批量替换路径 | 误替换 | 先备份 |
+| 删除测试文件 | 丢失配置 | 确认无用后再删 |
