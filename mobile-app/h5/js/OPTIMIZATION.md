@@ -1,117 +1,131 @@
 # h5 文件夹结构优化建议
 
 > 创建时间：2025-05-14
-> 更新：2025-05-14 (扩展到整个 h5 文件夹)
+> 更新：2025-05-14 (新增文件结构问题检查)
 > 文件路径：`mobile-app/h5/`
 
 ---
 
-## 一、JS 目录优化（已部分完成）
+## 一、JS 目录优化（已完成 ✅）
 
-### 1.1 入口文件一致性 ✅
+### 1.1 入口文件一致性
 
 | 目录 | index.js | 状态 |
 |------|---------|------|
 | mock/ | ✅ 存在 | 正常 |
 | services/ | ✅ 存在 | 正常 |
 | services/api/ | ✅ 存在 | 正常 |
-| **utils/** | ✅ 已新增 | **已完成** |
+| utils/ | ✅ 已新增 | 已完成 |
 
-### 1.2 分散文件处理 ✅
+### 1.2 分散文件处理
 
 | 文件 | 状态 |
 |------|------|
 | icons.js | ✅ 已删除 |
 | main.js | ✅ 已删除 |
 
----
+### 1.3 JS 路径统一
 
-## 二、全局路径问题（扩展检查）
-
-### 2.1 JS 引用路径混合
-
-| 引用方式 | 文件数 | 说明 |
-|----------|--------|------|
-| `/h5/js/...` | 30+ 处 | 绝对路径 |
-| `js/...` | 20+ 处 | 相对路径 |
-
-**问题**：路径不统一，部分页面用 `/h5/js/`，部分用 `js/`
-
-### 2.2 CSS 引用路径
-
-| 引用方式 | 文件数 | 说明 |
-|----------|--------|------|
-| `css/...` | 13 处 | 统一使用 ✅ |
+| 任务 | 状态 |
+|------|------|
+| 将 `/h5/js/` 改为 `js/` | ✅ 已完成 |
 
 ---
 
-## 三、新发现的问题
+## 二、新发现的文件结构问题
 
-### 3.1 路径不统一问题
+### 2.1 根目录分散的 JS 文件
 
-| 页面 | JS 路径风格 |
-|------|------------|
-| device.html | `/h5/js/...` |
-| home.html | `/h5/js/...` |
-| whale-chat.html | `/h5/js/...` |
-| index.html | `/h5/js/...` |
-| device-chat.html | `js/...` |
-| skill-execute.html | `js/...` |
+| 文件位置 | 应在位置 | 问题 |
+|----------|----------|------|
+| `bottom-nav.js` | `js/utils/` | 分散在根目录 |
 
-### 3.2 建议统一方案
+### 2.2 根目录的文档文件
 
-统一使用相对路径 `js/`，原因：
-- 移动位置后路径不受影响
-- Vite 迁移更方便
+| 文件 | 说明 | 建议 |
+|------|------|------|
+| `api-test.html` | 测试文件 | 删除 |
+| `EVALUATION.md` | 评估报告 | 删除或归档 |
+| `VITE_MIGRATION.md` | 迁移方案 | 保留参考 |
+| `manifest.json` | PWA 配置 | ✅ 正常 |
+
+### 2.3 根目录 HTML 文件数量
+
+共 20 个 HTML 页面：
+- index.html, home.html
+- device.html, device-chat.html
+- connection-center.html, session-center.html
+- task-center.html
+- token-overview.html, token-consumption.html, token-production.html
+- topup.html
+- account-binding.html, mobile-diagnosis.html
+- model-switch.html, model-skill.html
+- skill-execute.html
+- whale-chat.html
 
 ---
 
-## 四、优化清单
+## 三、待处理问题清单
 
-### 已完成 ✅
-- [x] utils/index.js 入口
-- [x] 删除 icons.js
-- [x] 删除 main.js
+### 高优先级
+- [ ] 移动 `bottom-nav.js` 到 `js/utils/` 并更新引用
 
-### 待处理
-- [ ] 统一 JS 引用路径 (30+ 文件)
-- [ ] 删除 api-test.html (测试文件)
-- [ ] 删除 REDUNDANCY.md (如已完成)
-- [ ] 删除 EVALUATION.md (如已完成)
-- [ ] 删除 VITE_MIGRATION.md (如已完成)
+### 中优先级
+- [ ] 删除 `api-test.html` (测试文件)
+- [ ] 删除 `EVALUATION.md` (已使用完毕)
+
+### 低优先级
+- [ ] 考虑归档 `VITE_MIGRATION.md` 或保留作为参考
+
+---
+
+## 四、根目录文件汇总
+
+### 应该保留
+| 文件 | 说明 |
+|------|------|
+| `*.html` | 页面文件 |
+| `manifest.json` | PWA 配置 |
+
+### 可以删除
+| 文件 | 说明 |
+|------|------|
+| `api-test.html` | 测试文件 |
+| `EVALUATION.md` | 已完成 |
+| `css/REDUNDANCY.md` | 技术债记录 |
+
+### 需移动
+| 当前 | 目标 |
+|------|------|
+| `bottom-nav.js` | `js/utils/bottom-nav.js` |
 
 ---
 
 ## 五、实施建议
 
-### 5.1 路径统一脚本
+### 5.1 移动 bottom-nav.js
 
 ```bash
-# 替换所有 /h5/js/ 为 js/
-find . -name "*.html" -exec sed -i '' 's|/h5/js/|js/|g' {} \;
+# 移动文件
+mv bottom-nav.js js/utils/
+
+# 更新引用（在 HTML 文件中）
+sed -i '' 's|bottom-nav.js|js/utils/bottom-nav.js|g' *.html
 ```
 
-### 5.2 测试文件清理
+### 5.2 删除测试/文档文件
 
 ```bash
-# 删除测试文件
 rm api-test.html
+rm EVALUATION.md
+rm css/REDUNDANCY.md
 ```
 
 ---
 
-## 六、向后兼容
-
-当前优化**不影响**现有代码：
-- 现有路径仍可正常工作
-- 新增 index.js 是额外入口
-- 无破坏性变更
-
----
-
-## 七、风险提示
+## 六、风险提示
 
 | 操作 | 风险 | 缓解 |
 |------|------|------|
-| 批量替换路径 | 误替换 | 先备份 |
-| 删除测试文件 | 丢失配置 | 确认无用后再删 |
+| 移动 bottom-nav.js | 路径引用失效 | 先备份再执行 |
+| 删除文档文件 | 丢失文档 | 确认不再需要 |
