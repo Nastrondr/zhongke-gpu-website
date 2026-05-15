@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API 配置测试</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+    .card { background: #1e293b; padding: 16px; border-radius: 12px; margin-bottom: 12px; }
+    .card h3 { margin: 0 0 12px 0; color: #60A5FA; }
+    .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #334155; }
+    .row:last-child { border: none; }
+    .label { color: #94A3B8; }
+    .value { color: #fff; font-family: monospace; }
+    button { background: #60A5FA; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; margin-right: 8px; }
+    button:hover { background: #3B82F6; }
+    pre { background: #0f172a; padding: 12px; border-radius: 8px; overflow-x: auto; }
+  </style>
+  <script src="js/services/api/config.js"></script>
+  <script src="js/services/deviceConfig.js"></script>
+</head>
+<body>
+  <h1>API 配置测试</h1>
+  
+  <div class="card">
+    <h3>当前环境：<span id="currentEnv"></span></h3>
+    <div class="row">
+      <span class="label">API Base URL</span>
+      <span class="value" id="apiBaseUrl"></span>
+    </div>
+    <div class="row">
+      <span class="label">Timeout</span>
+      <span class="value" id="apiTimeout"></span>
+    </div>
+    <div class="row">
+      <span class="label">Enable Log</span>
+      <span class="value" id="enableLog"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>设备配置</h3>
+    <div class="row">
+      <span class="label">Device Link</span>
+      <span class="value" id="deviceLink"></span>
+    </div>
+    <div class="row">
+      <span class="label">WebSocket URL</span>
+      <span class="value" id="wsUrl"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>切换环境测试</h3>
+    <button onclick="switchEnv('development')">Development</button>
+    <button onclick="switchEnv('staging')">Staging</button>
+    <button onclick="switchEnv('production')">Production</button>
+  </div>
+
+  <div class="card">
+    <h3>本地覆盖测试</h3>
+    <button onclick="testLocalOverride()">测试本地覆盖</button>
+    <pre id="testResult">点击按钮查看结果</pre>
+  </div>
+
+  <script>
+    function loadConfig() {
+      document.getElementById('currentEnv').textContent = ApiConfig.env;
+      document.getElementById('apiBaseUrl').textContent = ApiConfig.getBaseUrl();
+      document.getElementById('apiTimeout').textContent = ApiConfig.getTimeout() + 'ms';
+      document.getElementById('enableLog').textContent = ApiConfig.isLogEnabled();
+      
+      document.getElementById('deviceLink').textContent = DeviceConfig.getDeviceLink();
+      document.getElementById('wsUrl').textContent = DeviceConfig.getWsUrl();
+    }
+    
+    function switchEnv(env) {
+      ApiConfig.env = env;
+      DeviceConfig.env = env;
+      loadConfig();
+      document.getElementById('testResult').textContent = '已切换到: ' + env + '\n' + JSON.stringify(ApiConfig.getConfig(), null, 2);
+    }
+    
+    function testLocalOverride() {
+      window.localConfig = { env: 'production', baseUrl: 'http://localhost:3000' };
+      Object.assign(ApiConfig, window.localConfig);
+      loadConfig();
+      document.getElementById('testResult').textContent = '本地配置已覆盖: ' + JSON.stringify(ApiConfig.getConfig(), null, 2);
+    }
+    
+    loadConfig();
+  </script>
+</body>
+</html>

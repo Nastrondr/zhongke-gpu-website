@@ -1,21 +1,30 @@
 /**
  * API 配置文件
  * 统一管理不同环境的 API 地址和配置
+ * 
+ * 使用方式：
+ * 1. 修改 env 变量切换环境
+ * 2. 或创建 local-config.js 覆盖配置（不会被 Git 提交）
+ * 
+ * 接口请求示例：
+ * - BaseURL: https://www.test.zhisuancf.cn/zhisuancf
+ * - 接口路径: /api/v1/xxx
+ * - 完整请求: https://www.test.zhisuancf.cn/zhisuancf/api/v1/xxx
  */
 
 const ApiConfig = {
-  // 环境配置
-  env: 'production', // development | staging | production
+  // 当前环境：development | staging | production
+  env: 'staging',
 
-  // 开发环境
+  // 开发环境（本地代理）
   development: {
     baseUrl: '/zhisuancf',
     timeout: 15000,
     enableLog: true,
-    enableMockLogin: false  // 开发环境关闭 Mock，使用真实 API
+    enableMockLogin: true
   },
 
-  // 测试环境
+  // 测试环境（真实测试 API）
   staging: {
     baseUrl: 'https://www.test.zhisuancf.cn/zhisuancf',
     timeout: 15000,
@@ -23,12 +32,12 @@ const ApiConfig = {
     enableMockLogin: false
   },
 
-  // 生产环境
+  // 生产环境（暂不启用，等确认后配置）
   production: {
-    baseUrl: 'https://www.test.zhisuancf.cn/zhisuancf',
+    baseUrl: '',
     timeout: 15000,
     enableLog: false,
-    enableMockLogin: false  // 生产环境必须关闭 Mock 登录
+    enableMockLogin: false
   },
 
   /**
@@ -39,10 +48,25 @@ const ApiConfig = {
   },
 
   /**
-   * 获取基础 URL
+   * 获取基础 URL（不含路径）
    */
   getBaseUrl() {
     return this.getConfig().baseUrl;
+  },
+
+  /**
+   * 获取完整请求 URL
+   * @param {string} path - 接口路径，如 /api/v1/xxx
+   */
+  getFullUrl(path) {
+    const baseUrl = this.getBaseUrl();
+    if (!baseUrl) {
+      console.warn('[ApiConfig] Production 环境未配置 BaseURL');
+      return '';
+    }
+    // 移除末尾斜杠，添加接口路径
+    const normalizedPath = path.startsWith('/') ? path : '/' + path;
+    return baseUrl.replace(/\/$/, '') + normalizedPath;
   },
 
   /**
@@ -57,38 +81,16 @@ const ApiConfig = {
    */
   isLogEnabled() {
     return this.getConfig().enableLog;
-  },
-
-  /**
-   * 是否启用 Mock 登录（仅开发/测试环境）
-   */
-  isMockLoginEnabled() {
-    return this.getConfig().enableMockLogin === true;
-  },
-
-  /**
-   * 切换环境（可在控制台调用）
-   * @param {string} env - development | staging | production
-   */
-  setEnv(env) {
-    if (this[env]) {
-      this.env = env;
-      console.log(`[ApiConfig] 环境已切换为: ${env}`);
-      console.log(`[ApiConfig] Base URL: ${this.getBaseUrl()}`);
-      console.log(`[ApiConfig] Mock Login: ${this.isMockLoginEnabled()}`);
-    } else {
-      console.error(`[ApiConfig] 无效的环境: ${env}`);
-    }
-  },
-
-  /**
-   * 开启/关闭 Mock 登录（可在控制台调用）
-   * @param {boolean} enabled
-   */
-  setMockLogin(enabled) {
-    this.development.enableMockLogin = enabled;
-    console.log(`[ApiConfig] Mock Login 已${enabled ? '开启' : '关闭'}`);
   }
 };
+
+// 尝试加载本地配置覆盖
+try {
+  if (typeof window !== 'undefined' && window.localConfig) {
+    Object.assign(ApiConfig, window.localConfig);
+  }
+} catch (e) {
+  // 忽略跨域错误
+}
 
 window.ApiConfig = ApiConfig;

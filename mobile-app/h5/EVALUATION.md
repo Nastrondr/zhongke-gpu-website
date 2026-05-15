@@ -126,7 +126,7 @@ python3 -m http.server 3002
 
 ### 高优先级
 - [ ] 删除 `js/icons.js` (未使用)
-- [ ] 补充 API 配置外置
+- [x] 补充 API 配置外置
 
 ### 中优先级
 - [ ] 添加 README.md
