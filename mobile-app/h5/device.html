@@ -219,6 +219,22 @@
       box-shadow: none;
     }
 
+    /* ========== 设备主卡片连接信号条增强（限定 #deviceConnectionStatus，不影响右上角信号） ========== */
+    #deviceConnectionStatus .signal-bar {
+      width: 4px !important;
+      border-radius: 999px !important;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 2px 6px rgba(5, 150, 105, 0.35) !important;
+    }
+
+    html[data-theme="light"] #deviceConnectionStatus .signal-bar {
+      background: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    html[data-theme="dark"] #deviceConnectionStatus .signal-bar {
+      background: #10B981 !important;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.32) !important;
+    }
+
     html[data-theme="dark"] .card,
     html[data-theme="dark"] .app-card,
     html[data-theme="dark"] .wallet-card,
@@ -2549,10 +2565,10 @@
                 <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 5px;">连接</div>
                 <div id="deviceConnectionStatus" style="display: flex; justify-content: center; align-items: center; height: 20px;">
                   <div class="signal-bars" style="height: 16px; display: flex; align-items: flex-end; gap: 2px;">
-                    <div class="signal-bar" style="width: 3px; height: 4px; background: var(--success); border-radius: 1px;"></div>
-                    <div class="signal-bar" style="width: 3px; height: 7px; background: var(--success); border-radius: 1px;"></div>
-                    <div class="signal-bar" style="width: 3px; height: 10px; background: var(--success); border-radius: 1px;"></div>
-                    <div class="signal-bar" style="width: 3px; height: 13px; background: var(--success); border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 4px; border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 7px; border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 10px; border-radius: 1px;"></div>
+                    <div class="signal-bar" style="width: 3px; height: 13px; border-radius: 1px;"></div>
                   </div>
                 </div>
               </div>

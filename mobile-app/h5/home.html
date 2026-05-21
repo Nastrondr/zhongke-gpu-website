@@ -285,6 +285,32 @@
       color: var(--warning);
     }
 
+    /* ========== 设备卡片信号条（局部样式，不影响全局） ========== */
+    .device-signal-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 18px;
+    }
+
+    .device-signal-bars .signal-bar {
+      width: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28), 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .device-signal-bars .signal-bar:nth-child(1) { height: 5px; }
+    .device-signal-bars .signal-bar:nth-child(2) { height: 8px; }
+    .device-signal-bars .signal-bar:nth-child(3) { height: 11px; }
+    .device-signal-bars .signal-bar:nth-child(4) { height: 14px; }
+
+    html[data-theme="dark"] .device-signal-bars .signal-bar {
+      background: #10B981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.32);
+    }
+
     html[data-theme="dark"] .card,
     html[data-theme="dark"] .app-card,
     html[data-theme="dark"] .wallet-card,
@@ -867,7 +893,7 @@
       display: none;
       align-items: flex-end;
       justify-content: center;
-      z-index: 2000;
+      z-index: 20000;
     }
     
     .bottom-sheet.active {
@@ -1486,11 +1512,11 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;">
           <div class="info-block" style="background: var(--card-bg-soft); border-radius: var(--border-radius-sm); padding: 10px; text-align: center;">
             <div style="font-size: 10px; color: var(--text-tertiary); margin-bottom: 6px;">信号</div>
-            <div id="homeNetworkStatus" style="display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 16px;">
-              <div class="signal-bar" style="width: 3px; height: 4px; background: var(--success); border-radius: 1px;"></div>
-              <div class="signal-bar" style="width: 3px; height: 7px; background: var(--success); border-radius: 1px;"></div>
-              <div class="signal-bar" style="width: 3px; height: 10px; background: var(--success); border-radius: 1px;"></div>
-              <div class="signal-bar" style="width: 3px; height: 13px; background: var(--success); border-radius: 1px;"></div>
+            <div id="homeNetworkStatus" class="device-signal-bars">
+              <div class="signal-bar"></div>
+              <div class="signal-bar"></div>
+              <div class="signal-bar"></div>
+              <div class="signal-bar"></div>
             </div>
           </div>
           <div class="info-block" style="background: var(--card-bg-soft); border-radius: var(--border-radius-sm); padding: 10px; text-align: center;">

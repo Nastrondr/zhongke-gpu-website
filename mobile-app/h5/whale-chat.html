@@ -3060,12 +3060,36 @@
       background: #111317;
     }
 
+    html[data-theme="dark"] .chat-composer {
+      background: #1E293B;
+    }
+
+    html[data-theme="dark"] .chat-composer.is-focused {
+      background: #334155;
+      border-color: rgba(96, 165, 250, 0.3);
+    }
+
     html[data-theme="dark"] .chat-input {
       color: #F1F5F9;
     }
 
     html[data-theme="dark"] .chat-input::placeholder {
       color: #64748B;
+    }
+
+    html[data-theme="dark"] .multi-modal-btn,
+    html[data-theme="dark"] .voice-btn {
+      color: #94A3B8;
+    }
+
+    html[data-theme="dark"] .multi-modal-btn:hover,
+    html[data-theme="dark"] .voice-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    html[data-theme="dark"] .multi-modal-btn svg,
+    html[data-theme="dark"] .voice-btn svg {
+      stroke: #94A3B8;
     }
 
     html[data-theme="dark"] .input-btn svg {

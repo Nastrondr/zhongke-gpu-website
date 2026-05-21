@@ -114,6 +114,18 @@
       background: linear-gradient(135deg, #3B82F6, #2563EB);
       color: #FFFFFF;
     }
+    html[data-theme="dark"] .message-bubble.assistant-bubble {
+      background: #1E293B;
+      border: 1px solid rgba(148, 163, 184, 0.10);
+      color: #F8FAFC;
+    }
+    html[data-theme="dark"] .message-bubble.user-bubble {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: #FFFFFF;
+    }
+    html[data-theme="dark"] .message-time {
+      color: #64748B;
+    }
 
     html[data-theme="dark"] .device-avatar {
       background: rgba(59, 130, 246, 0.16);
@@ -260,6 +272,149 @@
       flex-direction: column;
       gap: 12px;
     }
+
+    /* ========== 消息行（assistant / user 共用外层） ========== */
+    .message-row {
+      display: flex;
+      width: 100%;
+    }
+    .message-row.assistant {
+      justify-content: flex-start;
+    }
+    .message-row.user {
+      justify-content: flex-end;
+    }
+
+    /* ========== Assistant 消息统一宽度容器 ========== */
+    .assistant-message-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: fit-content;
+      max-width: min(78%, 560px);
+      min-width: 220px;
+    }
+
+    /* ========== 气泡（user / assistant 共用基础） ========== */
+    .message-bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: break-word;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .message-bubble.user-bubble {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    .message-bubble.assistant-bubble {
+      align-self: flex-start;
+      background: #EEF2F7;
+      color: #1E293B;
+      border-bottom-left-radius: 4px;
+    }
+    .message-bubble.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red);
+    }
+    .message-bubble.warning {
+      background: rgba(251, 191, 36, 0.15);
+      color: #92400E;
+      border: 1px solid #FBBF24;
+    }
+    .message-bubble.loading {
+      opacity: 0.7;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    .message-bubble.streaming::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-left: 8px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .message-bubble .message-content {
+      line-height: 1.6;
+    }
+
+    /* ========== 元信息行（操作按钮 + 时间戳） ========== */
+    .message-meta-row {
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    /* ========== 操作按钮容器 ========== */
+    .message-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    /* 操作按钮 */
+    .message-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .message-action-btn svg {
+      width: 12px !important;
+      height: 12px !important;
+      flex-shrink: 0;
+    }
+
+    .message-action-btn:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--text-primary);
+    }
+
+    .message-action-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ========== 时间戳 ========== */
+    .message-time {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 12px;
+      line-height: 1;
+      color: var(--text-muted, #94a3b8);
+    }
+
+    /* 兼容旧结构的选择器（保留必要的旧样式，避免其他代码引用报错） */
     .chat-message {
       max-width: 85%;
       padding: 12px 16px;
@@ -294,81 +449,6 @@
       background: rgba(251, 191, 36, 0.15);
       color: #92400E;
       border: 1px solid #FBBF24;
-    }
-
-    .chat-message .message-content {
-      line-height: 1.6;
-    }
-
-    .chat-message.loading {
-      opacity: 0.7;
-    }
-
-    .chat-message.streaming::after {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      margin-left: 8px;
-      border-radius: 50%;
-      background: var(--accent-blue);
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* 消息包装容器 */
-    .message-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 16px;
-      position: relative;
-    }
-
-    /* 消息操作按钮容器 - 水平分布在气泡下方左侧，常显 */
-    .message-actions {
-      display: flex;
-      flex-direction: row;
-      gap: 6px;
-      margin-top: 4px;
-      align-self: flex-start;
-      margin-left: 0;
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-
-    /* 操作按钮样式 - 更小尺寸 */
-    .message-action-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border: none;
-      background: transparent;
-      border-radius: 4px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .message-action-btn svg {
-      width: 12px !important;
-      height: 12px !important;
-      flex-shrink: 0;
-    }
-
-    .message-action-btn:hover {
-      background: rgba(0, 0, 0, 0.08);
-      color: var(--text-primary);
-    }
-
-    .message-action-btn:active {
-      transform: scale(0.95);
     }
 
     /* 多模态按钮样式 */
@@ -968,6 +1048,28 @@
     html[data-theme="dark"] .multi-modal-btn:hover,
     html[data-theme="dark"] .voice-btn:hover {
       background: rgba(255, 255, 255, 0.05);
+    }
+    html[data-theme="dark"] .multi-modal-btn svg,
+    html[data-theme="dark"] .voice-btn svg {
+      stroke: #94A3B8;
+    }
+
+    /* 多模态输入菜单 - 深色模式 */
+    html[data-theme="dark"] .attach-menu {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    html[data-theme="dark"] .attach-option {
+      background: rgba(30, 41, 59, 0.8);
+    }
+
+    html[data-theme="dark"] .attach-option span {
+      color: #CBD5E1;
+    }
+
+    html[data-theme="dark"] .attach-option:hover {
+      background: rgba(37, 99, 235, 0.2);
     }
 
     /* 加载动画 */
@@ -2334,37 +2436,51 @@
     function addAssistantMessage(message, options = {}) {
       const container = document.getElementById('chatContainer');
       const id = options.id || `assistant_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-      
-      const div = document.createElement('div');
-      div.className = 'chat-message assistant';
-      div.dataset.messageId = id;
-      div.dataset.turnId = options.turnId || '';
-      
+
+      // 外层行容器
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'message-row assistant';
+
+      // assistant 消息统一宽度容器
+      const wrapDiv = document.createElement('div');
+      wrapDiv.className = 'assistant-message-wrap';
+
+      // 气泡
+      const bubbleDiv = document.createElement('div');
+      bubbleDiv.className = 'message-bubble assistant-bubble';
+      bubbleDiv.dataset.messageId = id;
+      bubbleDiv.dataset.turnId = options.turnId || '';
+
       if (options.isError) {
-        div.classList.add('error');
+        bubbleDiv.classList.add('error');
       }
-      
       if (options.warning) {
-        div.classList.add('warning');
+        bubbleDiv.classList.add('warning');
       }
-      
+
       const contentDiv = document.createElement('div');
       contentDiv.className = 'message-content';
       contentDiv.innerHTML = renderMessageContent(message);
-      div.appendChild(contentDiv);
-      
-      // 创建消息包装容器（包含气泡和操作按钮）
-      const wrapperDiv = document.createElement('div');
-      wrapperDiv.className = 'message-wrapper';
-      
-      // 先添加气泡
-      wrapperDiv.appendChild(div);
-      
-      // 添加操作按钮（在气泡下面，右侧）
+      bubbleDiv.appendChild(contentDiv);
+
+      if (options.warning) {
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'chat-warning';
+        warningDiv.textContent = options.warning;
+        bubbleDiv.appendChild(warningDiv);
+      }
+
+      wrapDiv.appendChild(bubbleDiv);
+
+      // 元信息行（操作按钮 + 时间戳）
+      const metaRow = document.createElement('div');
+      metaRow.className = 'message-meta-row assistant-meta-row';
+
+      // 操作按钮
       if (!options.isError && message && message.length > 0) {
         const actionsDiv = document.createElement('div');
         actionsDiv.className = 'message-actions';
-        
+
         // 重新生成按钮
         const regenerateBtn = document.createElement('button');
         regenerateBtn.className = 'message-action-btn';
@@ -2378,7 +2494,7 @@
         `;
         regenerateBtn.onclick = () => regenerateMessage(id);
         actionsDiv.appendChild(regenerateBtn);
-        
+
         // 复制按钮
         const copyBtn = document.createElement('button');
         copyBtn.className = 'message-action-btn';
@@ -2391,8 +2507,8 @@
         `;
         copyBtn.onclick = () => copyMessage(id, message);
         actionsDiv.appendChild(copyBtn);
-        
-        // 引用按钮（气泡消息图标）
+
+        // 引用按钮
         const quoteBtn = document.createElement('button');
         quoteBtn.className = 'message-action-btn';
         quoteBtn.title = '引用';
@@ -2403,20 +2519,45 @@
         `;
         quoteBtn.onclick = () => showQuoteSelector(id, message);
         actionsDiv.appendChild(quoteBtn);
-        
-        wrapperDiv.appendChild(actionsDiv);
+
+        // 点赞按钮
+        const likeBtn = document.createElement('button');
+        likeBtn.className = 'message-action-btn';
+        likeBtn.title = '点赞';
+        likeBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+          </svg>
+        `;
+        likeBtn.onclick = () => handleLike(id);
+        actionsDiv.appendChild(likeBtn);
+
+        // 点踩按钮
+        const dislikeBtn = document.createElement('button');
+        dislikeBtn.className = 'message-action-btn';
+        dislikeBtn.title = '点踩';
+        dislikeBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+          </svg>
+        `;
+        dislikeBtn.onclick = () => handleDislike(id);
+        actionsDiv.appendChild(dislikeBtn);
+
+        metaRow.appendChild(actionsDiv);
       }
-      
-      if (options.warning) {
-        const warningDiv = document.createElement('div');
-        warningDiv.className = 'chat-warning';
-        warningDiv.textContent = options.warning;
-        div.appendChild(warningDiv);
-      }
-      
-      container.appendChild(wrapperDiv);
+
+      // 时间戳
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'message-time';
+      timeSpan.textContent = formatTime(options.timestamp || Date.now());
+      metaRow.appendChild(timeSpan);
+
+      wrapDiv.appendChild(metaRow);
+      rowDiv.appendChild(wrapDiv);
+      container.appendChild(rowDiv);
       scrollToBottom();
-      
+
       console.log('[UIRender] addAssistantMessage', { id, textPreview: String(message).slice(0, 50) });
       return id;
     }
@@ -2424,20 +2565,20 @@
     // 更新助手消息内容
     function updateAssistantMessage(messageId, text, options = {}) {
       const el = document.querySelector(`[data-message-id="${messageId}"]`);
-      
+
       if (!el) {
         console.error('[UIRender] assistant message not found:', messageId);
         return false;
       }
-      
-      const contentEl = 
-        el.querySelector('.message-content') || 
-        el.querySelector('.bubble-content') || 
+
+      const contentEl =
+        el.querySelector('.message-content') ||
+        el.querySelector('.bubble-content') ||
         el.querySelector('.assistant-content') ||
         el;
-      
+
       contentEl.innerHTML = renderMessageContent(text);
-      
+
       el.classList.remove('loading', 'streaming', 'error', 'warning', 'paused');
       if (options.status) {
         el.classList.add(options.status);
@@ -2547,6 +2688,28 @@
           if (rawDiv) rawDiv.remove();
         }
       }
+    }
+
+    // 格式化消息时间
+    function formatTime(time) {
+      if (!time) return '刚刚';
+      const date = new Date(time);
+      const now = new Date();
+      const diff = now - date;
+      if (diff < 60000) return '刚刚';
+      if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
+      if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+      return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+    }
+
+    // 点赞
+    function handleLike(messageId) {
+      console.log('[DeviceChat] Like message:', messageId);
+    }
+
+    // 点踩
+    function handleDislike(messageId) {
+      console.log('[DeviceChat] Dislike message:', messageId);
     }
 
     // 滚动到底部
