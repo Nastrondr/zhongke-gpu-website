@@ -58,9 +58,9 @@
       --bg-input: #F8FAFC;
       --border-card: var(--border-primary);
       --border-input: #D7E3F8;
-      --text-primary: var(--text-primary);
-      --text-secondary: var(--text-secondary);
-      --text-tertiary: var(--text-tertiary);
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-tertiary: #94A3B8;
       --accent-blue: var(--primary);
       --accent-blue-light: var(--primary-light);
       --accent-cyan: #0891B2;
@@ -696,7 +696,7 @@
     
     /* 对话区 - 优化对齐与留白 */
     .chat-section {
-      padding: 12px 0 140px;
+      padding-bottom: calc(var(--composer-height, 56px) + env(safe-area-inset-bottom) + 24px);
     }
     
     .chat-message {
@@ -1061,39 +1061,54 @@
       color: #2563EB;
     }
 
+    /* 输入区域 - 固定在底部 */
+    :root {
+      --composer-height: 56px;
+      --keyboard-offset: 0px;
+    }
+
     /* 输入区 - 与 bottom-nav 统一风格 */
     .input-area {
       position: fixed;
-      bottom: 0;
       left: 0;
       right: 0;
+      bottom: 0;
+      z-index: 1000;
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      background: transparent;
+      transform: translateY(calc(-1 * var(--keyboard-offset, 0px)));
+      transition: transform 0.18s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-      background: linear-gradient(to top, var(--bg-primary) 80%, transparent);
-      z-index: 60;
-      gap: 8px;
+      gap: 4px;
     }
 
-    .input-wrapper {
+    .chat-composer {
       display: flex;
-      align-items: center;
-      gap: 14px;
-      width: var(--bottom-control-width);
-      height: var(--bottom-control-height);
-      min-height: var(--bottom-control-height);
-      max-height: var(--bottom-control-height);
-      margin: 0 auto;
-      background: #111317;
-      border-radius: 999px;
-      padding: 0 14px;
-      box-sizing: border-box;
+      align-items: flex-end;
+      gap: 8px;
+      width: min(398px, calc(100vw - 24px));
+      padding: 8px;
+      background: #EEF3F8;
+      border-radius: 28px;
+      transition: all 0.18s ease;
+      border: 1px solid transparent;
+    }
+    
+    .chat-composer.is-focused {
+      background: #FFFFFF;
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
+    }
+    
+    .chat-composer.is-processing {
+      background: rgba(239, 68, 68, 0.08);
     }
 
     /* 图片预览区域样式 - 支持深浅色模式 */
     .input-area .image-preview-container {
-      width: var(--bottom-control-width);
+      width: min(398px, calc(100vw - 24px));
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -1157,105 +1172,130 @@
       background: #111317;
     }
     
-    .input-btn {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: none;
-      color: rgba(255, 255, 255, 0.6);
-      cursor: pointer;
-      border-radius: 999px;
-      transition: all 0.2s;
-      flex-shrink: 0;
-      font-size: 20px;
-    }
-
-    .input-btn:hover {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    html[data-theme="light"] .input-btn {
-      background: transparent;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    html[data-theme="light"] .input-btn:hover {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .input-btn svg {
-      width: 22px;
-      height: 22px;
-    }
-
     #deviceModeBtn {
       transition: all 0.2s ease;
     }
     
-    .chat-input {
-      flex: 1;
+    .multi-modal-btn, .voice-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: transparent;
       border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .voice-btn {
+      display: flex;
+    }
+    
+    .multi-modal-btn:hover, .voice-btn:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .multi-modal-btn:active, .voice-btn:active {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .chat-input {
+      box-sizing: border-box;
+      width: 100%;
+      white-space: pre-wrap;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      min-height: 40px;
+      max-height: 160px;
+      padding: 9px 4px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
       outline: none;
-      color: #FFFFFF;
-      font-size: 18px;
-      line-height: 1.4;
-      padding: 0;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 22px;
       resize: none;
-      max-height: 80px;
-      min-height: 20px;
+      overflow-y: auto;
     }
     
     .chat-input::placeholder {
-      color: rgba(255, 255, 255, 0.42);
-      font-size: 18px;
+      color: var(--text-tertiary);
+      font-size: 15px;
     }
-
-    /* 浅色模式 - 输入框占位符 */
+    
     html[data-theme="light"] .chat-input::placeholder {
-      color: rgba(255, 255, 255, 0.42);
+      color: #94A3B8;
     }
     
     .send-btn {
-      min-width: 78px;
-      height: 44px;
-      display: flex;
+      width: 40px;
+      height: 40px;
+      display: none;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #6366F1, #5B35E6);
       border: none;
-      border-radius: 999px;
+      border-radius: 50%;
       color: white;
-      font-size: 16px;
-      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
       flex-shrink: 0;
       position: relative;
     }
     
+    
+    
     .send-btn:hover {
       opacity: 0.9;
     }
     
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+    
     .send-btn svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 18px;
       height: 18px;
+      stroke: currentColor;
+    }
+    
+    .send-btn svg.icon-send { display: block; }
+    .send-btn svg.icon-pause { display: none; }
+    
+    .send-btn.processing {
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+      animation: pulse-processing 1s infinite;
+    }
+    
+    .send-btn.processing svg.icon-send { display: none; }
+    .send-btn.processing svg.icon-pause { display: block; }
+    
+    .chat-composer.has-text .voice-btn,
+    .chat-composer.is-processing .voice-btn {
+      display: none;
     }
 
+    .chat-composer.has-text .send-btn,
+    .chat-composer.is-processing .send-btn {
+      display: flex;
+    }
+    
     .send-btn.sending {
       background: var(--accent-blue-light);
       cursor: not-allowed;
       animation: pulse 1s infinite;
     }
-
-    .send-btn.sending svg {
-      opacity: 0;
-    }
-
+    
     .send-btn.sending::after {
       content: '';
       position: absolute;
@@ -1274,6 +1314,11 @@
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.7; }
+    }
+    
+    @keyframes pulse-processing {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.02); }
     }
 
     /* 输入框禁用状态 */
@@ -2249,7 +2294,7 @@
     /* ==================== 技能栏箭头按钮 ==================== */
     .skills-bar-wrapper {
       position: fixed;
-      bottom: 110px;
+      bottom: calc(110px + env(safe-area-inset-bottom));
       left: 0;
       right: 0;
       padding: 8px 16px;
@@ -2421,7 +2466,7 @@
 
     /* 聊天区域顶部留白 */
     .chat-section {
-      padding-top: 68px;
+      padding: 68px 0 0;
     }
 
     /* 通用标签样式 */
@@ -3375,25 +3420,32 @@
       <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv" style="display: none;" onchange="handleFileSelected(event)">
       <!-- 多图预览区域 -->
       <div id="imagePreviewContainer" class="image-preview-container" style="display: none;"></div>
-      <div class="input-wrapper">
-        <button class="input-btn" id="attachBtn" onclick="toggleAttachMenu()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="chat-composer" id="chatComposer">
+        <button class="multi-modal-btn" id="attachBtn" onclick="toggleAttachMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
         </button>
         <textarea class="chat-input" id="chatInput" placeholder="请输入内容" rows="1"></textarea>
-        <button class="input-btn" id="voiceBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="voice-btn" id="voiceBtn" type="button" onclick="handleVoiceClick()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
             <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
           </svg>
         </button>
-        <button class="send-btn" id="sendBtn">发送</button>
+        <button class="send-btn" id="sendBtn" onclick="handleSendMessage()">
+          <svg class="icon-send" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>
+          </svg>
+        </button>
       </div>
     </div>
 
     <!-- 多模态输入菜单 -->
-    <div class="attach-menu" id="attachMenu" style="display: none; position: fixed; bottom: 95px; left: 16px; right: 16px; background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: none; z-index: 9999;">
+    <div class="attach-menu" id="attachMenu" style="display: none; position: fixed; bottom: 95px; left: 16px; right: 16px; background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); z-index: 9999;">
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
         <div class="attach-option" onclick="handleMultimodalUpload('image')" style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: var(--card-bg-soft); border-radius: 12px; cursor: pointer; transition: all 0.2s;">
           <div style="width: 40px; height: 40px; background: rgba(37, 99, 235, 0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
@@ -3565,6 +3617,53 @@
     let deviceMode = false;
     let currentDevice = null;
     let currentStreamController = null; // 用于 abort 正在进行中的 stream 请求
+
+    // 多模态功能：切换菜单
+    window.toggleAttachMenu = function() {
+      const menu = document.getElementById('attachMenu');
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+      } else {
+        menu.style.display = 'none';
+      }
+    }
+
+    // 处理多模态上传
+    window.handleMultimodalUpload = function(type) {
+      const menu = document.getElementById('attachMenu');
+      if (menu) menu.style.display = 'none';
+
+      const fileInput = document.getElementById('fileInput');
+      if (!fileInput) return;
+
+      if (type === 'image') {
+        fileInput.accept = 'image/*';
+        fileInput.multiple = true;
+      } else if (type === 'document') {
+        fileInput.accept = '.pdf,.doc,.docx';
+        fileInput.multiple = false;
+      } else if (type === 'spreadsheet') {
+        fileInput.accept = '.xls,.xlsx,.csv';
+        fileInput.multiple = false;
+      } else if (type === 'scan') {
+        showToast('扫描功能开发中', 'info');
+        return;
+      } else if (type === 'voice') {
+        showToast('语音输入开发中', 'info');
+        return;
+      }
+
+      fileInput.click();
+    }
+
+    // 语音按钮点击
+    window.handleVoiceClick = function() {
+      if (typeof showToast === 'function') {
+        showToast('语音输入开发中', 'info');
+      } else if (typeof alert === 'function') {
+        alert('语音输入开发中');
+      }
+    }
 
     // 显示设备引导
     function showDeviceGuide() {
@@ -4418,16 +4517,6 @@
       }
     });
 
-    // ==================== 多模态输入菜单 ====================
-    function toggleAttachMenu() {
-      const menu = document.getElementById('attachMenu');
-      if (menu.style.display === 'none') {
-        menu.style.display = 'block';
-      } else {
-        menu.style.display = 'none';
-      }
-    }
-
     // 点击其他地方关闭菜单
     document.addEventListener('click', function(e) {
       if (!e.target.closest('#attachMenu') && !e.target.closest('#attachBtn')) {
@@ -4435,37 +4524,6 @@
         if (menu) menu.style.display = 'none';
       }
     });
-
-    // ==================== 处理多模态上传 ====================
-    function handleMultimodalUpload(type) {
-      const menu = document.getElementById('attachMenu');
-      if (menu) menu.style.display = 'none';
-
-      const fileInput = document.getElementById('fileInput');
-      if (!fileInput) return;
-
-      // 设置接受的文件类型
-      switch(type) {
-        case 'image':
-          fileInput.accept = 'image/*';
-          break;
-        case 'document':
-          fileInput.accept = '.pdf,.doc,.docx,.txt';
-          break;
-        case 'spreadsheet':
-          fileInput.accept = '.xls,.xlsx,.csv';
-          break;
-        case 'scan':
-          fileInput.accept = 'image/*';
-          break;
-        case 'voice':
-          showDemoToast('语音输入将在后续版本开放');
-          return;
-      }
-
-      // 触发文件选择
-      fileInput.click();
-    }
 
     // ==================== 处理文件选择 ====================
     // 存储当前附加的文件数据（支持多文件）
@@ -5258,26 +5316,167 @@
     }
     
     // 输入框自动增高
-    const textarea = document.querySelector('.chat-input');
-    const sendBtn = document.getElementById('sendBtn');
-    textarea.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-    });
+    function autoResizeInput(textarea) {
+      const minHeight = 40; // 最小高度（单行高度）
+      const maxHeight = 160; // 最大高度限制
+      
+      // 如果没有内容，设置为最小高度
+      if (!textarea.value.trim()) {
+        textarea.style.height = minHeight + 'px';
+      } else {
+        textarea.style.height = 'auto';
+        const scrollHeight = textarea.scrollHeight;
+        const newHeight = Math.min(Math.max(scrollHeight, minHeight), maxHeight);
+        textarea.style.height = newHeight + 'px';
+      }
+      
+      // 更新 CSS 变量，供消息区 padding-bottom 使用
+      const computedStyle = window.getComputedStyle(textarea);
+      const currentHeight = parseFloat(computedStyle.height);
+      const composer = document.getElementById('chatComposer');
+      if (composer) {
+        const composerHeight = Math.max(56, currentHeight + 16); // 加上 padding
+        document.documentElement.style.setProperty('--composer-height', `${composerHeight}px`);
+      }
+    }
 
-    // 输入框Enter发送（Shift+Enter换行）
-    textarea.addEventListener('keydown', function(e) {
+    // 更新输入框组合器状态
+    function updateComposerState() {
+      const chatComposer = document.getElementById('chatComposer');
+      const chatInput = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const voiceBtn = document.getElementById('voiceBtn');
+      
+      if (!chatComposer || !chatInput) return;
+      
+      const hasText = chatInput.value.trim().length > 0;
+      const isFocused = document.activeElement === chatInput;
+      const isMultiline = chatInput.scrollHeight > 48; // 单行高度阈值
+      const isProcessing = window.isProcessing || false;
+      
+      // 更新状态 class
+      chatComposer.classList.toggle('has-text', hasText);
+      chatComposer.classList.toggle('is-focused', isFocused && !isProcessing);
+      chatComposer.classList.toggle('is-multiline', isMultiline);
+      chatComposer.classList.toggle('is-processing', isProcessing);
+      
+      // 更新按钮显示
+      if (hasText || isProcessing) {
+        // 有文本或处理中时显示发送按钮
+        if (sendBtn) sendBtn.style.display = 'flex';
+        if (voiceBtn) voiceBtn.style.display = 'none';
+      } else {
+        // 无文本且非处理中时显示语音按钮
+        if (sendBtn) sendBtn.style.display = 'none';
+        if (voiceBtn) voiceBtn.style.display = 'flex';
+      }
+      
+      // 调整输入框高度
+      autoResizeInput(chatInput);
+    }
+
+    // 输入框键盘事件
+    function handleInputKeydown(e) {
+      const chatInput = document.getElementById('chatInput');
+      
+      if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+        if (chatInput && chatInput.value.length > 0) {
+          e.preventDefault();
+          chatInput.select();
+        }
+        return;
+      }
+      
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleSendMessage();
       }
-    });
+    }
 
-    // 发送按钮点击
-    sendBtn.addEventListener('click', function() {
-      handleSendMessage();
-    });
+    // 键盘适配函数
+function setupKeyboardAdaptation() {
+  if (!window.visualViewport) return;
+  
+  const updateKeyboardOffset = () => {
+    const vv = window.visualViewport;
+    const isFullScreen = vv.height >= window.innerHeight - 20;
+    let offset = isFullScreen ? 0 : Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    const maxOffset = 360;
+    offset = Math.min(offset, maxOffset);
+    document.documentElement.style.setProperty('--keyboard-offset', `${offset}px`);
+  };
+  
+  window.visualViewport.addEventListener('resize', updateKeyboardOffset);
+  window.visualViewport.addEventListener('scroll', updateKeyboardOffset);
+}
 
+    // 初始化输入框交互
+    function initChatComposer() {
+      console.log('[Composer] Initializing input interaction:', {
+        toggleAttachMenu: typeof window.toggleAttachMenu,
+        handleMultimodalUpload: typeof window.handleMultimodalUpload,
+        handleVoiceClick: typeof window.handleVoiceClick
+      });
+      
+      const chatInput = document.getElementById('chatInput');
+      const chatComposer = document.getElementById('chatComposer');
+      const sendBtn = document.getElementById('sendBtn');
+      const voiceBtn = document.getElementById('voiceBtn');
+      const multiModalBtn = document.getElementById('attachBtn');
+      
+      if (!chatInput) {
+        console.warn('[Composer] chatInput not found');
+        return;
+      }
+      
+      if (!chatComposer) {
+        console.warn('[Composer] chatComposer not found');
+        return;
+      }
+      
+      if (!sendBtn) {
+        console.warn('[Composer] sendBtn not found');
+        return;
+      }
+      
+      if (!voiceBtn) {
+        console.warn('[Composer] voiceBtn not found');
+        return;
+      }
+      
+      if (!multiModalBtn) {
+        console.warn('[Composer] multiModalBtn not found');
+        return;
+      }
+      
+      // 绑定事件
+      chatInput.addEventListener('focus', () => {
+        if (!window.isProcessing) {
+          updateComposerState();
+        }
+      });
+      
+      chatInput.addEventListener('blur', () => {
+        if (!window.isProcessing) {
+          updateComposerState();
+        }
+      });
+      
+      chatInput.addEventListener('input', () => {
+        updateComposerState();
+      });
+      
+      chatInput.addEventListener('keydown', handleInputKeydown);
+      
+      // 初始化状态
+      updateComposerState();
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      initChatComposer();
+      setupKeyboardAdaptation();
+    });
     // ==================== 从底部导航发送消息 ====================
     window.handleSendMessageFromBottomNav = function(message) {
       if (!message || !message.trim()) {
@@ -5303,7 +5502,7 @@
 
       // 清空输入框
       input.value = '';
-      textarea.style.height = 'auto';
+      updateComposerState();
 
       // 构建消息内容
       let content = message;
@@ -5459,7 +5658,7 @@
 
       // 清空输入框
       input.value = '';
-      textarea.style.height = 'auto';
+      updateComposerState();
 
       // 构建消息内容
       let content = message || '请分析这些文件';
