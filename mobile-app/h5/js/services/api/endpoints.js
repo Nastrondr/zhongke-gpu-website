@@ -65,7 +65,11 @@ const ApiEndpoints = {
     // AI流式推理 (provider 是变量，如 deepseek, openai 等)
     stream: { method: 'POST', path: '/manage/api/v1/ai/:provider/stream/proxy' },
     // AI流式推理(无思考过程)
-    streamNoThinking: { method: 'POST', path: '/manage/api/v1/ai/:provider/stream/nothinking/proxy/v1/chat/completions' }
+    streamNoThinking: { method: 'POST', path: '/manage/api/v1/ai/:provider/stream/nothinking/proxy/v1/chat/completions' },
+    // AI流式推理(新接口 - open/api/v1)
+    streamGenerate: { method: 'POST', path: '/open/api/v1/ai/:provider/stream/proxy/api/generate' },
+    // 获取模型列表(新接口 - open/api/v1) - 支持千问3.6等新模型
+    modelTagsOpen: { method: 'GET', path: '/open/api/v1/ai/:provider/stream/proxy/api/tags' }
   },
 
   // 技能相关

@@ -164,7 +164,7 @@ const Api = {
   // 小龙虾设备 OPENCLAW_MANAGER 命令
   OPENCLAW: {
     // 发送命令到小龙虾设备（使用新接口 /manage/api/v1/devices/{id}/iot/capbility/invork）
-    async sendChat(deviceId, message, sessionKey = 'agent:main:main') {
+    async sendChat(deviceId, message, sessionKey = 'agent:main:main', images = []) {
       const endpoint = ApiEndpoints.device.openclaw.invork;
       const path = endpoint.path.replace(':id', deviceId);
       const url = ApiEndpoints.buildUrl(path);
@@ -183,7 +183,8 @@ const Api = {
                 sessionKey: sessionKey,
                 message: message,
                 deliver: false,
-                idempotencyKey: this._generateUUID()
+                idempotencyKey: this._generateUUID(),
+                images: images
               }
             }
           },
@@ -194,7 +195,7 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] sendChat:', { deviceId, message, url });
+      console.log('[OPENCLAW] sendChat:', { deviceId, message, images: images.length });
       console.log('[OpenClawSend] userInput:', message);
       console.log('[OpenClawSend] requestId:', requestBody.Parameter.parameter.data.id);
       console.log('[OpenClawSend] idempotencyKey:', requestBody.Parameter.parameter.data.params.idempotencyKey);

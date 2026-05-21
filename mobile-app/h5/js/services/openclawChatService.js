@@ -21,6 +21,7 @@ const OpenClawChatService = {
     deviceId: null,          // 当前设备ID
     cursorTs: 0,            // 当前游标时间戳
     lastEventTs: 0,         // 最后事件时间戳
+    lastActivityTs: 0,      // 最后活动时间戳（用于无活动超时）
     processedEvents: new Set(), // 已处理事件集合
     timerId: null,          // 定时器ID
     callbacks: {},           // 回调函数
@@ -41,7 +42,8 @@ const OpenClawChatService = {
     activeInterval: 1000,    // 活跃轮询间隔：1秒
     recoverySafetyWindow: 5 * 60 * 1000, // 恢复轮询安全窗口：5分钟
     maxRecoveryIterations: 50, // 最大恢复迭代次数
-    maxTotalTime: 10 * 60 * 1000 // 最大总时间：10分钟
+    maxTotalTime: 10 * 60 * 1000, // 最大总时间：10分钟
+    maxInactivityTime: 5000 // 最大无活动时间：5秒（无新事件则认为完成）
   },
 
   // 当前设备
@@ -156,6 +158,8 @@ const OpenClawChatService = {
     this._pollState.lifecycleStarted = false;
     this._pollState.lifecycleEnded = false;
     this._pollState.activeRunId = '';
+    this._pollState.callbacks = {}; // 重置回调，避免与空闲轮询的回调冲突
+    this._pollState.lastActivityTs = Date.now(); // 记录活动开始时间
     // 不清空 processedEvents，而是依赖 questionTs 过滤
   },
 
@@ -279,8 +283,9 @@ const OpenClawChatService = {
       const payload = row.payload || row;
       const rowTs = this._getRowTs(row);
 
-      // active 模式下过滤早于 questionTs 的事件
-      if (state.mode === 'active' && state.questionTs && rowTs && rowTs < state.questionTs) {
+      // active 模式下过滤早于 questionTs - 5秒 的事件（增加时间容差）
+      if (state.mode === 'active' && state.questionTs && rowTs && rowTs < state.questionTs - 5000) {
+        console.log('[DEBUG-POLL] 事件被时间戳过滤 - rowTs:', rowTs, 'questionTs:', state.questionTs, 'diff(ms):', rowTs - state.questionTs);
         continue;
       }
 
@@ -288,6 +293,9 @@ const OpenClawChatService = {
       if (rowTs > state.lastEventTs) {
         state.lastEventTs = rowTs;
       }
+
+      // 更新最后活动时间戳（收到新事件时）
+      state.lastActivityTs = Date.now();
 
       // 标记为已处理
       if (eventKey) {
@@ -307,6 +315,7 @@ const OpenClawChatService = {
 
       // active 模式下，如果已记录 activeRunId，则只处理同一个 runId 的事件
       if (state.mode === 'active' && state.activeRunId && payload.runId && payload.runId !== state.activeRunId) {
+        console.log('[DEBUG-POLL] runId不匹配 - expected:', state.activeRunId, 'got:', payload.runId);
         continue;
       }
 
@@ -569,17 +578,21 @@ const OpenClawChatService = {
   /**
    * 发送聊天消息
    */
-  async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main') {
+  async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main', images = []) {
     if (!deviceId) throw new Error('deviceId is required');
     if (!message) throw new Error('message is required');
-    console.log('[OpenClawChat] sendChatMessage:', { deviceId, message, sessionKey });
-    return await window.Api.OPENCLAW.sendChat(deviceId, message, sessionKey);
+    console.log('[OpenClawChat] sendChatMessage:', { deviceId, message, sessionKey, images: images.length });
+    return await window.Api.OPENCLAW.sendChat(deviceId, message, sessionKey, images);
   },
 
   /**
    * 发送消息并等待回复（新接口，使用活跃轮询）
+   * @param {Object} device - 设备对象
+   * @param {string} message - 消息内容
+   * @param {Object} callbacks - 回调函数
+   * @param {Array} images - 图片数据数组（base64）
    */
-  async sendMessageAndWait(device, message, callbacks = {}) {
+  async sendMessageAndWait(device, message, callbacks = {}, images = []) {
     const deviceId = this.resolveDeviceId(device);
 
     if (!deviceId || !Number.isFinite(deviceId)) {
@@ -603,8 +616,11 @@ const OpenClawChatService = {
       // 先切换到活跃轮询
       this.startActivePolling(userMessage, questionTs);
 
-      // 再发送消息
-      const sendResponse = await this.sendChatMessage(deviceId, userMessage);
+      // 设置活跃轮询的回调（覆盖 startActivePolling 清空的回调）
+      this._pollState.callbacks = callbacks;
+
+      // 再发送消息（包含图片）
+      const sendResponse = await this.sendChatMessage(deviceId, userMessage, 'agent:main:main', images);
       console.log('[Turn] sendResponse:', sendResponse?.success);
 
       if (!sendResponse?.success) {
@@ -691,8 +707,24 @@ const OpenClawChatService = {
           return;
         }
 
-        // 30秒后提示仍在执行
-        if (Date.now() - startTime > 30000 && !state.hasFinal) {
+        // 无活动超时：如果已有回复且一段时间没有新事件，认为任务完成
+        if (state.assistantText && Date.now() - state.lastActivityTs > this.config.maxInactivityTime) {
+          clearInterval(checkInterval);
+          console.log('[Turn] waitForFinal - inactivity timeout, returning current response');
+          resolve({
+            success: true,
+            text: state.assistantText,
+            isFinal: false,
+            hasFinal: false,
+            commandOutputs: state.commandOutputs,
+            error: false,
+            reason: 'inactivity_timeout'
+          });
+          return;
+        }
+
+        // 30秒后提示仍在执行（仅当没有收到任何回复时）
+        if (Date.now() - startTime > 30000 && !state.hasFinal && !state.assistantText) {
           state.callbacks.onWarning?.('任务仍在执行中，我会继续等待结果...');
         }
 

@@ -1223,6 +1223,11 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
   background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI computing power data center, blue technology background, futuristic, high-tech, dark blue waves with light rays, digital particles, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
   background-size: cover !important;
   position: relative;
+  min-height: 620px;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  color: white;
+  text-align: center;
 }
 
 .hero-home::before {
@@ -1232,12 +1237,144 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(7, 16, 74, 0.85) 50%, rgba(10, 29, 112, 0.8) 100%);
   z-index: 1;
 }
 
+.hero-home .hero-bg-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-home .hero-bg-effects::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(79,99,255,0.35), transparent 45%);
+}
+
+.hero-home .hero-bg-effects::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 80%, rgba(109,140,255,0.15), transparent 35%);
+}
+
+.hero-home .hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-home .hero-content {
+  flex: 1;
+  max-width: 720px;
+  padding: 140px 0 80px;
+  text-align: center;
+}
+
+.hero-home .hero-visual {
+  display: none;
+}
+
+.hero-home .hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  color: rgba(255,255,255,0.82);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  margin-bottom: 20px;
+}
+
+.hero-home h1 {
+  font-size: 56px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+}
+
+.hero-home .hero-subtitle {
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.78);
+  margin-bottom: 40px;
+}
+
+.hero-home .hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-home .btn-primary-new {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #4F63FF, #6D8CFF);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 14px 35px rgba(79,99,255,0.35);
+}
+
+.hero-home .btn-primary-new:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 45px rgba(79,99,255,0.45);
+}
+
+.hero-home .btn-secondary-new {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #FFFFFF;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.hero-home .btn-secondary-new:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-2px);
+}
+
+.hero-home .glass-card-float {
+  display: none;
+}
+
 .hero-products {
-  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue circuit board with electronic components, technology background, close-up, high detail, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=enterprise cloud computing services platform, abstract blue digital interface, product catalog visualization, professional tech company style, dark blue gradient background&image_size=landscape_16_9') no-repeat center center !important;
   background-size: cover !important;
   position: relative;
 }
@@ -1249,16 +1386,12 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(7, 16, 74, 0.85) 100%);
   z-index: 1;
 }
 
-.hero-gpu-time {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-}
-
 .hero-solutions {
-  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue server room with glowing lights, data center, futuristic technology, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI solutions and technology applications, abstract digital flow visualization, problem solving concept, professional enterprise consulting style, dark blue gradient&image_size=landscape_16_9') no-repeat center center !important;
   background-size: cover !important;
   position: relative;
 }
@@ -1275,7 +1408,7 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
 }
 
 .hero-resources {
-  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue digital technology background with floating currency symbols and futuristic grid, resource center theme, professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=knowledge base and resource center, digital library concept, information architecture visualization, professional tech documentation style, dark blue tones&image_size=landscape_16_9') no-repeat center center !important;
   background-size: cover !important;
   position: relative;
 }
@@ -1292,7 +1425,7 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
 }
 
 .hero-about {
-  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern blue glass skyscrapers, corporate buildings, professional business environment, enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=corporate team and company culture, professional business people collaboration, modern office environment, enterprise brand identity, dark blue gradient&image_size=landscape_16_9') no-repeat center center !important;
   background-size: cover !important;
   position: relative;
 }
@@ -1309,7 +1442,8 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
 }
 
 .hero-contact {
-  background: var(--primary);
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=business communication and contact center, customer service concept, modern digital interface, professional enterprise support style, dark blue gradient&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
   position: relative;
 }
 
@@ -1320,7 +1454,109 @@ body.products-page .nav-menu li:nth-child(2) .dropdown {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.82) 0%, rgba(7, 16, 74, 0.9) 100%);
+  z-index: 1;
+}
+
+.hero-bare-metal {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dedicated bare metal server infrastructure, physical hardware systems, enterprise IT equipment, data center components, dark blue tech style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-bare-metal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
+  z-index: 1;
+}
+
+.hero-gpu-time {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=GPU computing time sharing and billing system, cloud GPU resource allocation, pay-as-you-go technology service, dark blue enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-gpu-time::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
+  z-index: 1;
+}
+
+.hero-computing-center {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=data center with rows of servers, blue cooling lights, modern infrastructure, dark professional enterprise style&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-computing-center::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
+  z-index: 1;
+}
+
+.hero-news-policy {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=corporate news and policy information, digital news feed visualization, industry announcements, professional business information style, dark blue gradient&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-news-policy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
+  z-index: 1;
+}
+
+.hero-ai {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI artificial intelligence and machine learning, intelligent automation concept, brain-computer interface visualization, futuristic tech enterprise style, dark blue&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-ai::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
+  z-index: 1;
+}
+
+.hero-robot {
+  background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=industrial robotics and automation technology, robotic arm and intelligent machinery, advanced manufacturing concept, enterprise tech style, dark blue gradient&image_size=landscape_16_9') no-repeat center center !important;
+  background-size: cover !important;
+  position: relative;
+}
+
+.hero-robot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(7, 16, 74, 0.88) 100%);
   z-index: 1;
 }
 

@@ -1,121 +1,112 @@
 # h5 文件夹结构优化建议
 
 > 创建时间：2025-05-14
-> 更新：2025-05-14 (新增文件结构问题检查)
+> 更新：2025-05-14 (全面检查完成)
 > 文件路径：`mobile-app/h5/`
 
 ---
 
-## 一、JS 目录优化（已完成 ✅）
+## 一、已完成的优化 ✅
 
-### 1.1 入口文件一致性
+### 1.1 JS 目录入口文件
 
 | 目录 | index.js | 状态 |
 |------|---------|------|
-| mock/ | ✅ 存在 | 正常 |
-| services/ | ✅ 存在 | 正常 |
-| services/api/ | ✅ 存在 | 正常 |
-| utils/ | ✅ 已新增 | 已完成 |
+| mock/ | ✅ | 正常 |
+| services/ | ✅ | 正常 |
+| services/api/ | ✅ | 正常 |
+| utils/ | ✅ | 已新增 |
 
-### 1.2 分散文件处理
+### 1.2 删除的未使用文件
 
 | 文件 | 状态 |
 |------|------|
 | icons.js | ✅ 已删除 |
 | main.js | ✅ 已删除 |
 
-### 1.3 JS 路径统一
+### 1.3 路径统一
 
 | 任务 | 状态 |
 |------|------|
-| 将 `/h5/js/` 改为 `js/` | ✅ 已完成 |
+| `/h5/js/` → `js/` | ✅ 已完成 |
+| bottom-nav.js 移动 | ✅ 已完成 |
 
 ---
 
-## 二、新发现的文件结构问题
+## 二、全面检查结果
 
-### 2.1 根目录分散的 JS 文件
+### 2.1 JS 引用路径检查 ✅
 
-| 文件位置 | 应在位置 | 问题 |
-|----------|----------|------|
-| `bottom-nav.js` | `js/utils/` | 分散在根目录 |
+| 检查项 | 结果 |
+|--------|------|
+| 根目录 JS 文件 | 无 ✅ |
+| `js/` 路径引用 | 统一 ✅ |
+| 引用文件数 | 128 处 |
 
-### 2.2 根目录的文档文件
+### 2.2 CSS 引用检查 ✅
+
+| 检查项 | 结果 |
+|--------|------|
+| CSS 路径 | 统一为 `css/` ✅ |
+| 引用文件数 | 13 处 |
+
+### 2.3 图片引用检查 ✅
+
+| 检查项 | 结果 |
+|--------|------|
+| 图片路径 | 统一为 `images/` ✅ |
+| 主要图片 | yinghuochong-logo.png, whale-*.svg, weixin.png, feishu.jpeg |
+
+### 2.4 根目录文件检查
+
+| 类型 | 文件 | 数量 | 建议 |
+|------|------|------|------|
+| HTML 页面 | *.html | 20 | ✅ 正常 |
+| 配置文件 | manifest.json | 1 | ✅ 保留 |
+| 文档文件 | *.md | 2 | 见下文 |
+| 测试文件 | api-test.html | 1 | 见下文 |
+
+---
+
+## 三、待处理问题
+
+### 3.1 文档文件
 
 | 文件 | 说明 | 建议 |
 |------|------|------|
-| `api-test.html` | 测试文件 | 删除 |
-| `EVALUATION.md` | 评估报告 | 删除或归档 |
-| `VITE_MIGRATION.md` | 迁移方案 | 保留参考 |
-| `manifest.json` | PWA 配置 | ✅ 正常 |
+| `api-test.html` | 测试文件 | ⚠️ 删除 |
+| `EVALUATION.md` | 评估报告 | ⚠️ 删除 |
+| `VITE_MIGRATION.md` | 迁移方案 | ✅ 保留参考 |
+| `css/REDUNDANCY.md` | 技术债记录 | ⚠️ 删除 |
 
-### 2.3 根目录 HTML 文件数量
+### 3.2 代码重复问题（whale-chat.html）
 
-共 20 个 HTML 页面：
-- index.html, home.html
-- device.html, device-chat.html
-- connection-center.html, session-center.html
-- task-center.html
-- token-overview.html, token-consumption.html, token-production.html
-- topup.html
-- account-binding.html, mobile-diagnosis.html
-- model-switch.html, model-skill.html
-- skill-execute.html
-- whale-chat.html
+| 问题 | 详情 |
+|------|------|
+| 重复图片引用 | yinghuochong-logo.png 在 HTML 中重复引用 15+ 次 |
+| 内联 JS | whale-chat.html 行 5107 处有长字符串拼接 |
 
 ---
 
-## 三、待处理问题清单
+## 四、问题优先级
 
 ### 高优先级
-- [ ] 移动 `bottom-nav.js` 到 `js/utils/` 并更新引用
+- [ ] 删除 `api-test.html` (测试文件)
+- [ ] 删除 `EVALUATION.md` (已完成)
+- [ ] 删除 `css/REDUNDANCY.md` (技术债记录)
 
 ### 中优先级
-- [ ] 删除 `api-test.html` (测试文件)
-- [ ] 删除 `EVALUATION.md` (已使用完毕)
+- [ ] 优化 whale-chat.html 中的重复图片引用（可选）
 
 ### 低优先级
-- [ ] 考虑归档 `VITE_MIGRATION.md` 或保留作为参考
+- [ ] 考虑删除 `VITE_MIGRATION.md` (已保留作为参考)
 
 ---
 
-## 四、根目录文件汇总
-
-### 应该保留
-| 文件 | 说明 |
-|------|------|
-| `*.html` | 页面文件 |
-| `manifest.json` | PWA 配置 |
-
-### 可以删除
-| 文件 | 说明 |
-|------|------|
-| `api-test.html` | 测试文件 |
-| `EVALUATION.md` | 已完成 |
-| `css/REDUNDANCY.md` | 技术债记录 |
-
-### 需移动
-| 当前 | 目标 |
-|------|------|
-| `bottom-nav.js` | `js/utils/bottom-nav.js` |
-
----
-
-## 五、实施建议
-
-### 5.1 移动 bottom-nav.js
+## 五、实施命令
 
 ```bash
-# 移动文件
-mv bottom-nav.js js/utils/
-
-# 更新引用（在 HTML 文件中）
-sed -i '' 's|bottom-nav.js|js/utils/bottom-nav.js|g' *.html
-```
-
-### 5.2 删除测试/文档文件
-
-```bash
+# 删除测试/文档文件
 rm api-test.html
 rm EVALUATION.md
 rm css/REDUNDANCY.md
@@ -123,9 +114,29 @@ rm css/REDUNDANCY.md
 
 ---
 
-## 六、风险提示
+## 六、总结
 
-| 操作 | 风险 | 缓解 |
-|------|------|------|
-| 移动 bottom-nav.js | 路径引用失效 | 先备份再执行 |
-| 删除文档文件 | 丢失文档 | 确认不再需要 |
+### 当前结构状态
+
+| 项目 | 状态 |
+|------|------|
+| JS 文件结构 | ✅ 已优化 |
+| CSS 路径 | ✅ 统一 |
+| 图片路径 | ✅ 统一 |
+| 根目录文件 | ✅ 基本清理完成 |
+
+### 待完成
+
+- 删除 3 个文档/测试文件
+
+### 文件清理完成后结构
+
+```
+h5/
+├── *.html          (20个页面)
+├── css/           (3个文件)
+├── js/            (入口+模块)
+├── images/        (图片资源)
+├── icons/         (图标)
+└── manifest.json
+```

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-    <title>个人数字大脑与AI智能体核心产品矩阵 - 中科融合算力网</title>
+    <title>个人数字员工与AI智能体核心产品矩阵 - 中科融合算力网</title>
     <link rel="stylesheet" href="css/style.css" />
     <style>
       /* 修复移动端右侧白边问题 */
@@ -18,6 +18,13 @@
       
       body {
         background: #081A3A;
+      }
+      
+      /* 桌面端显示双品牌 */
+      @media (min-width: 769px) {
+        .desktop-only {
+          display: flex !important;
+        }
       }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -471,22 +478,27 @@
   </head>
   <body>
     <!-- 导航栏 - 专题站导航 -->
-    <header class="header" style="background: #fff; border-bottom: 1px solid #e5e7eb;">
+    <header class="header" style="background: #050D1A; border-bottom: 1px solid #1e293b;">
       <div class="container">
         <nav class="nav" style="display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0;">
           <!-- 左侧：品牌文字 -->
-          <a href="#hero" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-            <span style="font-size: 17px; font-weight: 700; color: #1e293b;">中科融合算力网</span>
+          <a href="#hero" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <span style="font-size: 17px; font-weight: 700; color: #fff;">中科融合算力网</span>
+            <span class="desktop-only" style="display: none; color: #475569; font-size: 18px; font-weight: 300;">|</span>
+            <a href="https://www.aisdmp.cn/" target="_blank" rel="noopener noreferrer" class="desktop-only" style="display: none; align-items: center; gap: 8px; text-decoration: none;">
+              <img src="images/logo.png" alt="中科光之源" style="height: 20px; width: auto;">
+              <span style="font-size: 15px; font-weight: 500; color: #94a3b8;">中科光之源</span>
+            </a>
           </a>
           
           <!-- 中间：6个主导航 - 轻量胶囊导航 -->
           <div style="display: flex; align-items: center; gap: 4px;">
-            <a href="#why-aibrain" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品介绍</a>
-            <a href="#product-capability" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品能力</a>
-            <a href="#finance-scenario" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">应用场景</a>
-            <a href="#platform" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">联网平台</a>
-            <a href="#specs" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品参数</a>
-            <a href="#benefits" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">更多福利</a>
+            <a href="#why-aibrain" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品介绍</a>
+            <a href="#product-capability" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品能力</a>
+            <a href="#finance-scenario" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">应用场景</a>
+            <a href="#platform" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">联网平台</a>
+            <a href="#specs" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">产品参数</a>
+            <a href="#benefits" class="nav-item" style="padding: 6px 14px; font-size: 14px; font-weight: 500; color: #94a3b8; text-decoration: none; border-radius: 6px; transition: all 0.25s ease;">更多福利</a>
           </div>
           
           <!-- 右侧：返回主站 + 立即咨询 + 汉堡菜单 -->
@@ -495,9 +507,9 @@
             <a href="javascript:void(0);" onclick="openConsultModal()" class="cta-btn desktop-cta" style="padding: 8px 18px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; font-size: 13px; font-weight: 500; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25); transition: all 0.25s ease;">立即咨询</a>
             <!-- 汉堡菜单按钮 - 仅手机端显示 -->
             <a href="javascript:void(0);" class="hamburger-btn" onclick="toggleMobileMenu()" style="display: none; flex-direction: column; justify-content: center; align-items: center; width: 32px; height: 32px; gap: 5px; cursor: pointer;">
-              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
-              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
-              <span style="width: 20px; height: 2px; background: #1e293b; border-radius: 2px; transition: all 0.3s;"></span>
+              <span style="width: 20px; height: 2px; background: #94a3b8; border-radius: 2px; transition: all 0.3s;"></span>
+              <span style="width: 20px; height: 2px; background: #94a3b8; border-radius: 2px; transition: all 0.3s;"></span>
+              <span style="width: 20px; height: 2px; background: #94a3b8; border-radius: 2px; transition: all 0.3s;"></span>
             </a>
           </div>
         </nav>
@@ -584,18 +596,18 @@
     <!-- 1、Hero 首屏 - 产品家族版 -->
     <section id="hero" class="hero-carousel" style="position: relative; height: 680px; overflow: hidden; background: #081A3A;">
       <!-- Slide 1: 核心产品矩阵发布 -->
-      <div class="hero-slide" data-index="0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+      <div class="hero-slide" data-index="0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(8,26,58,0.85) 0%, rgba(11,35,77,0.85) 100%), url('images/hero1.jpeg'); background-size: cover; background-position: center; display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
           <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
             <div>
               <div style="display: inline-block; padding: 6px 14px; background: rgba(37,99,235,0.3); border-radius: 20px; margin-bottom: 20px;">
                 <span style="font-size: 12px; color: #60A5FA; font-weight: 500;">核心产品矩阵</span>
               </div>
-              <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px; line-height: 1.2;">个人数字大脑AIBrain-3576M</h1>
-              <p style="font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 12px; line-height: 1.7;">围绕个人金融终端、便携智能助手、企业级智能体设备与 AI 算力平台，构建面向多场景的边缘智能产品体系。</p>
-              <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px;">当前主推产品：FinBrain-3576F · FinBrain-VSII · VSII AI智能体盒 · ME21 AI算力盒</p>
+              <h1 style="font-size: 44px; font-weight: 700; color: #FFFFFF; margin-bottom: 20px; line-height: 1.2; word-break: break-all;">中科融合算力网 · 个人数字员工产品矩阵</h1>
+              <p style="font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 24px; line-height: 1.7;">围绕个人金融终端、便携智能助手、企业级智能体设备与 AI 算力平台，构建面向多场景的边缘智能产品体系。</p>
+              <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px;">当前主推产品：FinBrain-3576F、FinBrain-VSII、VSII AI 智能体盒、ME21 AI 算力盒</p>
               <div style="display: flex; gap: 16px;">
-                <a href="#product-matrix" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看核心产品</a>
+                <a href="#product-matrix" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看产品矩阵</a>
                 <a href="#contact-cta" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">预约咨询</a>
               </div>
             </div>
@@ -617,7 +629,7 @@
       </div>
       
       <!-- Slide 2: 分布式算力生产 -->
-      <div class="hero-slide" data-index="1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0B234D 0%, #081A3A 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+      <div class="hero-slide" data-index="1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(11,35,77,0.85) 0%, rgba(8,26,58,0.85) 100%), url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=distributed%20computing%20network%20with%20connected%20nodes%20and%20data%20flow%20visualization%20in%20deep%20blue%20futuristic%20tech%20style&image_size=landscape_16_9'); background-size: cover; background-position: center; display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
           <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
             <div>
@@ -672,7 +684,7 @@
       </div>
       
       <!-- Slide 3: 海量模型 + 智能体应用 -->
-      <div class="hero-slide" data-index="2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
+      <div class="hero-slide" data-index="2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(8,26,58,0.85) 0%, rgba(11,35,77,0.85) 100%), url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=futuristic%20AI%20neural%20network%20with%20multiple%20floating%20icons%20representing%20AI%20models%20and%20intelligent%20agents%20in%20deep%20blue%20tech%20style&image_size=landscape_16_9'); background-size: cover; background-position: center; display: flex; align-items: center; transform: translateX(100%); opacity: 0; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px; width: 100%;">
           <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;">
             <div>
@@ -2275,7 +2287,7 @@
                     </svg>
                   </div>
                   
-                  <h4 style="font-size: 16px; color: #fff; font-weight: 600; margin-bottom: 4px;">个人数字大脑</h4>
+                  <h4 style="font-size: 16px; color: #fff; font-weight: 600; margin-bottom: 4px;">个人数字员工</h4>
                   <p style="font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 32px;">手机客户端</p>
                   
                   <!-- 功能卡片预览 -->
@@ -2393,7 +2405,7 @@
         <div style="padding: 24px 28px 0; display: flex; justify-content: space-between; align-items: flex-start;">
           <div>
             <h3 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">联系咨询</h3>
-            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">欢迎咨询个人数字大脑产品能力、场景方案与合作接入</p>
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">欢迎咨询个人数字员工产品能力、场景方案与合作接入</p>
           </div>
           <button onclick="closeConsultModal()" style="width: 32px; height: 32px; border-radius: 8px; border: none; background: #F1F5F9; color: #64748B; cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2470,7 +2482,7 @@
     <section id="contact-cta" class="reveal-up" style="background: linear-gradient(135deg, #081A3A 0%, #0B234D 100%); padding: 80px 0;">
       <div class="container" style="max-width: 800px; text-align: center;">
         <h2 style="font-size: 28px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px;">从终端产品到联网平台，建立更完整的个人智能入口</h2>
-        <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 32px;">无论你希望了解个人数字大脑、金融场景应用、设备扩展还是个人算力权益，中科融合算力网都提供更清晰的产品入口与咨询路径。</p>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 32px;">无论你希望了解个人数字员工、金融场景应用、设备扩展还是个人算力权益，中科融合算力网都提供更清晰的产品入口与咨询路径。</p>
         <div style="display: flex; justify-content: center; gap: 16px;">
           <a href="contact.html" style="display: inline-flex; align-items: center; padding: 14px 28px; background: #2563EB; color: #fff; border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">立即预约咨询</a>
           <a href="#specs" style="display: inline-flex; align-items: center; padding: 14px 28px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 12px; font-size: 15px; font-weight: 500; text-decoration: none;">查看产品参数</a>
@@ -2483,8 +2495,13 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <h3>AIBrain 个人数字大脑</h3>
-            <p>连接高性能算力、智能应用与个人场景的终端中枢</p>
+            <h3>中科融合算力网</h3>
+            <p>AI 算力与边缘智能产品服务平台</p>
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px;"><a href="https://www.aisdmp.cn/" target="_blank" rel="noopener noreferrer" style="color: #fff; text-decoration: underline; text-underline-offset: 2px;">中科光之源</a></h4>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.7);">全国总代理｜产品总设计｜研发设计服务方</p>
+              <p style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px;">产品咨询、渠道合作与项目落地服务由中科光之源统一对接。</p>
+            </div>
           </div>
           <div>
             <h4 class="footer-title">产品导航</h4>
@@ -2505,8 +2522,11 @@
             </ul>
           </div>
           <div class="footer-contact">
-            <h4 class="footer-title">关于中科融合算力网</h4>
-            <p>中科融合算力网专注于AI算力平台建设</p>
+            <h4 class="footer-title">联系我们</h4>
+            <p style="color: rgba(255,255,255,0.7);">联系人: 田杰</p>
+            <p style="color: rgba(255,255,255,0.7);">电话: 0755-86168478</p>
+            <p style="color: rgba(255,255,255,0.7);">手机: 13603075697</p>
+            <p style="color: rgba(255,255,255,0.7);">邮箱: tianjie@szsbay.com</p>
           </div>
         </div>
         <div class="footer-bottom">
@@ -2693,6 +2713,25 @@
               hamburger.querySelector('span:nth-child(2)').style.opacity = '1';
               hamburger.querySelector('span:nth-child(3)').style.transform = 'none';
             });
+          });
+        })();
+
+        // 滚动动画 - 显示 reveal-up 和 reveal-stagger 元素
+        (function() {
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+              }
+            });
+          }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+          });
+
+          // 观察所有 reveal-up 和 reveal-stagger 元素
+          document.querySelectorAll('.reveal-up, .reveal-stagger').forEach(function(el) {
+            observer.observe(el);
           });
         })();
       })();

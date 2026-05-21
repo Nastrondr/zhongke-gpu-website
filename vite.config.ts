@@ -16,7 +16,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         products: resolve(__dirname, 'products.html'),
         solutions: resolve(__dirname, 'solutions.html'),
-        resources: resolve(__dirname, 'resources.html'),
+        'news-policy': resolve(__dirname, 'news-policy.html'),
         about: resolve(__dirname, 'about.html'),
         contact: resolve(__dirname, 'contact.html'),
         'gpu-time': resolve(__dirname, 'gpu-time.html'),
