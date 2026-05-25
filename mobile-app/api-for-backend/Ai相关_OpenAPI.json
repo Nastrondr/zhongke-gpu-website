@@ -1,0 +1,2063 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CLOUD API",
+    "description": "CLOUD API",
+    "termsOfService": "/api/v1/open/rss-static/docs/md/README.md",
+    "contact": {
+      "name": "lyf",
+      "url": "http://www.szsbay.com",
+      "email": "liyafeng@szsbay.com"
+    },
+    "license": {
+      "name": "APACHE LICENSE, VERSION 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "v1.0.0"
+  },
+  "externalDocs": {
+    "description": "查看更多文档",
+    "url": "/zhisuancf/open/api/v1/docs/md/README.md"
+  },
+  "servers": [
+    {
+      "url": "https://www.test.zhisuancf.cn/zhisuancf",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/open/api/v1/sse/ai/proxy-wrap": {
+      "get": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "ai包装调用",
+        "description": "sse ai 包装接口 2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy-wrap.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy-wrap.md"
+        },
+        "operationId": "sseAiProxyWrap",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "params",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/CpCallVo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "ai包装调用",
+        "description": "sse ai 包装接口 2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy-wrap.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy-wrap.md"
+        },
+        "operationId": "sseAiProxyWrap_1",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CpCallVo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/open/api/v1/sse/ai/v1/chat/completions": {
+      "get": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      },
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi_1",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/open/api/v1/ai/{provider}/stream/proxy/**": {
+      "get": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": " ai proxy",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "请求头",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": " ai proxy",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_1",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "请求头",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/open/api/v1/ai/{provider}/stream/nothinking/proxy/**": {
+      "get": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": " ai proxy",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_2",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "请求头",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": " ai proxy",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/open-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_3",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "请求头",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/api/v1/ai/{provider}/stream/proxy/**": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_4",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_5",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/{provider}/stream/nothinking/proxy/**": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_6",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": " ai 接口调用",
+        "description": "2023-06-21 14:04:37mock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/proxy.md"
+        },
+        "operationId": "aiProviderProxy_7",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "description": "provider",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/manage/api/v1/ai/ai/sse/v1/chat/completions": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi_2",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "sse ai ",
+        "description": "sse2023-06-21 14:04:37",
+        "operationId": "sseAi_3",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "description": "模型",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prompt",
+            "in": "query",
+            "description": "提示词",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": true,
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/open/api/v1/ai/accesstoken": {
+      "post": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "ai accesstoken",
+        "description": "生成ai accesstoken",
+        "operationId": "aiAccessTokenGenerate",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "登录后的token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiTokenGenerateVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseAccessTokenVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/api/v1/ai/accesstoken": {
+      "post": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "ai accesstoken",
+        "description": "生成ai accesstokenmock:https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/accesstoken.md",
+        "externalDocs": {
+          "description": "mock data",
+          "url": "https://www.test.zhisuancf.cn/zhisuancf/api/v1/open/rss-static/apidoc/ai-api/accesstoken.md"
+        },
+        "operationId": "aiAccessTokenGenerate_1",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiTokenGenerateVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleResponseAccessTokenVO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    },
+    "/open/api/v1/ai/model/all": {
+      "get": {
+        "tags": [
+          "开放接口"
+        ],
+        "summary": "ai模型列表",
+        "description": "修改时间:20191230",
+        "operationId": "aiModelAll",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization ",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseNamePariVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manage/api/v1/ai/model/all": {
+      "get": {
+        "tags": [
+          "ai接口"
+        ],
+        "summary": "ai模型列表",
+        "description": "修改时间:20191230",
+        "operationId": "aiModelAll_1",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token 值",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListResponseNamePariVO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-auth-token": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CpCallVo": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "description": "金融账户",
+            "format": "int64"
+          },
+          "uri": {
+            "type": "string",
+            "description": "请求uri"
+          },
+          "httpMethod": {
+            "type": "string",
+            "description": "http method",
+            "enum": [
+              "GET",
+              "HEAD",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE",
+              "OPTIONS",
+              "TRACE"
+            ]
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "description": "请求头"
+            },
+            "description": "请求头"
+          },
+          "body": {
+            "type": "object",
+            "description": "请求体"
+          },
+          "model": {
+            "type": "string",
+            "description": "模型目前支持三种：qwen3.5:35b和qwen3:32b和qwen3-embedding:8b"
+          },
+          "provider": {
+            "type": "string",
+            "description": "模型提供方。中科：CAS\u200c"
+          }
+        },
+        "description": "算力调用"
+      },
+      "SseEmitter": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StreamingResponseBody": {
+        "type": "object"
+      },
+      "AiTokenGenerateVo": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "description": "金融账户id",
+            "format": "int64",
+            "refType": null
+          },
+          "productId": {
+            "type": "integer",
+            "description": "产品id",
+            "format": "int64",
+            "refType": null
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": "设备id",
+            "format": "int64",
+            "refType": null
+          },
+          "expireTime": {
+            "type": "string",
+            "description": "过期时间",
+            "format": "date-time",
+            "refType": null
+          }
+        },
+        "description": "ai taken 生成器"
+      },
+      "AccessTokenVO": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken",
+            "refType": null
+          },
+          "sessionTime": {
+            "type": "integer",
+            "description": "会话有效时长秒",
+            "format": "int64",
+            "refType": null
+          },
+          "info": {
+            "$ref": "#/components/schemas/UserDTO",
+            "refType": "UserDTO"
+          }
+        }
+      },
+      "AppEntity": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "refType": null
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64",
+            "refType": null
+          },
+          "identify": {
+            "type": "string",
+            "description": "组标识唯",
+            "refType": null
+          },
+          "name": {
+            "type": "string",
+            "description": "组名称",
+            "refType": null
+          },
+          "version": {
+            "type": "string",
+            "description": "版本号",
+            "refType": null
+          },
+          "logo": {
+            "type": "string",
+            "description": "LOGO",
+            "refType": null
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态com.openlife.connectp.common.enums.ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "description": {
+            "type": "string",
+            "description": "描述",
+            "refType": null
+          },
+          "manufacturerName": {
+            "type": "string",
+            "description": "厂商名",
+            "refType": null
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "分类名",
+            "refType": null
+          }
+        },
+        "description": "当前登录的应用"
+      },
+      "Dictionary": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64",
+            "refType": null
+          },
+          "name": {
+            "type": "string",
+            "description": "名称",
+            "refType": null
+          },
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "refType": null
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int64",
+            "refType": null
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签",
+            "refType": null
+          }
+        },
+        "description": "数据字典"
+      },
+      "GroupMemberDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "refType": null
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "组ID",
+            "format": "int64",
+            "refType": null
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户Id",
+            "format": "int64",
+            "refType": null
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户组内昵称",
+            "refType": null
+          },
+          "role": {
+            "type": "string",
+            "description": "组成员角色GroupMemberRoleTypeEnums",
+            "enum": [
+              "SUPER_ADMIN_API:超级管理员API,只给企业平台对接使用",
+              "SUPER_ADMIN:超级管理员",
+              "ADMIN:管理员",
+              "MEMBER:普通成员"
+            ],
+            "refType": null
+          },
+          "typeDictId": {
+            "type": "integer",
+            "description": "组成员类型参考数字字典",
+            "format": "int64",
+            "refType": null
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态com.openlife.connectp.common.enums.ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64",
+            "refType": null
+          },
+          "groupType": {
+            "type": "string",
+            "description": "组类型（冗余同group对应的组类型）",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ],
+            "refType": null
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "人员对应的公司",
+            "format": "int64",
+            "refType": null
+          },
+          "companyName": {
+            "type": "string",
+            "description": "公司名",
+            "refType": null
+          },
+          "companyPartnerType": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "公司合作类型",
+            "items": {
+              "type": "string",
+              "description": "公司合作类型",
+              "enum": [
+                "OTHER:其他",
+                "PLATFORM:平台",
+                "WORKSPACE:工作空间",
+                "SYS_USER:系统用户组",
+                "PROJECT:项目组",
+                "BRAND:品牌（工作空间级）",
+                "AGENCY:代理",
+                "SOLUTION:方案",
+                "MANUFACTURE:制造厂",
+                "SALE:销售组",
+                "FAE:FAE组",
+                "DISTRIBUTOR:分销商",
+                "BRAND_DISTRIBUT:品牌分销",
+                "AGENCY_DISTRIBUT:代理分销",
+                "PARTNER_GROUP:合作伙伴组",
+                "COMPUTILITY_CENTER:算力中心",
+                "CONTRACT:合同",
+                "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+                "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+                "DEPARTMENT:部门"
+              ]
+            },
+            "refType": "string"
+          },
+          "realName": {
+            "type": "string",
+            "description": "真实姓名",
+            "refType": null
+          },
+          "idCard": {
+            "type": "string",
+            "description": "身份证号",
+            "refType": null
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号",
+            "refType": null
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱",
+            "refType": null
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别SexTypeEnums",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ],
+            "refType": null
+          },
+          "groupName": {
+            "type": "string",
+            "description": "工作组名称",
+            "refType": null
+          },
+          "typeDictCode": {
+            "type": "string",
+            "description": "组成员类型参考数字字典code",
+            "refType": null
+          },
+          "typeDictInfo": {
+            "$ref": "#/components/schemas/Dictionary",
+            "refType": "Dictionary"
+          }
+        },
+        "description": "用户在工作空间内归属的组"
+      },
+      "ManageWorkspaceDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64",
+            "refType": null
+          },
+          "name": {
+            "type": "string",
+            "description": "名称",
+            "refType": null
+          },
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "refType": null
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int64",
+            "refType": null
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签",
+            "refType": null
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "公司(企业)id",
+            "format": "int64",
+            "refType": null
+          },
+          "description": {
+            "type": "string",
+            "description": "描述",
+            "refType": null
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "工作空间对应的组id",
+            "format": "int64",
+            "refType": null
+          },
+          "type": {
+            "type": "string",
+            "description": "类型（用来区分业务的）",
+            "refType": null
+          },
+          "groupType": {
+            "type": "string",
+            "description": "组类型（冗余同group对应的组类型）",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ],
+            "refType": null
+          },
+          "groupMembers": {
+            "type": "array",
+            "description": "用户在工作空间内归属的组",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberDTO"
+            },
+            "refType": "GroupMemberDTO"
+          },
+          "app": {
+            "$ref": "#/components/schemas/AppEntity",
+            "refType": "AppEntity"
+          }
+        },
+        "description": "工作空间列表"
+      },
+      "SingleResponseAccessTokenVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccessTokenVO"
+          }
+        }
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "refType": null
+          },
+          "uuid": {
+            "type": "string",
+            "description": "UUID",
+            "refType": null
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号",
+            "refType": null
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱",
+            "refType": null
+          },
+          "account": {
+            "type": "string",
+            "description": "用户账号",
+            "refType": null
+          },
+          "realName": {
+            "type": "string",
+            "description": "真实姓名",
+            "refType": null
+          },
+          "idCard": {
+            "type": "string",
+            "description": "身份证号",
+            "refType": null
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别SexTypeEnums",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ],
+            "refType": null
+          },
+          "intro": {
+            "type": "string",
+            "description": "简介",
+            "refType": null
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户昵称",
+            "refType": null
+          },
+          "manageStatus": {
+            "type": "string",
+            "description": "管理状态参考：ManageStatusEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "imei": {
+            "type": "string",
+            "description": "IMEI",
+            "refType": null
+          },
+          "registerTime": {
+            "type": "string",
+            "description": "注册时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "registerChannel": {
+            "type": "string",
+            "description": "注册渠道",
+            "refType": null
+          },
+          "lastMdfPwdTime": {
+            "type": "string",
+            "description": "最后一次修改密码时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "cancellationTime": {
+            "type": "string",
+            "description": "注销时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "contactWay": {
+            "type": "string",
+            "description": "联系方式",
+            "refType": null
+          },
+          "lastLoginTime": {
+            "type": "string",
+            "description": "最后一次登录时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64",
+            "refType": null
+          },
+          "appKey": {
+            "type": "string",
+            "description": "appKey",
+            "refType": null
+          },
+          "appName": {
+            "type": "string",
+            "description": "appName",
+            "refType": null
+          },
+          "workspaceGroupId": {
+            "type": "integer",
+            "description": "工作空间对应的组id",
+            "format": "int64",
+            "refType": null
+          },
+          "workspaceGroupType": {
+            "type": "string",
+            "description": "工作空间对应的组类型",
+            "enum": [
+              "OTHER:其他",
+              "PLATFORM:平台",
+              "WORKSPACE:工作空间",
+              "SYS_USER:系统用户组",
+              "PROJECT:项目组",
+              "BRAND:品牌（工作空间级）",
+              "AGENCY:代理",
+              "SOLUTION:方案",
+              "MANUFACTURE:制造厂",
+              "SALE:销售组",
+              "FAE:FAE组",
+              "DISTRIBUTOR:分销商",
+              "BRAND_DISTRIBUT:品牌分销",
+              "AGENCY_DISTRIBUT:代理分销",
+              "PARTNER_GROUP:合作伙伴组",
+              "COMPUTILITY_CENTER:算力中心",
+              "CONTRACT:合同",
+              "ENTERPRISE_TRAFFIC_ACCOUNT:企业(机构)流量账户",
+              "MEMBER_TRAFFIC_ACCOUNT:企业(机构)会员(用户在机构下的)流量账户",
+              "DEPARTMENT:部门"
+            ],
+            "refType": null
+          },
+          "workspaceCompanyId": {
+            "type": "integer",
+            "description": "工作空间对应的公司id",
+            "format": "int64",
+            "refType": null
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "当前登录人员归属公司id,任何人只能挂一个公司下面",
+            "format": "int64",
+            "refType": null
+          },
+          "companyIdentify": {
+            "type": "string",
+            "description": "归属公司identify",
+            "refType": null
+          },
+          "companyRoles": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "企业角色",
+            "items": {
+              "type": "string",
+              "description": "企业角色"
+            },
+            "refType": "string"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "当前登录人员归属公司,任何人只能挂一个公司下面",
+            "refType": null
+          },
+          "positions": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "当前登录人员职位",
+            "items": {
+              "type": "string",
+              "description": "当前登录人员职位"
+            },
+            "refType": "string"
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken",
+            "refType": null
+          },
+          "workspaces": {
+            "type": "array",
+            "description": "工作空间列表",
+            "items": {
+              "$ref": "#/components/schemas/ManageWorkspaceDTO"
+            },
+            "refType": "ManageWorkspaceDTO"
+          },
+          "password": {
+            "type": "string",
+            "description": "用户账号密码",
+            "refType": null
+          },
+          "thirdUserInfo": {
+            "$ref": "#/components/schemas/UserThirdDTO",
+            "refType": "UserThirdDTO"
+          },
+          "authUser": {
+            "type": "object",
+            "description": "第三方授权用户信息",
+            "refType": null
+          },
+          "thirdUsersBind": {
+            "type": "array",
+            "description": "已经绑定的第三方用户信息",
+            "items": {
+              "$ref": "#/components/schemas/UserThirdDTO"
+            },
+            "refType": "UserThirdDTO"
+          },
+          "businessAreaId": {
+            "type": "integer",
+            "description": "业务区域id",
+            "format": "int64",
+            "refType": null
+          }
+        },
+        "description": "accessToken对应用户信息"
+      },
+      "UserThirdDTO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注",
+            "refType": null
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64",
+            "refType": null
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64",
+            "refType": null
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time",
+            "refType": null
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性",
+            "refType": null
+          },
+          "id": {
+            "type": "integer",
+            "description": "Id",
+            "format": "int64",
+            "refType": null
+          },
+          "workspaceId": {
+            "type": "integer",
+            "description": "工作空间id",
+            "format": "int64",
+            "refType": null
+          },
+          "appId": {
+            "type": "integer",
+            "description": "应用实例ID即APP的主键",
+            "format": "int64",
+            "refType": null
+          },
+          "uuid": {
+            "type": "string",
+            "description": "用户第三方系统的唯一id。在调用方集成该组件时，可以用uuid + source唯一确定一个用户",
+            "refType": null
+          },
+          "source": {
+            "type": "string",
+            "description": "用户来源",
+            "refType": null
+          },
+          "userName": {
+            "type": "string",
+            "description": "用户名",
+            "refType": null
+          },
+          "nickName": {
+            "type": "string",
+            "description": "用户昵称",
+            "refType": null
+          },
+          "avatar": {
+            "type": "string",
+            "description": "用户头像",
+            "refType": null
+          },
+          "blog": {
+            "type": "string",
+            "description": "用户网址",
+            "refType": null
+          },
+          "company": {
+            "type": "string",
+            "description": "所在公司",
+            "refType": null
+          },
+          "location": {
+            "type": "string",
+            "description": "位置",
+            "refType": null
+          },
+          "email": {
+            "type": "string",
+            "description": "邮箱",
+            "refType": null
+          },
+          "remark": {
+            "type": "string",
+            "description": "用户备注（各平台中的用户个人介绍）",
+            "refType": null
+          },
+          "gender": {
+            "type": "string",
+            "description": "性别",
+            "enum": [
+              "MALE:男",
+              "FEMALE:女",
+              "UNKNOWN:保密"
+            ],
+            "refType": null
+          },
+          "token": {
+            "type": "string",
+            "description": "用户授权的token信息",
+            "refType": null
+          },
+          "rawUser": {
+            "type": "string",
+            "description": "第三方平台返回的原始用户信息",
+            "refType": null
+          },
+          "tag": {
+            "type": "string",
+            "description": "标签(扩展)",
+            "refType": null
+          },
+          "state": {
+            "type": "string",
+            "description": "状态参考：UserAccountStateEnums",
+            "enum": [
+              "DISABLE:禁用",
+              "ENABLE:启用",
+              "ENABLE_AND_INACTIVE:启用&待激活"
+            ],
+            "refType": null
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户id",
+            "format": "int64",
+            "refType": null
+          },
+          "spreaderUserId": {
+            "type": "integer",
+            "description": "推广者id(推广人的Id即user id,配合订单中推广人使用)",
+            "format": "int64",
+            "refType": null
+          },
+          "get_AttachInfo": {
+            "type": "string",
+            "description": "附加信息(json字符串由系统 维护存一些信息：如是否开通对应的支付，分账收款方是否已经添加等等等",
+            "refType": null
+          },
+          "appUserId": {
+            "type": "integer",
+            "description": "应用内用户id",
+            "format": "int64",
+            "refType": null
+          },
+          "application": {
+            "$ref": "#/components/schemas/AppEntity",
+            "refType": "AppEntity"
+          },
+          "account": {
+            "type": "string",
+            "description": "用户账号",
+            "refType": null
+          },
+          "mobile": {
+            "type": "string",
+            "description": "用户手机号",
+            "refType": null
+          },
+          "password": {
+            "type": "string",
+            "description": "用户账号密码",
+            "refType": null
+          },
+          "code": {
+            "type": "string",
+            "description": "code",
+            "refType": null
+          },
+          "appKey": {
+            "type": "string",
+            "description": "当前登录的应用appKey",
+            "refType": null
+          },
+          "rawUserInfo": {
+            "type": "object",
+            "refType": null
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "accessToken",
+            "refType": null
+          }
+        },
+        "description": "已经绑定的第三方用户信息"
+      },
+      "ListResponseNamePariVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamePariVO"
+            }
+          }
+        }
+      },
+      "NamePariVO": {
+        "type": "object",
+        "properties": {
+          "_remark": {
+            "type": "string",
+            "description": "备注"
+          },
+          "_created_by": {
+            "type": "integer",
+            "description": "创建人",
+            "format": "int64"
+          },
+          "_creation_date": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "_last_updated_by": {
+            "type": "integer",
+            "description": "最后更新人",
+            "format": "int64"
+          },
+          "_last_updated_date": {
+            "type": "string",
+            "description": "最后更新时间",
+            "format": "date-time"
+          },
+          "_enabled_flag": {
+            "type": "string",
+            "description": "有效性"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object"
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "VisitTypeEnumsXX12": {
+        "type": "String",
+        "description": "NONE:无类型; NCV:新客户拜访; CR:客户关系维护; PT:项目跟踪; "
+      }
+    },
+    "securitySchemes": {
+      "x-auth-token": {
+        "type": "http",
+        "in": "header",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1094,7 +1094,7 @@
 <body>
   <!-- 顶部 -->
   <div class="header">
-    <a href="/h5/device.html" class="header-back">
+    <a href="device.html" class="header-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
@@ -1146,7 +1146,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"/></svg>
       打招呼
     </button>
-    <button class="quick-cmd" onclick="window.location.href='/h5/session-center.html'" style="color: var(--success);">
+    <button class="quick-cmd" onclick="window.location.href='session-center.html'" style="color: var(--success);">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
@@ -1962,48 +1962,27 @@
       }
 
       const turnId = 'turn_' + Date.now();
+      console.log('[SendFlow] click send', {
+        message: message,
+        deviceId: deviceUuid,
+        sessionKey: 'agent:main:main',
+        timestamp: Date.now(),
+        currentAssistantId: currentAssistantMessageId,
+        currentTurn: turnId
+      });
       console.log('[Turn]', turnId, 'sending:', message);
 
       isProcessing = true;
       updateSendButton(true);  // 更新按钮状态为处理中
-
-      // ====== 调试：打印设备模型配置信息 ======
-      try {
-        const numericDeviceId = window.OpenClawChatService.resolveDeviceId(currentDevice);
-        console.log('[Device] 当前设备:', {
-          id: currentDevice.id,
-          name: currentDevice.name,
-          numericDeviceId: numericDeviceId
-        });
-
-        // 尝试获取模型列表
-        if (numericDeviceId) {
-          console.log('[Model] 正在查询设备模型配置...');
-          const modelResponse = await Api.OPENCLAW.listModels(numericDeviceId);
-          console.log('[Model] 模型列表响应:', modelResponse);
-
-          // 尝试解析模型数据
-          if (modelResponse && modelResponse.data) {
-            const modelData = modelResponse.data;
-            console.log('[Model] 模型详细数据:', modelData);
-            
-            // 如果有模型信息，更详细地打印
-            if (modelData.models || modelData.data || modelData.result) {
-              console.log('[Model] 可用模型列表:', modelData.models || modelData.data || modelData.result);
-            }
-          }
-        }
-      } catch (modelError) {
-        console.warn('[Model] 查询模型配置失败:', modelError);
-        // 不中断正常流程
-      }
-      // =========================================
 
       // 检查是否有图片
       const hasImages = window.currentImages && window.currentImages.length > 0;
       const images = hasImages ? window.currentImages.map(img => img.base64) : [];
 
       addUserMessage(message, hasImages ? images : []);
+      console.log('[SendFlow] user message created', {
+        userMessageId: null
+      });
       input.value = '';
 
       // 清空图片暂存区
@@ -2017,11 +1996,20 @@
         status: 'loading',
         turnId: turnId
       });
-
+      console.log('[SendFlow] assistant placeholder created', {
+        assistantMessageId: currentAssistantMessageId,
+        currentAssistantId: currentAssistantMessageId
+      });
+      
       let commandCardId = null;
 
-      const updateCurrentAssistant = (text, options = {}) => {
-        updateAssistantMessage(currentAssistantMessageId, text, options);
+      const updateCurrentAssistant = (text, options = {}, meta = {}) => {
+        const targetId = meta.assistantMessageId || currentAssistantMessageId;
+        if (!targetId) {
+          console.warn('[UIRender] drop assistant update: missing assistantMessageId');
+          return;
+        }
+        updateAssistantMessage(targetId, text, options);
       };
 
       const addCommandCard = (output, index) => {
@@ -2064,67 +2052,62 @@
       try {
         const response = await window.OpenClawChatService.sendMessageAndWait(currentDevice, message, {
           // Lifecycle 事件
-          onLifecycleStart: (runId, data) => {
+          onLifecycleStart: (runId, data, meta = {}) => {
             console.log('[UI] lifecycle start:', runId);
-            updateCurrentAssistant('萤火虫正在分析问题...', { status: 'loading' });
+            updateCurrentAssistant('萤火虫正在分析问题...', { status: 'loading' }, meta);
           },
 
-          onLifecycleEnd: (data) => {
+          onLifecycleEnd: (data, meta = {}) => {
             console.log('[UI] lifecycle end');
           },
 
           // Assistant 更新
-          onAssistantUpdate: (text) => {
+          onAssistantUpdate: (text, meta = {}) => {
             console.log('[UI] assistant update, len:', text.length);
-            updateCurrentAssistant(text, { status: 'streaming' });
+            updateCurrentAssistant(text, { status: 'streaming' }, meta);
           },
 
           // 命令输出
-          onCommandOutput: (output, info) => {
-            console.log('[UI] command output:', info);
-            if (!commandCardId) {
-              commandCardId = addCommandCard(output, info.index);
-            }
+          onCommandOutput: (output, info, meta = {}) => {
+            console.log('[UI] command output received but hidden:', {
+              length: String(output || '').length,
+              phase: info?.phase,
+              isEnd: info?.isEnd,
+              index: info?.index
+            });
           },
 
           // Final 完成
-          onFinal: (text, extra) => {
+          onFinal: (text, meta = {}) => {
             console.log('[UI] final:', text.slice(0, 100));
-            updateCurrentAssistant(text, { status: 'done', final: true });
+            updateCurrentAssistant(text, { status: 'done', final: true }, { ...meta, final: true });
           },
 
           // 警告提示
-          onWarning: (msg) => {
+          onWarning: (msg, meta = {}) => {
+            if (meta?.final || meta?.state === 'final') {
+              console.log('[UI] skip warning because final already received');
+              return;
+            }
             console.log('[UI] warning:', msg);
-            updateCurrentAssistant(msg, { status: 'loading' });
+            updateCurrentAssistant(msg, { status: 'loading' }, meta);
           },
 
           // 进入空闲状态
           onIdle: () => {
             console.log('[UI] idle polling');
           }
-        }, images);
+        }, images, {
+          turnId,
+          assistantMessageId: currentAssistantMessageId
+        });
 
         // 处理返回结果
         if (response?.success && response?.text) {
           updateCurrentAssistant(response.text, { status: 'done', final: response.isFinal });
 
-          if (response.warning && !response.isFinal) {
-            const bubble = document.querySelector(`[data-message-id="${assistantMessageId}"]`);
-            if (bubble) {
-              bubble.classList.add('warning');
-              const warn = document.createElement('div');
-              warn.className = 'chat-warning';
-              warn.textContent = response.warning;
-              bubble.appendChild(warn);
-            }
-          }
-
-          if (response.commandOutputs?.length > 0 && !commandCardId) {
-            response.commandOutputs.forEach((cmd, idx) => {
-              addCommandCard(cmd.text, idx);
-            });
-          }
+          // 删除 warning DOM 追加逻辑，避免未定义变量问题
+          // 直接使用 updateCurrentAssistant 处理即可
         } else if (!response?.success) {
           updateCurrentAssistant(response?.msg || '通信失败', { status: 'error' });
         } else {
@@ -2564,6 +2547,17 @@
 
     // 更新助手消息内容
     function updateAssistantMessage(messageId, text, options = {}) {
+      if (!messageId) {
+        console.warn('[UIRender] drop assistant update: missing messageId');
+        console.trace();
+        return false;
+      }
+      
+      console.log('[UIRender] updateAssistantMessage called', {
+        messageId: messageId,
+        textLength: String(text).length
+      });
+      
       const el = document.querySelector(`[data-message-id="${messageId}"]`);
 
       if (!el) {

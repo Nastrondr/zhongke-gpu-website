@@ -327,15 +327,20 @@ const DeviceManager = {
       countEl.textContent = `共 ${device.deviceCount} 台设备 · ${device.onlineCount} 台在线`;
     }
 
-    // 更新任务和模型
+    // 更新任务
     const taskEl = document.querySelector('.current-task');
-    const modelEl = document.querySelector('.current-model');
-
     if (taskEl) {
       taskEl.textContent = device.taskStatus;
     }
+
+    // 更新算力消耗
+    const modelEl = document.querySelector('.current-model');
     if (modelEl) {
-      modelEl.textContent = device.currentModel;
+      if (device.tcBalance !== undefined && device.tcBalance !== null) {
+        modelEl.textContent = this._formatTcValue(device.tcBalance);
+      } else {
+        modelEl.textContent = '--';
+      }
     }
 
     // 更新首页设备卡片扩展信息
@@ -545,8 +550,9 @@ const DeviceManager = {
       const response = await Api.Device.getTcPage(deviceId, requestBody);
       console.log('[DeviceManager] 设备算力记录响应:', response);
 
-      if (response.success) {
-        return response.data?.rows || [];
+      if (response && (response.success === true || response.code === '0' || response.code === 0)) {
+        const rows = response.data?.rows || response.rows || [];
+        return rows;
       }
     } catch (error) {
       console.error('[DeviceManager] 获取设备算力记录失败:', error);
@@ -659,6 +665,20 @@ const DeviceManager = {
         bar.style.opacity = '0.3';
       }
     });
+  },
+
+  /**
+   * 格式化算力消耗值
+   * @param {number} value - 算力余额数值
+   * @returns {string}
+   */
+  _formatTcValue(value) {
+    if (value === undefined || value === null) return '--';
+    const num = Number(value);
+    if (isNaN(num)) return '--';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toFixed(1);
   }
 };
 

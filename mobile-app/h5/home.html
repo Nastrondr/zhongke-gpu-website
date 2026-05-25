@@ -576,7 +576,6 @@
     /* 行业应用页 */
     .featured-app {
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(30, 58, 138, 0.5) 100%);
-      border: 1px solid rgba(37, 99, 235, 0.5);
       border-radius: 20px;
       padding: 24px;
       margin-bottom: 16px;
@@ -1505,8 +1504,8 @@
             <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);" class="current-task">空闲中</div>
           </div>
           <div class="info-block" style="background: var(--card-bg-soft); border-radius: var(--border-radius-sm); padding: 14px;">
-            <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 6px;">运行模型</div>
-            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);" class="current-model">FinBERT</div>
+            <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 6px;">算力余额</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);" class="current-model">--</div>
           </div>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;">
@@ -2534,19 +2533,30 @@
         const devices = await DeviceManager.getDevices();
         console.log('[HomeDebug] getDevices returned:', devices);
         
-        // 调用设备详情API获取更多信息（如当前模型）
+        // 调用设备详情API获取更多信息（任务状态等）
         const firstDevice = devices && devices[0];
         if (firstDevice && firstDevice.id) {
           try {
             const detail = await DeviceManager.getDeviceDetail(firstDevice.id);
             if (detail) {
-              // 合并详情信息
-              firstDevice.currentModel = detail.currentModel || detail.aiModel || '--';
               firstDevice.taskStatus = detail.taskStatus || firstDevice.taskStatus;
               console.log('[HomeDebug] device detail:', detail);
             }
           } catch (e) {
             console.warn('[HomeDebug] getDeviceDetail failed:', e);
+          }
+
+          // 获取算力消耗数据
+          try {
+            const tcRecords = await DeviceManager.getDeviceTcRecords(firstDevice.id, 1, 1);
+            if (tcRecords && tcRecords.length > 0) {
+              const latest = tcRecords[0];
+              firstDevice.tcBalance = latest.balance;
+              firstDevice.tcAmount = latest.amount;
+            }
+            console.log('[HomeDebug] tc balance fetched:', firstDevice.tcBalance);
+          } catch (e) {
+            console.warn('[HomeDebug] getDeviceTcRecords failed:', e);
           }
         }
         

@@ -265,8 +265,15 @@ class ApiClient {
     Storage.Auth.clearTokens();
     Storage.Auth.setLoggedIn(false);
 
-    if (window.location.pathname !== '/h5/index.html' && window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
-      window.location.href = '/h5/index.html';
+    // 检查当前是否不在首页（index.html 或根路径）
+    const currentPath = window.location.pathname;
+    const isHomePage = currentPath === '/index.html' || 
+                       currentPath === '/' || 
+                       currentPath === '' || 
+                       currentPath.endsWith('/index.html');
+    
+    if (!isHomePage) {
+      window.location.href = 'index.html';
     }
   }
 

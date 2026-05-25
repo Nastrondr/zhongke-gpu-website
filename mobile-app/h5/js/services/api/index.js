@@ -169,6 +169,7 @@ const Api = {
       const path = endpoint.path.replace(':id', deviceId);
       const url = ApiEndpoints.buildUrl(path);
       
+      const deliver = false;
       const requestBody = {
         Plugin_Name: 'com.szsbay.kernel',
         RPCMethod: 'Post',
@@ -182,25 +183,99 @@ const Api = {
               params: {
                 sessionKey: sessionKey,
                 message: message,
-                deliver: false,
-                idempotencyKey: this._generateUUID(),
-                images: images
+                deliver: deliver,
+                idempotencyKey: this._generateUUID()
               }
             }
           },
           CmdType: 'systemExtend.OPENCLAW_MANAGER'
         },
-        expireSeconds: 30,
+        expireSeconds: 10,
         ID: 0,
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] sendChat:', { deviceId, message, images: images.length });
+      console.log('[OPENCLAW] sendChat:', { deviceId, message, images: images.length, deliver });
       console.log('[OpenClawSend] userInput:', message);
       console.log('[OpenClawSend] requestId:', requestBody.Parameter.parameter.data.id);
       console.log('[OpenClawSend] idempotencyKey:', requestBody.Parameter.parameter.data.params.idempotencyKey);
+      console.log('[OpenClawSend] deliver:', deliver);
       console.log('[OpenClawSend] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody);
+    },
+
+    // 查询WebSocket运行状态
+    async queryRunInfo(deviceId) {
+      const numericId = Number(deviceId);
+      if (!Number.isFinite(numericId)) {
+        throw new Error('[OpenClawDeviceId] queryRunInfo deviceId must be numeric, got: ' + deviceId);
+      }
+      
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', numericId);
+      const url = ApiEndpoints.buildUrl(path);
+      
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'queryRunInfo'
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+      
+      console.log('[OPENCLAW] queryRunInfo:', { deviceId, url });
+      console.log('[OpenClawRunInfo] final payload:', JSON.stringify(requestBody, null, 2));
+      
+      const response = await apiClient.post(url, requestBody);
+      console.log('[OpenClawRunInfo] raw response:', JSON.stringify(response, null, 2));
+      return response;
+    },
+
+    // 启动WebSocket
+    async startWebSocket(deviceId, uri, token) {
+      const numericId = Number(deviceId);
+      if (!Number.isFinite(numericId)) {
+        throw new Error('[OpenClawDeviceId] startWebSocket deviceId must be numeric, got: ' + deviceId);
+      }
+      
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', numericId);
+      const url = ApiEndpoints.buildUrl(path);
+      
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'start',
+            uri: uri,
+            token: token
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+      
+      const maskedToken = token ? token.slice(0, 6) + '...' + token.slice(-4) : 'null';
+      console.log('[OPENCLAW] startWebSocket:', { deviceId, uri, token: maskedToken });
+      console.log('[OpenClawStartWS] final payload:', JSON.stringify(requestBody, (key, value) => {
+        if (key === 'token' && typeof value === 'string') {
+          return value.slice(0, 6) + '...' + value.slice(-4);
+        }
+        return value;
+      }, 2));
+      
+      const response = await apiClient.post(url, requestBody);
+      console.log('[OpenClawStartWS] raw response:', JSON.stringify(response, null, 2));
+      return response;
     },
 
     // 查询设备事件
@@ -234,75 +309,12 @@ const Api = {
       };
       
       console.log('[OPENCLAW] queryEvent:', { deviceId, tsStart, limit, url });
+      console.log('[OpenClawQueryEvent] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody);
     },
 
-    // 查询运行状态
-    async queryRunInfo(deviceId) {
-      const numericId = Number(deviceId);
-      if (!Number.isFinite(numericId)) {
-        throw new Error('[OpenClawDeviceId] deviceId must be numeric, got: ' + deviceId);
-      }
-      
-      const endpoint = ApiEndpoints.device.openclaw.invork;
-      const path = endpoint.path.replace(':id', numericId);
-      const url = ApiEndpoints.buildUrl(path);
-      
-      console.log('[OpenClawDeviceId] final invoke url:', url);
-      console.log('[OpenClawDeviceId] path deviceId:', numericId);
-      console.log('[OpenClawDeviceId] typeof deviceId:', typeof numericId);
-      
-      const requestBody = {
-        Plugin_Name: 'com.szsbay.kernel',
-        RPCMethod: 'Post',
-        Parameter: {
-          parameter: {
-            command: 'queryRunInfo'
-          },
-          CmdType: 'systemExtend.OPENCLAW_MANAGER'
-        },
-        expireSeconds: 10,
-        ID: 0,
-        applicationName: ''
-      };
-      
-      console.log('[OPENCLAW] queryRunInfo:', { deviceId, url });
-      return apiClient.post(url, requestBody);
-    },
-
-    // 启动websocket
-    async startWebsocket(deviceId, uri, token) {
-      const numericId = Number(deviceId);
-      if (!Number.isFinite(numericId)) {
-        throw new Error('[OpenClawDeviceId] startWebsocket deviceId must be numeric, got: ' + deviceId);
-      }
-      
-      const endpoint = ApiEndpoints.device.openclaw.invork;
-      const path = endpoint.path.replace(':id', numericId);
-      const url = ApiEndpoints.buildUrl(path);
-      
-      const requestBody = {
-        Plugin_Name: 'com.szsbay.kernel',
-        RPCMethod: 'Post',
-        Parameter: {
-          parameter: {
-            command: 'start',
-            uri: uri,
-            token: token
-          },
-          CmdType: 'systemExtend.OPENCLAW_MANAGER'
-        },
-        expireSeconds: 10,
-        ID: 0,
-        applicationName: ''
-      };
-      
-      console.log('[OPENCLAW] startWebsocket:', { deviceId, url });
-      return apiClient.post(url, requestBody);
-    },
-
-    // 停止websocket
-    async stopWebsocket(deviceId) {
+    // 停止WebSocket
+    async stopWebSocket(deviceId) {
       const endpoint = ApiEndpoints.device.openclaw.invork;
       const path = endpoint.path.replace(':id', deviceId);
       const url = ApiEndpoints.buildUrl(path);
@@ -321,7 +333,7 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] stopWebsocket:', { deviceId, url });
+      console.log('[OPENCLAW] stopWebSocket:', { deviceId, url });
       return apiClient.post(url, requestBody);
     },
 
@@ -411,54 +423,6 @@ const Api = {
       };
       
       console.log('[OPENCLAW] deleteEvent:', { deviceId, tsStart, tsEnd, url });
-      return apiClient.post(url, requestBody);
-    },
-
-    // 启动websocket
-    async startWebsocket(deviceUuid, uri, token) {
-      const endpoint = ApiEndpoints.device.openclaw.start;
-      const path = endpoint.path.replace(':deviceUuid', deviceUuid);
-      const url = ApiEndpoints.buildUrl(path);
-      
-      const requestBody = {
-        Plugin_Name: 'com.szsbay.kernel',
-        RPCMethod: 'Post',
-        Parameter: {
-          parameter: {
-            command: 'start',
-            uri: uri,
-            token: token
-          },
-          CmdType: 'systemExtend.OPENCLAW_MANAGER'
-        },
-        expireSeconds: 10,
-        ID: 0,
-        applicationName: ''
-      };
-      
-      return apiClient.post(url, requestBody);
-    },
-
-    // 停止websocket
-    async stopWebsocket(deviceUuid) {
-      const endpoint = ApiEndpoints.device.openclaw.stop;
-      const path = endpoint.path.replace(':deviceUuid', deviceUuid);
-      const url = ApiEndpoints.buildUrl(path);
-      
-      const requestBody = {
-        Plugin_Name: 'com.szsbay.kernel',
-        RPCMethod: 'Post',
-        Parameter: {
-          parameter: {
-            command: 'stop'
-          },
-          CmdType: 'systemExtend.OPENCLAW_MANAGER'
-        },
-        expireSeconds: 10,
-        ID: 0,
-        applicationName: ''
-      };
-      
       return apiClient.post(url, requestBody);
     },
 

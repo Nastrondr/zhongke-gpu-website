@@ -3321,7 +3321,7 @@
       showDeviceChatLoading({
         deviceName: device.name || '设备',
         onComplete: () => {
-          window.location.href = '/h5/device-chat.html?deviceId=' + numericDeviceId;
+          window.location.href = 'device-chat.html?deviceId=' + numericDeviceId;
         }
       });
     }
@@ -3675,10 +3675,10 @@
         if (sourceTab) {
           window.location.replace(source + '#' + sourceTab);
         } else {
-          window.location.href = '/h5/' + source;
+          window.location.href = source;
         }
       } else {
-        window.location.href = '/h5/home.html';
+        window.location.href = 'home.html';
       }
     }
 

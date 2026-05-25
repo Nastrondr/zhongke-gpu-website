@@ -1261,7 +1261,7 @@
       if (isSupported) {
         sessionStorage.setItem('pendingSkill', skillName);
         sessionStorage.setItem('pendingSkillDesc', skillDesc);
-        window.location.href = '/h5/whale-chat.html';
+        window.location.href = 'whale-chat.html';
       } else {
         showSwitchModelModal(skillName);
       }
@@ -1293,7 +1293,7 @@
       const modalTitle = document.getElementById('modalTitle').textContent;
       
       if (modalTitle === '模型不支持') {
-        window.location.href = '/h5/model-switch.html';
+        window.location.href = 'model-switch.html';
       } else {
         hideModal();
         executeSkill(pendingSkill);
