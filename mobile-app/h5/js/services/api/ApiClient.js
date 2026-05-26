@@ -38,10 +38,12 @@ class ApiClient {
         console.log(`[ApiClient] 请求: ${config.method} ${config.url}`, config);
       }
 
-      // 显示全局 loading（如果有未完成的请求且当前是第一个）
-      this.pendingRequests++;
-      if (this.pendingRequests === 1) {
-        this.showLoading();
+      // 显示全局 loading（suppressLoading 标记的请求不触发 loading toast）
+      if (!config.suppressLoading) {
+        this.pendingRequests++;
+        if (this.pendingRequests === 1) {
+          this.showLoading();
+        }
       }
 
       return config;

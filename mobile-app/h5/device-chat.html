@@ -1088,6 +1088,33 @@
       }
     }
     .typing { animation: pulse 1.5s infinite; }
+
+    /* 消息内 Markdown 渲染样式（匹配 marked 输出的原生 HTML 标签） */
+    .message-bubble h1, .message-bubble h2, .message-bubble h3, .message-bubble h4, .message-bubble h5, .message-bubble h6 {
+      margin: 10px 0 6px; line-height: 1.35; font-weight: 600;
+    }
+    .message-bubble h1 { font-size: 1.25em; }
+    .message-bubble h2 { font-size: 1.15em; }
+    .message-bubble h3 { font-size: 1.08em; }
+    .message-bubble hr { border: none; border-top: 1px solid var(--border-primary, rgba(148,163,184,0.2)); margin: 12px 0; }
+    .message-bubble p { margin: 4px 0; }
+    .message-bubble table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; display: block; overflow-x: auto; }
+    .message-bubble th, .message-bubble td { border: 1px solid var(--border-primary, rgba(148,163,184,0.18)); padding: 6px 10px; text-align: left; }
+    .message-bubble th { background: var(--bg-secondary, rgba(148,163,184,0.08)); font-weight: 600; white-space: nowrap; }
+    .message-bubble ul, .message-bubble ol { padding-left: 20px; margin: 6px 0; }
+    .message-bubble li { margin: 2px 0; }
+    .message-bubble blockquote { border-left: 3px solid var(--brand-primary, #3B82F6); padding-left: 12px; margin: 8px 0; color: var(--text-secondary, #64748B); }
+    .message-bubble a { color: var(--brand-primary, #3B82F6); text-decoration: underline; }
+    .message-bubble pre { background: var(--bg-primary, rgba(0,0,0,0.04)); border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 8px 0; font-size: 13px; }
+    .message-bubble pre code { background: transparent; padding: 0; font-size: inherit; white-space: pre-wrap; }
+    .message-bubble img { max-width: 100%; height: auto; border-radius: 8px; }
+    .message-bubble code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; background: rgba(148,163,184,0.12); padding: 2px 5px; border-radius: 4px; }
+    .math-block { display: block; overflow-x: auto; padding: 8px 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+    .math-inline { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95em; }
+    /* 深色模式下表格斑马条纹和代码块 */
+    html[data-theme="dark"] .message-bubble th { background: rgba(148,163,184,0.12); }
+    html[data-theme="dark"] .message-bubble pre { background: rgba(0,0,0,0.25); }
+    html[data-theme="dark"] .message-bubble code { background: rgba(148,163,184,0.16); }
   </style>
 </head>
 
@@ -1146,11 +1173,11 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"/></svg>
       打招呼
     </button>
-    <button class="quick-cmd" onclick="window.location.href='session-center.html'" style="color: var(--success);">
+    <button class="quick-cmd" onclick="handleSend('/new')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <path d="M12 5v14M5 12h14"/>
       </svg>
-      管理会话
+      新的会话
     </button>
   </div>
 
@@ -1264,6 +1291,7 @@
   </div>
 
   <!-- 依赖脚本 -->
+  <script src="js/lib/marked.min.js"></script>
   <script src="js/utils/storage.js"></script>
   <script src="js/services/themeService.js"></script>
   <script src="js/utils/navigation.js"></script>
@@ -1430,14 +1458,14 @@
         .replace(/'/g, '&#39;');
     }
 
-    // 渲染 assistant 消息的 Markdown
+    // 渲染 assistant 消息的 Markdown —— 使用 marked 库
     function renderAssistantMarkdown(text) {
-      const escaped = escapeHtml(text);
-      return escaped
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/^\s*[-*]\s+(.+)$/gm, '• $1')
-        .replace(/\n/g, '<br>');
+      if (!text) return '';
+      if (typeof marked !== 'undefined') {
+        return marked.parse(text);
+      }
+      // fallback：marked 未加载时，仅做 HTML 转义和换行
+      return escapeHtml(text).replace(/\n/g, '<br>');
     }
 
     // 从URL获取deviceId
@@ -2054,7 +2082,7 @@
           // Lifecycle 事件
           onLifecycleStart: (runId, data, meta = {}) => {
             console.log('[UI] lifecycle start:', runId);
-            updateCurrentAssistant('萤火虫正在分析问题...', { status: 'loading' }, meta);
+            updateCurrentAssistant('', { status: 'streaming' }, meta);
           },
 
           onLifecycleEnd: (data, meta = {}) => {

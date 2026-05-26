@@ -232,7 +232,7 @@ const Api = {
       console.log('[OPENCLAW] queryRunInfo:', { deviceId, url });
       console.log('[OpenClawRunInfo] final payload:', JSON.stringify(requestBody, null, 2));
       
-      const response = await apiClient.post(url, requestBody);
+      const response = await apiClient.post(url, requestBody, { suppressLoading: true });
       console.log('[OpenClawRunInfo] raw response:', JSON.stringify(response, null, 2));
       return response;
     },
@@ -273,7 +273,7 @@ const Api = {
         return value;
       }, 2));
       
-      const response = await apiClient.post(url, requestBody);
+      const response = await apiClient.post(url, requestBody, { suppressLoading: true });
       console.log('[OpenClawStartWS] raw response:', JSON.stringify(response, null, 2));
       return response;
     },
@@ -310,7 +310,7 @@ const Api = {
       
       console.log('[OPENCLAW] queryEvent:', { deviceId, tsStart, limit, url });
       console.log('[OpenClawQueryEvent] final payload:', JSON.stringify(requestBody, null, 2));
-      return apiClient.post(url, requestBody);
+      return apiClient.post(url, requestBody, { suppressLoading: true });
     },
 
     // 停止WebSocket

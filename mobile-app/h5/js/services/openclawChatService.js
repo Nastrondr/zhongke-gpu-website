@@ -49,7 +49,7 @@ const OpenClawChatService = {
     recoverySafetyWindow: 5 * 60 * 1000, // 恢复轮询安全窗口：5分钟
     maxRecoveryIterations: 50, // 最大恢复迭代次数
     maxTotalTime: 10 * 60 * 1000, // 最大总时间：10分钟
-    maxInactivityTime: 5000, // 最大无活动时间：5秒（无新事件则认为完成）
+    maxInactivityTime: 30000, // 最大无活动时间：30秒（无新事件且连续零行才认为完成）
     showCommandOutput: false, // 是否显示命令输出卡片
     // WebSocket 状态缓存配置
     wsCacheTtl: 10000 // 缓存有效期：10秒
@@ -952,10 +952,15 @@ const OpenClawChatService = {
       response?.data?.payload?.runId,
       response?.data?.data?.runId,
       response?.data?.data?.payload?.runId,
+      response?.data?.data?.rows?.[0]?.payload?.runId,
       response?.data?.data?.data?.runId,
       response?.data?.data?.data?.payload?.runId,
+      response?.data?.data?.data?.rows?.[0]?.payload?.runId,
       response?.data?.data?.reqResMsgCache?.[0]?.payload?.runId,
-      response?.data?.data?.data?.reqResMsgCache?.[0]?.payload?.runId
+      response?.data?.data?.data?.reqResMsgCache?.[0]?.payload?.runId,
+      response?.data?.rows?.[0]?.payload?.runId,
+      response?.data?.data?.rows?.find?.(function(r) { return r?.payload?.runId; })?.payload?.runId,
+      response?.data?.data?.data?.rows?.find?.(function(r) { return r?.payload?.runId; })?.payload?.runId
     ];
 
     const runId = candidates.find(Boolean);
@@ -1573,8 +1578,8 @@ const OpenClawChatService = {
             };
           }
         }
-        // 无活动超时：如果已有回复且一段时间没有新事件，认为任务完成
-        else if (state.assistantText && Date.now() - state.lastActivityTs > this.config.maxInactivityTime) {
+        // 无活动超时：已有回复 + 超时阈值 + 连续三轮零事件 = 判定流结束
+        else if (state.assistantText && Date.now() - state.lastActivityTs > this.config.maxInactivityTime && state.zeroRowsCount >= 3) {
           clearInterval(checkInterval);
           console.log('[Turn] waitForFinal - inactivity timeout, returning current response');
           reason = 'inactivity_timeout';
