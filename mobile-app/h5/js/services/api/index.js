@@ -426,6 +426,202 @@ const Api = {
       return apiClient.post(url, requestBody);
     },
 
+    // 健康检查
+    async healthCheck(deviceId) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('health'),
+              method: 'health'
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] healthCheck:', { deviceId });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // ==================== 会话管理 ====================
+
+    // 获取会话列表
+    async sessionList(deviceId) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('session-list'),
+              method: 'sessions.list'
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionList:', { deviceId });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // 获取会话信息
+    async sessionGet(deviceId, sessionKey) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('session-get'),
+              method: 'sessions.get',
+              params: { key: sessionKey }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionGet:', { deviceId, sessionKey });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // 获取会话聊天历史
+    async sessionGetHistory(deviceId, sessionKey, limit = 200, maxChars = 500000) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('chat-history'),
+              method: 'chat.history',
+              params: {
+                sessionKey: sessionKey,
+                limit: limit,
+                maxChars: maxChars
+              }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionGetHistory:', { deviceId, sessionKey, limit, maxChars });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // 创建新会话
+    async sessionCreate(deviceId, key, label, agentId = 'default') {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const sessionLabel = label || (key + '_' + Date.now());
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('session-create'),
+              method: 'sessions.create',
+              params: {
+                key: key,
+                label: sessionLabel,
+                agentId: agentId
+              }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionCreate:', { deviceId, key, label: sessionLabel, agentId });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // 删除会话
+    async sessionDelete(deviceId, sessionKey) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('session-delete'),
+              method: 'sessions.delete',
+              params: { key: sessionKey }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionDelete:', { deviceId, sessionKey });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
+    // 生成有意义的请求ID（格式: req-{prefix}-{random4}）
+    _generateReqId(prefix) {
+      const suffix = Math.random().toString(36).substring(2, 6);
+      return 'req-' + prefix + '-' + suffix;
+    },
+
     // 生成UUID
     _generateUUID() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

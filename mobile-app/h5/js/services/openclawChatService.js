@@ -3,10 +3,10 @@
  * 
  * 封装与萤火虫设备（OpenClaw智能体）的对话逻辑
  * 
- * 三段式轮询策略：
- * 1. 恢复轮询 - 页面加载时补齐历史事件
- * 2. 空闲轮询 - 每 10 秒查询一次（idle polling）
- * 3. 活跃轮询 - 发送消息后每 1 秒查询一次（active polling）
+ * 三段式策略：
+ * 1. 恢复轮询 - 页面加载时补齐历史事件（queryEvent，1s间隔）
+ * 2. 空闲保活 - 定期健康检查（healthCheck，30s间隔），不查事件
+ * 3. 活跃轮询 - 发送消息后监听事件流（queryEvent，1s间隔）
  */
 
 // OpenClaw 调试开关
@@ -44,7 +44,7 @@ const OpenClawChatService = {
   // 配置
   config: {
     sessionKey: 'agent:main:main',
-    idleInterval: 10000,     // 空闲轮询间隔：10秒
+    idleInterval: 30000,     // 空闲保活间隔：30秒（healthCheck）
     activeInterval: 1000,    // 活跃轮询间隔：1秒
     recoverySafetyWindow: 5 * 60 * 1000, // 恢复轮询安全窗口：5分钟
     maxRecoveryIterations: 50, // 最大恢复迭代次数
@@ -59,8 +59,13 @@ const OpenClawChatService = {
   _wsStatusCache: {
     statusData: null,
     lastQueryTime: 0,
-    isReady: false
+    isReady: false,
+    openclawOk: false,
+    healthPayload: null
   },
+
+  // 当前活跃的会话 key（init 时 resolveSessionKey 设置）
+  _activeSessionKey: 'agent:main:main',
 
   // 当前设备
   currentDevice: null,
@@ -233,13 +238,13 @@ const OpenClawChatService = {
   switchToIdlePolling() {
     if (!this._pollState.isRunning) return;
 
-    console.log('[Poll] ========== 切换到空闲轮询 ==========');
-    
+    console.log('[Poll] ========== 切换到空闲保活 ==========');
+
     // 不再保存 recentlyActiveTurn - currentTurn 必须由 completeActiveTurn 清理
     // 也不在这里调用 onIdle，让 completeActiveTurn 处理
-    
+
     this._pollState.mode = 'idle';
-    this._pollState.interval = this.config.idleInterval; // 10秒
+    this._pollState.interval = this.config.idleInterval; // 30秒 healthCheck
     this._pollState.questionTs = 0;
     // 注意：不清空 hasFinal，让 completeActiveTurn 处理
     // 清空 processedEvents 释放内存（空闲模式不需要保留 active 模式的事件）
@@ -288,7 +293,15 @@ const OpenClawChatService = {
     const startTime = Date.now();
 
     try {
-      // 准备查询参数
+      // === idle 模式：只做健康检查，不查事件 ===
+      if (state.mode === 'idle') {
+        console.log('[Poll] idle health check...');
+        await this._checkOpenClawHealth(state.deviceId);
+        this._scheduleNextPoll();
+        return;
+      }
+
+      // === recovery / active 模式：查询事件 ===
       let queryTs = state.cursorTs;
       let queryLimit = 50;
 
@@ -1188,6 +1201,85 @@ const OpenClawChatService = {
   },
 
   /**
+   * 加载会话历史消息
+   * session key 优先用传入值，其次从 healthPayload 取最近活跃会话，最后回退到 config.sessionKey
+   * @returns {Array<{role: string, text: string, timestamp: number}>}
+   */
+  async loadSessionHistory(deviceId, sessionKey = '') {
+    try {
+      const key = sessionKey
+        || this._activeSessionKey;
+
+      console.log('[OpenClawChat] loadSessionHistory:', { deviceId, sessionKey: key });
+      console.time('[Perf] loadSessionHistory duration');
+      const resp = await window.Api.OPENCLAW.sessionGetHistory(deviceId, key);
+      console.timeEnd('[Perf] loadSessionHistory duration');
+
+      const messages = resp?.data?.data?.payload?.messages || [];
+
+      return messages.map(msg => ({
+        role: msg.role,
+        text: msg.content?.find(c => c.type === 'text')?.text || '',
+        timestamp: msg.timestamp
+      }));
+    } catch (error) {
+      console.error('[OpenClawChat] loadSessionHistory failed:', error);
+      return [];
+    }
+  },
+
+  /**
+   * 获取当前活跃的 session key
+   */
+  getActiveSessionKey() {
+    return this._activeSessionKey;
+  },
+
+  /**
+   * 解析并设置当前用户的 session key
+   * 规则: agent:main:mobile-{手机号后6位}
+   * 1. 查 sessionList 看是否已有匹配的 key
+   * 2. 没有则创建新 session
+   * 结果写入 this._activeSessionKey
+   * @returns {Promise<string>} 解析后的 session key
+   */
+  async resolveSessionKey(deviceId) {
+    try {
+      // 直接读 Storage.Auth，不依赖 UserService（device-chat.html 未加载 userService.js）
+      const storedUser = window.Storage?.Auth?.getCurrentUser();
+      const phone = storedUser?.mobile || storedUser?.phone || '';
+      const phoneLast6 = phone.slice(-6) || '000000';
+      const targetKey = 'agent:main:mobile-' + phoneLast6;
+
+      console.log('[Session] target key:', targetKey, 'phone:', phone, 'phoneLast6:', phoneLast6);
+
+      // 查询 session 列表
+      const resp = await window.Api.OPENCLAW.sessionList(deviceId);
+      const sessions = resp?.data?.data?.payload?.sessions || [];
+
+      const matched = sessions.find(s => s.key === targetKey);
+
+      if (matched) {
+        console.log('[Session] found existing:', matched.key, 'status:', matched.status);
+        this._activeSessionKey = matched.key;
+        return matched.key;
+      }
+
+      // 不存在则创建
+      console.log('[Session] not found, creating:', targetKey);
+      await window.Api.OPENCLAW.sessionCreate(deviceId, targetKey);
+      this._activeSessionKey = targetKey;
+      console.log('[Session] created and set:', targetKey);
+      return targetKey;
+    } catch (error) {
+      console.error('[Session] resolveSessionKey failed:', error);
+      // 回退到默认 key，保证不阻塞初始化
+      this._activeSessionKey = 'agent:main:mobile-' + Date.now();
+      return this._activeSessionKey;
+    }
+  },
+
+  /**
    * 发送聊天消息
    */
   async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main', images = []) {
@@ -1238,7 +1330,7 @@ const OpenClawChatService = {
       const currentTurn = {
         turnId: options.turnId || 'turn_' + questionTs,
         assistantMessageId: options.assistantMessageId || null,
-        sessionKey: 'agent:main:main',
+        sessionKey: this._activeSessionKey,
         questionTs: questionTs,
         minAcceptedTs: questionTs,  // 根据后端建议：直接使用 questionTs，不从更早时间查询，避免读取历史内容
         requestId: this._generateUUID(),
@@ -1267,7 +1359,7 @@ const OpenClawChatService = {
         currentAssistantId: options.assistantMessageId,
         currentTurnId: options.turnId
       });
-      const sendResponse = await this.sendChatMessage(deviceId, userMessage, 'agent:main:main', images);
+      const sendResponse = await this.sendChatMessage(deviceId, userMessage, this._activeSessionKey, images);
       console.timeEnd('[Perf] sendChat API duration');
       console.timeEnd('[Perf] total send flow duration');
       console.log('[Turn] sendResponse:', sendResponse?.success);
@@ -1333,60 +1425,93 @@ const OpenClawChatService = {
   },
 
   /**
-   * 确保 WebSocket 连接就绪（带缓存优化）
+   * 确保设备就绪（WS连接 + OpenClaw健康检查）
+   * 1. 检查 WS 连接状态（queryRunInfo），未连接则尝试拉起
+   * 2. WS 就绪后，调用 healthCheck 验证 OpenClaw 服务可用（payload.ok === true）
+   * 结果缓存 10 秒
    */
   async _ensureWebSocketReady(deviceId) {
     try {
-      // 检查缓存是否有效
       const now = Date.now();
       const cacheAge = now - this._wsStatusCache.lastQueryTime;
       const cacheTtl = this.config.wsCacheTtl || 10000;
-      
+
+      // 缓存命中：跳过 WS 检查和 health 检查
       if (this._wsStatusCache.statusData && cacheAge < cacheTtl) {
-        // 缓存未过期，使用缓存结果
-        console.log('[WebSocketCheck] using cached status (age:', cacheAge, 'ms)');
-        console.log('[OpenClawReadyCheck] cached decision:', this._wsStatusCache.isReady);
-        console.log('[OpenClawReadyCheck] cached reason: from cache (age < ' + cacheTtl + 'ms)');
-        
+        console.log('[ReadyCheck] using cached status (age:', cacheAge, 'ms)');
+        console.log('[ReadyCheck] cached wsReady:', this._wsStatusCache.isReady, 'openclawOk:', this._wsStatusCache.openclawOk);
+
         if (!this._wsStatusCache.isReady) {
-          console.log('[WebSocketCheck] cached status: not ready, attempting to start...');
+          console.log('[ReadyCheck] cached WS not ready, attempting to start...');
           console.time('[Perf] startWebSocket duration');
           await this._startWebSocketIfNeeded(deviceId, this._wsStatusCache.statusData);
           console.timeEnd('[Perf] startWebSocket duration');
-        } else {
-          console.log('[WebSocketCheck] cached status: ready');
+        } else if (!this._wsStatusCache.openclawOk) {
+          console.warn('[ReadyCheck] cached OpenClaw not ok, will retry health check');
+          await this._checkOpenClawHealth(deviceId);
         }
         return;
       }
-      
-      // 缓存已过期或不存在，重新查询
-      console.log('[WebSocketCheck] cache expired or missing (age:', cacheAge, 'ms), querying...');
+
+      // === 第一步：检查 WS 连接状态 ===
+      console.log('[ReadyCheck] cache expired, querying WS status...');
       console.time('[Perf] queryRunInfo duration');
       const runInfo = await window.Api.OPENCLAW.queryRunInfo(deviceId);
       console.timeEnd('[Perf] queryRunInfo duration');
-      
+
       const statusData = runInfo?.data?.data || {};
-      
-      console.log('[WebSocketCheck] status data:', statusData);
-      
-      // 检查 WebSocket 是否正常运行
-      const isReady = this._isWebSocketReady(statusData);
-      
-      // 更新缓存
+      console.log('[ReadyCheck] WS status data:', statusData);
+
+      const wsReady = this._isWebSocketReady(statusData);
+
       this._wsStatusCache.statusData = statusData;
       this._wsStatusCache.lastQueryTime = now;
-      this._wsStatusCache.isReady = isReady;
-      
-      if (!isReady) {
-        console.log('[WebSocketCheck] WebSocket not ready, attempting to start...');
+      this._wsStatusCache.isReady = wsReady;
+      this._wsStatusCache.openclawOk = false;
+
+      if (!wsReady) {
+        console.log('[ReadyCheck] WS not ready, attempting to start...');
         console.time('[Perf] startWebSocket duration');
         await this._startWebSocketIfNeeded(deviceId, statusData);
         console.timeEnd('[Perf] startWebSocket duration');
+        return;
+      }
+
+      console.log('[ReadyCheck] WS is ready');
+
+      // === 第二步：检查 OpenClaw 服务可用性 ===
+      await this._checkOpenClawHealth(deviceId);
+
+    } catch (error) {
+      console.error('[ReadyCheck] Failed:', error);
+    }
+  },
+
+  /**
+   * 调用 healthCheck 验证 OpenClaw 服务可用性
+   * 结果写入 _wsStatusCache.openclawOk
+   */
+  async _checkOpenClawHealth(deviceId) {
+    try {
+      console.time('[Perf] healthCheck duration');
+      const healthResp = await window.Api.OPENCLAW.healthCheck(deviceId);
+      console.timeEnd('[Perf] healthCheck duration');
+
+      const payload = healthResp?.data?.data?.payload;
+      const ok = payload?.ok === true;
+
+      this._wsStatusCache.openclawOk = ok;
+      this._wsStatusCache.healthPayload = payload || null;
+
+      if (ok) {
+        console.log('[ReadyCheck] OpenClaw health OK, agents:', payload.agents?.length, 'sessions:', payload.sessions?.count);
       } else {
-        console.log('[WebSocketCheck] WebSocket is ready, cached for', cacheTtl, 'ms');
+        console.warn('[ReadyCheck] OpenClaw health NOT ok, payload:', payload);
       }
     } catch (error) {
-      console.error('[WebSocketCheck] Failed to check WebSocket status:', error);
+      this._wsStatusCache.openclawOk = false;
+      this._wsStatusCache.healthPayload = null;
+      console.error('[ReadyCheck] healthCheck failed:', error);
     }
   },
 

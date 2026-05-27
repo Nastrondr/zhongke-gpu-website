@@ -80,3 +80,112 @@
 **改动**：替换为"新的会话"按钮，点击后调用 `handleSend('/new')`，复用完整发送链路向设备端发送 `/new` 指令。
 
 **意义**：新建会话通过设备端协议完成，不依赖客户端本地清理逻辑，确保服务端和客户端会话状态一致。
+
+---
+
+# Changelog — 会话管理 & 架构重构
+
+> 日期：2026-05-27
+> 涉及文件：`api/index.js`、`openclawChatService.js`、`device-chat.html`、`css/device-chat.css` (新)、`js/pages/device-chat.js` (新)
+
+---
+
+## 7. OpenClaw 会话管理 API 封装
+
+**问题**：之前没有对设备端 session 的 CRUD 能力，无法查询历史、切换会话。
+
+**改动**（`api/index.js`）：
+- `sessionList(deviceId)` — 获取全部 session 列表（`sessions.list`）
+- `sessionGet(deviceId, sessionKey)` — 获取单个 session 信息（`sessions.get`）
+- `sessionGetHistory(deviceId, sessionKey, limit, maxChars)` — 获取聊天历史（`chat.history`）
+- `sessionCreate(deviceId, key, label, agentId)` — 创建 session，label 默认 `key_timestamp`
+- `sessionDelete(deviceId, sessionKey)` — 删除 session（`sessions.delete`）
+- `healthCheck(deviceId)` — 健康检查（`health`），返回 `payload.ok` + sessions/agents/heartbeat 状态
+- `_generateReqId(prefix)` — 有意义的请求 ID（`req-session-list-a3f2`），替代纯 UUID 便于调试
+
+**意义**：完整的 session 生命周期管理能力，为多会话切换和历史加载提供基础。
+
+---
+
+## 8. 空闲轮询策略调整：queryEvent → healthCheck
+
+**问题**：idle 模式下每 10s 调 `queryEvent` 查询事件，但没发消息时不会有新事件，纯浪费请求。真正的需求是探活。
+
+**改动**（`openclawChatService.js`）：
+- `idleInterval` 从 10s → 30s
+- `_doPoll()` idle 分支：不再调用 `queryEvent`，改为调用 `_checkOpenClawHealth()`
+- `_checkOpenClawHealth()` 调 `healthCheck` API，验证 `payload.ok === true`，结果缓存到 `_wsStatusCache.healthPayload`
+
+**三段式策略更新**：
+
+| 模式 | 间隔 | 动作 |
+|------|------|------|
+| recovery | 1s | `queryEvent` 补齐历史 |
+| idle | 30s | `healthCheck` 探活 |
+| active | 1s | `queryEvent` 监听流式事件 |
+
+**意义**：不发消息时零 `queryEvent` 调用，30s 一次轻量 healthCheck 保活同时更新 sessions/agents 信息。
+
+---
+
+## 9. 发送前双重就绪检查（WS + OpenClaw）
+
+**问题**：原来 `_ensureWebSocketReady` 只检查 WS 连接状态（`queryRunInfo`→`_isWebSocketReady`），WS 通不代表 OpenClaw 服务真正可用。
+
+**改动**（`openclawChatService.js`）：
+- `_ensureWebSocketReady` 改为两步：① WS 连接检查（`queryRunInfo`）→ ② OpenClaw 健康检查（`healthCheck` → `payload.ok`）
+- 缓存命中时：`openclawOk === false` 会重新调 healthCheck，确保过期的不可用状态被刷新
+- `_wsStatusCache` 扩充 `openclawOk`、`healthPayload` 字段
+
+**意义**：发送消息前确保整个链路（WS 通道 + OpenClaw 服务）都就绪，避免发出去后才发现服务不可用。
+
+---
+
+## 10. 用户专属 Session 隔离
+
+**问题**：之前 sessionKey 硬编码为 `'agent:main:main'`，多用户共用同一 session，消息混乱。
+
+**改动**：
+- `_activeSessionKey` 字段统一管理当前用户的 session key
+- `resolveSessionKey(deviceId)` 方法（`openclawChatService.js`）：
+  - 从 `Storage.Auth.getCurrentUser().mobile` 提取手机号后 6 位
+  - key 规则：`agent:main:mobile-{phoneLast6}`
+  - 调 `sessionList` 查找匹配 key → 找到则复用，否则调 `sessionCreate` 创建
+  - 异常时兜底 `agent:main:mobile-{timestamp}`
+- `sendMessageAndWait` 中 `currentTurn.sessionKey` 和 `sendChatMessage` 调用全部改用 `this._activeSessionKey`
+- `device-chat.html` init 中先调 `resolveSessionKey`，再 `startPolling`，最后 `loadSessionHistory`
+- 删除页面局部变量 `currentSessionKey`，所有 sessionKey 由 Service 统一管理
+
+**意义**：不同用户自动使用独立 session（如 `agent:main:mobile-169367`），互不干扰。后续扩展多 session 切换只需改 key 来源。
+
+---
+
+## 11. 进入设备页自动加载历史消息
+
+**问题**：之前进入设备页是空白聊天，看不到之前的对话记录。
+
+**改动**：
+- `loadSessionHistory(deviceId, sessionKey)`（`openclawChatService.js`）：调 `sessionGetHistory` API，返回 `[{ role, text, timestamp }]`
+- 渲染逻辑（`device-chat.html` init）：遍历历史消息，`user` → `addUserMessage()`，`assistant` → `addAssistantMessage()`
+- 只取 `content` 中 `type === 'text'` 的内容，跳过 `type: 'thinking'`
+
+**意义**：用户进入设备页直接看到上次的对话历史，体验连续。
+
+---
+
+## 12. device-chat.html 文件拆解
+
+**问题**：`device-chat.html` 2772 行，CSS / HTML / JS 全部混在一个文件，可维护性差。
+
+**改动**：
+
+| 拆分前 | 拆分后 | 行数 |
+|--------|--------|------|
+| 内联 `<style>` 块 | `css/device-chat.css` | 1099 |
+| 内联 `<script>` 块 | `js/pages/device-chat.js` | 1464 |
+| HTML 模板 + 外部引用 | `device-chat.html` | **208** |
+
+**注意事项**：
+- JS 以普通脚本加载（非 `type="module"`），保持全局作用域兼容 HTML `onclick` 属性
+- 新增 `js/pages/` 目录，为后续其他页面的 JS 提取建立模式
+- 加载顺序不变：theme-variables.css → device-chat.css → 依赖脚本 → device-chat.js
