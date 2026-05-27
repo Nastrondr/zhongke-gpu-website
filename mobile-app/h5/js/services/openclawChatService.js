@@ -1282,11 +1282,11 @@ const OpenClawChatService = {
   /**
    * 发送聊天消息
    */
-  async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main', images = []) {
+  async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main', attachments = []) {
     if (!deviceId) throw new Error('deviceId is required');
     if (!message) throw new Error('message is required');
-    console.log('[OpenClawChat] sendChatMessage:', { deviceId, message, sessionKey, images: images.length });
-    return await window.Api.OPENCLAW.sendChat(deviceId, message, sessionKey, images);
+    console.log('[OpenClawChat] sendChatMessage:', { deviceId, message, sessionKey, attachments: attachments.length });
+    return await window.Api.OPENCLAW.sendChat(deviceId, message, sessionKey, attachments);
   },
 
   /**
@@ -1297,7 +1297,7 @@ const OpenClawChatService = {
    * @param {Array} images - 图片数据数组（base64）
    * @param {Object} options - 选项参数（包含 turnId、assistantMessageId）
    */
-  async sendMessageAndWait(device, message, callbacks = {}, images = [], options = {}) {
+  async sendMessageAndWait(device, message, callbacks = {}, attachments = [], options = {}) {
     const deviceId = this.resolveDeviceId(device);
     console.time('[Perf] total send flow duration');
 
@@ -1359,7 +1359,7 @@ const OpenClawChatService = {
         currentAssistantId: options.assistantMessageId,
         currentTurnId: options.turnId
       });
-      const sendResponse = await this.sendChatMessage(deviceId, userMessage, this._activeSessionKey, images);
+      const sendResponse = await this.sendChatMessage(deviceId, userMessage, this._activeSessionKey, attachments);
       console.timeEnd('[Perf] sendChat API duration');
       console.timeEnd('[Perf] total send flow duration');
       console.log('[Turn] sendResponse:', sendResponse?.success);

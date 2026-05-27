@@ -164,12 +164,35 @@ const Api = {
   // 小龙虾设备 OPENCLAW_MANAGER 命令
   OPENCLAW: {
     // 发送命令到小龙虾设备（使用新接口 /manage/api/v1/devices/{id}/iot/capbility/invork）
-    async sendChat(deviceId, message, sessionKey = 'agent:main:main', images = []) {
+    async sendChat(deviceId, message, sessionKey = 'agent:main:main', attachments = []) {
       const endpoint = ApiEndpoints.device.openclaw.invork;
       const path = endpoint.path.replace(':id', deviceId);
       const url = ApiEndpoints.buildUrl(path);
-      
+
       const deliver = false;
+      const chatParams = {
+        sessionKey: sessionKey,
+        message: message,
+        deliver: deliver,
+        idempotencyKey: this._generateUUID()
+      };
+
+      // 构建附件列表（图片 + 文件）
+      if (attachments && attachments.length > 0) {
+        chatParams.attachments = attachments.map(att => {
+          const item = { content: att.content };
+          if (att.type === 'image') {
+            item.type = 'image';
+            item.mimeType = att.mimeType || 'image/png';
+          } else {
+            // 文件附件：fileName 对 OOXML 格式至关重要
+            if (att.fileName) item.fileName = att.fileName;
+            item.mimeType = att.mimeType || 'application/octet-stream';
+          }
+          return item;
+        });
+      }
+
       const requestBody = {
         Plugin_Name: 'com.szsbay.kernel',
         RPCMethod: 'Post',
@@ -180,12 +203,7 @@ const Api = {
               type: 'req',
               id: this._generateUUID(),
               method: 'chat.send',
-              params: {
-                sessionKey: sessionKey,
-                message: message,
-                deliver: deliver,
-                idempotencyKey: this._generateUUID()
-              }
+              params: chatParams
             }
           },
           CmdType: 'systemExtend.OPENCLAW_MANAGER'
@@ -194,11 +212,11 @@ const Api = {
         ID: 0,
         applicationName: ''
       };
-      
-      console.log('[OPENCLAW] sendChat:', { deviceId, message, images: images.length, deliver });
+
+      console.log('[OPENCLAW] sendChat:', { deviceId, message, attachments: attachments.length, deliver });
       console.log('[OpenClawSend] userInput:', message);
       console.log('[OpenClawSend] requestId:', requestBody.Parameter.parameter.data.id);
-      console.log('[OpenClawSend] idempotencyKey:', requestBody.Parameter.parameter.data.params.idempotencyKey);
+      console.log('[OpenClawSend] idempotencyKey:', chatParams.idempotencyKey);
       console.log('[OpenClawSend] deliver:', deliver);
       console.log('[OpenClawSend] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody);

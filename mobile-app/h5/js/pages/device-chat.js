@@ -289,27 +289,6 @@ async function init() {
     console.log('[UI] session key resolved:', sessionKey);
   }
 
-  // ====== 调试：初始化时查询模型配置 ======
-  if (numericDeviceId && runtimeState.openclawOnline) {
-    try {
-      console.log('[Model] 页面初始化，查询设备模型配置...');
-      const modelResponse = await Api.OPENCLAW.listModels(numericDeviceId);
-      console.log('[Model] 初始化模型列表响应:', modelResponse);
-      
-      if (modelResponse && modelResponse.data) {
-        const modelData = modelResponse.data;
-        console.log('[Model] 初始化模型详细数据:', modelData);
-        
-        if (modelData.models || modelData.data || modelData.result) {
-          console.log('[Model] 初始化可用模型列表:', modelData.models || modelData.data || modelData.result);
-        }
-      }
-    } catch (modelError) {
-      console.warn('[Model] 初始化查询模型配置失败:', modelError);
-    }
-  }
-  // =========================================
-
   // 启动轮询系统（恢复轮询 -> 空闲轮询）
   if (numericDeviceId && runtimeState.openclawOnline) {
     window.OpenClawChatService.startPolling(numericDeviceId, {
@@ -342,9 +321,9 @@ async function init() {
       if (historyMessages.length > 0) {
         historyMessages.forEach(msg => {
           if (msg.role === 'user') {
-            addUserMessage(msg.text);
+            addUserMessage(msg.text, [], msg.timestamp);
           } else if (msg.role === 'assistant' && msg.text) {
-            addAssistantMessage(msg.text);
+            addAssistantMessage(msg.text, { timestamp: msg.timestamp });
           }
         });
         console.log('[UI] loaded ' + historyMessages.length + ' history messages');
@@ -505,45 +484,42 @@ function handleMultimodalUpload(type) {
   fileInput.click();
 }
 
-// 处理文件选择（与whale-chat统一）
-let attachedFiles = [];
+// 待发送的附件列表（图片 + 文件）
+window.pendingAttachments = window.pendingAttachments || [];
 
 function handleFileSelected(event) {
-  const files = Array.from(event.target.files);
+  var files = Array.from(event.target.files);
   if (!files.length) return;
 
-  console.log('[FileUpload] 选择了文件:', files.map(f => f.name).join(', '));
+  console.log('[FileUpload] selected:', files.map(function(f) { return f.name; }).join(', '));
 
-  files.forEach(file => {
-    const fileName = file.name.toLowerCase();
-    let fileType = 'document';
+  files.forEach(function(file) {
+    var fileName = file.name.toLowerCase();
+    var mimeType = getMimeType(file.name);
+    var isImage = mimeType.startsWith('image/');
 
-    if (fileName.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/)) {
-      fileType = 'image';
-    } else if (fileName.match(/\.(xls|xlsx|csv)$/)) {
-      fileType = 'spreadsheet';
-    } else if (fileName.match(/\.(pdf|doc|docx|txt)$/)) {
-      fileType = 'document';
-    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var base64 = e.target.result.split(',')[1];
 
-    if (fileType === 'image') {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        window.currentImages = window.currentImages || [];
-        window.currentImages.push({
-          base64: e.target.result,
-          name: file.name
-        });
-        updateImageStaging();
+      var attachment = {
+        content: base64,
+        mimeType: mimeType,
+        name: file.name
       };
-      reader.readAsDataURL(file);
-    } else {
-      if (typeof showToast === 'function') {
-        showToast('文档上传功能将在后续版本开放', 'info');
+
+      if (isImage) {
+        attachment.type = 'image';
+        // 保留完整 data URL 供预览使用
+        attachment.previewUrl = e.target.result;
       } else {
-        alert('文档上传功能将在后续版本开放');
+        attachment.fileName = file.name;
       }
-    }
+
+      window.pendingAttachments.push(attachment);
+      updateImageStaging();
+    };
+    reader.readAsDataURL(file);
   });
 
   event.target.value = '';
@@ -551,57 +527,49 @@ function handleFileSelected(event) {
 
 // 处理图片上传
 async function handleImageUpload(event) {
-  const files = event.target.files;
+  var files = event.target.files;
   if (!files || files.length === 0) return;
 
-  for (const file of files) {
-    // 检查文件类型
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
     if (!file.type.startsWith('image/')) {
       alert('请选择图片文件');
       continue;
     }
-
-    // 检查文件大小（最大5MB）
     if (file.size > 5 * 1024 * 1024) {
       alert('图片大小不能超过5MB');
       continue;
     }
 
     try {
-      // 转成base64
-      const base64 = await fileToBase64(file);
-
-      // 保存到全局变量
-      window.currentImages = window.currentImages || [];
-      window.currentImages.push({
-        base64: base64,
-        name: file.name
+      var base64 = await fileToBase64(file);
+      window.pendingAttachments = window.pendingAttachments || [];
+      window.pendingAttachments.push({
+        type: 'image',
+        mimeType: file.type,
+        content: base64,
+        name: file.name,
+        previewUrl: 'data:' + file.type + ';base64,' + base64
       });
-
     } catch (error) {
       console.error('图片处理失败:', error);
       alert('图片处理失败，请重试');
     }
   }
 
-  // 更新暂存区显示
   updateImageStaging();
-
-  // 清空文件选择器
   event.target.value = '';
 }
 
-// 更新图片暂存区显示
+// 更新附件暂存区显示
 function updateImageStaging() {
-  let stagingArea = document.getElementById('imageStagingArea');
+  var stagingArea = document.getElementById('imageStagingArea');
   if (!stagingArea) {
-    // 如果暂存区不存在，创建它
-    const inputArea = document.querySelector('.input-area');
-    const chatComposer = document.querySelector('.chat-composer');
+    var inputArea = document.querySelector('.input-area');
+    var chatComposer = document.querySelector('.chat-composer');
     stagingArea = document.createElement('div');
     stagingArea.id = 'imageStagingArea';
     stagingArea.className = 'image-staging-area';
-    // 插入到 input-area 内部，在 chat-composer 前面
     if (chatComposer && inputArea) {
       inputArea.insertBefore(stagingArea, chatComposer);
     } else if (inputArea) {
@@ -609,32 +577,41 @@ function updateImageStaging() {
     }
   }
 
-  const images = window.currentImages || [];
+  var attachments = window.pendingAttachments || [];
 
-  if (images.length === 0) {
+  if (attachments.length === 0) {
     stagingArea.style.display = 'none';
     return;
   }
 
   stagingArea.style.display = 'flex';
 
-  let html = '';
-  images.forEach((img, index) => {
-    html += `
-      <div class="staged-image" style="position:relative;display:inline-block;margin:4px;">
-        <img src="${img.base64}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
-        <button onclick="removeStagedImage(${index})" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;border:none;background:#ff4444;color:white;font-size:12px;cursor:pointer;line-height:1;">×</button>
-      </div>
-    `;
+  var html = '';
+  attachments.forEach(function(att, index) {
+    if (att.type === 'image' && att.previewUrl) {
+      html += '<div class="staged-image" style="position:relative;display:inline-block;margin:4px;">'
+        + '<img src="' + att.previewUrl + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">'
+        + '<button onclick="removeStagedImage(' + index + ')" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;border:none;background:#ff4444;color:white;font-size:12px;cursor:pointer;line-height:1;">×</button>'
+        + '</div>';
+    } else {
+      // 文件附件：显示文件图标 + 文件名
+      var ext = (att.name || att.fileName || '').split('.').pop().toLowerCase();
+      var iconColor = ext === 'pdf' ? '#ef4444' : (ext === 'xlsx' || ext === 'xls' || ext === 'csv' ? '#10b981' : '#60a5fa');
+      html += '<div class="staged-file" style="position:relative;display:inline-flex;align-items:center;gap:6px;margin:4px;padding:8px 12px;background:var(--card-bg-soft, #f8f9fa);border-radius:8px;font-size:12px;max-width:160px;">'
+        + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+        + '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-primary, #1f2937);">' + escapeHtml(att.name || att.fileName) + '</span>'
+        + '<button onclick="removeStagedImage(' + index + ')" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;border:none;background:#ff4444;color:white;font-size:12px;cursor:pointer;line-height:1;">×</button>'
+        + '</div>';
+    }
   });
 
   stagingArea.innerHTML = html;
 }
 
-// 移除暂存图片
+// 移除暂存附件
 function removeStagedImage(index) {
-  if (window.currentImages) {
-    window.currentImages.splice(index, 1);
+  if (window.pendingAttachments) {
+    window.pendingAttachments.splice(index, 1);
     updateImageStaging();
   }
 }
@@ -647,6 +624,27 @@ function fileToBase64(file) {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+}
+
+// 根据文件名推断 MIME 类型
+function getMimeType(fileName) {
+  var ext = fileName.toLowerCase().split('.').pop();
+  var mimeMap = {
+    'png': 'image/png',
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'gif': 'image/gif',
+    'webp': 'image/webp',
+    'bmp': 'image/bmp',
+    'pdf': 'application/pdf',
+    'doc': 'application/msword',
+    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'xls': 'application/vnd.ms-excel',
+    'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'csv': 'text/csv',
+    'txt': 'text/plain'
+  };
+  return mimeMap[ext] || 'application/octet-stream';
 }
 
 // 显示图片预览
@@ -723,19 +721,31 @@ async function handleSend(customMessage = null) {
   isProcessing = true;
   updateSendButton(true);  // 更新按钮状态为处理中
 
-  // 检查是否有图片
-  const hasImages = window.currentImages && window.currentImages.length > 0;
-  const images = hasImages ? window.currentImages.map(img => img.base64) : [];
+  // 检查是否有待发送附件
+  var pendingAttachments = window.pendingAttachments || [];
+  var hasAttachments = pendingAttachments.length > 0;
+  // 提取图片用于消息气泡渲染
+  var imageBase64List = [];
+  var fileNames = [];
+  if (hasAttachments) {
+    pendingAttachments.forEach(function(att) {
+      if (att.type === 'image') {
+        imageBase64List.push(att.content);
+      } else {
+        fileNames.push(att.name || att.fileName);
+      }
+    });
+  }
 
-  addUserMessage(message, hasImages ? images : []);
+  addUserMessage(message, imageBase64List, null, fileNames);
   console.log('[SendFlow] user message created', {
     userMessageId: null
   });
   input.value = '';
 
-  // 清空图片暂存区
-  if (hasImages) {
-    window.currentImages = [];
+  // 清空附件暂存区
+  if (hasAttachments) {
+    window.pendingAttachments = [];
     updateImageStaging();
   }
 
@@ -845,7 +855,7 @@ async function handleSend(customMessage = null) {
       onIdle: () => {
         console.log('[UI] idle polling');
       }
-    }, images, {
+    }, pendingAttachments, {
       turnId,
       assistantMessageId: currentAssistantMessageId
     });
@@ -1138,17 +1148,31 @@ function initComposer() {
 }
 
 // 添加用户消息
-function addUserMessage(message, images = []) {
-  const container = document.getElementById('chatContainer');
-  const div = document.createElement('div');
+function addUserMessage(message, images, timestamp, fileNames) {
+  images = images || [];
+  fileNames = fileNames || [];
+  var container = document.getElementById('chatContainer');
+  var div = document.createElement('div');
   div.className = 'chat-message user';
 
-  // 如果有图片，先渲染图片
-  let content = '';
-  if (images && images.length > 0) {
+  var content = '';
+  // 渲染图片
+  if (images.length > 0) {
     content += renderImages(images);
   }
-  content += escapeHtml(message);
+  content += '<div class="message-text">' + escapeHtml(message) + '</div>';
+  // 渲染文件附件名
+  if (fileNames.length > 0) {
+    content += '<div class="message-files">';
+    fileNames.forEach(function(name) {
+      content += '<span class="file-chip">' + escapeHtml(name) + '</span>';
+    });
+    content += '</div>';
+  }
+  // 时间
+  if (timestamp) {
+    content += '<div class="message-time">' + formatTime(timestamp) + '</div>';
+  }
 
   div.innerHTML = content;
   container.appendChild(div);

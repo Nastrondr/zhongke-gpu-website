@@ -5,6 +5,40 @@
 
 ---
 
+## 13. 多模态附件上传（图片/文档/表格/扫描）
+
+**问题**：`sendChat` API 虽然接收 `images` 参数，但构建请求体时完全忽略，从未将附件写入 `chat.send` 的 `params`。文档和表格上传直接弹出"功能将在后续版本开放"，实际无法使用。
+
+**改动**：
+
+- `api/index.js` — `sendChat(deviceId, message, sessionKey, attachments)`:
+  - `images` 参数重命名为 `attachments`，接受完整附件对象数组
+  - 有附件时构建 `chat.send` 的 `params.attachments` 数组：
+    - 图片：`{ type: "image", mimeType: "image/png", content: "<base64>" }`
+    - 文件：`{ fileName: "报告.docx", mimeType: "application/vnd...", content: "<base64>" }`
+  - 附件格式依据 OpenClaw Gateway WS 协议 §2.3（`chat.send` 附件）
+
+- `openclawChatService.js` — `sendChatMessage` / `sendMessageAndWait`:
+  - `images` 参数统一重命名为 `attachments`
+
+- `js/pages/device-chat.js`:
+  - `window.currentImages` → `window.pendingAttachments`，存储完整附件对象（含 `type`/`mimeType`/`content`/`fileName`/`previewUrl`）
+  - `handleFileSelected` 重写：所有文件类型（图片/文档/表格）统一读取为 base64，不再区别对待
+  - `handleImageUpload` 适配新的 `pendingAttachments` 格式
+  - `updateImageStaging` 扩展：图片显示缩略图预览，文件显示文件名 + 图标 chip
+  - `handleSend` 改为传递完整 `pendingAttachments` 到 `sendMessageAndWait`
+  - `addUserMessage` 新增 `fileNames` 参数，在消息气泡中渲染文件标签
+  - 新增 `getMimeType(fileName)` 辅助函数，根据扩展名推断 MIME 类型
+
+- `css/device-chat.css`:
+  - 新增 `.message-files` / `.file-chip` 样式（用户消息中的文件附件标签）
+
+**意义**：图片、PDF、Word、Excel、CSV 等文件现在可以真正发送到设备端。附件以 base64 编码随 `chat.send` 请求发送，图片直接传给模型，文件 offload 到 `media://inbound/` 供 Agent 工具访问。
+
+---
+
+---
+
 ## 1. Markdown 渲染重构
 
 **问题**：手写正则解析 markdown 在流式渲染中遇到未闭合标记（如 `**`）时，非贪婪匹配会跨区域劫持后续内容，导致文本结构错乱或内容丢失。同时仅支持粗体、行内代码、简单列表，表格等语法不支持。
