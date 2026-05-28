@@ -2697,12 +2697,12 @@
       <div class="section animate-in delay-5" style="margin-bottom: 12px;">
         <div style="background: var(--card-bg); border-radius: 16px; overflow: hidden;">
           <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); padding: 14px 16px; border-bottom: 1px solid var(--border-card);">设备管理</div>
-          <div onclick="handleAction('查看运行日志', '正在加载...')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-card); cursor: pointer;">
+          <div onclick="handleAction('查看设备事件', '正在加载...')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border-card); cursor: pointer;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; color: var(--text-secondary);">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
               </svg>
-              <span style="font-size: 13px; color: var(--text-primary);">查看运行日志</span>
+              <span style="font-size: 13px; color: var(--text-primary);">查看设备事件</span>
             </div>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; color: var(--text-tertiary);">
               <path d="M9 18l6-6-6-6"/>
@@ -2814,7 +2814,7 @@
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            <span class="entry-text">查看运行日志</span>
+            <span class="entry-text">查看设备事件</span>
           </div>
           <svg class="entry-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"/>
@@ -3416,12 +3416,15 @@
         '同步数据': 'sync',
         '重启服务': 'restart',
         '诊断服务': 'diagnose',
-        '查看设备信息': 'showDeviceInfo'
+        '查看设备信息': 'showDeviceInfo',
+        '查看设备事件': 'showDeviceEvents'
       };
 
       if (actionMap[action]) {
         if (actionMap[action] === 'showDeviceInfo') {
           showDeviceInfoSheet();
+        } else if (actionMap[action] === 'showDeviceEvents') {
+          showDeviceEvents();
         } else {
           handleDeviceAction(actionMap[action]);
         }
@@ -3482,7 +3485,7 @@
                 <line x1="16" y1="13" x2="8" y2="13"/>
                 <line x1="16" y1="17" x2="8" y2="17"/>
               </svg>
-              <p style="color: var(--text-tertiary); font-size: 14px; margin: 0;">暂无运行日志</p>
+              <p style="color: var(--text-tertiary); font-size: 14px; margin: 0;">暂无设备事件</p>
             </div>
           `;
           return;
@@ -4574,7 +4577,7 @@
   <div id="eventsSheet" class="modal-overlay" onclick="hideEventsSheet()">
     <div class="modal-content" onclick="event.stopPropagation()" style="max-height: 70vh; overflow-y: auto;">
       <div class="modal-header">
-        <div class="modal-title">运行日志</div>
+        <div class="modal-title">设备事件</div>
         <button class="modal-close" onclick="hideEventsSheet()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
