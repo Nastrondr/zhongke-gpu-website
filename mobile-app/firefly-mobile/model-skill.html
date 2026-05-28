@@ -1340,8 +1340,8 @@
       }
       
       try {
-        console.log('[SkillList] calling Skill.list instead of OPENCLAW.listSkills (not supported)');
-        const response = await Api.Skill.list();
+        console.log('[SkillList] calling Skill.getList()');
+        const response = await Api.Skill.getList();
         console.log('[SkillList] raw response:', response);
         
         // 提取技能数组，过滤掉已停用的技能
