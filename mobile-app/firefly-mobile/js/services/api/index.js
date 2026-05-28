@@ -385,6 +385,36 @@ const Api = {
       return apiClient.post(url, requestBody);
     },
 
+    // 查询技能列表
+    async listSkills(deviceId) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+      
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateUUID(),
+              method: 'skills.list',
+              params: {}
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+      
+      console.log('[OPENCLAW] listSkills:', { deviceId, url });
+      return apiClient.post(url, requestBody);
+    },
+
     // 切换模型
     async switchModel(deviceId, model) {
       const endpoint = ApiEndpoints.device.openclaw.invork;
