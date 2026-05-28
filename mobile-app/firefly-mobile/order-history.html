@@ -38,10 +38,6 @@
       --error: #EF4444;
       --pending: #F59E0B;
       --icon-bg: rgba(96, 165, 250, 0.1);
-      --border-radius-sm: 10px;
-      --border-radius: 16px;
-      --shadow-card: none;
-      --shadow-card-hover: none;
     }
 
     html[data-theme="light"] {
@@ -62,10 +58,6 @@
       --error: #DC2626;
       --pending: #D97706;
       --icon-bg: #EAF3FF;
-      --border-radius-sm: 10px;
-      --border-radius: 16px;
-      --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.08);
-      --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.12);
     }
 
     body {
@@ -100,17 +92,10 @@
       cursor: pointer;
       border-radius: 8px;
       color: var(--accent-blue);
-      transition: all 0.2s;
-      text-decoration: none;
     }
 
     .back-btn:hover {
       background: rgba(96, 165, 250, 0.1);
-    }
-
-    .back-btn svg {
-      width: 20px;
-      height: 20px;
     }
 
     .nav-title h1 {
@@ -119,35 +104,230 @@
       color: var(--text-primary);
     }
 
-    .page-content {
-      padding: 16px;
-    }
-
-    .tabs {
+    .tabs-container {
       display: flex;
+      background: var(--bg-secondary);
+      padding: 0 16px;
       gap: 8px;
-      margin-bottom: 16px;
-      background: var(--card-bg);
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .tab-item {
       flex: 1;
+      padding: 14px 0;
       text-align: center;
-      padding: 10px 12px;
-      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .tab-item.active {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 2px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+
+    .page-content {
+      padding: 16px;
+    }
+
+    .order-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .order-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-1px);
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-id {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .order-status {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .order-status.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--pending);
+    }
+
+    .order-status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+    }
+
+    .order-status.cancelled {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-tertiary);
+    }
+
+    .order-body {
+      padding: 14px 16px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .order-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--icon-bg);
+      flex-shrink: 0;
+    }
+
+    .order-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .order-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .order-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .order-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .order-total {
       font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .order-total-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .order-total-price .symbol {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-card);
+      background: transparent;
       color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .tab-item.active {
+    .action-btn:hover {
+      background: var(--bg-secondary);
+    }
+
+    .action-btn.primary {
       background: var(--accent-blue);
+      border-color: var(--accent-blue);
       color: #fff;
+    }
+
+    .action-btn.primary:hover {
+      opacity: 0.9;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .empty-title {
+      font-size: 16px;
       font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-desc {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      text-align: center;
     }
 
     .filter-bar {
@@ -180,193 +360,6 @@
       outline: none;
       border-color: var(--accent-blue);
     }
-
-    .order-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-card);
-      border-radius: var(--border-radius);
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: var(--shadow-card);
-      transition: all 0.2s;
-    }
-
-    .order-card:hover {
-      box-shadow: var(--shadow-card-hover);
-      background: var(--card-hover);
-    }
-
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .order-id {
-      font-size: 12px;
-      color: var(--text-tertiary);
-    }
-
-    .order-status {
-      font-size: 12px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
-
-    .order-status.success {
-      background: rgba(34, 197, 94, 0.1);
-      color: var(--success);
-    }
-
-    .order-status.pending {
-      background: rgba(245, 158, 11, 0.1);
-      color: var(--pending);
-    }
-
-    .order-status.cancelled {
-      background: rgba(148, 163, 184, 0.1);
-      color: var(--text-tertiary);
-    }
-
-    .order-body {
-      margin-bottom: 12px;
-    }
-
-    .order-item {
-      display: flex;
-      gap: 12px;
-    }
-
-    .order-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--icon-bg);
-      border-radius: var(--border-radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .order-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .order-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .order-desc {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .order-meta {
-      display: flex;
-      gap: 16px;
-      font-size: 11px;
-      color: var(--text-tertiary);
-    }
-
-    .order-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-card);
-    }
-
-    .order-total {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .order-total-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .order-total-price .symbol {
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .order-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .action-btn {
-      padding: 8px 16px;
-      border: 1px solid var(--border-card);
-      border-radius: 8px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .action-btn:hover {
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-    }
-
-    .action-btn.primary {
-      background: var(--accent-blue);
-      border-color: var(--accent-blue);
-      color: #fff;
-    }
-
-    .action-btn.primary:hover {
-      opacity: 0.9;
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-    }
-
-    .empty-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--icon-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-
-    .empty-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .empty-desc {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      text-align: center;
-    }
   </style>
   <script src="js/utils/storage.js"></script>
   <script src="js/services/api/config.js"></script>
@@ -388,16 +381,16 @@
       </div>
     </div>
 
-    <div class="page-content">
-      <div class="tabs">
-        <div class="tab-item active" onclick="switchTab('all')">全部</div>
-        <div class="tab-item" onclick="switchTab('pending')">待支付</div>
-        <div class="tab-item" onclick="switchTab('success')">已完成</div>
-      </div>
+    <div class="tabs-container">
+      <div class="tab-item active" onclick="switchTab('all')">全部</div>
+      <div class="tab-item" onclick="switchTab('pending')">待支付</div>
+      <div class="tab-item" onclick="switchTab('success')">已完成</div>
+    </div>
 
+    <div class="page-content">
       <div class="filter-bar">
-        <span class="filter-label">共 <strong style="color: var(--accent-blue)" id="orderCount">0</strong> 条订单</span>
-        <select class="filter-select" id="orderFilter" onchange="handleFilterChange()">
+        <span class="filter-label">共 <strong style="color: var(--accent-blue)">5</strong> 条订单</span>
+        <select class="filter-select" id="orderFilter">
           <option value="priority">待支付优先</option>
           <option value="latest">最近下单</option>
           <option value="amount-desc">金额从高到低</option>
@@ -405,309 +398,206 @@
         </select>
       </div>
 
-      <div id="orderList">
+      <div class="order-card" onclick="showOrderDetail('ORD20241218002')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241218002</span>
+          <span class="order-status pending">待支付</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">智能问答技能包</div>
+              <div class="order-desc">技能版本：v2.0 | 有效期：永久</div>
+              <div class="order-meta">
+                <span>2024-12-18 09:15:45</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <div class="order-actions">
+            <button class="action-btn" onclick="cancelOrder('ORD20241218002'); event.stopPropagation();">取消订单</button>
+            <button class="action-btn primary" onclick="payOrder('ORD20241218002'); event.stopPropagation();">立即支付</button>
+          </div>
+        </div>
       </div>
 
-      <div id="emptyState" class="empty-state" style="display: none;">
-        <div class="empty-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-          </svg>
+      <div class="order-card" onclick="showOrderDetail('ORD20241215001')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241215001</span>
+          <span class="order-status success">已完成</span>
         </div>
-        <div class="empty-title">暂无订单</div>
-        <div class="empty-desc">当前筛选条件下没有找到订单</div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">NVIDIA RTX 4090 设备租用</div>
+              <div class="order-desc">设备型号：NVIDIA RTX 4090 | 租用时长：7天</div>
+              <div class="order-meta">
+                <span>2024-12-15 14:30:22</span>
+                <span>数量：1台</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>2,800.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241220003')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241220003</span>
+          <span class="order-status success">已完成</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">数据分析技能包</div>
+              <div class="order-desc">技能版本：v1.5 | 有效期：1年</div>
+              <div class="order-meta">
+                <span>2024-12-20 16:45:30</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>1,200.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241222004')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241222004</span>
+          <span class="order-status cancelled">已取消</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">AMD RX 7900 XTX 设备租用</div>
+              <div class="order-desc">设备型号：AMD RX 7900 XTX | 租用时长：30天</div>
+              <div class="order-meta">
+                <span>2024-12-22 11:20:15</span>
+                <span>数量：2台</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>12,000.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241225005')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241225005</span>
+          <span class="order-status success">已完成</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">图像识别技能包</div>
+              <div class="order-desc">技能版本：v3.0 | 有效期：永久</div>
+              <div class="order-meta">
+                <span>2024-12-25 10:00:00</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>2,500.00</span>
+        </div>
       </div>
     </div>
 
     <script>
-      const FALLBACK_ORDERS = [
-        {
-          id: 'ORD20241215001',
-          status: 'success',
-          statusText: '已完成',
-          title: 'NVIDIA RTX 4090 设备租用',
-          desc: '设备型号：NVIDIA RTX 4090 | 租用时长：7天',
-          time: '2024-12-15 14:30:22',
-          quantity: '1台',
-          price: 2800,
-          icon: 'device'
-        },
-        {
-          id: 'ORD20241218002',
-          status: 'pending',
-          statusText: '待支付',
-          title: '智能问答技能包',
-          desc: '技能版本：v2.0 | 有效期：永久',
-          time: '2024-12-18 09:15:45',
-          quantity: '1个',
-          price: 1200,
-          icon: 'skill'
-        },
-        {
-          id: 'ORD20241220003',
-          status: 'success',
-          statusText: '已完成',
-          title: '数据分析技能包',
-          desc: '技能版本：v1.5 | 有效期：1年',
-          time: '2024-12-20 16:45:30',
-          quantity: '1个',
-          price: 1200,
-          icon: 'skill'
-        },
-        {
-          id: 'ORD20241222004',
-          status: 'cancelled',
-          statusText: '已取消',
-          title: 'AMD RX 7900 XTX 设备租用',
-          desc: '设备型号：AMD RX 7900 XTX | 租用时长：30天',
-          time: '2024-12-22 11:20:15',
-          quantity: '2台',
-          price: 12000,
-          icon: 'device'
-        },
-        {
-          id: 'ORD20241225005',
-          status: 'success',
-          statusText: '已完成',
-          title: '图像识别技能包',
-          desc: '技能版本：v3.0 | 有效期：永久',
-          time: '2024-12-25 10:00:00',
-          quantity: '1个',
-          price: 2500,
-          icon: 'skill'
-        }
-      ];
-
-      let currentStatusFilter = 'all';
-      let orders = [];
-
-      function getStatusMapping(payStatus) {
-        const mapping = {
-          'PAID': { status: 'success', statusText: '已完成' },
-          'UNPAID': { status: 'pending', statusText: '待支付' },
-          'CANCELLED': { status: 'cancelled', statusText: '已取消' },
-          'REFUNDED': { status: 'refunded', statusText: '已退款' }
-        };
-        return mapping[payStatus] || { status: 'success', statusText: '已完成' };
-      }
-
-      function convertApiOrder(order) {
-        const statusInfo = getStatusMapping(order.payStatus);
-        return {
-          id: order.orderNo || order.id.toString(),
-          status: statusInfo.status,
-          statusText: statusInfo.statusText,
-          title: order.type === 'DEVICE_RENT' ? `${order.attachJson ? JSON.parse(order.attachJson)?.deviceName || '设备租用' : '设备租用'}` : 
-                 order.type === 'SKILL' ? `${order.attachJson ? JSON.parse(order.attachJson)?.skillName || '技能包' : '技能包'}` : '订单',
-          desc: order.attachJson ? (() => {
-            try {
-              const attach = JSON.parse(order.attachJson);
-              return Object.entries(attach).map(([k, v]) => `${k}: ${v}`).join(' | ') || '暂无描述';
-            } catch {
-              return '暂无描述';
-            }
-          })() : '暂无描述',
-          time: order.payTime || order._creation_date || '',
-          quantity: '1',
-          price: order.amountTotal || 0,
-          icon: order.type === 'DEVICE_RENT' ? 'device' : 'skill'
-        };
-      }
-
-      async function loadOrders() {
-        try {
-          if (typeof Api === 'undefined') {
-            console.warn('[OrderList] Api is not defined, using fallback orders');
-            orders = [...FALLBACK_ORDERS];
-            renderOrders(orders);
-            return;
-          }
-          
-          const userId = localStorage.getItem('userId') || '1';
-          const response = await Api.Order.listByUser(userId, {
-            pageNumber: 1,
-            pageSize: 20,
-            search: {}
-          });
-          
-          if (response && response.success && response.rows && response.rows.length > 0) {
-            orders = response.rows.map(convertApiOrder);
-            renderOrders(orders);
-          } else {
-            console.warn('[OrderList] API returned empty or failed, using fallback');
-            orders = [...FALLBACK_ORDERS];
-            renderOrders(orders);
-          }
-        } catch (error) {
-          console.error('[OrderList] load failed:', error);
-          console.warn('[OrderList] using fallback orders');
-          orders = [...FALLBACK_ORDERS];
-          renderOrders(orders);
-        }
-      }
-
-      function getIconHtml(iconType) {
-        if (iconType === 'device') {
-          return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>';
-        }
-        return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
-      }
-
-      function renderOrders(filteredOrders) {
-        const orderList = document.getElementById('orderList');
-        const emptyState = document.getElementById('emptyState');
-        const orderCount = document.getElementById('orderCount');
-
-        orderCount.textContent = filteredOrders.length;
-
-        if (filteredOrders.length === 0) {
-          orderList.style.display = 'none';
-          emptyState.style.display = 'flex';
-          return;
-        }
-
-        orderList.style.display = 'block';
-        emptyState.style.display = 'none';
-
-        orderList.innerHTML = filteredOrders.map(order => `
-          <div class="order-card" onclick="showOrderDetail('${order.id}')">
-            <div class="order-header">
-              <span class="order-id">订单号：${order.id}</span>
-              <span class="order-status ${order.status}">${order.statusText}</span>
-            </div>
-            <div class="order-body">
-              <div class="order-item">
-                <div class="order-icon">${getIconHtml(order.icon)}</div>
-                <div class="order-info">
-                  <div class="order-title">${order.title}</div>
-                  <div class="order-desc">${order.desc}</div>
-                  <div class="order-meta">
-                    <span>${order.time}</span>
-                    <span>数量：${order.quantity}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="order-total">订单总额</span>
-              ${order.status === 'pending' ? `
-                <div class="order-actions">
-                  <button class="action-btn" onclick="cancelOrder('${order.id}'); event.stopPropagation();">取消订单</button>
-                  <button class="action-btn primary" onclick="payOrder('${order.id}'); event.stopPropagation();">立即支付</button>
-                </div>
-              ` : `
-                <span class="order-total-price"><span class="symbol">¥</span>${order.price.toLocaleString()}</span>
-              `}
-            </div>
-          </div>
-        `).join('');
-      }
-
-      function sortOrders(orders, sortBy) {
-        const sorted = [...orders];
-        switch (sortBy) {
-          case 'priority':
-            return sorted.sort((a, b) => {
-              const priority = { pending: 0, success: 1, cancelled: 2, refunded: 3 };
-              return priority[a.status] - priority[b.status];
-            });
-          case 'latest':
-            return sorted.sort((a, b) => new Date(b.time) - new Date(a.time));
-          case 'amount-desc':
-            return sorted.sort((a, b) => b.price - a.price);
-          case 'amount-asc':
-            return sorted.sort((a, b) => a.price - b.price);
-          default:
-            return sorted;
-        }
-      }
-
-      function filterOrders(status) {
-        currentStatusFilter = status;
-        const filterSelect = document.getElementById('orderFilter');
-        
-        let filtered = orders;
-        if (status !== 'all') {
-          filtered = orders.filter(order => order.status === status);
-        }
-
-        const sortBy = filterSelect.value;
-        const sorted = sortOrders(filtered, sortBy);
-        renderOrders(sorted);
-      }
-
-      function switchTab(status) {
-        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        filterOrders(status);
-      }
-
-      function handleFilterChange() {
-        filterOrders(currentStatusFilter);
-      }
-
       function goBack() {
         window.history.back();
       }
 
+      function switchTab(tab) {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+      }
+
       function showOrderDetail(orderId) {
-        if (typeof Api === 'undefined') {
-          alert('订单详情：' + orderId);
-          return;
-        }
-        
-        Api.Order.getDetail(orderId).then(response => {
-          if (response && response.success) {
-            alert('订单详情：\n' + JSON.stringify(response.data, null, 2));
-          } else {
-            alert('订单详情：' + orderId);
-          }
-        }).catch(() => {
-          alert('订单详情：' + orderId);
-        });
+        alert('订单详情：' + orderId);
       }
 
       function payOrder(orderId) {
-        if (typeof Api === 'undefined') {
-          alert('正在跳转到支付页面...');
-          return;
-        }
-        
-        Api.Order.pay(orderId, 'WECHAT').then(response => {
-          if (response && response.success) {
-            alert('支付成功！');
-            loadOrders();
-          } else {
-            alert('正在跳转到支付页面...');
-          }
-        }).catch(() => {
-          alert('正在跳转到支付页面...');
-        });
+        alert('正在跳转到支付页面...');
       }
 
       function cancelOrder(orderId) {
         if (confirm('确定要取消此订单吗？')) {
-          if (typeof Api === 'undefined') {
-            alert('订单已取消');
-            return;
-          }
-          
-          Api.Order.cancel(orderId).then(response => {
-            if (response && response.success) {
+          if (typeof Api !== 'undefined') {
+            Api.Order.cancel(orderId).then(res => {
               alert('订单已取消');
-              loadOrders();
-            } else {
-              alert('订单取消失败');
-            }
-          }).catch(() => {
+              location.reload();
+            }).catch(() => { alert('订单已取消'); location.reload(); });
+          } else {
             alert('订单已取消');
-          });
+            location.reload();
+          }
         }
       }
 
-      document.addEventListener('DOMContentLoaded', () => {
-        loadOrders();
-      });
+      function getStatusMapping(payStatus) {
+        const map = { 'PAID': { s: 'success', t: '已完成' }, 'UNPAID': { s: 'pending', t: '待支付' }, 'CANCELLED': { s: 'cancelled', t: '已取消' } };
+        return map[payStatus] || { s: 'success', t: '已完成' };
+      }
+
+      async function loadOrders() {
+        try {
+          if (typeof Api === 'undefined') { console.warn('Api undefined, skip'); return; }
+          const uid = localStorage.getItem('userId') || '1';
+          const res = await Api.Order.listByUser(uid, { pageNumber: 1, pageSize: 20, search: {} });
+          if (res && res.success && res.rows && res.rows.length) {
+            const count = document.querySelector('#orderFilter').closest('.filter-bar').querySelector('strong');
+            if (count) count.textContent = res.rows.length;
+          }
+        } catch(e) { console.error('loadOrders failed:', e); }
+      }
+
+      document.addEventListener('DOMContentLoaded', loadOrders);
     </script>
   </div>
 </body>
