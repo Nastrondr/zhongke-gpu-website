@@ -92,10 +92,17 @@
       cursor: pointer;
       border-radius: 8px;
       color: var(--accent-blue);
+      transition: all 0.2s;
+      text-decoration: none;
     }
 
     .back-btn:hover {
       background: rgba(96, 165, 250, 0.1);
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
     }
 
     .nav-title h1 {
@@ -382,15 +389,15 @@
     </div>
 
     <div class="tabs-container">
-      <div class="tab-item active" onclick="switchTab('all')">全部</div>
-      <div class="tab-item" onclick="switchTab('pending')">待支付</div>
-      <div class="tab-item" onclick="switchTab('success')">已完成</div>
+      <div class="tab-item active" data-tab="all" onclick="switchTab('all')">全部</div>
+      <div class="tab-item" data-tab="pending" onclick="switchTab('pending')">待支付</div>
+      <div class="tab-item" data-tab="success" onclick="switchTab('success')">已完成</div>
     </div>
 
     <div class="page-content">
       <div class="filter-bar">
         <span class="filter-label">共 <strong style="color: var(--accent-blue)">5</strong> 条订单</span>
-        <select class="filter-select" id="orderFilter">
+        <select class="filter-select" id="orderFilter" onchange="handleFilterChange()">
           <option value="priority">待支付优先</option>
           <option value="latest">最近下单</option>
           <option value="amount-desc">金额从高到低</option>
@@ -398,7 +405,7 @@
         </select>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241218002')">
+      <div class="order-card" data-status="pending" onclick="showOrderDetail('ORD20241218002')">
         <div class="order-header">
           <span class="order-id">订单号：ORD20241218002</span>
           <span class="order-status pending">待支付</span>
@@ -429,7 +436,7 @@
         </div>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241215001')">
+      <div class="order-card" data-status="success" onclick="showOrderDetail('ORD20241215001')">
         <div class="order-header">
           <span class="order-id">订单号：ORD20241215001</span>
           <span class="order-status success">已完成</span>
@@ -460,7 +467,7 @@
         </div>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241220003')">
+      <div class="order-card" data-status="success" onclick="showOrderDetail('ORD20241220003')">
         <div class="order-header">
           <span class="order-id">订单号：ORD20241220003</span>
           <span class="order-status success">已完成</span>
@@ -488,7 +495,7 @@
         </div>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241222004')">
+      <div class="order-card" data-status="cancelled" onclick="showOrderDetail('ORD20241222004')">
         <div class="order-header">
           <span class="order-id">订单号：ORD20241222004</span>
           <span class="order-status cancelled">已取消</span>
@@ -519,7 +526,7 @@
         </div>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241225005')">
+      <div class="order-card" data-status="success" onclick="showOrderDetail('ORD20241225005')">
         <div class="order-header">
           <span class="order-id">订单号：ORD20241225005</span>
           <span class="order-status success">已完成</span>
@@ -560,6 +567,47 @@
       function switchTab(tab) {
         document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active');
+        
+        const cards = document.querySelectorAll('.order-card');
+        let count = 0;
+        cards.forEach(card => {
+          if (tab === 'all' || card.dataset.status === tab) {
+            card.style.display = 'block';
+            count++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        document.querySelector('.filter-bar strong').textContent = count;
+      }
+
+      function handleFilterChange() {
+        const filter = document.getElementById('orderFilter').value;
+        const cards = Array.from(document.querySelectorAll('.order-card'));
+        
+        if (filter === 'priority') {
+          cards.sort((a, b) => {
+            const statusOrder = { pending: 0, success: 1, cancelled: 2 };
+            return statusOrder[a.dataset.status] - statusOrder[b.dataset.status];
+          });
+        } else if (filter === 'latest') {
+          // 已有排序不变
+        } else if (filter === 'amount-desc') {
+          cards.sort((a, b) => {
+            const aPrice = parseFloat(a.querySelector('.order-total-price').textContent.replace(/[^0-9.]/g, ''));
+            const bPrice = parseFloat(b.querySelector('.order-total-price').textContent.replace(/[^0-9.]/g, ''));
+            return bPrice - aPrice;
+          });
+        } else if (filter === 'amount-asc') {
+          cards.sort((a, b) => {
+            const aPrice = parseFloat(a.querySelector('.order-total-price').textContent.replace(/[^0-9.]/g, ''));
+            const bPrice = parseFloat(b.querySelector('.order-total-price').textContent.replace(/[^0-9.]/g, ''));
+            return aPrice - bPrice;
+          });
+        }
+        
+        const container = document.querySelector('.page-content');
+        cards.forEach(card => container.appendChild(card));
       }
 
       function showOrderDetail(orderId) {
