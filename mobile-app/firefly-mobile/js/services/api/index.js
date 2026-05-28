@@ -88,6 +88,48 @@ const Api = {
     }
   },
 
+  // 订单相关
+  Order: {
+    // 获取用户订单列表
+    async listByUser(userId, requestBody) {
+      const endpoint = ApiEndpoints.order.listByUser;
+      const path = ApiEndpoints.replacePathParams(endpoint.path, { userId });
+      const url = ApiEndpoints.buildUrl(path);
+      return apiClient.post(url, requestBody);
+    },
+
+    // 创建订单
+    async create(orderData) {
+      const endpoint = ApiEndpoints.order.create;
+      const url = ApiEndpoints.buildUrl(endpoint.path);
+      return apiClient.post(url, orderData);
+    },
+
+    // 获取订单详情
+    async getDetail(orderId) {
+      const endpoint = ApiEndpoints.order.detail;
+      const path = ApiEndpoints.replacePathParams(endpoint.path, { id: orderId });
+      const url = ApiEndpoints.buildUrl(path);
+      return apiClient.get(url);
+    },
+
+    // 取消订单
+    async cancel(orderId) {
+      const endpoint = ApiEndpoints.order.cancel;
+      const path = ApiEndpoints.replacePathParams(endpoint.path, { id: orderId });
+      const url = ApiEndpoints.buildUrl(path);
+      return apiClient.put(url);
+    },
+
+    // 支付订单
+    async pay(orderId, payChannel = '') {
+      const endpoint = ApiEndpoints.order.pay;
+      const path = ApiEndpoints.replacePathParams(endpoint.path, { id: orderId });
+      const url = ApiEndpoints.buildUrl(path);
+      return apiClient.post(url, { orderId, payChannel });
+    }
+  },
+
   // 设备（四象平台 API）
   Device: {
     // 获取用户租用设备列表
@@ -400,7 +442,7 @@ const Api = {
             data: {
               type: 'req',
               id: this._generateUUID(),
-              method: 'skills.list',
+              method: 'skills.status',
               params: {}
             }
           },
