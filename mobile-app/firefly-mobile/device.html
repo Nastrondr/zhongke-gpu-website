@@ -3415,11 +3415,16 @@
         '扫描资料': 'scan',
         '同步数据': 'sync',
         '重启服务': 'restart',
-        '诊断服务': 'diagnose'
+        '诊断服务': 'diagnose',
+        '查看设备信息': 'showDeviceInfo'
       };
 
       if (actionMap[action]) {
-        handleDeviceAction(actionMap[action]);
+        if (actionMap[action] === 'showDeviceInfo') {
+          showDeviceInfoSheet();
+        } else {
+          handleDeviceAction(actionMap[action]);
+        }
       } else {
         const toast = document.getElementById('toast');
         toast.textContent = message || action + ' 功能开发中';
