@@ -108,6 +108,20 @@ const ApiEndpoints = {
     capabilities: { method: 'GET', path: '/connections/capabilities' }
   },
 
+  // 订单相关
+  order: {
+    // 获取用户订单列表
+    listByUser: { method: 'POST', path: '/manage/api/v1/orders/users/:userId/page' },
+    // 创建订单
+    create: { method: 'POST', path: '/manage/api/v1/orders/creation' },
+    // 获取订单详情
+    detail: { method: 'GET', path: '/manage/api/v1/orders/:id' },
+    // 取消订单
+    cancel: { method: 'PUT', path: '/manage/api/v1/orders/:id/cancel' },
+    // 支付订单
+    pay: { method: 'POST', path: '/manage/api/v1/orders/:id/pay' }
+  },
+
   /**
    * 替换 URL 中的路径参数
    * @param {string} path - 路径，如 /devices/:id
