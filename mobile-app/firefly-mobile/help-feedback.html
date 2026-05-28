@@ -37,6 +37,10 @@
       --warning: #F59E0B;
       --error: #EF4444;
       --icon-bg: rgba(96, 165, 250, 0.1);
+      --border-radius-sm: 10px;
+      --border-radius: 16px;
+      --shadow-card: none;
+      --shadow-card-hover: none;
     }
 
     html[data-theme="light"] {
@@ -56,6 +60,10 @@
       --warning: #D97706;
       --error: #DC2626;
       --icon-bg: #EAF3FF;
+      --border-radius-sm: 10px;
+      --border-radius: 16px;
+      --shadow-card: 0 8px 24px rgba(67, 97, 168, 0.08);
+      --shadow-card-hover: 0 12px 32px rgba(67, 97, 168, 0.12);
     }
 
     body {
@@ -109,9 +117,10 @@
     .section {
       background: var(--card-bg);
       border: 1px solid var(--border-card);
-      border-radius: 16px;
+      border-radius: var(--border-radius);
       margin-bottom: 16px;
       overflow: hidden;
+      box-shadow: var(--shadow-card);
     }
 
     .section-header {
@@ -196,8 +205,9 @@
     .feedback-section {
       background: var(--card-bg);
       border: 1px solid var(--border-card);
-      border-radius: 16px;
+      border-radius: var(--border-radius);
       padding: 16px;
+      box-shadow: var(--shadow-card);
     }
 
     .feedback-title {
@@ -212,7 +222,7 @@
       height: 100px;
       background: var(--bg-secondary);
       border: 1px solid var(--border-card);
-      border-radius: 12px;
+      border-radius: var(--border-radius-sm);
       padding: 12px;
       color: var(--text-primary);
       font-size: 14px;
@@ -251,14 +261,15 @@
 
     .submit-btn {
       width: 100%;
-      height: 44px;
-      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+      height: 40px;
+      background: var(--brand-primary);
       border: none;
-      border-radius: 12px;
+      border-radius: var(--border-radius-sm);
       color: #fff;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(74, 141, 255, 0.25);
       transition: all 0.2s;
     }
 
@@ -274,8 +285,9 @@
     .contact-info {
       background: var(--card-bg);
       border: 1px solid var(--border-card);
-      border-radius: 16px;
+      border-radius: var(--border-radius);
       padding: 16px;
+      box-shadow: var(--shadow-card);
     }
 
     .contact-title {
