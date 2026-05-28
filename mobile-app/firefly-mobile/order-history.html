@@ -383,8 +383,8 @@
 
     <div class="page-content">
       <div class="filter-bar">
-        <span class="filter-label">共 <strong style="color: var(--accent-blue)">5</strong> 条订单</span>
-        <select class="filter-select" id="orderFilter">
+        <span class="filter-label">共 <strong style="color: var(--accent-blue)" id="orderCount">5</strong> 条订单</span>
+        <select class="filter-select" id="orderFilter" onchange="handleFilterChange()">
           <option value="priority">待支付优先</option>
           <option value="latest">最近下单</option>
           <option value="amount-desc">金额从高到低</option>
@@ -392,164 +392,183 @@
         </select>
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241218002')">
-        <div class="order-header">
-          <span class="order-id">订单号：ORD20241218002</span>
-          <span class="order-status pending">待支付</span>
-        </div>
-        <div class="order-body">
-          <div class="order-item">
-            <div class="order-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <div class="order-info">
-              <div class="order-title">智能问答技能包</div>
-              <div class="order-desc">技能版本：v2.0 | 有效期：永久</div>
-              <div class="order-meta">
-                <span>2024-12-18 09:15:45</span>
-                <span>数量：1个</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">订单总额</span>
-          <div class="order-actions">
-            <button class="action-btn" onclick="cancelOrder('ORD20241218002'); event.stopPropagation();">取消订单</button>
-            <button class="action-btn primary" onclick="payOrder('ORD20241218002'); event.stopPropagation();">立即支付</button>
-          </div>
-        </div>
+      <div id="orderList">
       </div>
 
-      <div class="order-card" onclick="showOrderDetail('ORD20241215001')">
-        <div class="order-header">
-          <span class="order-id">订单号：ORD20241215001</span>
-          <span class="order-status success">已完成</span>
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
         </div>
-        <div class="order-body">
-          <div class="order-item">
-            <div class="order-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-            </div>
-            <div class="order-info">
-              <div class="order-title">NVIDIA RTX 4090 设备租用</div>
-              <div class="order-desc">设备型号：NVIDIA RTX 4090 | 租用时长：7天</div>
-              <div class="order-meta">
-                <span>2024-12-15 14:30:22</span>
-                <span>数量：1台</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">订单总额</span>
-          <span class="order-total-price"><span class="symbol">¥</span>2,800.00</span>
-        </div>
-      </div>
-
-      <div class="order-card" onclick="showOrderDetail('ORD20241220003')">
-        <div class="order-header">
-          <span class="order-id">订单号：ORD20241220003</span>
-          <span class="order-status success">已完成</span>
-        </div>
-        <div class="order-body">
-          <div class="order-item">
-            <div class="order-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <div class="order-info">
-              <div class="order-title">数据分析技能包</div>
-              <div class="order-desc">技能版本：v1.5 | 有效期：1年</div>
-              <div class="order-meta">
-                <span>2024-12-20 16:45:30</span>
-                <span>数量：1个</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">订单总额</span>
-          <span class="order-total-price"><span class="symbol">¥</span>1,200.00</span>
-        </div>
-      </div>
-
-      <div class="order-card" onclick="showOrderDetail('ORD20241222004')">
-        <div class="order-header">
-          <span class="order-id">订单号：ORD20241222004</span>
-          <span class="order-status cancelled">已取消</span>
-        </div>
-        <div class="order-body">
-          <div class="order-item">
-            <div class="order-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-            </div>
-            <div class="order-info">
-              <div class="order-title">AMD RX 7900 XTX 设备租用</div>
-              <div class="order-desc">设备型号：AMD RX 7900 XTX | 租用时长：30天</div>
-              <div class="order-meta">
-                <span>2024-12-22 11:20:15</span>
-                <span>数量：2台</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">订单总额</span>
-          <span class="order-total-price"><span class="symbol">¥</span>12,000.00</span>
-        </div>
-      </div>
-
-      <div class="order-card" onclick="showOrderDetail('ORD20241225005')">
-        <div class="order-header">
-          <span class="order-id">订单号：ORD20241225005</span>
-          <span class="order-status success">已完成</span>
-        </div>
-        <div class="order-body">
-          <div class="order-item">
-            <div class="order-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <div class="order-info">
-              <div class="order-title">图像识别技能包</div>
-              <div class="order-desc">技能版本：v3.0 | 有效期：永久</div>
-              <div class="order-meta">
-                <span>2024-12-25 10:00:00</span>
-                <span>数量：1个</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="order-footer">
-          <span class="order-total">订单总额</span>
-          <span class="order-total-price"><span class="symbol">¥</span>2,500.00</span>
-        </div>
+        <div class="empty-title">暂无订单</div>
+        <div class="empty-desc">当前筛选条件下没有找到订单</div>
       </div>
     </div>
 
     <script>
-      function goBack() {
-        window.history.back();
+      const orders = [
+        {
+          id: 'ORD20241215001',
+          status: 'success',
+          statusText: '已完成',
+          title: 'NVIDIA RTX 4090 设备租用',
+          desc: '设备型号：NVIDIA RTX 4090 | 租用时长：7天',
+          time: '2024-12-15 14:30:22',
+          quantity: '1台',
+          price: 2800,
+          icon: 'device'
+        },
+        {
+          id: 'ORD20241218002',
+          status: 'pending',
+          statusText: '待支付',
+          title: '智能问答技能包',
+          desc: '技能版本：v2.0 | 有效期：永久',
+          time: '2024-12-18 09:15:45',
+          quantity: '1个',
+          price: 1200,
+          icon: 'skill'
+        },
+        {
+          id: 'ORD20241220003',
+          status: 'success',
+          statusText: '已完成',
+          title: '数据分析技能包',
+          desc: '技能版本：v1.5 | 有效期：1年',
+          time: '2024-12-20 16:45:30',
+          quantity: '1个',
+          price: 1200,
+          icon: 'skill'
+        },
+        {
+          id: 'ORD20241222004',
+          status: 'cancelled',
+          statusText: '已取消',
+          title: 'AMD RX 7900 XTX 设备租用',
+          desc: '设备型号：AMD RX 7900 XTX | 租用时长：30天',
+          time: '2024-12-22 11:20:15',
+          quantity: '2台',
+          price: 12000,
+          icon: 'device'
+        },
+        {
+          id: 'ORD20241225005',
+          status: 'success',
+          statusText: '已完成',
+          title: '图像识别技能包',
+          desc: '技能版本：v3.0 | 有效期：永久',
+          time: '2024-12-25 10:00:00',
+          quantity: '1个',
+          price: 2500,
+          icon: 'skill'
+        }
+      ];
+
+      let currentStatusFilter = 'all';
+
+      function getIconHtml(iconType) {
+        if (iconType === 'device') {
+          return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>';
+        }
+        return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
       }
 
-      function switchTab(tab) {
+      function renderOrders(filteredOrders) {
+        const orderList = document.getElementById('orderList');
+        const emptyState = document.getElementById('emptyState');
+        const orderCount = document.getElementById('orderCount');
+
+        orderCount.textContent = filteredOrders.length;
+
+        if (filteredOrders.length === 0) {
+          orderList.style.display = 'none';
+          emptyState.style.display = 'flex';
+          return;
+        }
+
+        orderList.style.display = 'block';
+        emptyState.style.display = 'none';
+
+        orderList.innerHTML = filteredOrders.map(order => `
+          <div class="order-card" onclick="showOrderDetail('${order.id}')">
+            <div class="order-header">
+              <span class="order-id">订单号：${order.id}</span>
+              <span class="order-status ${order.status}">${order.statusText}</span>
+            </div>
+            <div class="order-body">
+              <div class="order-item">
+                <div class="order-icon">${getIconHtml(order.icon)}</div>
+                <div class="order-info">
+                  <div class="order-title">${order.title}</div>
+                  <div class="order-desc">${order.desc}</div>
+                  <div class="order-meta">
+                    <span>${order.time}</span>
+                    <span>数量：${order.quantity}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="order-footer">
+              <span class="order-total">订单总额</span>
+              ${order.status === 'pending' ? `
+                <div class="order-actions">
+                  <button class="action-btn" onclick="cancelOrder('${order.id}'); event.stopPropagation();">取消订单</button>
+                  <button class="action-btn primary" onclick="payOrder('${order.id}'); event.stopPropagation();">立即支付</button>
+                </div>
+              ` : `
+                <span class="order-total-price"><span class="symbol">¥</span>${order.price.toLocaleString()}</span>
+              `}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function sortOrders(orders, sortBy) {
+        const sorted = [...orders];
+        switch (sortBy) {
+          case 'priority':
+            return sorted.sort((a, b) => {
+              const priority = { pending: 0, success: 1, cancelled: 2 };
+              return priority[a.status] - priority[b.status];
+            });
+          case 'latest':
+            return sorted.sort((a, b) => new Date(b.time) - new Date(a.time));
+          case 'amount-desc':
+            return sorted.sort((a, b) => b.price - a.price);
+          case 'amount-asc':
+            return sorted.sort((a, b) => a.price - b.price);
+          default:
+            return sorted;
+        }
+      }
+
+      function filterOrders(status) {
+        currentStatusFilter = status;
+        const filterSelect = document.getElementById('orderFilter');
+        
+        let filtered = orders;
+        if (status !== 'all') {
+          filtered = orders.filter(order => order.status === status);
+        }
+
+        const sortBy = filterSelect.value;
+        const sorted = sortOrders(filtered, sortBy);
+        renderOrders(sorted);
+      }
+
+      function switchTab(status) {
         document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active');
+        filterOrders(status);
+      }
+
+      function handleFilterChange() {
+        filterOrders(currentStatusFilter);
+      }
+
+      function goBack() {
+        window.history.back();
       }
 
       function showOrderDetail(orderId) {
@@ -565,6 +584,10 @@
           alert('订单已取消');
         }
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        filterOrders('all');
+      });
     </script>
   </div>
 </body>
