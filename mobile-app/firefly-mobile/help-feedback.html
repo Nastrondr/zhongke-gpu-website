@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>帮助与反馈</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: #0A0F1C;
+      --bg-secondary: #10182A;
+      --card-bg: #111C31;
+      --card-hover: #16233D;
+      --border-card: rgba(96, 165, 250, 0.28);
+      --border-color: rgba(148, 163, 184, 0.16);
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --brand-primary: #60A5FA;
+      --brand-secondary: #3B82F6;
+      --accent-blue: #60A5FA;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --icon-bg: rgba(96, 165, 250, 0.1);
+    }
+
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-secondary: #F5F9FF;
+      --card-bg: #FFFFFF;
+      --card-hover: #FAFCFF;
+      --border-card: #E8F0FF;
+      --border-color: rgba(140, 170, 220, 0.12);
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --brand-primary: #4A8DFF;
+      --brand-secondary: #6BA8FF;
+      --accent-blue: #2563EB;
+      --success: #1BD4A0;
+      --warning: #D97706;
+      --error: #DC2626;
+      --icon-bg: #EAF3FF;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    .nav-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 8px;
+      color: var(--accent-blue);
+    }
+
+    .back-btn:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .nav-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .page-content {
+      padding: 16px;
+    }
+
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-body {
+      padding: 12px 16px;
+    }
+
+    .help-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .help-item:last-child {
+      border-bottom: none;
+    }
+
+    .help-item:hover {
+      opacity: 0.8;
+    }
+
+    .help-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .help-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .help-icon.faq {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .help-icon.contact {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .help-icon.report {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .help-icon.about {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .help-item-title {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .help-item-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .help-arrow {
+      width: 14px;
+      height: 14px;
+      color: var(--text-tertiary);
+    }
+
+    .feedback-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .feedback-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .feedback-input {
+      width: 100%;
+      height: 100px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      resize: none;
+      margin-bottom: 12px;
+    }
+
+    .feedback-input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
+    .feedback-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .feedback-tag {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .feedback-tag.active {
+      background: rgba(96, 165, 250, 0.2);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .submit-btn {
+      width: 100%;
+      height: 44px;
+      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .contact-info {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .contact-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    .contact-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--icon-bg);
+    }
+
+    .contact-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .contact-value {
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text-primary);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    html[data-theme="light"] .toast {
+      background: #FFFFFF;
+      border-color: #D7E6FF;
+      color: #0F172A;
+      box-shadow: 0 8px 24px rgba(67, 97, 168, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="nav-header">
+      <div class="back-btn" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </div>
+      <div class="nav-title">
+        <h1>帮助与反馈</h1>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="section">
+        <div class="section-header">帮助中心</div>
+        <div class="section-body">
+          <div class="help-item" onclick="showFAQ()">
+            <div class="help-item-left">
+              <div class="help-icon faq">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><path d="M8.28 6.08a2.5 2.5 0 1 0 4.44 3.26 2.5 2.5 0 0 0-4.44-3.26z"/><path d="M15.5 8.5c-.75 0-1.39.5-1.75 1.25-.35.75-.5 1.5-.5 2.25 0 .75.15 1.5.5 2.25.36.75 1 1.25 1.75 1.25.75 0 1.39-.5 1.75-1.25.35-.75.5-1.5.5-2.25 0-.75-.15-1.5-.5-2.25-.36-.75-1-1.25-1.75-1.25"/>
+                </svg>
+              </div>
+              <div>
+                <div class="help-item-title">常见问题</div>
+                <div class="help-item-desc">解答使用过程中遇到的问题</div>
+              </div>
+            </div>
+            <svg class="help-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+
+          <div class="help-item" onclick="showContact()">
+            <div class="help-item-left">
+              <div class="help-icon contact">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="help-item-title">联系客服</div>
+                <div class="help-item-desc">获取人工帮助支持</div>
+              </div>
+            </div>
+            <svg class="help-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+
+          <div class="help-item" onclick="showAbout()">
+            <div class="help-item-left">
+              <div class="help-icon about">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="help-item-title">关于我们</div>
+                <div class="help-item-desc">了解产品版本信息</div>
+              </div>
+            </div>
+            <svg class="help-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-section">
+        <div class="feedback-title">意见反馈</div>
+        <textarea class="feedback-input" placeholder="请输入您的意见或建议..."></textarea>
+        <div class="feedback-options">
+          <span class="feedback-tag active" onclick="selectTag(this)">功能建议</span>
+          <span class="feedback-tag" onclick="selectTag(this)">Bug反馈</span>
+          <span class="feedback-tag" onclick="selectTag(this)">用户体验</span>
+          <span class="feedback-tag" onclick="selectTag(this)">其他</span>
+        </div>
+        <button class="submit-btn" onclick="submitFeedback()">提交反馈</button>
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-title">联系方式</div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">客服电话</div>
+            <div class="contact-value">400-888-8888</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">邮箱地址</div>
+            <div class="contact-value">support@zhisuancf.cn</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">服务时间</div>
+            <div class="contact-value">周一至周日 9:00-21:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast">提交成功</div>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      function selectTag(tag) {
+        document.querySelectorAll('.feedback-tag').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+      }
+
+      function submitFeedback() {
+        const toast = document.getElementById('toast');
+        toast.textContent = '反馈已提交，感谢您的建议！';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }
+
+      function showFAQ() {
+        alert('常见问题功能开发中');
+      }
+
+      function showContact() {
+        alert('联系客服功能开发中');
+      }
+
+      function showAbout() {
+        alert('关于我们功能开发中');
+      }
+    </script>
+  </div>
+</body>
+</html>

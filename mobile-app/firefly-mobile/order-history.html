@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>订单记录</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root,
+    html[data-theme="dark"] {
+      --bg-primary: #0A0F1C;
+      --bg-secondary: #10182A;
+      --card-bg: #111C31;
+      --card-hover: #16233D;
+      --border-card: rgba(96, 165, 250, 0.28);
+      --border-color: rgba(148, 163, 184, 0.16);
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-tertiary: #94A3B8;
+      --brand-primary: #60A5FA;
+      --brand-secondary: #3B82F6;
+      --accent-blue: #60A5FA;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --pending: #F59E0B;
+      --icon-bg: rgba(96, 165, 250, 0.1);
+    }
+
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-secondary: #F5F9FF;
+      --card-bg: #FFFFFF;
+      --card-hover: #FAFCFF;
+      --border-card: #E8F0FF;
+      --border-color: rgba(140, 170, 220, 0.12);
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --brand-primary: #4A8DFF;
+      --brand-secondary: #6BA8FF;
+      --accent-blue: #2563EB;
+      --success: #1BD4A0;
+      --warning: #D97706;
+      --error: #DC2626;
+      --pending: #D97706;
+      --icon-bg: #EAF3FF;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-primary);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    .nav-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 8px;
+      color: var(--accent-blue);
+    }
+
+    .back-btn:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .nav-title h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .tabs-container {
+      display: flex;
+      background: var(--bg-secondary);
+      padding: 0 16px;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tab-item {
+      flex: 1;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .tab-item.active {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 2px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+
+    .page-content {
+      padding: 16px;
+    }
+
+    .order-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .order-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-1px);
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-id {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .order-status {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .order-status.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--pending);
+    }
+
+    .order-status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+    }
+
+    .order-status.cancelled {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-tertiary);
+    }
+
+    .order-body {
+      padding: 14px 16px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .order-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--icon-bg);
+      flex-shrink: 0;
+    }
+
+    .order-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .order-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .order-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .order-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .order-total {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .order-total-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .order-total-price .symbol {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-card);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: var(--bg-secondary);
+    }
+
+    .action-btn.primary {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+
+    .action-btn.primary:hover {
+      opacity: 0.9;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .empty-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-desc {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      text-align: center;
+    }
+
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    .filter-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .filter-select {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="nav-header">
+      <div class="back-btn" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </div>
+      <div class="nav-title">
+        <h1>订单记录</h1>
+      </div>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tab-item active" onclick="switchTab('all')">全部</div>
+      <div class="tab-item" onclick="switchTab('pending')">待支付</div>
+      <div class="tab-item" onclick="switchTab('success')">已完成</div>
+    </div>
+
+    <div class="page-content">
+      <div class="filter-bar">
+        <span class="filter-label">共 <strong style="color: var(--accent-blue)">5</strong> 条订单</span>
+        <select class="filter-select" id="orderFilter">
+          <option value="latest">最近下单</option>
+          <option value="amount-desc">金额从高到低</option>
+          <option value="amount-asc">金额从低到高</option>
+        </select>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241215001')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241215001</span>
+          <span class="order-status success">已完成</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">NVIDIA RTX 4090 设备租用</div>
+              <div class="order-desc">设备型号：NVIDIA RTX 4090 | 租用时长：7天</div>
+              <div class="order-meta">
+                <span>2024-12-15 14:30:22</span>
+                <span>数量：1台</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>2,800.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241218002')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241218002</span>
+          <span class="order-status pending">待支付</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">智能问答技能包</div>
+              <div class="order-desc">技能版本：v2.0 | 有效期：永久</div>
+              <div class="order-meta">
+                <span>2024-12-18 09:15:45</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <div class="order-actions">
+            <button class="action-btn" onclick="cancelOrder('ORD20241218002'); event.stopPropagation();">取消订单</button>
+            <button class="action-btn primary" onclick="payOrder('ORD20241218002'); event.stopPropagation();">立即支付</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241220003')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241220003</span>
+          <span class="order-status success">已完成</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">数据分析技能包</div>
+              <div class="order-desc">技能版本：v1.5 | 有效期：1年</div>
+              <div class="order-meta">
+                <span>2024-12-20 16:45:30</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>1,200.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241222004')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241222004</span>
+          <span class="order-status cancelled">已取消</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">AMD RX 7900 XTX 设备租用</div>
+              <div class="order-desc">设备型号：AMD RX 7900 XTX | 租用时长：30天</div>
+              <div class="order-meta">
+                <span>2024-12-22 11:20:15</span>
+                <span>数量：2台</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>12,000.00</span>
+        </div>
+      </div>
+
+      <div class="order-card" onclick="showOrderDetail('ORD20241225005')">
+        <div class="order-header">
+          <span class="order-id">订单号：ORD20241225005</span>
+          <span class="order-status success">已完成</span>
+        </div>
+        <div class="order-body">
+          <div class="order-item">
+            <div class="order-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="order-info">
+              <div class="order-title">图像识别技能包</div>
+              <div class="order-desc">技能版本：v3.0 | 有效期：永久</div>
+              <div class="order-meta">
+                <span>2024-12-25 10:00:00</span>
+                <span>数量：1个</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-footer">
+          <span class="order-total">订单总额</span>
+          <span class="order-total-price"><span class="symbol">¥</span>2,500.00</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      function switchTab(tab) {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+      }
+
+      function showOrderDetail(orderId) {
+        alert('订单详情：' + orderId);
+      }
+
+      function payOrder(orderId) {
+        alert('正在跳转到支付页面...');
+      }
+
+      function cancelOrder(orderId) {
+        if (confirm('确定要取消此订单吗？')) {
+          alert('订单已取消');
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>
