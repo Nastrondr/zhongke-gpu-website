@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>订单记录</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <style>
     * {
       margin: 0;
@@ -171,6 +179,193 @@
     .filter-select:focus {
       outline: none;
       border-color: var(--accent-blue);
+    }
+
+    .order-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s;
+    }
+
+    .order-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      background: var(--card-hover);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .order-id {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .order-status {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .order-status.success {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--success);
+    }
+
+    .order-status.pending {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--pending);
+    }
+
+    .order-status.cancelled {
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-tertiary);
+    }
+
+    .order-body {
+      margin-bottom: 12px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .order-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--icon-bg);
+      border-radius: var(--border-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .order-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .order-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .order-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-card);
+    }
+
+    .order-total {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .order-total-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .order-total-price .symbol {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .action-btn.primary {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+
+    .action-btn.primary:hover {
+      opacity: 0.9;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--icon-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .empty-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-desc {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      text-align: center;
     }
   </style>
   <script src="js/utils/storage.js"></script>
