@@ -4,14 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>订单记录</title>
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('app_theme_mode');
-      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
   <style>
     * {
       margin: 0;
@@ -119,232 +111,35 @@
       color: var(--text-primary);
     }
 
-    .tabs-container {
-      display: flex;
-      background: var(--bg-secondary);
-      padding: 0 16px;
-      gap: 8px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .tab-item {
-      flex: 1;
-      padding: 14px 0;
-      text-align: center;
-      font-size: 14px;
-      color: var(--text-tertiary);
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
-    }
-
-    .tab-item.active {
-      color: var(--accent-blue);
-      font-weight: 600;
-    }
-
-    .tab-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 2px;
-      background: var(--accent-blue);
-      border-radius: 2px;
-    }
-
     .page-content {
       padding: 16px;
     }
 
-    .order-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-card);
-      border-radius: var(--border-radius);
-      margin-bottom: 16px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: var(--shadow-card);
-      transition: all 0.2s;
-    }
-
-    .order-card:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-card-hover);
-    }
-
-    .order-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .order-id {
-      font-size: 12px;
-      color: var(--text-tertiary);
-    }
-
-    .order-status {
-      font-size: 12px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: 12px;
-    }
-
-    .order-status.pending {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--pending);
-    }
-
-    .order-status.success {
-      background: rgba(34, 197, 94, 0.15);
-      color: var(--success);
-    }
-
-    .order-status.cancelled {
-      background: rgba(148, 163, 184, 0.15);
-      color: var(--text-tertiary);
-    }
-
-    .order-body {
-      padding: 14px 16px;
-    }
-
-    .order-item {
-      display: flex;
-      gap: 12px;
-    }
-
-    .order-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--icon-bg);
-      flex-shrink: 0;
-    }
-
-    .order-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .order-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .order-desc {
-      font-size: 12px;
-      color: var(--text-tertiary);
-      margin-bottom: 8px;
-    }
-
-    .order-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 12px;
-      color: var(--text-tertiary);
-    }
-
-    .order-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .order-total {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .order-total-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .order-total-price .symbol {
-      font-size: 12px;
-      font-weight: 400;
-      color: var(--text-tertiary);
-    }
-
-    .order-actions {
+    .tabs {
       display: flex;
       gap: 8px;
+      margin-bottom: 16px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-card);
     }
 
-    .action-btn {
-      padding: 6px 14px;
-      font-size: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-card);
-      background: transparent;
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
       color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .action-btn:hover {
-      background: var(--bg-secondary);
-    }
-
-    .action-btn.primary {
+    .tab-item.active {
       background: var(--accent-blue);
-      border-color: var(--accent-blue);
       color: #fff;
-    }
-
-    .action-btn.primary:hover {
-      opacity: 0.9;
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-    }
-
-    .empty-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: var(--icon-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-
-    .empty-title {
-      font-size: 16px;
       font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .empty-desc {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      text-align: center;
     }
 
     .filter-bar {
@@ -378,6 +173,11 @@
       border-color: var(--accent-blue);
     }
   </style>
+  <script src="js/services/api/config.js"></script>
+  <script src="js/services/api/endpoints.js"></script>
+  <script src="js/services/api/models.js"></script>
+  <script src="js/services/api/ApiClient.js"></script>
+  <script src="js/services/api/index.js"></script>
 </head>
 <body>
   <div class="app-container">
@@ -392,15 +192,15 @@
       </div>
     </div>
 
-    <div class="tabs-container">
-      <div class="tab-item active" onclick="switchTab('all')">全部</div>
-      <div class="tab-item" onclick="switchTab('pending')">待支付</div>
-      <div class="tab-item" onclick="switchTab('success')">已完成</div>
-    </div>
-
     <div class="page-content">
+      <div class="tabs">
+        <div class="tab-item active" onclick="switchTab('all')">全部</div>
+        <div class="tab-item" onclick="switchTab('pending')">待支付</div>
+        <div class="tab-item" onclick="switchTab('success')">已完成</div>
+      </div>
+
       <div class="filter-bar">
-        <span class="filter-label">共 <strong style="color: var(--accent-blue)" id="orderCount">5</strong> 条订单</span>
+        <span class="filter-label">共 <strong style="color: var(--accent-blue)" id="orderCount">0</strong> 条订单</span>
         <select class="filter-select" id="orderFilter" onchange="handleFilterChange()">
           <option value="priority">待支付优先</option>
           <option value="latest">最近下单</option>
@@ -424,7 +224,7 @@
     </div>
 
     <script>
-      const orders = [
+      const FALLBACK_ORDERS = [
         {
           id: 'ORD20241215001',
           status: 'success',
@@ -483,6 +283,72 @@
       ];
 
       let currentStatusFilter = 'all';
+      let orders = [];
+
+      function getStatusMapping(payStatus) {
+        const mapping = {
+          'PAID': { status: 'success', statusText: '已完成' },
+          'UNPAID': { status: 'pending', statusText: '待支付' },
+          'CANCELLED': { status: 'cancelled', statusText: '已取消' },
+          'REFUNDED': { status: 'refunded', statusText: '已退款' }
+        };
+        return mapping[payStatus] || { status: 'success', statusText: '已完成' };
+      }
+
+      function convertApiOrder(order) {
+        const statusInfo = getStatusMapping(order.payStatus);
+        return {
+          id: order.orderNo || order.id.toString(),
+          status: statusInfo.status,
+          statusText: statusInfo.statusText,
+          title: order.type === 'DEVICE_RENT' ? `${order.attachJson ? JSON.parse(order.attachJson)?.deviceName || '设备租用' : '设备租用'}` : 
+                 order.type === 'SKILL' ? `${order.attachJson ? JSON.parse(order.attachJson)?.skillName || '技能包' : '技能包'}` : '订单',
+          desc: order.attachJson ? (() => {
+            try {
+              const attach = JSON.parse(order.attachJson);
+              return Object.entries(attach).map(([k, v]) => `${k}: ${v}`).join(' | ') || '暂无描述';
+            } catch {
+              return '暂无描述';
+            }
+          })() : '暂无描述',
+          time: order.payTime || order._creation_date || '',
+          quantity: '1',
+          price: order.amountTotal || 0,
+          icon: order.type === 'DEVICE_RENT' ? 'device' : 'skill'
+        };
+      }
+
+      async function loadOrders() {
+        try {
+          if (typeof Api === 'undefined') {
+            console.warn('[OrderList] Api is not defined, using fallback orders');
+            orders = [...FALLBACK_ORDERS];
+            renderOrders(orders);
+            return;
+          }
+          
+          const userId = localStorage.getItem('userId') || '1';
+          const response = await Api.Order.listByUser(userId, {
+            pageNumber: 1,
+            pageSize: 20,
+            search: {}
+          });
+          
+          if (response && response.success && response.rows && response.rows.length > 0) {
+            orders = response.rows.map(convertApiOrder);
+            renderOrders(orders);
+          } else {
+            console.warn('[OrderList] API returned empty or failed, using fallback');
+            orders = [...FALLBACK_ORDERS];
+            renderOrders(orders);
+          }
+        } catch (error) {
+          console.error('[OrderList] load failed:', error);
+          console.warn('[OrderList] using fallback orders');
+          orders = [...FALLBACK_ORDERS];
+          renderOrders(orders);
+        }
+      }
 
       function getIconHtml(iconType) {
         if (iconType === 'device') {
@@ -546,7 +412,7 @@
         switch (sortBy) {
           case 'priority':
             return sorted.sort((a, b) => {
-              const priority = { pending: 0, success: 1, cancelled: 2 };
+              const priority = { pending: 0, success: 1, cancelled: 2, refunded: 3 };
               return priority[a.status] - priority[b.status];
             });
           case 'latest':
@@ -589,21 +455,62 @@
       }
 
       function showOrderDetail(orderId) {
-        alert('订单详情：' + orderId);
+        if (typeof Api === 'undefined') {
+          alert('订单详情：' + orderId);
+          return;
+        }
+        
+        Api.Order.getDetail(orderId).then(response => {
+          if (response && response.success) {
+            alert('订单详情：\n' + JSON.stringify(response.data, null, 2));
+          } else {
+            alert('订单详情：' + orderId);
+          }
+        }).catch(() => {
+          alert('订单详情：' + orderId);
+        });
       }
 
       function payOrder(orderId) {
-        alert('正在跳转到支付页面...');
+        if (typeof Api === 'undefined') {
+          alert('正在跳转到支付页面...');
+          return;
+        }
+        
+        Api.Order.pay(orderId, 'WECHAT').then(response => {
+          if (response && response.success) {
+            alert('支付成功！');
+            loadOrders();
+          } else {
+            alert('正在跳转到支付页面...');
+          }
+        }).catch(() => {
+          alert('正在跳转到支付页面...');
+        });
       }
 
       function cancelOrder(orderId) {
         if (confirm('确定要取消此订单吗？')) {
-          alert('订单已取消');
+          if (typeof Api === 'undefined') {
+            alert('订单已取消');
+            return;
+          }
+          
+          Api.Order.cancel(orderId).then(response => {
+            if (response && response.success) {
+              alert('订单已取消');
+              loadOrders();
+            } else {
+              alert('订单取消失败');
+            }
+          }).catch(() => {
+            alert('订单已取消');
+          });
         }
       }
 
       document.addEventListener('DOMContentLoaded', () => {
-        filterOrders('all');
+        loadOrders();
       });
     </script>
   </div>
