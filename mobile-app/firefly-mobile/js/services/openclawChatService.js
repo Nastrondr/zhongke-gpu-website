@@ -1404,10 +1404,16 @@ const OpenClawChatService = {
         });
       }
 
-      if (!sendResponse?.success) {
-        // 发送失败，清理并恢复空闲轮询
-        this.completeActiveTurn('send_failed');
-        return { success: false, error: 'send_failed', msg: sendResponse?.msg || '发送失败' };
+      // 检查发送是否成功（包括内层错误码）
+      const innerErrorCode = sendResponse?.errorCode || sendResponse?.data?.errorCode;
+      const isTimeoutError = innerErrorCode && (innerErrorCode.includes('TIMEOUT') || innerErrorCode.includes('timeout'));
+      
+      if (!sendResponse?.success || isTimeoutError) {
+        // 发送失败或超时，清理并恢复空闲轮询
+        const errorMsg = isTimeoutError ? `请求超时 (${innerErrorCode})` : (sendResponse?.msg || '发送失败');
+        console.error('[Turn] sendChat failed:', { success: sendResponse?.success, errorCode: innerErrorCode, msg: errorMsg });
+        this.completeActiveTurn(isTimeoutError ? 'timeout' : 'send_failed');
+        return { success: false, error: isTimeoutError ? 'timeout' : 'send_failed', msg: errorMsg };
       }
 
       // 等待 final 或超时

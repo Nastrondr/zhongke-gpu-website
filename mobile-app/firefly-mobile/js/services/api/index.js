@@ -604,6 +604,39 @@ const Api = {
       return apiClient.post(url, requestBody, { suppressLoading: true });
     },
 
+    // 更新会话信息（重命名）
+    async sessionPatch(deviceId, sessionKey, updates) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateReqId('session-patch'),
+              method: 'sessions.patch',
+              params: {
+                key: sessionKey,
+                ...updates
+              }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+
+      console.log('[OPENCLAW] sessionPatch:', { deviceId, sessionKey, updates });
+      return apiClient.post(url, requestBody, { suppressLoading: true });
+    },
+
     // 删除会话
     async sessionDelete(deviceId, sessionKey) {
       const endpoint = ApiEndpoints.device.openclaw.invork;

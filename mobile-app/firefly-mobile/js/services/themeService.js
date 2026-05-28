@@ -26,7 +26,7 @@ const ThemeManager = {
    * @returns {string} 'system' | 'light' | 'dark'
    */
   getMode() {
-    return Storage.get(this.STORAGE_KEY) || this.MODES.SYSTEM;
+    return Storage.get(this.STORAGE_KEY) || this.MODES.LIGHT;
   },
 
   /**

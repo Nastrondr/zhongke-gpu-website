@@ -27,7 +27,7 @@ const ApiConfig = {
   // 测试环境（真实测试 API）
   staging: {
     baseUrl: 'https://www.test.zhisuancf.cn/zhisuancf',
-    timeout: 15000,
+    timeout: 30000,
     enableLog: true,
     enableMockLogin: false
   },

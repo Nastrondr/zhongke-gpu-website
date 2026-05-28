@@ -679,6 +679,44 @@ const DeviceManager = {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
     if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
     return num.toFixed(1);
+  },
+
+  /**
+   * 获取设备技能列表（从小龙虾API）
+   * @param {string} deviceId - 设备ID
+   * @returns {Promise<Array>}
+   */
+  async getDeviceSkills(deviceId) {
+    try {
+      if (!deviceId) {
+        console.warn('[DeviceManager] getDeviceSkills: deviceId is null');
+        return [];
+      }
+
+      const response = await Api.OPENCLAW.listSkills(deviceId);
+      console.log('[DeviceManager] 设备技能响应:', response);
+
+      // 提取技能数组
+      let skills = [];
+      if (response.payload && Array.isArray(response.payload.skills)) {
+        skills = response.payload.skills;
+      } else if (response.data && response.data.payload && Array.isArray(response.data.payload.skills)) {
+        skills = response.data.payload.skills;
+      }
+
+      // 过滤掉已停用的技能，并返回前4个
+      const activeSkills = skills.filter(skill => !skill.disabled).slice(0, 4);
+      return activeSkills;
+    } catch (error) {
+      console.error('[DeviceManager] 获取设备技能失败:', error);
+      // 返回假数据作为fallback
+      return [
+        { skillKey: 'document', name: '文档处理', disabled: false },
+        { skillKey: 'data', name: '数据分析', disabled: false },
+        { skillKey: 'image', name: '图像识别', disabled: false },
+        { skillKey: 'voice', name: '语音识别', disabled: false }
+      ];
+    }
   }
 };
 

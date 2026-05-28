@@ -469,6 +469,192 @@
       opacity: 0.5;
     }
 
+    /* 技能详情弹窗 */
+    .skill-detail-modal {
+      background: #FFFFFF;
+      border: 1px solid #D7E6FF;
+      border-radius: 16px;
+      padding: 0;
+      margin: 20px;
+      max-width: 320px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(67, 97, 168, 0.15);
+      overflow: hidden;
+    }
+    html[data-theme="dark"] .skill-detail-modal {
+      background: #1E293B;
+      border-color: rgba(148, 163, 184, 0.16);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .skill-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    .skill-detail-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6366F1, #3B82F6);
+    }
+    .skill-detail-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+    .skill-detail-info {
+      flex: 1;
+    }
+    .skill-detail-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+    html[data-theme="dark"] .skill-detail-title {
+      color: #F8FAFC;
+    }
+    .skill-detail-status {
+      font-size: 12px;
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .skill-detail-status.disabled {
+      color: #64748B;
+    }
+    .skill-detail-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: #64748B;
+      cursor: pointer;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .skill-detail-close:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    html[data-theme="dark"] .skill-detail-close {
+      color: #94A3B8;
+    }
+    html[data-theme="dark"] .skill-detail-close:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .skill-detail-body {
+      padding: 16px 20px;
+    }
+    .skill-detail-section {
+      margin-bottom: 16px;
+    }
+    .skill-detail-section:last-child {
+      margin-bottom: 0;
+    }
+    .skill-detail-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748B;
+      margin-bottom: 8px;
+    }
+    html[data-theme="dark"] .skill-detail-section-title {
+      color: #94A3B8;
+    }
+    .skill-detail-description {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+    }
+    html[data-theme="dark"] .skill-detail-description {
+      color: #CBD5E1;
+    }
+    
+    .skill-detail-status-info {
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    html[data-theme="dark"] .skill-detail-status-info {
+      background: #334155;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .status-row:not(:last-child) {
+      border-bottom: 1px solid #E2E8F0;
+    }
+    html[data-theme="dark"] .status-row:not(:last-child) {
+      border-bottom-color: rgba(148, 163, 184, 0.16);
+    }
+    .status-label {
+      font-size: 13px;
+      color: #64748B;
+    }
+    html[data-theme="dark"] .status-label {
+      color: #94A3B8;
+    }
+    .status-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1E293B;
+    }
+    html[data-theme="dark"] .status-value {
+      color: #F1F5F9;
+    }
+    .skill-key-value {
+      font-family: monospace;
+      font-size: 11px;
+      color: #6366F1;
+    }
+    
+    .skill-detail-actions {
+      padding: 16px 20px;
+      border-top: 1px solid #E2E8F0;
+    }
+    html[data-theme="dark"] .skill-detail-actions {
+      border-top-color: rgba(148, 163, 184, 0.16);
+    }
+    .skill-detail-btn {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .skill-detail-btn.primary {
+      background: #3B82F6;
+      color: white;
+    }
+    .skill-detail-btn.primary:hover {
+      background: #2563EB;
+    }
+    .skill-detail-btn.danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+    }
+    .skill-detail-btn.danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
     /* 执行按钮 */
     .execute-btn {
       position: fixed;
@@ -830,6 +1016,51 @@
       </div>
     </div>
 
+  <!-- 技能详情弹窗 -->
+  <div class="skill-modal-overlay" id="skillDetailModal">
+    <div class="skill-detail-modal">
+      <div class="skill-detail-header">
+        <div class="skill-detail-icon" id="skillDetailIcon"></div>
+        <div class="skill-detail-info">
+          <div class="skill-detail-title" id="skillDetailTitle"></div>
+          <div class="skill-detail-status" id="skillDetailStatus"></div>
+        </div>
+        <button class="skill-detail-close" onclick="closeSkillDetailModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="skill-detail-body">
+        <div class="skill-detail-section">
+          <div class="skill-detail-section-title">技能介绍</div>
+          <div class="skill-detail-description" id="skillDetailDescription"></div>
+        </div>
+        <div class="skill-detail-section">
+          <div class="skill-detail-section-title">技能状态</div>
+          <div class="skill-detail-status-info">
+            <div class="status-row">
+              <span class="status-label">启用状态</span>
+              <span class="status-value" id="skillDetailEnabled"></span>
+            </div>
+            <div class="status-row">
+              <span class="status-label">是否内置</span>
+              <span class="status-value" id="skillDetailBundled"></span>
+            </div>
+            <div class="status-row">
+              <span class="status-label">技能标识</span>
+              <span class="status-value skill-key-value" id="skillDetailKey"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="skill-detail-actions">
+        <button class="skill-detail-btn primary" id="skillDetailActionBtn" onclick="handleSkillDetailAction()">操作</button>
+      </div>
+    </div>
+  </div>
+  
   <!-- 技能停用确认弹窗 -->
   <div class="skill-modal-overlay" id="skillModal">
     <div class="skill-modal">
@@ -1079,17 +1310,194 @@
       renderModelList();
     }
     
-    let skillStates = {
-      document: 'active',
-      data: 'active',
-      image: 'active',
-      voice: 'active',
-      ocr: 'inactive',
-      translate: 'inactive'
-    };
+    // 加载技能列表
+    let loadedSkills = [];
+    
+    // 技能假数据（fallback）
+    const FALLBACK_SKILLS = [
+      { skillKey: 'document', name: '文档处理', description: '支持PDF、Word、Excel等多种文档格式的解析与内容提取', bundled: false, disabled: false },
+      { skillKey: 'data', name: '数据分析', description: '对表格数据进行统计分析、图表生成和可视化展示', bundled: false, disabled: false },
+      { skillKey: 'image', name: '图像识别', description: '识别图片中的物体、场景、文字等内容信息', bundled: false, disabled: false },
+      { skillKey: 'voice', name: '语音识别', description: '将语音内容转换为文字，支持多种语言和口音', bundled: false, disabled: false },
+      { skillKey: 'ocr', name: 'OCR识别', description: '从图片中提取文字信息，支持多语言识别', bundled: false, disabled: false },
+      { skillKey: 'translate', name: '智能翻译', description: '支持多语言互译，涵盖常用语言和专业术语', bundled: true, disabled: false }
+    ];
+    
+    async function loadSkillList() {
+      const currentDevice = Storage.Device.getCurrentDevice();
+      if (!currentDevice) {
+        console.warn('[SkillList] no current device, showing fallback skills');
+        renderSkillList(FALLBACK_SKILLS);
+        return;
+      }
+      
+      // 检查 deviceId 是否存在
+      const deviceId = currentDevice.deviceId || currentDevice.id;
+      if (!deviceId) {
+        console.warn('[SkillList] deviceId is undefined or null, showing fallback skills');
+        renderSkillList(FALLBACK_SKILLS);
+        return;
+      }
+      
+      try {
+        console.log('[SkillList] calling listSkills for deviceId:', deviceId);
+        const response = await Api.OPENCLAW.listSkills(deviceId);
+        console.log('[SkillList] raw response:', response);
+        
+        // 提取技能数组，过滤掉已停用的技能
+        let skills = extractSkillsFromResponse(response);
+        skills = skills.filter(skill => !skill.disabled);
+        loadedSkills = skills;
+        console.log('[SkillList] extracted skills:', skills);
+        
+        // 如果没有获取到技能，使用假数据作为fallback
+        if (skills.length === 0) {
+          console.warn('[SkillList] no skills found in response, using fallback');
+          renderSkillList(FALLBACK_SKILLS);
+        } else {
+          renderSkillList(skills);
+        }
+      } catch (error) {
+        console.error('[SkillList] load failed:', error);
+        // 请求失败时显示假数据作为fallback
+        console.warn('[SkillList] using fallback skills due to error');
+        renderSkillList(FALLBACK_SKILLS);
+      }
+    }
+    
+    function extractSkillsFromResponse(response) {
+      if (!response) {
+        console.warn('[SkillList] response is null/undefined');
+        return [];
+      }
+      
+      console.log('[SkillList] raw response structure:', JSON.stringify(Object.keys(response), null, 2));
+      
+      // 直接是数组
+      if (Array.isArray(response)) {
+        console.log('[SkillList] response is array');
+        return response;
+      }
+      
+      // 查找 payload.skills（后端直接返回格式）
+      if (response.payload && Array.isArray(response.payload.skills)) {
+        console.log('[SkillList] found skills in response.payload.skills');
+        return response.payload.skills;
+      }
+      
+      // 查找 data.payload.skills（ApiClient包装后格式）
+      if (response.data && response.data.payload && Array.isArray(response.data.payload.skills)) {
+        console.log('[SkillList] found skills in response.data.payload.skills');
+        return response.data.payload.skills;
+      }
+      
+      // 查找 data.data.payload.skills（双层包装）
+      if (response.data && response.data.data && response.data.data.payload && Array.isArray(response.data.data.payload.skills)) {
+        console.log('[SkillList] found skills in response.data.data.payload.skills');
+        return response.data.data.payload.skills;
+      }
+      
+      // 其他可能的响应结构
+      if (Array.isArray(response.skills)) {
+        console.log('[SkillList] found skills in response.skills');
+        return response.skills;
+      }
+      
+      if (response.data && Array.isArray(response.data.skills)) {
+        console.log('[SkillList] found skills in response.data.skills');
+        return response.data.skills;
+      }
+      
+      // 查找 result.payload.skills
+      if (response.result && response.result.payload && Array.isArray(response.result.payload.skills)) {
+        console.log('[SkillList] found skills in response.result.payload.skills');
+        return response.result.payload.skills;
+      }
+      
+      console.warn('[SkillList] unable to find skills array in response. Full response:', JSON.stringify(response, null, 2));
+      return [];
+    }
+    
+    // 技能状态
+    let skillStates = {};
+    
+    // 初始化技能状态
+    function initSkillStates(skills) {
+      const newStates = {};
+      skills.forEach(skill => {
+        const skillKey = skill.skillKey || skill.name;
+        newStates[skillKey] = skill.disabled ? 'disabled' : 'active';
+      });
+      skillStates = newStates;
+    }
     let currentSkillAction = null;
+    let currentSkillDetail = null;
     
     function handleSkillClick(skill) {
+      currentSkillDetail = loadedSkills.find(s => (s.skillKey || s.name) === skill);
+      showSkillDetailModal(skill);
+    }
+    
+    function showSkillDetailModal(skillKey) {
+      const modal = document.getElementById('skillDetailModal');
+      const skill = loadedSkills.find(s => (s.skillKey || s.name) === skillKey);
+      const state = skillStates[skillKey];
+      
+      if (!skill) {
+        console.warn('[SkillDetail] skill not found:', skillKey);
+        return;
+      }
+      
+      document.getElementById('skillDetailIcon').innerHTML = getSkillIcon(skillKey);
+      document.getElementById('skillDetailTitle').textContent = skill.name || skillKey;
+      document.getElementById('skillDetailDescription').textContent = skill.description || '暂无描述';
+      document.getElementById('skillDetailKey').textContent = skill.skillKey || skill.name;
+      
+      const statusEl = document.getElementById('skillDetailStatus');
+      const enabledEl = document.getElementById('skillDetailEnabled');
+      const bundledEl = document.getElementById('skillDetailBundled');
+      const actionBtn = document.getElementById('skillDetailActionBtn');
+      
+      if (state === 'active') {
+        statusEl.textContent = '已启用';
+        statusEl.className = 'skill-detail-status';
+        enabledEl.textContent = '已启用';
+        actionBtn.textContent = '停用技能';
+        actionBtn.className = 'skill-detail-btn danger';
+      } else if (state === 'inactive') {
+        statusEl.textContent = '已停用';
+        statusEl.className = 'skill-detail-status disabled';
+        enabledEl.textContent = '已停用';
+        actionBtn.textContent = '启用技能';
+        actionBtn.className = 'skill-detail-btn primary';
+      } else {
+        statusEl.textContent = '已禁用';
+        statusEl.className = 'skill-detail-status disabled';
+        enabledEl.textContent = '已禁用';
+        actionBtn.textContent = '已禁用';
+        actionBtn.className = 'skill-detail-btn danger';
+        actionBtn.disabled = true;
+      }
+      
+      bundledEl.textContent = skill.bundled ? '是' : '否';
+      
+      currentSkillAction = skillKey;
+      modal.classList.add('show');
+    }
+    
+    function closeSkillDetailModal() {
+      const modal = document.getElementById('skillDetailModal');
+      modal.classList.remove('show');
+      currentSkillAction = null;
+      currentSkillDetail = null;
+    }
+    
+    function handleSkillDetailAction() {
+      const skill = currentSkillAction;
+      if (!skill) return;
+      
+      closeSkillDetailModal();
+      
       const state = skillStates[skill];
       const modal = document.getElementById('skillModal');
       const title = document.getElementById('skillModalTitle');
@@ -1105,11 +1513,10 @@
         desc.textContent = '确定要启用「' + getSkillName(skill) + '」吗？';
         confirmBtn.textContent = '启用';
       } else if (state === 'disabled') {
-        AppToast.warning('该技能已停用，无法启用');
+        AppToast.warning('该技能已禁用，无法操作');
         return;
       }
       
-      currentSkillAction = skill;
       modal.classList.add('show');
     }
     
@@ -1187,11 +1594,145 @@
       AppToast.warning('技能商城正在建设中，敬请期待。');
     }
     
+    function renderSkillList(skills) {
+      const container = document.getElementById('skillTab');
+      if (!container) return;
+      
+      initSkillStates(skills);
+      
+      const commonSkills = skills.slice(0, 4); // 前4个显示在常用技能
+      const moreSkills = skills.slice(4); // 其余显示在更多技能
+      
+      let html = `
+        <div class="card">
+          <div class="card-title">常用技能</div>
+          <div class="skill-grid">
+            ${commonSkills.map(skill => renderSkillItem(skill)).join('')}
+          </div>
+        </div>
+        
+        ${moreSkills.length > 0 ? `
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>更多技能</span>
+            <span class="skill-market-link" onclick="showDevelopingToast()">进入商城 <span style="margin-left:2px;">›</span></span>
+          </div>
+          <div class="skill-grid">
+            ${moreSkills.map(skill => renderSkillItem(skill)).join('')}
+          </div>
+        </div>
+        ` : ''}
+        
+        <div class="card">
+          <div class="section-title">最近执行</div>
+          <div class="record-list" id="executionHistoryList"></div>
+        </div>
+      `;
+      
+      container.innerHTML = html;
+      
+      renderSkillStates();
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    function getSkillIcon(skillKey) {
+      const icons = {
+        document: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>`,
+        data: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>`,
+        image: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>`,
+        voice: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>`,
+        ocr: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>`,
+        translate: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <path d="M5 8l6 6M4 14l6-6 2-3"/>
+          <path d="M2 5h12M2 19h12"/>
+          <path d="M18 8l3 3-3 3"/>
+          <path d="M21 11h-6"/>
+        </svg>`,
+        comfyui: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 12h8M12 8v8"/>
+        </svg>`,
+        default: `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="22" height="22">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>`
+      };
+      
+      if (skillKey.includes('document') || skillKey.includes('doc')) {
+        return icons.document;
+      } else if (skillKey.includes('data') || skillKey.includes('analytic')) {
+        return icons.data;
+      } else if (skillKey.includes('image') || skillKey.includes('picture') || skillKey.includes('vision')) {
+        return icons.image;
+      } else if (skillKey.includes('voice') || skillKey.includes('audio') || skillKey.includes('speech')) {
+        return icons.voice;
+      } else if (skillKey.includes('ocr') || skillKey.includes('text') || skillKey.includes('recognize')) {
+        return icons.ocr;
+      } else if (skillKey.includes('translate') || skillKey.includes('language')) {
+        return icons.translate;
+      } else if (skillKey.includes('comfyui') || skillKey.includes('workflow')) {
+        return icons.comfyui;
+      }
+      
+      return icons.default;
+    }
+    
+    function renderSkillItem(skill) {
+      const skillKey = skill.skillKey || skill.name;
+      const skillName = escapeHtml(skill.name || skillKey);
+      const skillDesc = escapeHtml(skill.description || '未描述');
+      const isActive = skillStates[skillKey] === 'active';
+      
+      let bgColor = skill.bundled ? 
+        'linear-gradient(135deg, #6366F1 0%, #5B35E6 100%)' : 
+        'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)';
+      
+      let badgeText = isActive ? '已启用' : '已禁用';
+      
+      const truncatedDesc = skillDesc.length > 25 ? skillDesc.substring(0, 25) + '...' : skillDesc;
+      
+      const svgContent = getSkillIcon(skillKey);
+      
+      return `<div class="skill-item" data-skill="${skillKey}" onclick="handleSkillClick('${skillKey}')">
+        ${isActive ? '<div class="skill-badge">' + badgeText + '</div>' : ''}
+        <div class="skill-icon" style="background: ${bgColor};">${svgContent}</div>
+        <div class="skill-name">${skillName}</div>
+        <div class="skill-desc">${truncatedDesc}</div>
+      </div>`;
+    }
+    
     // 初始化
     loadModelList();
+    loadSkillList();
     loadExecutionHistory();
     ThemeManager.init();
-    renderSkillStates();
     
     // 加载执行历史
     async function loadExecutionHistory() {

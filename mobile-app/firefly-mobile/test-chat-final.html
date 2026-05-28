@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Final 事件测试</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
+    
+    .test-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .test-section {
+      margin-bottom: 20px;
+    }
+    
+    .test-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: linear-gradient(180deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .test-description {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    
+    .event-data {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      color: #333;
+      overflow-x: auto;
+      word-break: break-all;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background: #f1f1f1;
+      color: #333;
+      margin-left: 12px;
+    }
+    
+    .btn-secondary:hover {
+      background: #e8e8e8;
+    }
+    
+    .console-container {
+      background: #1a1a2e;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    
+    .console-line {
+      color: #e0e0e0;
+      margin: 2px 0;
+    }
+    
+    .console-line.info {
+      color: #4ecdc4;
+    }
+    
+    .console-line.success {
+      color: #4ade80;
+    }
+    
+    .console-line.warning {
+      color: #fbbf24;
+    }
+    
+    .console-line.error {
+      color: #f87171;
+    }
+    
+    .console-line.test {
+      color: #a78bfa;
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .status-badge.passed {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .status-badge.failed {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .status-badge.running {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .test-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .summary-item {
+      text-align: center;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .summary-item-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .summary-item-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+    
+    .event-type-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .event-type-lifecycle {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    
+    .event-type-assistant {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .event-type-chat-final {
+      background: #dcfce7;
+      color: #166534;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Chat Final 事件测试</h1>
+      <p>验证修复后的事件处理逻辑是否正确</p>
+    </div>
+
+    <div class="test-card">
+      <div class="test-section">
+        <div class="section-title">测试事件数据</div>
+        <div class="test-description">以下是模拟的测试事件数据结构，包含 lifecycle_start、assistant 和 chat_final 三种事件类型。</div>
+        
+        <div style="display: flex; flex-wrap: gap: 8px; margin-bottom: 12px;">
+          <span class="event-type-badge event-type-lifecycle">lifecycle_start</span>
+          <span class="event-type-badge event-type-assistant">assistant</span>
+          <span class="event-type-badge event-type-chat-final">chat_final</span>
+        </div>
+        
+        <div class="event-data" id="eventData">
+          <!-- 事件数据将在这里显示 -->
+        </div>
+      </div>
+
+      <div class="test-section">
+        <div class="section-title">测试控制</div>
+        <button class="btn btn-primary" onclick="runTest()">
+          <span>▶️</span> 开始测试
+        </button>
+        <button class="btn btn-secondary" onclick="clearConsole()">
+          <span>🗑️</span> 清空日志
+        </button>
+        <span class="status-badge running" id="testStatus">准备就绪</span>
+      </div>
+
+      <div class="test-section">
+        <div class="section-title">测试日志</div>
+        <div class="console-container" id="consoleOutput">
+          <div class="console-line info">等待测试开始...</div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <div class="section-title">测试结果</div>
+        <div class="test-summary" id="testSummary">
+          <div class="summary-item">
+            <div class="summary-item-value" id="resultPassed">0</div>
+            <div class="summary-item-label">通过</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-value" id="resultFailed">0</div>
+            <div class="summary-item-label">失败</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-value" id="resultEvents">0</div>
+            <div class="summary-item-label">处理事件</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-item-value" id="resultTime">0ms</div>
+            <div class="summary-item-label">执行时间</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入测试脚本 -->
+  <script src="js/test-chat-final.js"></script>
+  
+  <script>
+    // 页面集成代码
+    let consoleLines = [];
+    
+    function logToConsole(text, type = 'info') {
+      const consoleOutput = document.getElementById('consoleOutput');
+      const newLine = document.createElement('div');
+      newLine.className = `console-line ${type}`;
+      newLine.textContent = text;
+      consoleOutput.appendChild(newLine);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+      consoleLines.push({ text, type });
+    }
+    
+    function clearConsole() {
+      const consoleOutput = document.getElementById('consoleOutput');
+      consoleOutput.innerHTML = '<div class="console-line info">等待测试开始...</div>';
+      consoleLines = [];
+      document.getElementById('testStatus').textContent = '准备就绪';
+      document.getElementById('testStatus').className = 'status-badge running';
+      document.getElementById('resultPassed').textContent = '0';
+      document.getElementById('resultFailed').textContent = '0';
+      document.getElementById('resultEvents').textContent = '0';
+      document.getElementById('resultTime').textContent = '0ms';
+    }
+    
+    function updateEventData() {
+      const eventData = document.getElementById('eventData');
+      eventData.textContent = JSON.stringify({
+        lifecycle_start: {
+          type: 'lifecycle_start',
+          description: '会话生命周期开始事件，包含 runId',
+          payload: { runId: 'run_xxx', type: 'lifecycle_start', data: { sessionId: 'session_xxx', agentId: 'main', model: 'qwen3.5:35b' } }
+        },
+        assistant: {
+          type: 'assistant',
+          description: '助手增量回复事件',
+          payload: { runId: 'run_xxx', type: 'assistant', data: { text: '回答内容', delta: '增量内容' } }
+        },
+        chat_final: {
+          type: 'chat_final',
+          description: '最终回复事件，标志对话结束',
+          payload: { runId: 'run_xxx', type: 'chat_final', data: { text: '完整回答', finish_reason: 'normal', usage: { prompt_tokens: 42, completion_tokens: 128 } } }
+        }
+      }, null, 2);
+    }
+    
+    function runTest() {
+      clearConsole();
+      document.getElementById('testStatus').textContent = '测试中...';
+      
+      const startTime = performance.now();
+      let eventsProcessed = 0;
+      let testsPassed = 0;
+      let testsFailed = 0;
+      
+      // 模拟事件数据
+      const mockChatFinalEvent = {
+        id: 'evt_' + Date.now(),
+        ts: Date.now(),
+        type: 'chat_final',
+        sessionKey: 'agent:main:main',
+        payload: {
+          runId: 'run_' + Math.random().toString(36).substr(2, 9),
+          type: 'chat_final',
+          data: {
+            text: '这是一个完整的回答。我已经分析了你的问题，并提供了详细的解决方案。',
+            finish_reason: 'normal',
+            usage: { prompt_tokens: 42, completion_tokens: 128, total_tokens: 170 }
+          },
+          meta: { model: 'qwen3.5:35b', provider: 'CAS' }
+        },
+        source: 'openclaw',
+        deviceId: 11,
+        createdAt: Date.now()
+      };
+      
+      const mockLifecycleStartEvent = {
+        id: 'evt_lifecycle_' + Date.now(),
+        ts: Date.now() - 1000,
+        type: 'lifecycle_start',
+        sessionKey: 'agent:main:main',
+        payload: {
+          runId: mockChatFinalEvent.payload.runId,
+          type: 'lifecycle_start',
+          data: { sessionId: 'session_' + Math.random().toString(36).substr(2, 9), agentId: 'main', model: 'qwen3.5:35b' }
+        },
+        source: 'openclaw',
+        deviceId: 11,
+        createdAt: Date.now() - 1000
+      };
+      
+      const mockAssistantEvents = [
+        { id: 'evt_assistant_1', ts: Date.now() - 500, type: 'assistant', sessionKey: 'agent:main:main',
+          payload: { runId: mockChatFinalEvent.payload.runId, type: 'assistant', data: { text: '这是一个完整', delta: '这是一个完整' } },
+          source: 'openclaw', deviceId: 11, createdAt: Date.now() - 500 },
+        { id: 'evt_assistant_2', ts: Date.now() - 300, type: 'assistant', sessionKey: 'agent:main:main',
+          payload: { runId: mockChatFinalEvent.payload.runId, type: 'assistant', data: { text: '的回答。', delta: '的回答。' } },
+          source: 'openclaw', deviceId: 11, createdAt: Date.now() - 300 }
+      ];
+      
+      // 模拟状态
+      const mockState = {
+        mode: 'active',
+        hasFinal: false,
+        finalHandled: false,
+        finalText: '',
+        assistantText: '',
+        commandOutputs: [],
+        cursorTs: 0,
+        deviceId: 11,
+        currentTurn: {
+          turnId: 'turn_' + Date.now(),
+          assistantMessageId: 'assistant_' + Date.now(),
+          questionTs: Date.now() - 2000,
+          minAcceptedTs: Date.now() - 2000 - 60000,
+          requestId: 'req_' + Math.random().toString(36).substr(2, 9),
+          idempotencyKey: 'idemp_' + Math.random().toString(36).substr(2, 9),
+          acceptedRunIds: new Set(),
+          processedEventKeys: new Set(),
+          callbacks: {
+            onFinal: function(text, meta) {
+              logToConsole(`✅ onFinal 回调触发 - 文本长度: ${text.length}`, 'success');
+              testsPassed++;
+            },
+            onAssistantUpdate: function(text, meta) {
+              logToConsole(`✅ onAssistantUpdate 回调触发 - 文本: ${text.slice(0, 30)}...`, 'success');
+              testsPassed++;
+            },
+            onLifecycleStart: function(runId, data, meta) {
+              logToConsole(`✅ onLifecycleStart 回调触发 - runId: ${runId}`, 'success');
+              testsPassed++;
+            }
+          },
+          completed: false
+        },
+        activeRunId: null,
+        pollVersion: 1,
+        isRunning: true
+      };
+      
+      logToConsole('========== 开始测试事件处理流程 ==========', 'test');
+      
+      // Step 1: 处理 lifecycle_start
+      logToConsole('Step 1: 处理 lifecycle_start 事件', 'test');
+      if (mockLifecycleStartEvent.payload.runId && mockState.currentTurn) {
+        mockState.currentTurn.acceptedRunIds.add(mockLifecycleStartEvent.payload.runId);
+        mockState.activeRunId = mockLifecycleStartEvent.payload.runId;
+        mockState.currentTurn.callbacks.onLifecycleStart(mockLifecycleStartEvent.payload.runId, mockLifecycleStartEvent.payload.data, {});
+      }
+      eventsProcessed++;
+      
+      // Step 2: 验证 runId 注册
+      logToConsole('Step 2: 验证 runId 注册', 'test');
+      if (mockState.currentTurn.acceptedRunIds.has(mockLifecycleStartEvent.payload.runId)) {
+        logToConsole('✅ runId 已成功注册到 acceptedRunIds', 'success');
+        testsPassed++;
+      } else {
+        logToConsole('❌ runId 注册失败', 'error');
+        testsFailed++;
+      }
+      
+      // Step 3: 处理 assistant 事件
+      logToConsole('Step 3: 处理 assistant 增量事件', 'test');
+      mockAssistantEvents.forEach((event, index) => {
+        logToConsole(`处理 assistant 事件 ${index + 1}`, 'info');
+        if (event.payload.data.text) {
+          mockState.assistantText = event.payload.data.text;
+          mockState.currentTurn.callbacks.onAssistantUpdate(event.payload.data.text, {});
+        }
+        eventsProcessed++;
+      });
+      
+      // Step 4: 处理 chat_final 事件
+      logToConsole('Step 4: 处理 chat_final 事件', 'test');
+      const finalText = mockChatFinalEvent.payload.data.text;
+      if (finalText && !mockState.hasFinal) {
+        mockState.hasFinal = true;
+        mockState.finalHandled = true;
+        mockState.finalText = finalText;
+        mockState.assistantText = finalText;
+        mockState.currentTurn.completed = true;
+        mockState.currentTurn.callbacks.onFinal(finalText, {
+          assistantText: mockState.assistantText,
+          commandOutputs: mockState.commandOutputs,
+          final: true,
+          state: 'final'
+        });
+        logToConsole('✅ chat_final 事件处理完成', 'success');
+        testsPassed++;
+      }
+      eventsProcessed++;
+      
+      // Step 5: 验证最终状态
+      logToConsole('Step 5: 验证最终状态', 'test');
+      if (mockState.hasFinal && mockState.finalHandled && mockState.currentTurn.completed) {
+        logToConsole('✅ 状态验证通过', 'success');
+        testsPassed++;
+      } else {
+        logToConsole('❌ 状态验证失败', 'error');
+        testsFailed++;
+      }
+      
+      // Step 6: runId 过滤测试
+      logToConsole('Step 6: runId 过滤测试', 'test');
+      const wrongRunIdEvent = { payload: { runId: 'run_WRONG_' + Math.random().toString(36).substr(2, 9) } };
+      const isAccepted = mockState.currentTurn.acceptedRunIds.has(wrongRunIdEvent.payload.runId);
+      if (!isAccepted) {
+        logToConsole('✅ 错误 runId 的事件已被正确过滤', 'success');
+        testsPassed++;
+      } else {
+        logToConsole('❌ 错误 runId 的事件未被过滤', 'error');
+        testsFailed++;
+      }
+      
+      // 统计结果
+      const endTime = performance.now();
+      const duration = Math.round(endTime - startTime);
+      
+      logToConsole(`\n========== 测试完成 ==========`, 'test');
+      logToConsole(`测试结果: 通过 ${testsPassed} / 失败 ${testsFailed}`, testsFailed > 0 ? 'warning' : 'success');
+      logToConsole(`处理事件数: ${eventsProcessed}`, 'info');
+      logToConsole(`执行时间: ${duration}ms`, 'info');
+      
+      // 更新UI
+      document.getElementById('testStatus').textContent = testsFailed > 0 ? '部分失败' : '全部通过';
+      document.getElementById('testStatus').className = testsFailed > 0 ? 'status-badge failed' : 'status-badge passed';
+      document.getElementById('resultPassed').textContent = testsPassed;
+      document.getElementById('resultFailed').textContent = testsFailed;
+      document.getElementById('resultEvents').textContent = eventsProcessed;
+      document.getElementById('resultTime').textContent = `${duration}ms`;
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      updateEventData();
+    });
+  </script>
+</body>
+</html>

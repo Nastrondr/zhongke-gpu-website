@@ -72,6 +72,11 @@ class ApiClient {
           console.error(`[ApiClient] 请求错误:`, error);
         }
 
+        // 处理超时错误（AbortError）
+        if (error.name === 'AbortError') {
+          throw new ApiError('TIMEOUT_ERROR', '请求超时，请稍后重试');
+        }
+
         // 处理网络错误
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
           throw new ApiError('NETWORK_ERROR', '网络连接失败，请检查网络设置');

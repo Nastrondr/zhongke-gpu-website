@@ -953,13 +953,7 @@
       flex-shrink: 0;
     }
 
-    .app-icon.feishu {
-      background: #ffffff;
-    }
-
-    .app-icon.wechat {
-      background: #07c160;
-    }
+    
 
     .app-icon.doc {
       background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
@@ -2621,7 +2615,7 @@
           <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">已装配技能</span>
           <span onclick="Navigation.goTo('model-skill.html')" style="font-size: 11px; color: var(--primary); cursor: pointer;">执行 ></span>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+        <div id="installedSkillsContainer" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
           <div style="background: var(--card-bg); border: 1px solid var(--border-card); border-radius: 10px; padding: 10px;">
             <div style="font-size: 12px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px;">文档处理</div>
             <div style="font-size: 10px; color: var(--text-tertiary);">已启用</div>
@@ -2665,14 +2659,7 @@
             <span style="font-size: 11px; color: var(--text-tertiary); cursor: pointer;" onclick="window.location.href='connection-center.html'">查看全部 ></span>
           </div>
           <div style="display: flex; gap: 14px; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 5px;">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--success);"></span>
-              <span style="font-size: 11px; color: var(--text-secondary);">飞书</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 5px;">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-tertiary);"></span>
-              <span style="font-size: 11px; color: var(--text-secondary);">微信</span>
-            </div>
+            
             <div style="display: flex; align-items: center; gap: 5px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--success);"></span>
               <span style="font-size: 11px; color: var(--text-secondary);">文档库</span>
@@ -2748,30 +2735,6 @@
 
       <!-- 隐藏的旧模块 -->
       <div class="section animate-in delay-6" style="display: none;">
-          <div class="app-item">
-            <div class="app-icon feishu"><img src="images/feishu.jpeg" alt="飞书" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
-            <div class="app-info">
-              <div class="app-name">飞书</div>
-              <div class="app-meta">
-                <span class="app-status connected">已连接</span>
-                <span>1分钟前同步</span>
-              </div>
-              <div class="app-desc">已授权消息通知与文档读取</div>
-            </div>
-          </div>
-
-          <div class="app-item">>
-            <div class="app-icon wechat"><img src="images/weixin.png" alt="微信" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"></div>
-            <div class="app-info">
-              <div class="app-name">微信</div>
-              <div class="app-meta">
-                <span class="app-status pending">待接入</span>
-                <span>未完成绑定</span>
-              </div>
-              <div class="app-desc">可用于提醒通知与快捷触发</div>
-            </div>
-          </div>
-
           <div class="app-item">
             <div class="app-icon doc">
               <svg viewBox="0 0 24 24" fill="none" style="width: 60%; height: 60%; margin: 20%;">
@@ -2932,6 +2895,7 @@
     setInterval(updateTime, 1000);
     syncDeviceModel();
     checkSkillExecutionResult();
+    loadInstalledSkills();
     
     window.addEventListener('pageshow', async function(e) {
       log('[DevicePage] pageshow 事件触发');
@@ -2946,6 +2910,7 @@
       syncDeviceModel();
       checkSkillExecutionResult();
       initDeviceSwitcher();
+      loadInstalledSkills();
     });
 
     // 监听模型切换事件
@@ -3034,6 +2999,50 @@
       }
 
       log('[DevicePage] ========== 设备模型状态同步完成 ==========');
+    }
+    
+    async function loadInstalledSkills() {
+      log('[DevicePage] ========== 加载已装配技能 ==========');
+      
+      const container = document.getElementById('installedSkillsContainer');
+      if (!container) {
+        log('[DevicePage] installedSkillsContainer not found');
+        return;
+      }
+      
+      try {
+        const device = DeviceManager.getDevice();
+        if (!device || !device.deviceId) {
+          log('[DevicePage] 未获取到设备信息');
+          return;
+        }
+        
+        const skills = await DeviceManager.getDeviceSkills(device.deviceId);
+        log('[DevicePage] 获取到技能列表:', skills);
+        
+        if (skills.length === 0) {
+          container.innerHTML = `
+            <div style="grid-column: span 2; text-align: center; padding: 20px; color: var(--text-tertiary);">
+              暂无已装配技能
+            </div>
+          `;
+          return;
+        }
+        
+        const skillHTML = skills.map(skill => `
+          <div style="background: var(--card-bg); border: 1px solid var(--border-card); border-radius: 10px; padding: 10px;">
+            <div style="font-size: 12px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px;">${skill.name || skill.skillKey}</div>
+            <div style="font-size: 10px; color: var(--text-tertiary);">${skill.disabled ? '已停用' : '已启用'}</div>
+          </div>
+        `).join('');
+        
+        container.innerHTML = skillHTML;
+      } catch (error) {
+        console.error('[DevicePage] 加载技能列表失败:', error);
+        // 保留原有假数据显示
+      }
+      
+      log('[DevicePage] ========== 技能列表加载完成 ==========');
     }
     
     async function checkSkillExecutionResult() {

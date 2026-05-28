@@ -453,7 +453,7 @@
     .whale-mascot__svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 4px 20px rgba(37, 99, 235, 0.3));
+      filter: none;
     }
     
     /* 鲸鱼图片 - 新版 */
@@ -462,7 +462,7 @@
       height: 90px;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 4px 20px rgba(37, 99, 235, 0.3));
+      filter: none;
     }
     
     /* 吉祥物舞台容器 */
@@ -562,7 +562,7 @@
     }
     
     .whale-mascot--avatar .whale-mascot__svg {
-      filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.2));
+      filter: none;
     }
     
     /* 头像尾巴动画 - 已禁用 */
@@ -592,7 +592,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+      filter: none;
     }
     
     .whale-avatar-simple::before {
@@ -726,48 +726,73 @@
       flex-direction: row-reverse;
     }
 
+    /* ========== 元信息行（操作按钮 + 时间戳） ========== */
+    .message-meta-row {
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    /* ========== 操作按钮容器 ========== */
     .message-actions {
       display: flex;
-      gap: 4px;
-      margin-top: 4px;
-      justify-content: flex-end;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    /* ========== 时间戳 ========== */
+    .message-time {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 12px;
+      line-height: 1;
+      color: var(--text-muted, #94a3b8);
     }
 
     .message-action-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 4px;
-      background: transparent;
+      width: 20px;
+      height: 20px;
       border: none;
+      background: transparent;
+      border-radius: 4px;
+      color: var(--text-secondary);
       cursor: pointer;
-      color: var(--text-tertiary);
       transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
     }
 
     .message-action-btn:hover {
-      background: rgba(74, 141, 255, 0.15);
-      color: var(--accent-blue);
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--text-primary);
     }
-
+    
     .message-action-btn:active {
       transform: scale(0.9);
     }
 
     .message-action-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 12px !important;
+      height: 12px !important;
+      flex-shrink: 0;
     }
 
     html[data-theme="light"] .message-action-btn {
-      color: #CBD5E1;
+      color: #64748B;
     }
 
     html[data-theme="light"] .message-action-btn:hover {
-      background: rgba(37, 99, 235, 0.08);
-      color: #2563EB;
+      background: rgba(0, 0, 0, 0.08);
+      color: #0F172A;
     }
 
     .message-action-btn.liked {
@@ -876,13 +901,7 @@
       margin-bottom: 20px;
     }
 
-    .chat-time {
-      font-size: 11px;
-      color: #CBD5E1;
-      margin-top: 4px;
-    }
-
-    html[data-theme="dark"] .chat-time {
+    html[data-theme="dark"] .message-time {
       color: #64748B;
     }
 
@@ -965,7 +984,7 @@
       border: 1px solid #E2E8F0;
       color: #334155;
       border-radius: 18px;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+      box-shadow: none;
     }
 
     /* 浅色模式 - 用户消息 */
@@ -973,17 +992,7 @@
       background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
       color: white;
       border-radius: 18px;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
-    }
-    
-    .chat-time {
-      font-size: 11px;
-      color: var(--text-tertiary);
-      margin-top: 4px;
-    }
-
-    html[data-theme="light"] .chat-time {
-      color: #CBD5E1;
+      box-shadow: none;
     }
     
     /* 技能条 - 轻量化 */
@@ -1075,13 +1084,15 @@
       bottom: 0;
       z-index: 1000;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-      background: transparent;
+      background: linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 60%, transparent 100%);
       transform: translateY(calc(-1 * var(--keyboard-offset, 0px)));
       transition: transform 0.18s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .chat-composer {
@@ -1170,10 +1181,6 @@
     /* 浅色模式 - 输入框包装 */
     html[data-theme="light"] .input-wrapper {
       background: #111317;
-    }
-    
-    #deviceModeBtn {
-      transition: all 0.2s ease;
     }
     
     .multi-modal-btn, .voice-btn {
@@ -1939,10 +1946,7 @@
       color: #F8FAFC;
     }
 
-    .drawer-user-sub {
-      font-size: 12px;
-      color: #64748B;
-    }
+
 
     .drawer-model-section {
       display: flex;
@@ -2293,16 +2297,8 @@
 
     /* ==================== 技能栏箭头按钮 ==================== */
     .skills-bar-wrapper {
-      position: fixed;
-      bottom: calc(110px + env(safe-area-inset-bottom));
-      left: 0;
-      right: 0;
-      padding: 8px 16px;
-      background: linear-gradient(to top, rgba(10, 22, 40, 1) 0%, rgba(10, 22, 40, 0.95) 100%);
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      /* position: fixed; 已由 chat-bottom-panel 统一管理 */
+      display: none;
     }
 
     html[data-theme="light"] .skills-bar-wrapper {
@@ -2362,6 +2358,78 @@
       width: 16px;
       height: 16px;
       stroke: #64748B;
+    }
+
+    /* ==================== 底部统一面板布局 ==================== */
+    .chat-bottom-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 100;
+      background: var(--bg-primary, #F8FBFF);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-card, #E2E8F0);
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+    
+    html[data-theme="dark"] .chat-bottom-panel {
+      background: rgba(15, 23, 42, 0.96);
+      border-top-color: rgba(51, 65, 85, 0.8);
+    }
+
+    .quick-actions {
+      position: relative !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 0;
+      margin: 0;
+      white-space: nowrap;
+      scrollbar-width: none;
+      background: transparent;
+    }
+    
+    .quick-actions::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .quick-actions .skills-scroll {
+      flex: 1;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 0;
+    }
+    
+    .chat-bottom-panel .input-area {
+      position: relative !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      z-index: 2;
+      padding: 0;
+      background: transparent;
+      transform: none;
+    }
+    
+    .chat-bottom-panel .chat-composer {
+      width: 100%;
+      min-height: 56px;
+      border-radius: 28px;
+      box-sizing: border-box;
     }
 
     /* ==================== 浅色模式顶栏更新 ==================== */
@@ -2466,7 +2534,7 @@
 
     /* 聊天区域顶部留白 */
     .chat-section {
-      padding: 68px 0 0;
+      padding: 68px 0 170px;
     }
 
     /* 通用标签样式 */
@@ -2669,11 +2737,6 @@
     .chat-filesize {
       font-size: 12px;
       color: #64748B;
-    }
-
-    .chat-time {
-      color: #CBD5E1;
-      font-size: 11px;
     }
 
     .chat-primary {
@@ -2954,10 +3017,6 @@
       color: #F8FAFC;
     }
 
-    html[data-theme="dark"] .chat-time {
-      color: #64748B;
-    }
-
     /* 技能操作按钮 - 深色模式 */
     html[data-theme="dark"] .skill-action-btn {
       background: rgba(30, 41, 59, 0.6);
@@ -3115,8 +3174,8 @@
     }
 
     html[data-theme="dark"] .message-action-btn:hover {
-      background: rgba(37, 99, 235, 0.2);
-      color: #60A5FA;
+      background: rgba(255, 255, 255, 0.1);
+      color: #F1F5F9;
     }
 
     html[data-theme="dark"] .message-action-btn.liked {
@@ -3169,9 +3228,6 @@
     }
 
     /* 会话管理抽屉 - 深色模式补充 */
-    html[data-theme="dark"] .drawer-user-sub {
-      color: #94A3B8;
-    }
 
     html[data-theme="dark"] .drawer-model-label {
       color: #64748B;
@@ -3325,32 +3381,34 @@
               你好，我是萤火虫。<br><br>
               你可以输入文字任务，也可以上传图片、文档、表格或票据资料。我会根据内容引导你完成识别、整理、分析和报告生成。
             </div>
-            <div class="chat-time">刚刚</div>
-            <div class="message-actions">
-              <button class="message-action-btn" title="点赞">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M7 10v12"/>
-                  <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
-                </svg>
-              </button>
-              <button class="message-action-btn" title="点踩">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="message-meta-row">
+              <div class="message-actions">
+                <button class="message-action-btn" title="点赞">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10v12"/>
+                    <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
+                  </svg>
+                </button>
+                <button class="message-action-btn" title="点踩">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17 14V2"/>
                   <path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
-                </svg>
-              </button>
-              <button class="message-action-btn" title="复制">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                </svg>
-              </button>
-              <button class="message-action-btn" title="重新回答">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 4v6h6"/>
-                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
-                </svg>
-              </button>
+                  </svg>
+                </button>
+                <button class="message-action-btn" title="复制">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                </button>
+                <button class="message-action-btn" title="重新回答">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 4v6h6"/>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                  </svg>
+                </button>
+              </div>
+              <span class="message-time" id="welcomeTime">刚刚</span>
             </div>
           </div>
         </div>
@@ -3422,28 +3480,26 @@
       </section>
     </main>
     
-    <!-- 技能条 -->
-    <div class="skills-bar-wrapper">
-      <div class="skills-scroll">
-        <span class="skill-tag" onclick="sendSkill('文档处理')">文档处理</span>
-        <span class="skill-tag" onclick="sendSkill('行情速览')">行情速览</span>
-        <span class="skill-tag" onclick="sendSkill('资讯总结')">资讯总结</span>
-        <span class="skill-tag" onclick="sendSkill('风险提示')">风险提示</span>
-        <span class="skill-tag" onclick="sendSkill('组合分析')">组合分析</span>
-        <span class="skill-tag" onclick="sendSkill('客户沟通')">客户沟通</span>
-        <span class="skill-tag" onclick="sendSkill('文档提炼')">文档提炼</span>
+    <!-- 底部统一面板 -->
+    <div class="chat-bottom-panel">
+      <!-- 快捷操作 -->
+      <div class="quick-actions">
+        <div class="skills-scroll">
+          <span class="skill-tag" onclick="sendSkill('视频脚本')">视频脚本</span>
+          <span class="skill-tag" onclick="sendSkill('分镜规划')">分镜规划</span>
+          <span class="skill-tag" onclick="sendSkill('素材整理')">素材整理</span>
+        </div>
+        <div class="skills-more-btn" onclick="goToSkillExecute()">
+          <span style="font-size: 12px; font-weight: 500;">更多</span>
+        </div>
       </div>
-      <div class="skills-more-btn" onclick="goToSkillExecute()">
-        <span style="font-size: 12px; font-weight: 500;">更多</span>
-      </div>
-    </div>
-    
-    <!-- 输入区 -->
-    <div class="input-area" id="inputArea">
-      <!-- 隐藏的文件输入框 -->
-      <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv" style="display: none;" onchange="handleFileSelected(event)">
-      <!-- 多图预览区域 -->
-      <div id="imagePreviewContainer" class="image-preview-container" style="display: none;"></div>
+      
+      <!-- 输入区 -->
+      <div class="input-area" id="inputArea">
+        <!-- 隐藏的文件输入框 -->
+        <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.md,.markdown" style="display: none;" onchange="handleFileSelected(event)">
+        <!-- 多图预览区域 -->
+        <div id="imagePreviewContainer" class="image-preview-container" style="display: none;"></div>
       <div class="chat-composer" id="chatComposer">
         <button class="multi-modal-btn" id="attachBtn" onclick="toggleAttachMenu()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
@@ -3466,6 +3522,7 @@
           </svg>
         </button>
       </div>
+    </div>
     </div>
 
     <!-- 多模态输入菜单 -->
@@ -3637,10 +3694,8 @@
       'glm-4.7-flash:latest': { name: 'GLM 4.7', description: '对话交互、综合内容生成、文档处理' }
     };
 
-    // ========== 设备模式 ==========
-    let deviceMode = false;
-    let currentDevice = null;
-    let currentStreamController = null; // 用于 abort 正在进行中的 stream 请求
+    // 用于 abort 正在进行中的 stream 请求
+    let currentStreamController = null;
 
     // 多模态功能：切换菜单
     window.toggleAttachMenu = function() {
@@ -3664,7 +3719,7 @@
         fileInput.accept = 'image/*';
         fileInput.multiple = true;
       } else if (type === 'document') {
-        fileInput.accept = '.pdf,.doc,.docx';
+        fileInput.accept = '.pdf,.doc,.docx,.txt,.md,.markdown';
         fileInput.multiple = false;
       } else if (type === 'spreadsheet') {
         fileInput.accept = '.xls,.xlsx,.csv';
@@ -3687,267 +3742,6 @@
       } else if (typeof alert === 'function') {
         alert('语音输入开发中');
       }
-    }
-
-    // 显示设备引导
-    function showDeviceGuide() {
-      const toast = document.getElementById('demoToast') || createDemoToast();
-      toast.textContent = '请前往 我的设备 > 与小龙虾对话 控制具体设备';
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateX(-50%) translateY(0)';
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(-20px)';
-      }, 3000);
-    }
-    
-    function createDemoToast() {
-      const toast = document.createElement('div');
-      toast.id = 'demoToast';
-      document.body.appendChild(toast);
-      return toast;
-    }
-
-    // 获取当前设备
-    function getCurrentDevice() {
-      if (currentDevice) return currentDevice;
-      if (typeof Storage !== 'undefined' && Storage.Device) {
-        currentDevice = Storage.Device.getCurrentDevice();
-      }
-      
-      // 兼容处理：选择正确的 deviceUuid
-      if (currentDevice) {
-        const rawDevice = { ...currentDevice };
-        currentDevice._selectedUuid = currentDevice.iotDeviceUuid || currentDevice.uuid || currentDevice.routeDeviceUuid || null;
-        console.log('[OpenClaw] selected deviceUuid:', currentDevice._selectedUuid);
-        console.log('[OpenClaw] current device raw:', rawDevice);
-      }
-      
-      return currentDevice;
-    }
-
-    // 获取选中的 deviceUuid（带验证）
-    function getDeviceUuid() {
-      const device = getCurrentDevice();
-      if (!device) {
-        return null;
-      }
-      
-      const uuid = device.iotDeviceUuid || device.uuid || device.routeDeviceUuid || null;
-      if (!uuid) {
-        console.warn('[OpenClaw] device has no valid uuid:', device);
-      }
-      return uuid;
-    }
-
-    // ========== OPENCLAW 事件解析 ==========
-    function parseOpenClawEvents(response, requestId, idempotencyKey) {
-      if (!response) return null;
-      
-      // 1. 提取 events 数组（兼容多种返回结构）
-      let events = [];
-      const data = response.data || response;
-      
-      if (Array.isArray(data)) {
-        events = data;
-      } else if (data.rows) {
-        events = data.rows;
-      } else if (data.events) {
-        events = data.events;
-      } else if (data.list) {
-        events = data.list;
-      }
-      
-      // 如果没有事件，返回原始数据
-      if (!events || events.length === 0) {
-        console.log('[OpenClaw] no events found, raw response:', response);
-        return { raw: response };
-      }
-      
-      console.log('[OpenClaw] events:', events);
-      
-      // 2. 尝试匹配 requestId / idempotencyKey
-      if (requestId || idempotencyKey) {
-        const matched = events.find(e => 
-          (requestId && (e.id === requestId || e.requestId === requestId || e.reqId === requestId)) ||
-          (idempotencyKey && (e.idempotencyKey === idempotencyKey || e.idempotency_key === idempotencyKey))
-        );
-        if (matched) {
-          console.log('[OpenClaw] matched event by id:', matched);
-          return extractEventContent(matched);
-        }
-      }
-      
-      // 3. 找最新一条 assistant/response/message 类型事件
-      for (const event of events) {
-        const result = extractEventContent(event);
-        if (result) return result;
-      }
-      
-      // 4. 返回第一条事件
-      return extractEventContent(events[0]);
-    }
-    
-    function extractEventContent(event) {
-      if (!event) return null;
-      
-      // 兼容多种字段名
-      const content = event.data || event.content || event.message || event.payload || 
-                    event.result || event.response || event.body;
-      
-      if (content) {
-        // 如果是对象，尝试提取 message
-        if (typeof content === 'object') {
-          return content.message || content.text || content.response || JSON.stringify(content);
-        }
-        return content;
-      }
-      
-      // 如果event本身就是字符串
-      if (typeof event === 'string') {
-        return event;
-      }
-      
-      return null;
-    }
-
-    // ========== 发送命令到设备 ==========
-    async function sendToDevice(message) {
-      const deviceUuid = getDeviceUuid();
-      
-      // 1. 检查 deviceUuid
-      if (!deviceUuid) {
-        return { success: false, error: 'no_deviceuuid', msg: '当前设备缺少 iotDeviceUuid / uuid，暂无法连接小龙虾' };
-      }
-
-      log('[OpenClaw] 发送消息到小龙虾:', { deviceUuid, message });
-
-      try {
-        // 2. 查询运行状态（可选检查）
-        try {
-          const runInfo = await window.Api.OPENCLAW.queryRunInfo(deviceUuid);
-          log('[OpenClaw] queryRunInfo 响应:', runInfo);
-          // 如果需要启动websocket，可以在这里添加 startWebsocket 调用
-          // TODO: 需要从配置读取 uri/token 后才能启动
-        } catch (e) {
-          console.warn('[OpenClaw] queryRunInfo 失败，继续尝试发送:', e);
-        }
-
-        // 3. 记录发送时间戳，用于后续查询事件
-        const tsStart = Date.now();
-        const sessionKey = 'agent:main:main';
-        const idempotencyKey = window.Api.OPENCLAW._generateUUID();
-        
-        // 4. 发送聊天命令
-        const sendResponse = await window.Api.OPENCLAW.sendChat(deviceUuid, message, sessionKey);
-        log('[OpenClaw] sendChat 响应:', sendResponse);
-
-        if (!sendResponse || !sendResponse.success) {
-          return { success: false, error: 'send_failed', msg: sendResponse?.msg || '发送失败' };
-        }
-
-        // 5. 轮询 queryEvent（最多10次，每次2秒）
-        const maxPolling = 10;
-        const pollingInterval = 2000;
-        
-        for (let i = 0; i < maxPolling; i++) {
-          if (i > 0) {
-            await new Promise(resolve => setTimeout(resolve, pollingInterval));
-            log('[OpenClaw] polling #' + (i + 1));
-          }
-          
-          const eventResponse = await window.Api.OPENCLAW.queryEvent(deviceUuid, tsStart, 10);
-          log('[OpenClaw] queryEvent #' + (i + 1) + ' 响应:', eventResponse);
-          
-          // 6. 解析事件
-          const parsed = parseOpenClawEvents(eventResponse);
-          
-          if (parsed && parsed.raw) {
-            // 没有事件，继续轮询
-            continue;
-          }
-          
-          if (parsed) {
-            // 找到有效回复
-            return { success: true, data: parsed };
-          }
-        }
-
-        // 7. 轮询超时
-        return { success: true, msg: '小龙虾已收到指令，但暂未返回结果。你可以稍后重试或查看设备事件。', timeout: true };
-        
-      } catch (error) {
-        log('[OpenClaw] 请求失败:', error);
-        
-        // 判断错误类型
-        if (error.message && error.message.includes('404')) {
-          return { success: false, error: 'not_found', msg: '设备接口不存在，请检查设备连接状态' };
-        }
-        if (error.message && error.message.includes('500')) {
-          return { success: false, error: 'server_error', msg: '设备服务异常，请稍后重试' };
-        }
-        return { success: false, error: 'unknown', msg: error.message || '通信失败' };
-      }
-    }
-
-    // 解析设备命令
-    function parseDeviceCommand(message) {
-      const m = message.toLowerCase();
-      if (m.includes('ocr') || m.includes('识别') || m.includes('图片')) {
-        return { type: 'ocr', params: { content: message } };
-      } else if (m.includes('整理') || m.includes('数据')) {
-        return { type: 'organize', params: { content: message } };
-      } else if (m.includes('归档') || m.includes('知识库')) {
-        return { type: 'archive', params: { content: message } };
-      } else if (m.includes('摘要') || m.includes('总结')) {
-        return { type: 'summarize', params: { content: message } };
-      } else if (m.includes('调度') || m.includes('任务')) {
-        return { type: 'schedule', params: { content: message } };
-      } else {
-        return { type: 'chat', params: { message } };
-      }
-    }
-
-    // 处理设备消息
-    async function handleDeviceMessage(message) {
-      const input = document.getElementById('chatInput');
-      const sendBtn = document.getElementById('sendBtn');
-      
-      // 禁用输入
-      input.disabled = true;
-      sendBtn.disabled = true;
-      
-      // 显示用户消息
-      addUserMessage(message);
-      
-      // 显示设备思考中
-      constThinkingCard('小龙虾正在处理...');
-      const thinkingId = 'thinking-' + Date.now();
-      
-      try {
-        const response = await sendToDevice(message);
-        
-        // 移除思考中卡片
-        const thinkingEl = document.getElementById(thinkingId);
-        if (thinkingEl) thinkingEl.remove();
-        
-        // 显示设备响应
-        if (response && response.success) {
-          const result = response.data || response.msg || '任务已完成';
-          addAssistantMessage(result);
-        } else {
-          addAssistantMessage(response?.msg || '设备响应: ' + JSON.stringify(response));
-        }
-      } catch (error) {
-        const thinkingEl = document.getElementById(thinkingId);
-        if (thinkingEl) thinkingEl.remove();
-        addAssistantMessage('设备通信失败: ' + error.message);
-      }
-      
-      // 恢复输入
-      input.disabled = false;
-      sendBtn.disabled = false;
-      input.focus();
     }
 
     // 获取模型显示名称
@@ -4322,67 +4116,14 @@
         const message = input.value.trim();
         if (message) {
           toggleChatPanel();
-          // 添加到主聊天区
-          const chatSection = document.getElementById('chatSection');
-          const userMessage = document.createElement('div');
-          userMessage.className = 'chat-message user';
-          userMessage.innerHTML = `
-            <div class="chat-avatar user">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-            </div>
-            <div class="chat-content">
-              <div class="chat-bubble">${message}</div>
-              <div class="chat-time">刚刚</div>
-            </div>
-          `;
-          chatSection.appendChild(userMessage);
+          const now = Date.now();
+          addUserMessage(message, now);
           
           // 模拟回复
           setTimeout(() => {
-            const assistantMessage = document.createElement('div');
-            assistantMessage.className = 'chat-message assistant';
-            assistantMessage.innerHTML = `
-              <div class="chat-avatar assistant">
-                <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
-              </div>
-              <div class="chat-content">
-                <div class="chat-bubble">收到你的问题："${message}"，我来为你分析...</div>
-                <div class="chat-time">刚刚</div>
-                <div class="message-actions">
-                  <button class="message-action-btn" title="点赞">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M7 10v12"/>
-                      <path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/>
-                    </svg>
-                  </button>
-                  <button class="message-action-btn" title="点踩">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M17 14V2"/>
-                      <path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/>
-                    </svg>
-                  </button>
-                  <button class="message-action-btn" title="复制">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                    </svg>
-                  </button>
-                  <button class="message-action-btn" title="重新回答">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M1 4v6h6"/>
-                      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            `;
-            chatSection.appendChild(assistantMessage);
-            chatSection.scrollTop = chatSection.scrollHeight;
+            addAssistantMessage('收到你的问题："'+message+'"，我来为你分析...', [], now);
           }, 800);
           
-          chatSection.scrollTop = chatSection.scrollHeight;
           input.value = '';
         }
       }
@@ -4552,6 +4293,9 @@
     // ==================== 处理文件选择 ====================
     // 存储当前附加的文件数据（支持多文件）
     let attachedFiles = []; // [{name, type, data, size, id}]
+    
+    // 文件大小限制：10MB
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     function handleFileSelected(event) {
       const files = Array.from(event.target.files);
@@ -4560,43 +4304,66 @@
       log('[FileUpload] 选择了文件:', files.map(f => f.name).join(', '));
 
       files.forEach(file => {
+        // 1. 检查文件大小
+        if (file.size > MAX_FILE_SIZE) {
+          showToast(`文件 ${file.name} 超过大小限制（最大10MB）`, 'error');
+          log('[FileUpload] 文件过大:', file.name, file.size);
+          return;
+        }
+
         const fileName = file.name.toLowerCase();
         let fileType = 'document';
 
+        // 2. 检查文件类型
         if (fileName.match(/\.(jpg|jpeg|png|gif|webp|bmp)$/)) {
           fileType = 'image';
         } else if (fileName.match(/\.(xls|xlsx|csv)$/)) {
           fileType = 'spreadsheet';
-        } else if (fileName.match(/\.(pdf|doc|docx|txt)$/)) {
+        } else if (fileName.match(/\.(pdf|doc|docx|txt|md|markdown)$/)) {
           fileType = 'document';
+        } else {
+          showToast(`不支持的文件类型: ${file.name}`, 'error');
+          log('[FileUpload] 不支持的文件类型:', file.name);
+          return;
         }
 
         const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        const fileData = {
+          id: fileId,
+          name: file.name,
+          type: fileType,
+          data: null,
+          size: file.size
+        };
 
         if (fileType === 'image') {
           const reader = new FileReader();
           reader.onload = (e) => {
-            const fileData = {
-              id: fileId,
-              name: file.name,
-              type: fileType,
-              data: e.target.result,
-              size: file.size
-            };
+            fileData.data = e.target.result;
             attachedFiles.push(fileData);
             addPreviewItem(fileData);
           };
+          reader.onerror = (e) => {
+            showToast(`图片文件 ${file.name} 读取失败，可能已损坏`, 'error');
+            log('[FileUpload] 图片读取失败:', file.name, e.target.error);
+          };
           reader.readAsDataURL(file);
         } else {
-          const fileData = {
-            id: fileId,
-            name: file.name,
-            type: fileType,
-            data: null,
-            size: file.size
+          // 文档文件：尝试读取内容
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            fileData.data = e.target.result;
+            attachedFiles.push(fileData);
+            addPreviewItem(fileData);
           };
-          attachedFiles.push(fileData);
-          addPreviewItem(fileData);
+          reader.onerror = (e) => {
+            // 文档读取失败时，仍然允许发送（可能是加密文件等），但记录警告
+            showToast(`文档 ${file.name} 内容读取失败，将尝试直接发送`, 'warning');
+            log('[FileUpload] 文档读取失败:', file.name, e.target.error);
+            attachedFiles.push(fileData);
+            addPreviewItem(fileData);
+          };
+          reader.readAsText(file);
         }
       });
 
@@ -4691,10 +4458,11 @@
     }
 
     // ==================== 添加用户上传卡片 ====================
-    function addUserUploadCard(type, fileName, fileSize, extra) {
+    function addUserUploadCard(type, fileName, fileSize, extra, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message user upload-card';
+      const time = timestamp || Date.now();
 
       let typeIcon, typeLabel, typeColor;
       switch(type) {
@@ -4753,7 +4521,9 @@
             </div>
             ${imagePreview}
           </div>
-          <div class="chat-time" style="color: #CBD5E1; font-size: 11px;">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4761,10 +4531,11 @@
     }
 
     // ==================== 添加文件结果卡片 ====================
-    function addFileResultCard(fileName, fileSize) {
+    function addFileResultCard(fileName, fileSize, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message assistant result-card';
+      const time = timestamp || Date.now();
       card.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
@@ -4793,7 +4564,9 @@
               </div>
             </div>
           </div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4801,10 +4574,11 @@
     }
 
     // ==================== 添加摘要卡片 ====================
-    function addSummaryCard(title, content) {
+    function addSummaryCard(title, content, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message assistant summary-card';
+      const time = timestamp || Date.now();
       card.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
@@ -4820,7 +4594,9 @@
             </div>
             <div style="font-size: 13px; color: #334155; line-height: 1.65;">${content}</div>
           </div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4828,10 +4604,11 @@
     }
 
     // ==================== 添加风险提示卡片 ====================
-    function addRiskAlertCard() {
+    function addRiskAlertCard(timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message assistant risk-card';
+      const time = timestamp || Date.now();
       card.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
@@ -4863,7 +4640,9 @@
               </ul>
             </div>
           </div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4871,10 +4650,11 @@
     }
 
     // ==================== 添加表格化输出卡片 ====================
-    function addTableOutputCard() {
+    function addTableOutputCard(timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message assistant table-card';
+      const time = timestamp || Date.now();
       card.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
@@ -4900,7 +4680,9 @@
               </div>
             </div>
           </div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4908,10 +4690,11 @@
     }
 
     // ==================== 添加图片识别结果卡片 ====================
-    function addImageRecognitionCard() {
+    function addImageRecognitionCard(timestamp) {
       const chatSection = document.getElementById('chatSection');
       const card = document.createElement('div');
       card.className = 'chat-message assistant image-result-card';
+      const time = timestamp || Date.now();
       card.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width: 20px; height: 20px; object-fit: contain;">
@@ -4943,7 +4726,9 @@
               <button onclick="showDemoToast('前端演示版本，暂未接入文档库。')" style="flex: 1; padding: 8px 12px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; font-size: 12px; color: #8b5cf6; cursor: pointer;">加入文档库</button>
             </div>
           </div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -4956,12 +4741,9 @@
     }
 
     const skillFlows = {
-      '行情速览': { botMessage: '已进入行情速览流程。你可以告诉我关注的市场、行业或资产，我会帮你整理重点变化。', actions: ['输入关注市场', '查看今日概览', '生成速览报告'] },
-      '资讯总结': { botMessage: '已进入资讯总结流程。你可以上传公告、新闻链接或输入关键词，我会帮你提炼重点。', actions: ['上传资料', '输入关键词', '生成资讯摘要'] },
-      '风险提示': { botMessage: '已进入风险提示流程。你可以上传资料，或告诉我需要关注的具体对象和时间范围。', actions: ['上传资料', '输入关注对象', '生成示例报告'] },
-      '组合分析': { botMessage: '已进入组合分析流程。你可以上传持仓数据，或输入资产组合信息，我会帮你分析结构、风险和建议。', actions: ['上传持仓文件', '输入组合信息', '生成组合报告'] },
-      '客户沟通': { botMessage: '已进入客户沟通流程。你可以输入客户背景或沟通目标，我会帮你整理沟通要点。', actions: ['输入客户背景', '生成沟通话术', '整理跟进计划'] },
-      '文档提炼': { botMessage: '已进入文档提炼流程。你可以上传文档，我会帮你提取关键信息并生成摘要。', actions: ['上传文档', '输入提取要求', '生成文档摘要'] }
+      '视频脚本': { botMessage: '已进入视频脚本生成流程。我将帮你生成一个短视频脚本，包括标题、开头钩子、正文结构、结尾引导和口播文案。', actions: ['输入主题', '选择风格', '生成脚本'] },
+      '分镜规划': { botMessage: '已进入分镜规划流程。我将根据你的主题或脚本，拆解成分镜表，包括镜头序号、画面内容、时长、旁白、字幕和素材需求。', actions: ['输入主题', '上传脚本', '生成分镜'] },
+      '素材整理': { botMessage: '已进入素材整理流程。我将帮你整理视频制作素材，按图片、视频、文档、音频、参考案例分类，并输出可执行的素材清单。', actions: ['上传素材', '输入需求', '生成清单'] }
     };
 
     // ========== 文本处理工具 ==========
@@ -5088,14 +4870,27 @@
     window.shortenContent = shortenContent;
     window.changeStyle = changeStyle;
 
+    // 格式化消息时间
+    function formatTime(time) {
+      if (!time) return '刚刚';
+      const date = new Date(time);
+      const now = new Date();
+      const diff = now - date;
+      if (diff < 60000) return '刚刚';
+      if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
+      if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+      return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+    }
+
     function scrollToBottom() { const c = document.getElementById('chatSection'); if (c) c.scrollTop = c.scrollHeight; }
 
-    function addUserMessage(text) {
+    function addUserMessage(text, timestamp) {
       lastUserMessage = text; // 保存用户消息，用于重新回答
       const c = document.getElementById('chatSection');
       const m = document.createElement('div');
       m.className = 'chat-message user';
-      m.innerHTML = '<div class="chat-avatar user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div></div>';
+      const time = timestamp || Date.now();
+      m.innerHTML = '<div class="chat-avatar user"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="message-meta-row"><span class="message-time">'+formatTime(time)+'</span></div></div>';
       c.appendChild(m);
       scrollToBottom();
     }
@@ -5113,6 +4908,15 @@
         }).catch(() => {
           showDemoToast('复制失败');
         });
+      }
+    }
+
+    // 引用消息 - 将消息放入输入框
+    function showQuoteSelector(messageElement, text) {
+      const input = document.getElementById('chatInput');
+      if (input && text) {
+        input.value = '引用: ' + text.substring(0, 100) + (text.length > 100 ? '...' : '');
+        input.focus();
       }
     }
 
@@ -5170,23 +4974,26 @@
     function attachMessageActions(messageElement, text) {
       const actions = messageElement.querySelector('.message-actions');
       if (actions) {
+        const regenerateBtn = actions.querySelector('[title="重新生成"]');
+        const copyBtn = actions.querySelector('[title="复制"]');
+        const quoteBtn = actions.querySelector('[title="引用"]');
         const likeBtn = actions.querySelector('[title="点赞"]');
         const dislikeBtn = actions.querySelector('[title="点踩"]');
-        const copyBtn = actions.querySelector('[title="复制"]');
-        const regenerateBtn = actions.querySelector('[title="重新回答"]');
 
+        if (regenerateBtn) regenerateBtn.onclick = () => regenerateMessage(messageElement);
+        if (copyBtn) copyBtn.onclick = () => copyMessageContent(messageElement);
+        if (quoteBtn) quoteBtn.onclick = () => showQuoteSelector(messageElement, text);
         if (likeBtn) likeBtn.onclick = () => likeMessage(messageElement);
         if (dislikeBtn) dislikeBtn.onclick = () => dislikeMessage(messageElement);
-        if (copyBtn) copyBtn.onclick = () => copyMessageContent(messageElement);
-        if (regenerateBtn) regenerateBtn.onclick = () => regenerateMessage(messageElement);
       }
     }
 
-    function addAssistantMessage(text, actions) {
+    function addAssistantMessage(text, actions, timestamp) {
       const c = document.getElementById('chatSection');
       const m = document.createElement('div');
       m.className = 'chat-message assistant';
-      m.innerHTML = '<div class="chat-avatar assistant"><img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain"></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="chat-time">刚刚</div><div class="message-actions"><button class="message-action-btn" title="点赞"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"/></svg></button><button class="message-action-btn" title="点踩"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 14V2"/><path d="M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z"/></svg></button><button class="message-action-btn" title="复制"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><button class="message-action-btn" title="重新回答"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div></div>';
+      const time = timestamp || Date.now();
+      m.innerHTML = '<div class="chat-avatar assistant"><img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain"></div><div class="chat-content"><div class="chat-bubble">'+text+'</div><div class="message-meta-row"><div class="message-actions"><button class="message-action-btn" title="重新生成"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button><button class="message-action-btn" title="复制"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button><button class="message-action-btn" title="引用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button><button class="message-action-btn" title="点赞"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg></button><button class="message-action-btn" title="点踩"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg></button></div><span class="message-time">'+formatTime(time)+'</span></div></div>';
       c.appendChild(m);
       
       // 添加按钮功能
@@ -5284,26 +5091,15 @@
     function handleUserInput(text) {
       if (!text.trim()) return;
       addUserMessage(text);
-      setTimeout(function() {
-        var lowerText = text.toLowerCase();
-        if (lowerText.includes('风险')) { sendScene('风险提示'); }
-        else if (lowerText.includes('行情') || lowerText.includes('市场')) { sendScene('行情速览'); }
-        else if (lowerText.includes('资讯') || lowerText.includes('新闻') || lowerText.includes('公告')) { sendScene('资讯总结'); }
-        else if (lowerText.includes('组合') || lowerText.includes('持仓')) { sendScene('组合分析'); }
-        else if (lowerText.includes('客户') || lowerText.includes('沟通')) { sendScene('客户沟通'); }
-        else if (lowerText.includes('上传') || lowerText.includes('图片') || lowerText.includes('截图') || lowerText.includes('发票') || lowerText.includes('票据')) { addAssistantMessage('你可以点击输入框左侧的附件按钮上传图片资料，我可以帮你识别文字、提取票据信息或生成摘要。'); }
-        else if (lowerText.includes('合同') || lowerText.includes('pdf') || lowerText.includes('文档') || lowerText.includes('公告')) { addAssistantMessage('你可以上传文档资料，我可以帮你提取关键条款、整理摘要或检查风险点。'); }
-        else if (lowerText.includes('excel') || lowerText.includes('表格') || lowerText.includes('持仓')) { addAssistantMessage('你可以上传表格或持仓文件，我可以帮你分析资产结构、集中度和组合风险。'); }
-        else if (lowerText.includes('扫描')) { addAssistantMessage('你可以使用扫描资料入口，我会模拟调用设备扫描流程并生成可处理文档。'); }
-        else { addAssistantMessage('我已收到你的任务。你可以继续补充文字说明，也可以上传图片、文档或表格资料。'); }
-      }, 500);
+      addAssistantMessage('我已收到你的消息。你可以继续补充文字说明，也可以上传图片、文档或表格资料。');
     }
 
     // 发送场景消息
-    function sendScene(sceneName) {
+    function sendScene(sceneName, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user';
+      const time = timestamp || Date.now();
       userMessage.innerHTML = `
         <div class="chat-avatar user">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
@@ -5312,7 +5108,9 @@
         </div>
         <div class="chat-content">
           <div class="chat-bubble">${sceneName}</div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(userMessage);
@@ -5330,10 +5128,21 @@
       scrollToBottom();
     }
 
-    // 发送技能消息
+    // 发送技能消息（调用真实对话接口）
     function sendSkill(skillName) {
-      if (skillName === '文档处理') {
-        startDocProcessFlow();
+      const skillPrompts = {
+        '视频脚本': '请帮我生成一个短视频脚本，包括标题、开头钩子、正文结构、结尾引导和口播文案。',
+        '分镜规划': '请根据我的主题或脚本，拆解成分镜表，包括镜头序号、画面内容、时长、旁白、字幕和素材需求。',
+        '素材整理': '请帮我整理视频制作素材，按图片、视频、文档、音频、参考案例分类，并输出可执行的素材清单。'
+      };
+      
+      const prompt = skillPrompts[skillName];
+      if (prompt) {
+        const input = document.getElementById('chatInput');
+        if (input) {
+          input.value = prompt;
+          handleSendMessage();
+        }
       } else {
         sendScene(skillName);
       }
@@ -5509,12 +5318,6 @@ function setupKeyboardAdaptation() {
       
       const input = document.getElementById('chatInput');
       if (!input) return;
-      
-      // 设备模式：发送到设备
-      if (deviceMode) {
-        handleDeviceMessage(message);
-        return;
-      }
 
       // 禁用输入和发送按钮，显示loading
       input.disabled = true;
@@ -5531,14 +5334,9 @@ function setupKeyboardAdaptation() {
       // 构建消息内容
       let content = message;
 
-      // 如果是创作类任务，追加格式要求
-      if (isCreativeTask(content)) {
-        content += '\n\n【输出格式要求】\n1. 第一行为标题，不使用任何符号。\n2. 正文分为4-6个自然段。\n3. 不使用Markdown符号，如**加粗**、#标题等。\n4. 不要添加无关说明。\n5. 语言自然，适合移动端阅读。';
-      }
-
       // 构建消息历史
       const messages = [
-        { role: 'system', content: '你是一个友好、自然、富有同理心的日常聊天助手。你的目标是像一位温暖、可靠、有趣的朋友一样，与用户进行轻松、流畅、有温度的对话。\n\n你需要输出合法 Markdown，但请根据场景控制格式强度。普通日常聊天时，请使用自然段，不要刻意使用标题、加粗、表格或复杂列表。只有在用户明确要求总结、步骤、清单、教程、报告、对比、表格、代码或结构化内容时，才使用对应的 Markdown 格式。\n\n角色设定：\n- 你是用户的日常聊天伙伴，而不是冷冰冰的问答机器。\n- 你的语气温暖、耐心、自然，有适度幽默感。\n- 你尊重用户的情绪与选择，不轻易说教，不强行给建议。\n- 你可以结合上下文回应，让对话有连续性。\n\n对话风格：\n- 回复要自然口语化，避免过度书面化和机械化。\n- 用户只说一句时，你通常回一两句即可；用户展开很多时，你再适当展开。\n- 不要每次都用"我可以帮你……"开头。\n- 不要频繁使用"首先、其次、最后"。\n- 不要主动把普通聊天写成报告或提纲。\n- 不要滥用 Markdown 标题、加粗、表格和长列表。\n- 如果需要分段，使用自然段即可。\n- 如果需要列表，使用简短的 Markdown 列表。\n- 如果需要标题，标题层级不要过多，通常最多使用二级标题。\n- 如果是长文创作，第一行可作为标题，正文使用自然段，不要额外解释创作过程。\n\n互动原则：\n- 当用户表达情绪时，先共情，再回应，不急于解决问题。\n- 可以适度追问，让对话有来有回，但不要连续追问造成压力。\n- 遇到隐私、医疗、法律、金融等高风险问题时，温和提醒用户必要时咨询专业人士。\n- 不知道的信息不要编造，可以坦诚说不确定。\n- 被问到身份时，可以说明自己是 AI，但不必每次主动声明。\n\n安全与边界：\n- 不输出冒犯性、歧视性、暴力、色情或违法内容。\n- 不假装自己是真人。\n- 不评判用户的生活方式和选择。\n- 不无中生有编造事实。\n\n默认语言：\n使用用户输入的语言回复。用户用中文，就用中文；用户用英文，就用英文。\n\n输出格式规则：\n1. 所有输出必须是合法 Markdown 文本。\n2. 普通聊天默认使用自然段，不要使用复杂 Markdown。\n3. 不要在普通聊天中输出 Markdown 表格。\n4. 不要在普通聊天中频繁使用 **加粗**。\n5. 不要在普通聊天中使用 # 大标题。\n6. 用户要求结构化内容时，可以使用标题、列表、表格等 Markdown。\n7. 用户要求代码时，使用标准 Markdown 代码块。\n8. 用户要求长文时，标题与正文要清晰分开，正文按自然段排版。\n\n现在，请以自然、温暖、适合移动端聊天界面的方式与用户对话。' }
+        { role: 'system', content: '你是"萤火虫"影视创作智能体，专注短视频、宣传片、分镜规划、素材整理、脚本生成与视频制作流程设计。回答时必须围绕影视创作任务展开，不要偏离到金融、理财、晨间习惯、泛办公等无关场景。用户请求生成视频脚本时，请默认输出：标题、目标受众、开头钩子、正文结构、分镜建议、口播文案、结尾引导。' }
       ];
 
       // 构建用户消息（支持多模态）
@@ -5657,12 +5455,6 @@ function setupKeyboardAdaptation() {
         return;
       }
 
-      // 设备模式：发送到设备
-      if (deviceMode) {
-        handleDeviceMessage(message);
-        return;
-      }
-
       // 禁用输入和发送按钮，显示loading
       input.disabled = true;
       sendBtn.disabled = true;
@@ -5687,28 +5479,41 @@ function setupKeyboardAdaptation() {
       // 构建消息内容
       let content = message || '请分析这些文件';
 
-      // 如果是创作类任务，追加格式要求
-      if (isCreativeTask(content)) {
-        content += '\n\n【输出格式要求】\n1. 第一行为标题，不使用任何符号。\n2. 正文分为4-6个自然段。\n3. 不使用Markdown符号，如**加粗**、#标题等。\n4. 不要添加无关说明。\n5. 语言自然，适合移动端阅读。';
-      }
-
       // 构建消息历史（带文件的多模态消息）
       const messages = [
-        { role: 'system', content: '你是一个友好、自然、富有同理心的日常聊天助手。你的目标是像一位温暖、可靠、有趣的朋友一样，与用户进行轻松、流畅、有温度的对话。\n\n你需要输出合法 Markdown，但请根据场景控制格式强度。普通日常聊天时，请使用自然段，不要刻意使用标题、加粗、表格或复杂列表。只有在用户明确要求总结、步骤、清单、教程、报告、对比、表格、代码或结构化内容时，才使用对应的 Markdown 格式。\n\n角色设定：\n- 你是用户的日常聊天伙伴，而不是冷冰冰的问答机器。\n- 你的语气温暖、耐心、自然，有适度幽默感。\n- 你尊重用户的情绪与选择，不轻易说教，不强行给建议。\n- 你可以结合上下文回应，让对话有连续性。\n\n对话风格：\n- 回复要自然口语化，避免过度书面化和机械化。\n- 用户只说一句时，你通常回一两句即可；用户展开很多时，你再适当展开。\n- 不要每次都用"我可以帮你……"开头。\n- 不要频繁使用"首先、其次、最后"。\n- 不要主动把普通聊天写成报告或提纲。\n- 不要滥用 Markdown 标题、加粗、表格和长列表。\n- 如果需要分段，使用自然段即可。\n- 如果需要列表，使用简短的 Markdown 列表。\n- 如果需要标题，标题层级不要过多，通常最多使用二级标题。\n- 如果是长文创作，第一行可作为标题，正文使用自然段，不要额外解释创作过程。\n\n互动原则：\n- 当用户表达情绪时，先共情，再回应，不急于解决问题。\n- 可以适度追问，让对话有来有回，但不要连续追问造成压力。\n- 遇到隐私、医疗、法律、金融等高风险问题时，温和提醒用户必要时咨询专业人士。\n- 不知道的信息不要编造，可以坦诚说不确定。\n- 被问到身份时，可以说明自己是 AI，但不必每次主动声明。\n\n安全与边界：\n- 不输出冒犯性、歧视性、暴力、色情或违法内容。\n- 不假装自己是真人。\n- 不评判用户的生活方式和选择。\n- 不无中生有编造事实。\n\n默认语言：\n使用用户输入的语言回复。用户用中文，就用中文；用户用英文，就用英文。\n\n输出格式规则：\n1. 所有输出必须是合法 Markdown 文本。\n2. 普通聊天默认使用自然段，不要使用复杂 Markdown。\n3. 不要在普通聊天中输出 Markdown 表格。\n4. 不要在普通聊天中频繁使用 **加粗**。\n5. 不要在普通聊天中使用 # 大标题。\n6. 用户要求结构化内容时，可以使用标题、列表、表格等 Markdown。\n7. 用户要求代码时，使用标准 Markdown 代码块。\n8. 用户要求长文时，标题与正文要清晰分开，正文按自然段排版。\n\n现在，请以自然、温暖、适合移动端聊天界面的方式与用户对话。' }
+        { role: 'system', content: '你是"萤火虫"影视创作智能体，专注短视频、宣传片、分镜规划、素材整理、脚本生成与视频制作流程设计。回答时必须围绕影视创作任务展开，不要偏离到金融、理财、晨间习惯、泛办公等无关场景。用户请求生成视频脚本时，请默认输出：标题、目标受众、开头钩子、正文结构、分镜建议、口播文案、结尾引导。' }
       ];
+
+      console.log('[WhaleChat] requestBody messages:', JSON.stringify(messages, null, 2));
 
       // 构建用户消息（支持多模态）
       if (attachedFiles.length > 0) {
-        // 有文件数据（图片）的多模态消息
+        // 有文件数据的多模态消息
         const userContent = [{ type: 'text', text: content }];
+        const hasDocument = attachedFiles.some(f => f.type !== 'image');
+        
         attachedFiles.forEach(file => {
           if (file.type === 'image') {
             userContent.push({
               type: 'image_url',
               image_url: { url: file.data }
             });
+          } else {
+            // 文档类型文件
+            userContent.push({
+              type: 'document',
+              name: file.name,
+              type: file.type,
+              size: file.size
+            });
           }
         });
+        
+        // 如果有文档，更新提示文字
+        if (hasDocument && !message) {
+          userContent[0].text = `请分析这些文件：${attachedFiles.map(f => f.name).join(', ')}`;
+        }
+        
         messages.push({ role: 'user', content: userContent });
       } else {
         messages.push({ role: 'user', content: content });
@@ -5729,6 +5534,23 @@ function setupKeyboardAdaptation() {
       // 保存用户输入用于后续判断
       window._lastUserInput = content;
 
+      // 保存用户消息到本地存储
+      if (window.currentSessionKey) {
+        const messages = LocalStorageService.getConversation(window.currentSessionKey);
+        messages.push({
+          type: 'user',
+          text: content,
+          time: Date.now()
+        });
+        LocalStorageService.saveConversation(window.currentSessionKey, messages);
+        // 更新会话摘要
+        LocalStorageService.updateConversation(window.currentSessionKey, {
+          summary: content.substring(0, 50) + (content.length > 50 ? '...' : ''),
+          time: Date.now()
+        });
+        console.log('[Session] 消息已保存到本地存储:', window.currentSessionKey);
+      }
+      
       // 流式调用AI
       streamChat(messages)
         .then(response => {
@@ -5743,6 +5565,19 @@ function setupKeyboardAdaptation() {
               // 完成
               log('[StreamChat] 完成');
               finalizeAssistantMessage(assistantBubble, fullResponseText);
+              
+              // 保存AI回复到本地存储
+              if (window.currentSessionKey) {
+                const messages = LocalStorageService.getConversation(window.currentSessionKey);
+                messages.push({
+                  type: 'assistant',
+                  text: fullResponseText,
+                  time: Date.now()
+                });
+                LocalStorageService.saveConversation(window.currentSessionKey, messages);
+                console.log('[Session] AI回复已保存到本地存储:', window.currentSessionKey);
+              }
+              
               input.disabled = false;
               sendBtn.disabled = false;
               sendBtn.classList.remove('sending');
@@ -5768,17 +5603,50 @@ function setupKeyboardAdaptation() {
     }
 
     // 创建助手消息气泡（用于流式更新）
-    function createAssistantBubble() {
+    function createAssistantBubble(timestamp) {
       const chatSection = document.getElementById('chatSection');
       const msg = document.createElement('div');
       msg.className = 'chat-message assistant';
+      const time = timestamp || Date.now();
       msg.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain">
         </div>
         <div class="chat-content">
           <div class="chat-bubble">正在思考...</div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <div class="message-actions">
+              <button class="message-action-btn" title="重新生成">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="复制">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="引用">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="点赞">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg>
+              </button>
+              <button class="message-action-btn" title="点踩">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+                </svg>
+              </button>
+            </div>
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(msg);
@@ -5832,10 +5700,11 @@ function setupKeyboardAdaptation() {
     }
 
     // ==================== 添加用户消息 ====================
-    function addUserMessage(text) {
+    function addUserMessage(text, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const msg = document.createElement('div');
       msg.className = 'chat-message user';
+      const time = timestamp || Date.now();
       msg.innerHTML = `
         <div class="chat-avatar user">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
@@ -5845,7 +5714,9 @@ function setupKeyboardAdaptation() {
         </div>
         <div class="chat-content">
           <div class="chat-bubble">${escapeHtml(text)}</div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(msg);
@@ -5898,6 +5769,14 @@ function setupKeyboardAdaptation() {
         sendScene(pendingSkill);
       }, 300);
     }
+
+    // 更新欢迎消息时间
+    document.addEventListener('DOMContentLoaded', function() {
+      const welcomeTime = document.getElementById('welcomeTime');
+      if (welcomeTime) {
+        welcomeTime.textContent = formatTime(Date.now());
+      }
+    });
 
     // ==================== 工作台模式 ====================
     
@@ -6703,10 +6582,11 @@ function setupKeyboardAdaptation() {
       }
     }
 
-    function addUserTextMessage(text) {
+    function addUserTextMessage(text, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const msg = document.createElement('div');
       msg.className = 'chat-message user';
+      const time = timestamp || Date.now();
       msg.innerHTML = `
         <div class="chat-avatar user">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px">
@@ -6715,24 +6595,29 @@ function setupKeyboardAdaptation() {
         </div>
         <div class="chat-content">
           <div class="chat-bubble">${text}</div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(msg);
       scrollToBottom();
     }
 
-    function addAssistantTextMessage(text) {
+    function addAssistantTextMessage(text, timestamp) {
       const chatSection = document.getElementById('chatSection');
       const msg = document.createElement('div');
       msg.className = 'chat-message assistant';
+      const time = timestamp || Date.now();
       msg.innerHTML = `
         <div class="chat-avatar assistant">
           <img src="images/yinghuochong-logo.png" alt="" style="width:20px;height:20px;object-fit:contain">
         </div>
         <div class="chat-content">
           <div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>
-          <div class="chat-time">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">${formatTime(time)}</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(msg);
@@ -6779,7 +6664,9 @@ function setupKeyboardAdaptation() {
               </div>
             </div>
           </div>
-          <div class="chat-time" style="color:#CBD5E1;font-size:11px">刚刚</div>
+          <div class="message-meta-row">
+            <span class="message-time">刚刚</span>
+          </div>
         </div>
       `;
       chatSection.appendChild(card);
@@ -6934,9 +6821,109 @@ function setupKeyboardAdaptation() {
       showDemoToast('已切换为【' + modelName + '】');
     }
 
+    // ==================== 本地存储工具函数 ====================
+    const LocalStorageService = {
+      // 保存会话列表
+      saveConversationList(conversations) {
+        try {
+          localStorage.setItem('firefly_conversations', JSON.stringify(conversations));
+        } catch (error) {
+          console.error('[LocalStorage] 保存会话列表失败:', error);
+        }
+      },
+      
+      // 获取会话列表
+      getConversationList() {
+        try {
+          const data = localStorage.getItem('firefly_conversations');
+          return data ? JSON.parse(data) : [];
+        } catch (error) {
+          console.error('[LocalStorage] 获取会话列表失败:', error);
+          return [];
+        }
+      },
+      
+      // 保存单个会话内容
+      saveConversation(sessionId, messages) {
+        try {
+          localStorage.setItem(`firefly_chat_${sessionId}`, JSON.stringify(messages));
+        } catch (error) {
+          console.error('[LocalStorage] 保存会话内容失败:', error);
+        }
+      },
+      
+      // 获取单个会话内容
+      getConversation(sessionId) {
+        try {
+          const data = localStorage.getItem(`firefly_chat_${sessionId}`);
+          return data ? JSON.parse(data) : [];
+        } catch (error) {
+          console.error('[LocalStorage] 获取会话内容失败:', error);
+          return [];
+        }
+      },
+      
+      // 删除会话
+      deleteConversation(sessionId) {
+        try {
+          localStorage.removeItem(`firefly_chat_${sessionId}`);
+          // 同时从会话列表中移除
+          const list = this.getConversationList();
+          const updatedList = list.filter(c => c.id !== sessionId);
+          this.saveConversationList(updatedList);
+        } catch (error) {
+          console.error('[LocalStorage] 删除会话失败:', error);
+        }
+      },
+      
+      // 更新会话信息
+      updateConversation(sessionId, updates) {
+        try {
+          const list = this.getConversationList();
+          const index = list.findIndex(c => c.id === sessionId);
+          if (index !== -1) {
+            list[index] = { ...list[index], ...updates };
+            this.saveConversationList(list);
+          }
+        } catch (error) {
+          console.error('[LocalStorage] 更新会话失败:', error);
+        }
+      },
+      
+      // 添加新会话
+      addConversation(sessionId, title, summary) {
+        try {
+          const list = this.getConversationList();
+          list.unshift({
+            id: sessionId,
+            title: title || '未命名会话',
+            summary: summary || '',
+            time: Date.now()
+          });
+          // 最多保留50个会话
+          if (list.length > 50) {
+            list.pop();
+          }
+          this.saveConversationList(list);
+        } catch (error) {
+          console.error('[LocalStorage] 添加会话失败:', error);
+        }
+      }
+    };
+
     // ==================== 新建对话 ====================
     function startNewConversation() {
       closeHistoryDrawer();
+      
+      // 创建新会话ID
+      const sessionId = 'chat_' + Date.now();
+      window.currentSessionKey = sessionId;
+      
+      // 初始化空消息列表
+      LocalStorageService.saveConversation(sessionId, []);
+      // 添加到会话列表
+      LocalStorageService.addConversation(sessionId, '新会话', '');
+      
       const chatSection = document.getElementById('chatSection');
       chatSection.innerHTML = `
         <div class="chat-message assistant welcome-message">
@@ -6948,79 +6935,60 @@ function setupKeyboardAdaptation() {
               你好，我是萤火虫。<br><br>
               你可以输入文字任务，也可以上传图片、文档、表格或票据资料。我会根据内容引导你完成识别、整理、分析和报告生成。
             </div>
-            <div class="chat-time">刚刚</div>
+            <div class="message-meta-row">
+              <span class="message-time">刚刚</span>
+            </div>
           </div>
         </div>
       `;
       scrollToBottom();
-      showDemoToast('已创建新的前端演示对话。');
+      showDemoToast('已创建新会话');
     }
 
     // ==================== 历史对话接口封装 ====================
     const ChatHistoryAPI = {
-      // 获取历史会话列表
+      // 获取历史会话列表 - 使用本地存储
       async getConversationList() {
         try {
-          const response = await fetch('/api/chat/history/list', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          if (!response.ok) throw new Error('获取历史会话列表失败');
-          return await response.json();
+          const data = LocalStorageService.getConversationList();
+          console.log('[ChatHistoryAPI] 从本地存储获取会话列表:', data);
+          return { success: true, data };
         } catch (error) {
           console.error('[ChatHistoryAPI] 获取列表失败:', error);
           return { success: false, data: [], message: error.message };
         }
       },
 
-      // 获取单个会话详情
+      // 获取单个会话详情 - 使用本地存储
       async getConversationDetail(conversationId) {
         try {
-          const response = await fetch(`/api/chat/history/${conversationId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          if (!response.ok) throw new Error('获取会话详情失败');
-          return await response.json();
+          const data = LocalStorageService.getConversation(conversationId);
+          console.log('[ChatHistoryAPI] 从本地存储获取会话详情:', conversationId, data);
+          return { success: true, data: { messages: data } };
         } catch (error) {
           console.error('[ChatHistoryAPI] 获取详情失败:', error);
           return { success: false, data: null, message: error.message };
         }
       },
 
-      // 删除会话
+      // 删除会话 - 使用本地存储
       async deleteConversation(conversationId) {
         try {
-          const response = await fetch(`/api/chat/history/${conversationId}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          if (!response.ok) throw new Error('删除会话失败');
-          return await response.json();
+          LocalStorageService.deleteConversation(conversationId);
+          console.log('[ChatHistoryAPI] 从本地存储删除会话:', conversationId);
+          return { success: true };
         } catch (error) {
           console.error('[ChatHistoryAPI] 删除失败:', error);
           return { success: false, message: error.message };
         }
       },
 
-      // 重命名会话
+      // 重命名会话 - 使用本地存储
       async renameConversation(conversationId, newTitle) {
         try {
-          const response = await fetch(`/api/chat/history/${conversationId}/rename`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title: newTitle })
-          });
-          if (!response.ok) throw new Error('重命名会话失败');
-          return await response.json();
+          LocalStorageService.updateConversation(conversationId, { title: newTitle });
+          console.log('[ChatHistoryAPI] 重命名会话:', conversationId, newTitle);
+          return { success: true };
         } catch (error) {
           console.error('[ChatHistoryAPI] 重命名失败:', error);
           return { success: false, message: error.message };
@@ -7058,17 +7026,20 @@ function setupKeyboardAdaptation() {
 
     // 渲染单条消息
     function renderMessage(msg) {
-      if (msg.type === 'user') {
+      // 兼容本地存储格式（role）和原有格式（type）
+      const messageType = msg.type || msg.role;
+      
+      if (messageType === 'user') {
         if (msg.isUpload) {
           return renderUserUploadMessage(msg);
         } else {
           return renderUserTextMessage(msg);
         }
-      } else if (msg.type === 'assistant') {
+      } else if (messageType === 'assistant') {
         return renderAssistantMessage(msg);
-      } else if (msg.type === 'task') {
+      } else if (messageType === 'task') {
         return renderTaskCard(msg);
-      } else if (msg.type === 'file') {
+      } else if (messageType === 'file') {
         return renderFileCard(msg);
       }
       return '';
@@ -7085,7 +7056,9 @@ function setupKeyboardAdaptation() {
           </div>
           <div class="chat-content">
             <div class="chat-bubble">${escapeHtml(msg.text)}</div>
-            <div class="chat-time">${formatTime(msg.time)}</div>
+            <div class="message-meta-row">
+              <span class="message-time">${formatTime(msg.time)}</span>
+            </div>
           </div>
         </div>
       `;
@@ -7117,7 +7090,9 @@ function setupKeyboardAdaptation() {
                 </div>
               </div>
             </div>
-            <div class="chat-time" style="color: #CBD5E1; font-size: 11px;">${formatTime(msg.time)}</div>
+            <div class="message-meta-row">
+              <span class="message-time">${formatTime(msg.time)}</span>
+            </div>
           </div>
         </div>
       `;
@@ -7132,7 +7107,9 @@ function setupKeyboardAdaptation() {
           </div>
           <div class="chat-content">
             <div class="chat-bubble">${escapeHtml(msg.text).replace(/\n/g, '<br>')}</div>
-            <div class="chat-time">${formatTime(msg.time)}</div>
+            <div class="message-meta-row">
+              <span class="message-time">${formatTime(msg.time)}</span>
+            </div>
           </div>
         </div>
       `;
@@ -7195,7 +7172,9 @@ function setupKeyboardAdaptation() {
                 </div>
               </div>
             </div>
-            <div class="chat-time">${formatTime(msg.time)}</div>
+            <div class="message-meta-row">
+              <span class="message-time">${formatTime(msg.time)}</span>
+            </div>
           </div>
         </div>
       `;
@@ -7256,7 +7235,6 @@ function setupKeyboardAdaptation() {
         </div>
         <div>
           <div class="drawer-user-name">用户 6820</div>
-          <div class="drawer-user-sub">数字大脑用户端</div>
         </div>
       </div>
 

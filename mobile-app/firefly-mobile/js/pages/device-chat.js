@@ -1,4 +1,4 @@
-﻿const log = console.log;
+const log = console.log;
 let currentDevice = null;
 let isProcessing = false;
 // sessionKey 由 OpenClawChatService 统一管理，init 时 resolveSessionKey 设置
@@ -683,8 +683,13 @@ async function handleSend(customMessage = null) {
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('sendBtn');
   const message = (customMessage || input.value || '').trim();
+  
+  // 检查是否有待发送附件
+  var pendingAttachments = window.pendingAttachments || [];
+  var hasAttachments = pendingAttachments.length > 0;
 
-  if (!message || isProcessing) return;
+  // 允许只发送图片/文档，或者只发送文字，或者两者都有
+  if ((!message && !hasAttachments) || isProcessing) return;
   if (!currentDevice) {
     showError('未绑定设备');
     return;
@@ -721,9 +726,6 @@ async function handleSend(customMessage = null) {
   isProcessing = true;
   updateSendButton(true);  // 更新按钮状态为处理中
 
-  // 检查是否有待发送附件
-  var pendingAttachments = window.pendingAttachments || [];
-  var hasAttachments = pendingAttachments.length > 0;
   // 提取图片用于消息气泡渲染
   var imageBase64List = [];
   var fileNames = [];

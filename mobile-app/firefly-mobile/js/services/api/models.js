@@ -98,7 +98,7 @@ const ApiModels = {
   Connection: {
     id: 'string - 连接ID',
     name: 'string - 连接名称',
-    type: 'string - 连接类型: wechat|dingtalk|feishu|email|etc',
+    type: 'string - 连接类型',
     status: 'string - 状态: connected|pending|disconnected',
     lastSyncTime: 'string - 最后同步时间 ISO8601',
     permissions: 'Array<string> - 已授权权限列表',
