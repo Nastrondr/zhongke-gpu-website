@@ -1,4 +1,3 @@
-const log = console.log;
 let currentDevice = null;
 let isProcessing = false;
 // sessionKey 由 OpenClawChatService 统一管理，init 时 resolveSessionKey 设置
@@ -17,14 +16,10 @@ const runtimeState = {
 
 // 更新状态显示
 function updateStatusDisplay() {
-  console.log('[DeviceChat] updateStatusDisplay');
   const statusDot = document.getElementById('statusDot');
   const statusText = document.getElementById('statusText');
   const deviceStatusText = document.getElementById('deviceStatusText');
-  console.log('[DeviceChat] updateStatusDisplay runtimeState:', runtimeState);
   const { deviceOnline, openclawOnline, wsAlive } = runtimeState;
-
-  console.log('[DeviceChat] updateStatusDisplay deviceOnline:', deviceOnline, 'openclawOnline:', openclawOnline, 'wsAlive:', wsAlive);
 
   // 计算综合状态文本
   let overallStatus = '';
@@ -59,11 +54,8 @@ function updateStatusDisplay() {
 
 // 查询小龙虾服务状态
 async function checkOpenclawStatus(deviceId) {
-  console.log('[DeviceChat] checkOpenclawStatus deviceId:', deviceId);
   try {
     const result = await window.OpenClawChatService.queryOpenClawStatus(deviceId);
-    console.log('[DeviceChat] checkOpenclawStatus result:', result);
-    console.log('[DeviceChat] checkOpenclawStatus wasLive:', result.wasLive);
     const wasLive = result.wsAlive;
     runtimeState.openclawOnline = wasLive;
     runtimeState.openclawStatusText = wasLive ? '在线' : '离线';
@@ -211,14 +203,10 @@ async function init() {
   ThemeManager.init();
   
   const urlDeviceId = getDeviceIdFromUrl();
-  log('[DeviceChat] init, url deviceId:', urlDeviceId);
 
-  // 从存储获取设备列表
   const deviceList = Storage.Device.getDeviceList() || [];
   const cached = Storage.Device.getCurrentDevice();
-  log('[DeviceChat] deviceList:', deviceList);
-  log('[DeviceChat] cached:', cached);
-  
+
   // 尝试从 URL 获取数字 ID，或从缓存/列表中找到对应设备
   let targetDevice = null;
   let numericDeviceId = null;
@@ -232,7 +220,7 @@ async function init() {
       targetDevice = deviceList.find(d => d.id === numericDeviceId || String(d.id) === urlDeviceId) || cached;
     } else {
       // URL 中是 UUID 或其他字符串，在设备列表中查找
-      log('[DeviceChat] URL deviceId is not numeric, searching device list...');
+      console.log('[DeviceChat] URL deviceId is not numeric, searching device list...');
       targetDevice = deviceList.find(d => 
         d.iotDeviceUuid === urlDeviceId || 
         d.uuid === urlDeviceId || 
@@ -253,8 +241,8 @@ async function init() {
   }
   
   currentDevice = targetDevice;
-  log('[DeviceChat] found device:', currentDevice);
-  log('[DeviceChat] numericDeviceId:', numericDeviceId);
+  console.log('[DeviceChat] found device:', currentDevice);
+  console.log('[DeviceChat] numericDeviceId:', numericDeviceId);
 
   if (!currentDevice) {
     showError('未找到设备，请从设备页进入');
@@ -263,7 +251,7 @@ async function init() {
   
   // 验证数字 deviceId
   if (!numericDeviceId) {
-    log('[DeviceChat] numericDeviceId is null, checking device...', currentDevice);
+    console.log('[DeviceChat] numericDeviceId is null, checking device...', currentDevice);
     // 尝试最后从 currentDevice 提取
     numericDeviceId = extractNumericDeviceId(currentDevice);
     if (!numericDeviceId) {
@@ -272,7 +260,7 @@ async function init() {
     }
   }
   
-  log('[DeviceChat] validated numericDeviceId:', numericDeviceId);
+  console.log('[DeviceChat] validated numericDeviceId:', numericDeviceId);
 
   // 显示设备信息
   renderDeviceInfo();
@@ -291,26 +279,7 @@ async function init() {
 
   // 启动轮询系统（恢复轮询 -> 空闲轮询）
   if (numericDeviceId && runtimeState.openclawOnline) {
-    window.OpenClawChatService.startPolling(numericDeviceId, {
-      onRecoveryProgress: (count) => {
-        console.log('[UI] recovery progress:', count);
-      },
-      onLifecycleStart: (runId) => {
-        console.log('[UI] lifecycle start during idle:', runId);
-      },
-      onAssistantUpdate: (text) => {
-        console.log('[UI] assistant update during idle:', text.slice(0, 50));
-      },
-      onCommandOutput: (output, info) => {
-        console.log('[UI] command output during idle:', info);
-      },
-      onFinal: (text) => {
-        console.log('[UI] final during idle:', text.slice(0, 50));
-      },
-      onIdle: () => {
-        console.log('[UI] now in idle polling mode');
-      }
-    });
+    window.OpenClawChatService.startPolling(numericDeviceId, {});
   }
 
   // 加载会话历史消息
@@ -490,8 +459,6 @@ window.pendingAttachments = window.pendingAttachments || [];
 function handleFileSelected(event) {
   var files = Array.from(event.target.files);
   if (!files.length) return;
-
-  console.log('[FileUpload] selected:', files.map(function(f) { return f.name; }).join(', '));
 
   files.forEach(function(file) {
     var fileName = file.name.toLowerCase();
@@ -713,15 +680,6 @@ async function handleSend(customMessage = null) {
   }
 
   const turnId = 'turn_' + Date.now();
-  console.log('[SendFlow] click send', {
-    message: message,
-    deviceId: deviceUuid,
-    sessionKey: window.OpenClawChatService.getActiveSessionKey(),
-    timestamp: Date.now(),
-    currentAssistantId: currentAssistantMessageId,
-    currentTurn: turnId
-  });
-  console.log('[Turn]', turnId, 'sending:', message);
 
   isProcessing = true;
   updateSendButton(true);  // 更新按钮状态为处理中
@@ -740,9 +698,6 @@ async function handleSend(customMessage = null) {
   }
 
   addUserMessage(message, imageBase64List, null, fileNames);
-  console.log('[SendFlow] user message created', {
-    userMessageId: null
-  });
   input.value = '';
 
   // 清空附件暂存区
@@ -756,11 +711,7 @@ async function handleSend(customMessage = null) {
     status: 'loading',
     turnId: turnId
   });
-  console.log('[SendFlow] assistant placeholder created', {
-    assistantMessageId: currentAssistantMessageId,
-    currentAssistantId: currentAssistantMessageId
-  });
-  
+
   let commandCardId = null;
 
   const updateCurrentAssistant = (text, options = {}, meta = {}) => {
@@ -813,50 +764,32 @@ async function handleSend(customMessage = null) {
     const response = await window.OpenClawChatService.sendMessageAndWait(currentDevice, message, {
       // Lifecycle 事件
       onLifecycleStart: (runId, data, meta = {}) => {
-        console.log('[UI] lifecycle start:', runId);
         updateCurrentAssistant('', { status: 'streaming' }, meta);
       },
 
-      onLifecycleEnd: (data, meta = {}) => {
-        console.log('[UI] lifecycle end');
-      },
+      onLifecycleEnd: (data, meta = {}) => {},
 
       // Assistant 更新
       onAssistantUpdate: (text, meta = {}) => {
-        console.log('[UI] assistant update, len:', text.length);
         updateCurrentAssistant(text, { status: 'streaming' }, meta);
       },
 
       // 命令输出
-      onCommandOutput: (output, info, meta = {}) => {
-        console.log('[UI] command output received but hidden:', {
-          length: String(output || '').length,
-          phase: info?.phase,
-          isEnd: info?.isEnd,
-          index: info?.index
-        });
-      },
+      onCommandOutput: (output, info, meta = {}) => {},
 
       // Final 完成
       onFinal: (text, meta = {}) => {
-        console.log('[UI] final:', text.slice(0, 100));
         updateCurrentAssistant(text, { status: 'done', final: true }, { ...meta, final: true });
       },
 
       // 警告提示
       onWarning: (msg, meta = {}) => {
-        if (meta?.final || meta?.state === 'final') {
-          console.log('[UI] skip warning because final already received');
-          return;
-        }
-        console.log('[UI] warning:', msg);
+        if (meta?.final || meta?.state === 'final') return;
         updateCurrentAssistant(msg, { status: 'loading' }, meta);
       },
 
       // 进入空闲状态
-      onIdle: () => {
-        console.log('[UI] idle polling');
-      }
+      onIdle: () => {}
     }, pendingAttachments, {
       turnId,
       assistantMessageId: currentAssistantMessageId
@@ -1315,7 +1248,6 @@ function addAssistantMessage(message, options = {}) {
   container.appendChild(rowDiv);
   scrollToBottom();
 
-  console.log('[UIRender] addAssistantMessage', { id, textPreview: String(message).slice(0, 50) });
   return id;
 }
 
@@ -1323,15 +1255,9 @@ function addAssistantMessage(message, options = {}) {
 function updateAssistantMessage(messageId, text, options = {}) {
   if (!messageId) {
     console.warn('[UIRender] drop assistant update: missing messageId');
-    console.trace();
     return false;
   }
-  
-  console.log('[UIRender] updateAssistantMessage called', {
-    messageId: messageId,
-    textLength: String(text).length
-  });
-  
+
   const el = document.querySelector(`[data-message-id="${messageId}"]`);
 
   if (!el) {
@@ -1351,12 +1277,6 @@ function updateAssistantMessage(messageId, text, options = {}) {
   if (options.status) {
     el.classList.add(options.status);
   }
-  
-  console.log('[UIRender] updateAssistantMessage', { 
-    messageId, 
-    textPreview: String(text).slice(0, 80),
-    status: options.status 
-  });
   
   scrollToBottom();
   return true;

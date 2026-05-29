@@ -331,17 +331,6 @@ const OpenClawChatService = {
           }
         });
         
-        // 超时策略：只有超过 60 秒且没有收到任何回复时才结束
-        const elapsed = Date.now() - turn.questionTs;
-        if (elapsed > 60000 && !state.hasFinal && !state.assistantText) {
-          // 超时：结束当前 turn
-          console.warn('[Poll] active timeout, elapsed:', elapsed, 'zeroRowsCount:', state.zeroRowsCount);
-          this.completeActiveTurn('timeout');
-          return;
-        } else if (elapsed < 60000) {
-          console.log('[Turn] active mode kept waiting', { elapsed: Math.round(elapsed/1000) + 's' });
-        }
-        
         // 等待提示（超过 10 秒无事件，且未完成）
         if (state.zeroRowsCount > 10 && 
             !state.hasFinal && 
@@ -371,17 +360,6 @@ const OpenClawChatService = {
       // active 模式：始终使用 currentTurn.minAcceptedTs 查询，不允许 queryTs=0
       // 禁用 fallback 查询！所有 rows 必须进入 _processEvents
 
-      console.log('[Poll] ========== query start ==========');
-      console.log('[Poll] mode:', state.mode);
-      console.log('[Poll] queryTs:', queryTs);
-      console.log('[Poll] cursorTs:', state.cursorTs);
-      if (state.currentTurn) {
-        console.log('[Poll] currentTurn.minAcceptedTs:', state.currentTurn.minAcceptedTs);
-        console.log('[Poll] currentTurn.questionTs:', state.currentTurn.questionTs);
-        console.log('[Poll] currentTurn.assistantMessageId:', state.currentTurn.assistantMessageId);
-      }
-      console.log('[Poll] zeroRowsCount:', state.zeroRowsCount);
-
       const response = await this.queryEvents(state.deviceId, queryTs, queryLimit);
       if (!this._pollState.isRunning || this._pollState.pollVersion !== pollVersion) {
         console.log('[Poll] stale poll result ignored', {
@@ -398,23 +376,6 @@ const OpenClawChatService = {
       const msgCacheSize = body?.msgCacheSize;
       const sysMsgCacheSize = body?.sysMsgCacheSize;
 
-      console.log('[Poll] incoming rows count:', rows.length);
-      
-      // 打印每行数据
-      rows.forEach((row, idx) => {
-        const payload = row.payload || row;
-        const rowTs = this._getRowTs(row);
-        console.log(`[Poll] row[${idx}]`, {
-          seq: row.seq,
-          event: row.event,
-          stream: payload.stream,
-          state: payload.state,
-          runId: payload.runId,
-          ts: rowTs,
-          content: payload.data?.text || payload.data?.delta || payload.message?.content?.[0]?.text || ''
-        });
-      });
-
       // 更新 WebSocket 状态缓存
       if (msgCacheSize !== undefined || sysMsgCacheSize !== undefined) {
         this._updateWsStatusCache(body);
@@ -423,7 +384,6 @@ const OpenClawChatService = {
       // 如果连续0条事件，记录计数
       if (rows.length === 0 && state.mode === 'active') {
         state.zeroRowsCount++;
-        console.log('[Poll] zeroRowsCount:', state.zeroRowsCount);
       } else if (rows.length > 0 && state.mode === 'active') {
         state.zeroRowsCount = 0; // 有事件就重置计数
       }
@@ -455,9 +415,6 @@ const OpenClawChatService = {
           localStorage.setItem('openclaw_last_event_ts', state.lastEventTs);
         }
       }
-
-      console.log('[Poll] hasNewEvents:', hasNewEvents);
-      console.log('[Poll] rows processed:', rows.length);
 
       // 检查恢复是否完成
       if (state.mode === 'recovery') {
@@ -497,12 +454,10 @@ const OpenClawChatService = {
       return;
     }
 
-    const waitTime = state.interval || 1000;
-    console.log('[Poll] scheduling next poll in', waitTime, 'ms');
-
     if (state.timerId) {
       clearTimeout(state.timerId);
     }
+    var waitTime = state.interval || 1000;
     state.timerId = setTimeout(() => this._doPoll(), waitTime);
   },
 
@@ -513,26 +468,6 @@ const OpenClawChatService = {
   _processEvents(rows) {
     const state = this._pollState;
     let hasNewEvents = false;
-
-    // 打印精简表
-    console.log('[Poll] rows summary:', rows.map(row => {
-      const payload = row.payload || row;
-      const rowTs = this._getRowTs(row);
-      return {
-        seq: row.seq,
-        event: row.event,
-        stream: payload.stream,
-        state: payload.state,
-        phase: payload.data?.phase,
-        runId: payload.runId,
-        payloadSeq: payload.seq,
-        ts: rowTs,
-        messageTimestamp: payload.message?.timestamp,
-        sessionKey: payload.sessionKey,
-        textPreview: this._extractAssistantText(row).slice(0, 40) || 
-                     String(payload.data?.text || payload.data?.delta || '').slice(0, 40)
-      };
-    }));
 
     for (const row of rows) {
       const eventKey = this._getEventKey(row);
@@ -601,62 +536,23 @@ const OpenClawChatService = {
           Date.now() - activeTurn.questionTs <= 120000;
 
         if (!belongsToCurrentTurn) {
-          console.log('[EventFilter] drop assistant event - not current turn', {
-            mode: state.mode,
-            rowTs,
-            minAcceptedTs: activeTurn?.minAcceptedTs,
-            questionTs: activeTurn?.questionTs,
-            sessionKey: payload.sessionKey,
-            expectedSessionKey: activeTurn?.sessionKey,
-            isChatFinal,
-            isChatDelta,
-            stream: payload.stream,
-            hasCurrentTurn: !!activeTurn
-          });
           continue;
         }
 
         turnForEvent = activeTurn;
-        console.log('[EventFilter] accepted - belongs to current turn', {
-          turnId: activeTurn.turnId,
-          isChatFinal,
-          isChatDelta
-        });
       }
 
       // active 模式下基于 currentTurn 过滤
       if (state.mode === 'active' && state.currentTurn) {
         const turn = state.currentTurn;
 
-        // chat final 候选事件日志
-        if (isChatFinal) {
-          console.log('[EventFilter] chat final candidate', {
-            rowTs,
-            minAcceptedTs: turn.minAcceptedTs,
-            sessionKey: payload.sessionKey,
-            currentSessionKey: turn.sessionKey,
-            runId: payload.runId
-          });
-        }
-
         // sessionKey 检查
         if (payload.sessionKey && payload.sessionKey !== turn.sessionKey) {
-          console.log('[EventFilter] drop - sessionKey mismatch', {
-            expected: turn.sessionKey,
-            got: payload.sessionKey,
-            isChatFinal
-          });
           continue;
         }
 
         // 时间戳检查
         if (rowTs < turn.minAcceptedTs) {
-          console.log('[EventFilter] drop - timestamp too old', {
-            ts: rowTs,
-            minAcceptedTs: turn.minAcceptedTs,
-            runId: payload.runId,
-            isChatFinal
-          });
           continue;
         }
 
@@ -672,12 +568,6 @@ const OpenClawChatService = {
         if (isToolEvent && payload.runId) {
           const acceptedRunIds = turn.acceptedRunIds || new Set();
           if (!acceptedRunIds.has(payload.runId)) {
-            console.log('[EventFilter] drop - tool event runId not accepted', {
-              runId: payload.runId,
-              acceptedRunIds: Array.from(acceptedRunIds),
-              stream: payload.stream,
-              eventType: eventType
-            });
             continue;
           }
         }
@@ -689,43 +579,18 @@ const OpenClawChatService = {
           if (acceptedRunIds.size > 0) {
             // 如果已有 acceptedRunIds，必须匹配
             if (!acceptedRunIds.has(payload.runId)) {
-              console.log('[EventFilter] drop - assistant event runId not accepted', {
-                runId: payload.runId,
-                acceptedRunIds: Array.from(acceptedRunIds),
-                isChatFinal,
-                isChatDelta
-              });
               continue;
             }
           } else if (!turn.awaitingRunId) {
-            // 只有在不是等待 runId 状态时，才接收第一个符合条件的 assistant/chat 事件并绑定 runId
-            // 如果 awaitingRunId 为 true，说明 sendChat 还未返回，此时不绑定任何 runId
+            // sendChat 已返回 runId，绑定第一个符合条件的 assistant 事件
             turn.acceptedRunIds.add(payload.runId);
-            console.log('[EventFilter] bound first assistant event runId:', {
-              runId: payload.runId,
-              turnId: turn.turnId,
-              acceptedRunIds: Array.from(turn.acceptedRunIds),
-              awaitingRunId: turn.awaitingRunId
-            });
           } else {
-            // awaitingRunId 为 true，sendChat 还未返回，丢弃没有匹配 runId 的事件
-            console.log('[EventFilter] drop - awaiting sendChat runId, discarding unbound event', {
-              runId: payload.runId,
-              turnId: turn.turnId,
-              awaitingRunId: turn.awaitingRunId,
-              isChatFinal,
-              isChatDelta
-            });
+            // awaitingRunId 为 true，sendChat 还未返回，丢弃未绑定的事件
             continue;
           }
         }
 
-        // chat final 通过过滤
-        if (isChatFinal) {
-          console.log('[EventFilter] chat final accepted to handleEvent');
-        }
       } else if (state.mode === 'active' && !state.currentTurn) {
-        console.log('[EventFilter] drop - no currentTurn in active mode');
         continue;
       }
 
@@ -750,13 +615,6 @@ const OpenClawChatService = {
       }
 
       hasNewEvents = true;
-
-      console.log('[Event]', eventType, {
-        stream: payload.stream,
-        state: payload.state,
-        phase: payload.data?.phase,
-        runId: payload.runId
-      });
 
       // 处理不同类型的事件
       this._handleEvent(eventType, row, payload, eventKey, turnForEvent);
@@ -1217,11 +1075,16 @@ const OpenClawChatService = {
 
       const messages = resp?.data?.data?.payload?.messages || [];
 
-      return messages.map(msg => ({
-        role: msg.role,
-        text: msg.content?.find(c => c.type === 'text')?.text || '',
-        timestamp: msg.timestamp
-      }));
+      return messages.map(msg => {
+        var c = msg.content;
+        var text = typeof c === 'string' ? c : Array.isArray(c) ? (function() {
+          for (var i = 0; i < c.length; i++) {
+            if (c[i].type === 'text') return c[i].text || '';
+          }
+          return '';
+        })() : '';
+        return { role: msg.role, text: text, timestamp: msg.timestamp };
+      });
     } catch (error) {
       console.error('[OpenClawChat] loadSessionHistory failed:', error);
       return [];
@@ -1285,7 +1148,7 @@ const OpenClawChatService = {
   async sendChatMessage(deviceId, message, sessionKey = 'agent:main:main', attachments = []) {
     if (!deviceId) throw new Error('deviceId is required');
     if (!message) throw new Error('message is required');
-    console.log('[OpenClawChat] sendChatMessage:', { deviceId, message, sessionKey, attachments: attachments.length });
+    console.log('[OpenClawChat] sendChatMessage:', { deviceId, sessionKey, attachments: attachments.length });
     return await window.Api.OPENCLAW.sendChat(deviceId, message, sessionKey, attachments);
   },
 
@@ -1308,23 +1171,14 @@ const OpenClawChatService = {
 
     this.currentDevice = device;
 
-    console.log('[Turn] ========== 发送消息 ==========');
-    console.log('[Turn] message:', message);
-    console.log('[Turn] deviceId:', deviceId);
-    console.log('[Turn] options:', options);
-
     try {
       const userMessage = String(message || '').trim();
 
       // 发送前检查 WebSocket 状态
-      console.log('[Perf] before ensureWebSocketReady');
-      console.time('[Perf] ensureWebSocketReady total');
       await this._ensureWebSocketReady(deviceId);
-      console.timeEnd('[Perf] ensureWebSocketReady total');
 
       // 在发送消息之前生成 questionTs，确保能捕获后端快速返回的事件
       const questionTs = Date.now();
-      console.log('[Turn] questionTs:', questionTs);
 
       // 创建 currentTurn（包含 callbacks，用于渲染 UI）
       const currentTurn = {
@@ -1342,40 +1196,12 @@ const OpenClawChatService = {
         awaitingRunId: true  // 等待 sendChat 返回 runId，期间不绑定历史事件
       };
       this._pollState.currentTurn = currentTurn;
-      console.log('[Turn] currentTurn created:', {
-        turnId: currentTurn.turnId,
-        assistantMessageId: currentTurn.assistantMessageId,
-        questionTs: currentTurn.questionTs,
-        hasCallbacks: Object.keys(currentTurn.callbacks).length > 0
-      });
 
       // 先切换到活跃轮询
       this.startActivePolling(deviceId, userMessage, questionTs, callbacks);
 
-      // 再发送消息（包含图片）
-      console.log('[Perf] before sendChat API');
-      console.time('[Perf] sendChat API duration');
-      console.log('[SendFlow] before service.sendChatMessage', {
-        currentAssistantId: options.assistantMessageId,
-        currentTurnId: options.turnId
-      });
+      // 再发送消息
       const sendResponse = await this.sendChatMessage(deviceId, userMessage, this._activeSessionKey, attachments);
-      console.timeEnd('[Perf] sendChat API duration');
-      console.timeEnd('[Perf] total send flow duration');
-      console.log('[Turn] sendResponse:', sendResponse?.success);
-
-      // 打印 sendResponse 结构，帮助调试 runId 提取
-      console.log('[Turn] sendResponse structure:', {
-        keys: Object.keys(sendResponse || {}),
-        dataKeys: Object.keys(sendResponse?.data || {}),
-        nestedDataKeys: Object.keys(sendResponse?.data?.data || {}),
-        payloadRunId: sendResponse?.data?.payload?.runId,
-        dataRunId: sendResponse?.data?.data?.runId,
-        nestedPayloadRunId: sendResponse?.data?.data?.payload?.runId,
-        deepRunId: sendResponse?.data?.data?.data?.payload?.runId,
-        reqResRunId: sendResponse?.data?.data?.reqResMsgCache?.[0]?.payload?.runId ||
-                     sendResponse?.data?.data?.data?.reqResMsgCache?.[0]?.payload?.runId
-      });
 
       // 提取并绑定 runId 到 currentTurn
       const sentRunId = this._extractRunIdFromSendResponse(sendResponse);
@@ -1419,7 +1245,6 @@ const OpenClawChatService = {
       // 等待 final 或超时
       const result = await this._waitForFinal();
 
-      console.log('[Turn] result:', result);
       return result;
 
     } catch (error) {
@@ -1444,14 +1269,9 @@ const OpenClawChatService = {
 
       // 缓存命中：跳过 WS 检查和 health 检查
       if (this._wsStatusCache.statusData && cacheAge < cacheTtl) {
-        console.log('[ReadyCheck] using cached status (age:', cacheAge, 'ms)');
-        console.log('[ReadyCheck] cached wsReady:', this._wsStatusCache.isReady, 'openclawOk:', this._wsStatusCache.openclawOk);
 
         if (!this._wsStatusCache.isReady) {
-          console.log('[ReadyCheck] cached WS not ready, attempting to start...');
-          console.time('[Perf] startWebSocket duration');
           await this._startWebSocketIfNeeded(deviceId, this._wsStatusCache.statusData);
-          console.timeEnd('[Perf] startWebSocket duration');
         } else if (!this._wsStatusCache.openclawOk) {
           console.warn('[ReadyCheck] cached OpenClaw not ok, will retry health check');
           await this._checkOpenClawHealth(deviceId);
@@ -1460,13 +1280,9 @@ const OpenClawChatService = {
       }
 
       // === 第一步：检查 WS 连接状态 ===
-      console.log('[ReadyCheck] cache expired, querying WS status...');
-      console.time('[Perf] queryRunInfo duration');
       const runInfo = await window.Api.OPENCLAW.queryRunInfo(deviceId);
-      console.timeEnd('[Perf] queryRunInfo duration');
 
       const statusData = runInfo?.data?.data || {};
-      console.log('[ReadyCheck] WS status data:', statusData);
 
       const wsReady = this._isWebSocketReady(statusData);
 
@@ -1476,14 +1292,9 @@ const OpenClawChatService = {
       this._wsStatusCache.openclawOk = false;
 
       if (!wsReady) {
-        console.log('[ReadyCheck] WS not ready, attempting to start...');
-        console.time('[Perf] startWebSocket duration');
         await this._startWebSocketIfNeeded(deviceId, statusData);
-        console.timeEnd('[Perf] startWebSocket duration');
         return;
       }
-
-      console.log('[ReadyCheck] WS is ready');
 
       // === 第二步：检查 OpenClaw 服务可用性 ===
       await this._checkOpenClawHealth(deviceId);
@@ -1708,6 +1519,21 @@ const OpenClawChatService = {
               reason: reason
             };
           }
+        }
+        // 60 秒内没有任何回复：判定无响应
+        else if (Date.now() - startTime > 60000 && !state.hasFinal && !state.assistantText && state.commandOutputs.length === 0) {
+          clearInterval(checkInterval);
+          console.warn('[Turn] waitForFinal - no response after 60s');
+          reason = 'timeout';
+          result = {
+            success: false,
+            text: '设备未响应，请稍后重试。',
+            isFinal: false,
+            hasFinal: false,
+            commandOutputs: [],
+            error: true,
+            reason: reason
+          };
         }
         // 无活动超时：已有回复 + 超时阈值 + 连续三轮零事件 = 判定流结束
         else if (state.assistantText && Date.now() - state.lastActivityTs > this.config.maxInactivityTime && state.zeroRowsCount >= 3) {

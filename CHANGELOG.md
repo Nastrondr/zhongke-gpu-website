@@ -1,7 +1,7 @@
 # Changelog — device-chat 萤火虫设备对话优化
 
-> 日期：2026-05-27
-> 涉及文件：`device-chat.html`、`openclawChatService.js`、`ApiClient.js`、`api/index.js`
+> 日期：2026-05-27 ~ 2026-05-29
+> 涉及文件：`device-chat.html`、`openclawChatService.js`、`ApiClient.js`、`api/index.js`、`device-chat.js`、`device-chat.css`
 
 ---
 
@@ -34,6 +34,50 @@
   - 新增 `.message-files` / `.file-chip` 样式（用户消息中的文件附件标签）
 
 **意义**：图片、PDF、Word、Excel、CSV 等文件现在可以真正发送到设备端。附件以 base64 编码随 `chat.send` 请求发送，图片直接传给模型，文件 offload 到 `media://inbound/` 供 Agent 工具访问。
+
+---
+
+## 14. 轮询超时死锁修复
+
+**问题**：`_doPoll` 中 60s 超时逻辑调用 `completeActiveTurn('timeout')` + `return` 直接停止所有轮询，但 `_waitForFinal` 会继续检查（最多 10 分钟），看不到任何状态变化，形成死锁。用户看到的是"正在发送指令..."卡住直到 10 分钟硬超时。
+
+**改动**（`openclawChatService.js`）：
+
+- `_doPoll`：移除 60s 超时分支（lines 334-343），不再在轮询循环中终止 turn
+- `_waitForFinal`：新增 **60s 无响应判定**（优先级仅次于 `hasFinal` 和 `maxWaitTime`）
+  - 条件：超过 60s 且无 `hasFinal`、无 `assistantText`、无 `commandOutputs`
+  - 返回 `{ success: false, text: '设备未响应，请稍后重试。' }`
+- 现在 `_waitForFinal` 超时链：① `hasFinal` → ② 10min 硬超时 → ③ **60s 无响应** → ④ 30s 静默+3轮零事件 → ⑤ 30s 警告
+
+**意义**：发送消息后服务端无响应时，60s 内正确返回错误提示，不再死等 10 分钟。
+
+---
+
+## 15. chat.history 消息解析修复
+
+**问题**：`loadSessionHistory` 使用 `msg.content?.find(c => c.type === 'text')?.text` 解析消息内容。OpenClaw WS 协议中 user 消息的 `content` 是纯字符串，assistant 消息的 `content` 才是 `[{type, text}]` 数组。对 string 调用 `.find()` 抛出 `TypeError: msg.content?.find is not a function`。
+
+**改动**（`openclawChatService.js` — `loadSessionHistory`）：
+- `content` 为 string → 直接使用
+- `content` 为 array → 遍历查找 `type === 'text'` 的项
+- 其他类型 → 返回空字符串
+
+**意义**：历史消息中 user 和 assistant 的内容都能正确解析，不再抛出异常。
+
+---
+
+## 16. 调试日志清理
+
+**问题**：轮询、事件过滤、发送流程中大量 `console.log` 输出，包括每行 poll 数据的详细 dump、`JSON.stringify(requestBody, null, 2)` 打印完整请求体（包含 base64 附件，安全风险）。
+
+**改动**：
+
+- `api/index.js`：移除 4 处 `JSON.stringify(requestBody, null, 2)` 的完整 payload dump，改为简洁的元数据日志；`sendChat` 日志不再打印完整 message 内容
+- `openclawChatService.js`：移除 `_doPoll` 中每行 row 的详细 dump、`_processEvents` 中的 rows summary、事件过滤的逐条拒绝日志、`sendMessageAndWait` 中的 `console.time`/`console.timeEnd` 性能埋点、runId 绑定的冗余日志；保留关键 warn/error 日志
+- `device-chat.js`：移除 `updateStatusDisplay`/`checkOpenclawStatus`/`init`/`handleSend` 中的冗余 debug 日志、空回调函数简化；保留 `console.warn`（missing messageId）和 `console.log`（关键 init 路径）
+- 修复 `waitTime` 变量因清理 `const log` 时误删导致 `ReferenceError` 的问题
+
+**意义**：控制台输出从每秒数十行降至关键日志，不再泄露 base64 附件内容，生产环境更干净、更安全。
 
 ---
 
