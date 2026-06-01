@@ -1413,6 +1413,12 @@
   
   <script src="js/utils/storage.js"></script>
   <script src="js/utils/navigation.js"></script>
+  <script>
+    // 页面加载完成后隐藏过渡效果
+    if (window.Navigation) {
+      window.Navigation.hideTransition();
+    }
+  </script>
   <script src="js/services/themeService.js"></script>
   <script src="js/services/api/config.js"></script>
   <script src="js/services/api/endpoints.js"></script>
