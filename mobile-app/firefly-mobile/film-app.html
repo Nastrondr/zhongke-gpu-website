@@ -16,16 +16,23 @@
   <script src="js/services/themeService.js"></script>
   <script src="js/utils/navigation.js"></script>
   <script>
-    // 页面加载完成后隐藏过渡效果
+    // 最简单的解决方案：直接移除过渡遮罩
+    (function() {
+      var overlay = document.getElementById('page-transition-overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.remove();
+      }
+      var style = document.getElementById('page-transition-style');
+      if (style) style.remove();
+    })();
     document.addEventListener('DOMContentLoaded', function() {
-      if (window.Navigation) {
-        window.Navigation.hideTransition();
+      var overlay = document.getElementById('page-transition-overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.remove();
       }
     });
-    // 同时立即尝试一次（处理快速加载情况）
-    if (window.Navigation) {
-      window.Navigation.hideTransition();
-    }
   </script>
   <style>
     * {

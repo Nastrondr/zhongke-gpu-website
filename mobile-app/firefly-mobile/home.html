@@ -1414,16 +1414,24 @@
   <script src="js/utils/storage.js"></script>
   <script src="js/utils/navigation.js"></script>
   <script>
-    // 页面加载完成后隐藏过渡效果
+    // 最简单的解决方案：直接移除过渡遮罩，不依赖任何函数
+    (function() {
+      var overlay = document.getElementById('page-transition-overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.remove();
+      }
+      var style = document.getElementById('page-transition-style');
+      if (style) style.remove();
+    })();
+    // 同时用 DOMContentLoaded 确保执行
     document.addEventListener('DOMContentLoaded', function() {
-      if (window.Navigation) {
-        window.Navigation.hideTransition();
+      var overlay = document.getElementById('page-transition-overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.remove();
       }
     });
-    // 同时立即尝试一次（处理快速加载情况）
-    if (window.Navigation) {
-      window.Navigation.hideTransition();
-    }
   </script>
   <script src="js/services/themeService.js"></script>
   <script src="js/services/api/config.js"></script>
