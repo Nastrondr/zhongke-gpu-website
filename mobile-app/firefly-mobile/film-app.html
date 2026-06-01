@@ -186,6 +186,238 @@
       margin-bottom: 20px;
     }
 
+    /* 案例轮播区 */
+    .carousel-section {
+      margin-bottom: 20px;
+    }
+
+    .carousel-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .carousel-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .case-card-carousel {
+      flex: 0 0 calc(100% - 24px);
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+    }
+
+    .case-placeholder {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 电商案例 - 暖色光斑 */
+    .case-placeholder.warm {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 50%, #FB923C 100%);
+    }
+
+    .case-placeholder.warm::before {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+      top: 20px;
+      right: 30px;
+    }
+
+    .case-placeholder.warm::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(251, 146, 60, 0.3) 0%, transparent 70%);
+      bottom: 20px;
+      left: 20px;
+    }
+
+    /* 企业案例 - 蓝紫科技 */
+    .case-placeholder.tech {
+      background: linear-gradient(135deg, #EEF2FF 0%, #818CF8 50%, #6366F1 100%);
+    }
+
+    .case-placeholder.tech::before {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 11px
+      ), repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 11px
+      );
+      top: 10px;
+      right: 10px;
+    }
+
+    .case-placeholder.tech::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+      bottom: 20px;
+      left: 40px;
+    }
+
+    /* 素材案例 - 毛玻璃 */
+    .case-placeholder.material {
+      background: linear-gradient(135deg, #F0FDF4 0%, #A7F3D0 50%, #34D399 100%);
+    }
+
+    .case-placeholder.material::before {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 16px;
+      transform: rotate(-15deg);
+      top: 25px;
+      left: 40px;
+      filter: blur(8px);
+    }
+
+    .case-placeholder.material::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      transform: rotate(10deg);
+      bottom: 25px;
+      right: 40px;
+      filter: blur(6px);
+    }
+
+    .play-button {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    .play-button svg {
+      width: 20px;
+      height: 20px;
+      color: #6D5DFB;
+      margin-left: 3px;
+    }
+
+    .case-info {
+      padding: 14px 16px;
+    }
+
+    .case-title-carousel {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .case-desc-carousel {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .case-tags-carousel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .case-tag-carousel {
+      padding: 3px 10px;
+      background: rgba(74, 141, 255, 0.1);
+      border-radius: 10px;
+      font-size: 11px;
+      color: var(--brand-primary);
+    }
+
+    .btn-same-style {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: var(--brand-gradient);
+      border: none;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(109, 93, 251, 0.3);
+    }
+
+    /* 轮播指示器 */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-card);
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      width: 20px;
+      border-radius: 4px;
+      background: var(--brand-primary);
+    }
+
+    /* 选择提示 */
+    .selection-hint {
+      text-align: center;
+      padding: 10px;
+      background: rgba(74, 141, 255, 0.1);
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--brand-primary);
+      margin-bottom: 16px;
+    }
+
     .btn-primary {
       position: relative;
       display: inline-flex;
@@ -544,12 +776,21 @@
 
   <!-- 主内容区 -->
   <div class="content">
-    <!-- Hero区 -->
-    <div class="hero-card">
-      <div class="title">影视创作</div>
-      <div class="subtitle">视频生成 + 内容处理 + Agent</div>
-      <div class="desc">面向短视频、宣传片、素材处理与内容生产场景，提供从脚本、分镜、素材整理到视频生成的智能能力支持。</div>
-      <button class="btn-primary" onclick="scrollToCreate()">开始创建</button>
+    <!-- 案例轮播区 -->
+    <div class="carousel-section">
+      <div class="carousel-container" id="carouselContainer">
+        <!-- 轮播卡片将通过JS生成 -->
+      </div>
+      <div class="carousel-dots">
+        <div class="carousel-dot active" data-index="0"></div>
+        <div class="carousel-dot" data-index="1"></div>
+        <div class="carousel-dot" data-index="2"></div>
+      </div>
+    </div>
+
+    <!-- 选择提示 -->
+    <div id="selectionHint" class="selection-hint" style="display: none;">
+      已选择：<span id="selectedCaseName"></span>
     </div>
 
     <!-- 能力概览区 -->
@@ -672,6 +913,34 @@
   </div>
 
   <script>
+    // 特色案例数据（用于轮播）
+    const featuredCases = [
+      {
+        title: '电商商品短视频',
+        scene: '小红书 / 抖音',
+        description: '适合将商品卖点转化为5-10秒竖屏广告视频。',
+        style: 'warm',
+        bgClass: 'warm',
+        tags: ['电商', '短视频']
+      },
+      {
+        title: '企业宣传片概念视频',
+        scene: '企业介绍 / 展会',
+        description: '适合生成企业级科技风视频。',
+        style: 'tech',
+        bgClass: 'tech',
+        tags: ['企业', '宣传片']
+      },
+      {
+        title: '素材转视频创意',
+        scene: '图片/海报素材',
+        description: '适合将已有素材改造成动态短视频创意。',
+        style: 'material',
+        bgClass: 'material',
+        tags: ['素材', '创意']
+      }
+    ];
+
     // 案例数据
     const cases = [
       {
@@ -723,8 +992,80 @@
 
     // 初始化页面
     function init() {
+      renderCarousel();
       renderCases();
       renderSteps();
+      setupCarouselScroll();
+    }
+
+    // 渲染轮播卡片
+    function renderCarousel() {
+      const container = document.getElementById('carouselContainer');
+      featuredCases.forEach((item, index) => {
+        const tagsHTML = item.tags.map(tag => `<span class="case-tag-carousel">${tag}</span>`).join('');
+        const card = document.createElement('div');
+        card.className = 'case-card-carousel';
+        card.innerHTML = `
+          <div class="case-placeholder ${item.bgClass}" style="pointer-events: none;">
+            <div class="play-button">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="case-info">
+            <div class="case-title-carousel">${item.title}</div>
+            <div class="case-desc-carousel">${item.scene}</div>
+            <div class="case-tags-carousel">${tagsHTML}</div>
+            <button class="btn-same-style" onclick="handleUseSameStyle(${index})">我要同款</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 设置轮播滚动监听
+    function setupCarouselScroll() {
+      const container = document.getElementById('carouselContainer');
+      const dots = document.querySelectorAll('.carousel-dot');
+      
+      container.addEventListener('scroll', () => {
+        const scrollLeft = container.scrollLeft;
+        const cardWidth = container.offsetWidth - 24;
+        const activeIndex = Math.round(scrollLeft / cardWidth);
+        
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === activeIndex);
+        });
+      });
+    }
+
+    // 处理"我要同款"点击
+    function handleUseSameStyle(index) {
+      const selectedCase = featuredCases[index];
+      const promptInput = document.getElementById('generatedPrompt');
+      const selectionHint = document.getElementById('selectionHint');
+      const selectedCaseName = document.getElementById('selectedCaseName');
+      
+      // 显示提示
+      selectedCaseName.textContent = selectedCase.title;
+      selectionHint.style.display = 'block';
+      
+      // 根据案例填充不同的提示词模板
+      let template = '';
+      if (index === 0) {
+        template = '帮我生成一条【商品名称】的电商短视频，平台是【小红书/抖音/淘宝】，视频时长【5秒】，画面风格【温暖/高级/科技/清新】，突出卖点【卖点1、卖点2】，比例为【9:16】。';
+      } else if (index === 1) {
+        template = '帮我生成一条【公司/产品名称】的宣传片概念视频，主题是【主题】，风格为【企业级蓝白科技风/高端产业风】，画面包含【核心元素】，时长【8秒】，节奏稳重，适合商务展示。';
+      } else {
+        template = '请基于我提供的素材，生成一条适合【平台】发布的视频创意，保持主体不变，风格为【风格】，增加【镜头运动/光影变化/场景氛围】，时长【5秒】，不要改变产品外观和颜色。';
+      }
+      
+      promptInput.value = template;
+      showToast('已选择：' + selectedCase.title);
+      
+      // 滚动到输入区
+      document.getElementById('createSection').scrollIntoView({ behavior: 'smooth' });
     }
 
     // 渲染案例卡片
