@@ -501,6 +501,189 @@
       animation: modalSlideIn 0.3s ease;
     }
 
+    /* 联系支持弹窗 */
+    .contact-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .contact-modal.active {
+      display: flex;
+    }
+
+    .contact-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 360px;
+      width: 100%;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+      box-shadow: var(--shadow-card);
+    }
+
+    .contact-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .contact-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .contact-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .contact-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .contact-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      background: var(--card-bg-soft);
+      border: 1px solid var(--border-card);
+      border-radius: 50%;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .contact-close:hover {
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+
+    .contact-close svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .contact-body {
+      margin-bottom: 24px;
+    }
+
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    .contact-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .contact-value {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-contact {
+      flex: 1;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-contact-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-contact-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* 深色模式适配 */
+    html[data-theme="dark"] .contact-content {
+      background: rgba(30, 58, 138, 0.95);
+      border: 1px solid rgba(37, 99, 235, 0.5);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    html[data-theme="dark"] .contact-icon {
+      background: linear-gradient(135deg, #613eea 0%, #7c3aed 100%);
+    }
+
+    html[data-theme="dark"] .contact-title {
+      color: #ffffff;
+    }
+
+    html[data-theme="dark"] .contact-close {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    html[data-theme="dark"] .contact-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    html[data-theme="dark"] .contact-item {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    html[data-theme="dark"] .contact-label {
+      color: #94a3b8;
+    }
+
+    html[data-theme="dark"] .contact-value {
+      color: #f1f5f9;
+    }
+
+    html[data-theme="dark"] .btn-contact-primary {
+      background: linear-gradient(135deg, #613eea 0%, #7c3aed 100%);
+    }
+
     @keyframes modalSlideIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -661,6 +844,229 @@
     .toast.active {
       opacity: 1;
     }
+
+    /* 注册弹窗样式 */
+    .register-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .register-modal.active {
+      display: flex;
+    }
+
+    .register-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 360px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+      box-shadow: var(--shadow-card);
+    }
+
+    html[data-theme="dark"] .register-content {
+      background: rgba(30, 58, 138, 0.95);
+      border: 1px solid rgba(37, 99, 235, 0.5);
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .register-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .register-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .register-close {
+      width: 32px;
+      height: 32px;
+      background: var(--card-bg-soft);
+      border: 1px solid var(--border-card);
+      border-radius: 50%;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .register-close {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    .register-close:hover {
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .register-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .register-close svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* 验证码输入框 */
+    .verify-wrapper {
+      gap: 10px;
+    }
+
+    .verify-wrapper .form-input {
+      flex: 1;
+    }
+
+    .send-code-btn {
+      padding: 10px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .send-code-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .send-code-btn:disabled {
+      background: var(--border-card);
+      color: var(--text-tertiary);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* 表单错误提示 */
+    .form-error {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 6px;
+    }
+
+    /* 密码强度显示 */
+    .password-strength {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--border-card);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      width: 0;
+    }
+
+    .strength-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+      min-width: 50px;
+    }
+
+    .strength-weak {
+      background: #ef4444;
+      width: 33%;
+    }
+
+    .strength-medium {
+      background: #f59e0b;
+      width: 66%;
+    }
+
+    .strength-strong {
+      background: #10b981;
+      width: 100%;
+    }
+
+    /* 用户协议 */
+    .agreement-row {
+      margin-bottom: 20px;
+    }
+
+    .agreement-row .checkbox-wrapper {
+      font-size: 13px;
+      align-items: flex-start;
+    }
+
+    .agreement-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .agreement-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 注册按钮 */
+    .register-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .register-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    }
+
+    .register-btn:disabled {
+      background: var(--border-card);
+      color: var(--text-tertiary);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
   </style>
   <script src="js/utils/storage.js"></script>
   <script src="js/services/themeService.js"></script>
@@ -796,9 +1202,9 @@
     <div class="footer-section">
       <div class="footer-links">
         <a href="javascript:void(0);" class="footer-link">忘记密码</a>
-        <a href="javascript:void(0);" class="footer-link">联系支持</a>
+        <a href="javascript:void(0);" class="footer-link" onclick="showRegisterModal()">注册账号</a>
+        <a href="javascript:void(0);" class="footer-link" onclick="showContactModal()">联系支持</a>
       </div>
-      <p class="footer-hint">如需正式账号，请联系平台管理员</p>
       <p class="version-info">版本 1.0.0 | 安全加密传输</p>
     </div>
   </div>
@@ -840,6 +1246,172 @@
     </div>
   </div>
 
+  <!-- 联系支持弹窗 -->
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-content">
+      <div class="contact-header">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3 class="contact-title">联系我们</h3>
+        <button class="contact-close" onclick="closeContactModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="contact-body">
+        <div class="contact-item">
+          <div class="contact-label">联系人</div>
+          <div class="contact-value">田杰</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">电话</div>
+          <div class="contact-value">0755-86168478</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">手机</div>
+          <div class="contact-value">13603075697</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-label">邮箱</div>
+          <div class="contact-value">tianjie@szsbay.com</div>
+        </div>
+      </div>
+      <div class="contact-actions">
+        <button class="btn-contact btn-contact-primary" onclick="closeContactModal()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注册弹窗 -->
+  <div class="register-modal" id="registerModal">
+    <div class="register-content">
+      <div class="register-header">
+        <h2 class="register-title">注册账号</h2>
+        <button class="register-close" onclick="closeRegisterModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="registerForm">
+        <!-- 手机号输入 -->
+        <div class="form-group">
+          <label class="form-label">手机号</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="registerPhone"
+              class="form-input"
+              placeholder="请输入手机号"
+              maxlength="11"
+              autocomplete="tel"
+            >
+          </div>
+          <div class="form-error" id="registerPhoneError" style="display:none;"></div>
+        </div>
+
+        <!-- 验证码输入 -->
+        <div class="form-group">
+          <label class="form-label">验证码</label>
+          <div class="input-wrapper verify-wrapper">
+            <input
+              type="text"
+              id="registerCode"
+              class="form-input"
+              placeholder="请输入验证码"
+              maxlength="6"
+              autocomplete="one-time-code"
+            >
+            <button type="button" class="send-code-btn" id="sendCodeBtn" onclick="sendVerifyCode()">获取验证码</button>
+          </div>
+          <div class="form-error" id="registerCodeError" style="display:none;"></div>
+        </div>
+
+        <!-- 密码输入 -->
+        <div class="form-group">
+          <label class="form-label">设置密码</label>
+          <div class="input-wrapper password-wrapper">
+            <input
+              type="password"
+              id="registerPassword"
+              class="form-input has-toggle"
+              placeholder="请输入密码（6-20位）"
+              autocomplete="new-password"
+            >
+            <button type="button" class="password-toggle" id="toggleRegisterPassword" aria-label="显示密码">
+              <svg id="registerEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg id="registerEyeOffIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <div class="form-error" id="registerPasswordError" style="display:none;"></div>
+          <div class="password-strength" id="passwordStrength" style="display:none;">
+            <div class="strength-bar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <span class="strength-text" id="strengthText"></span>
+          </div>
+        </div>
+
+        <!-- 确认密码输入 -->
+        <div class="form-group">
+          <label class="form-label">确认密码</label>
+          <div class="input-wrapper password-wrapper">
+            <input
+              type="password"
+              id="registerConfirmPassword"
+              class="form-input has-toggle"
+              placeholder="请再次输入密码"
+              autocomplete="new-password"
+            >
+            <button type="button" class="password-toggle" id="toggleRegisterConfirmPassword" aria-label="显示密码">
+              <svg id="registerConfirmEyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg id="registerConfirmEyeOffIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <div class="form-error" id="registerConfirmPasswordError" style="display:none;"></div>
+        </div>
+
+        <!-- 用户协议 -->
+        <div class="agreement-row">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="agreeAgreement">
+            <span>我已阅读并同意</span>
+            <a href="javascript:void(0);" class="agreement-link">《用户协议》</a>
+            <span>和</span>
+            <a href="javascript:void(0);" class="agreement-link">《隐私政策》</a>
+          </label>
+          <div class="form-error" id="registerAgreementError" style="display:none;"></div>
+        </div>
+
+        <!-- 注册按钮 -->
+        <button type="submit" class="register-btn" id="registerBtn">注册</button>
+
+        <!-- 提示信息区 -->
+        <div class="message-area" id="registerMessageArea"></div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast 提示 -->
   <div class="toast" id="toast">已复制链接</div>
 
@@ -864,6 +1436,36 @@
     const bindNowBtn = document.getElementById('bindNowBtn');
     const bindLaterBtn = document.getElementById('bindLaterBtn');
     const toast = document.getElementById('toast');
+
+    // 注册弹窗相关元素
+    const registerModal = document.getElementById('registerModal');
+    const registerForm = document.getElementById('registerForm');
+    const registerPhoneInput = document.getElementById('registerPhone');
+    const registerCodeInput = document.getElementById('registerCode');
+    const registerPasswordInput = document.getElementById('registerPassword');
+    const registerConfirmPasswordInput = document.getElementById('registerConfirmPassword');
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const registerMessageArea = document.getElementById('registerMessageArea');
+    const agreeAgreementCheckbox = document.getElementById('agreeAgreement');
+
+    // 密码强度相关
+    const passwordStrength = document.getElementById('passwordStrength');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+
+    // 注册密码显示/隐藏切换
+    const toggleRegisterPasswordBtn = document.getElementById('toggleRegisterPassword');
+    const registerEyeIcon = document.getElementById('registerEyeIcon');
+    const registerEyeOffIcon = document.getElementById('registerEyeOffIcon');
+
+    const toggleRegisterConfirmPasswordBtn = document.getElementById('toggleRegisterConfirmPassword');
+    const registerConfirmEyeIcon = document.getElementById('registerConfirmEyeIcon');
+    const registerConfirmEyeOffIcon = document.getElementById('registerConfirmEyeOffIcon');
+
+    // 验证码倒计时
+    let codeCountdown = 0;
+    let codeTimer = null;
 
     // 当前登录账号信息
     let currentAccount = null;
@@ -1102,6 +1704,369 @@
 
     // 初始化主题
     ThemeManager.init();
+
+    // 联系支持弹窗
+    const contactModal = document.getElementById('contactModal');
+
+    function showContactModal() {
+      if (contactModal) {
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeContactModal() {
+      if (contactModal) {
+        contactModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // 点击弹窗遮罩关闭
+    if (contactModal) {
+      contactModal.addEventListener('click', function(e) {
+        if (e.target === contactModal) {
+          closeContactModal();
+        }
+      });
+    }
+
+    // ==================== 注册功能 ====================
+
+    // 显示注册弹窗
+    function showRegisterModal() {
+      if (registerModal) {
+        registerModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        resetRegisterForm();
+      }
+    }
+
+    // 关闭注册弹窗
+    function closeRegisterModal() {
+      if (registerModal) {
+        registerModal.classList.remove('active');
+        document.body.style.overflow = '';
+        clearCodeTimer();
+      }
+    }
+
+    // 重置注册表单
+    function resetRegisterForm() {
+      if (registerForm) {
+        registerForm.reset();
+      }
+      if (registerMessageArea) {
+        registerMessageArea.innerHTML = '';
+      }
+      if (passwordStrength) {
+        passwordStrength.style.display = 'none';
+      }
+      clearAllErrors();
+      clearCodeTimer();
+    }
+
+    // 清除所有错误提示
+    function clearAllErrors() {
+      const errors = [
+        'registerPhoneError', 'registerCodeError',
+        'registerPasswordError', 'registerConfirmPasswordError',
+        'registerAgreementError'
+      ];
+      errors.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.display = 'none';
+          el.textContent = '';
+        }
+      });
+    }
+
+    // 显示错误提示
+    function showError(elementId, message) {
+      const el = document.getElementById(elementId);
+      if (el) {
+        el.textContent = message;
+        el.style.display = 'block';
+      }
+    }
+
+    // 验证手机号
+    function validatePhone(phone) {
+      const phoneReg = /^1[3-9]\d{9}$/;
+      return phoneReg.test(phone);
+    }
+
+    // 验证密码强度
+    function calculatePasswordStrength(password) {
+      let strength = 0;
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      return strength;
+    }
+
+    // 更新密码强度显示
+    function updatePasswordStrength(password) {
+      if (!password) {
+        passwordStrength.style.display = 'none';
+        return;
+      }
+      passwordStrength.style.display = 'flex';
+      const strength = calculatePasswordStrength(password);
+      strengthFill.className = 'strength-fill';
+      if (strength <= 2) {
+        strengthFill.classList.add('strength-weak');
+        strengthText.textContent = '弱';
+        strengthText.style.color = '#ef4444';
+      } else if (strength <= 4) {
+        strengthFill.classList.add('strength-medium');
+        strengthText.textContent = '中';
+        strengthText.style.color = '#f59e0b';
+      } else {
+        strengthFill.classList.add('strength-strong');
+        strengthText.textContent = '强';
+        strengthText.style.color = '#10b981';
+      }
+    }
+
+    // 发送验证码
+    async function sendVerifyCode() {
+      const phone = registerPhoneInput.value.trim();
+      if (!phone) {
+        showError('registerPhoneError', '请输入手机号');
+        return;
+      }
+      if (!validatePhone(phone)) {
+        showError('registerPhoneError', '请输入正确的手机号');
+        return;
+      }
+      if (codeCountdown > 0) return;
+
+      try {
+        sendCodeBtn.disabled = true;
+        showRegisterMessage('正在发送验证码...', 'info');
+
+        // 调用API发送验证码
+        const response = await Api.Auth.sendCode({ mobile: phone });
+        console.log('[Register] Send code response:', response);
+
+        if (response.success) {
+          showRegisterMessage('验证码已发送', 'success');
+          // 开始倒计时
+          startCodeCountdown();
+        } else {
+          showRegisterMessage(response.msg || '发送验证码失败', 'error');
+          sendCodeBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('[Register] Send code error:', error);
+        showRegisterMessage(error.message || '发送验证码失败，请稍后重试', 'error');
+        sendCodeBtn.disabled = false;
+      }
+    }
+
+    // 验证码倒计时
+    function startCodeCountdown() {
+      codeCountdown = 60;
+      sendCodeBtn.disabled = true;
+      updateCodeButton();
+      codeTimer = setInterval(() => {
+        codeCountdown--;
+        if (codeCountdown <= 0) {
+          clearCodeTimer();
+        } else {
+          updateCodeButton();
+        }
+      }, 1000);
+    }
+
+    // 清除倒计时
+    function clearCodeTimer() {
+      if (codeTimer) {
+        clearInterval(codeTimer);
+        codeTimer = null;
+      }
+      codeCountdown = 0;
+      sendCodeBtn.disabled = false;
+      sendCodeBtn.textContent = '获取验证码';
+    }
+
+    // 更新验证码按钮文本
+    function updateCodeButton() {
+      sendCodeBtn.textContent = `${codeCountdown}秒后重发`;
+    }
+
+    // 显示注册消息
+    function showRegisterMessage(message, type = 'info') {
+      if (!registerMessageArea) return;
+      const className = `message message-${type}`;
+      registerMessageArea.innerHTML = `<div class="${className}">${message}</div>`;
+    }
+
+    // 注册表单验证
+    function validateRegisterForm() {
+      clearAllErrors();
+      let isValid = true;
+
+      const phone = registerPhoneInput.value.trim();
+      const code = registerCodeInput.value.trim();
+      const password = registerPasswordInput.value;
+      const confirmPassword = registerConfirmPasswordInput.value;
+      const agree = agreeAgreementCheckbox.checked;
+
+      // 验证手机号
+      if (!phone) {
+        showError('registerPhoneError', '请输入手机号');
+        isValid = false;
+      } else if (!validatePhone(phone)) {
+        showError('registerPhoneError', '请输入正确的手机号');
+        isValid = false;
+      }
+
+      // 验证验证码
+      if (!code) {
+        showError('registerCodeError', '请输入验证码');
+        isValid = false;
+      } else if (code.length !== 6) {
+        showError('registerCodeError', '验证码格式不正确');
+        isValid = false;
+      }
+
+      // 验证密码
+      if (!password) {
+        showError('registerPasswordError', '请输入密码');
+        isValid = false;
+      } else if (password.length < 6 || password.length > 20) {
+        showError('registerPasswordError', '密码长度为6-20位');
+        isValid = false;
+      }
+
+      // 验证确认密码
+      if (!confirmPassword) {
+        showError('registerConfirmPasswordError', '请再次输入密码');
+        isValid = false;
+      } else if (password !== confirmPassword) {
+        showError('registerConfirmPasswordError', '两次输入的密码不一致');
+        isValid = false;
+      }
+
+      // 验证协议
+      if (!agree) {
+        showError('registerAgreementError', '请阅读并同意用户协议和隐私政策');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    // 注册提交
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      if (!validateRegisterForm()) return;
+
+      const phone = registerPhoneInput.value.trim();
+      const code = registerCodeInput.value.trim();
+      const password = registerPasswordInput.value;
+
+      try {
+        registerBtn.disabled = true;
+        showRegisterMessage('正在注册...', 'info');
+
+        // 调用注册API
+        const response = await Api.Auth.register({
+          mobile: phone,
+          code: code,
+          password: password
+        });
+
+        console.log('[Register] Register response:', response);
+
+        if (response.success) {
+          showRegisterMessage('注册成功，正在跳转...', 'success');
+
+          // 延迟后关闭并跳转到登录
+          setTimeout(() => {
+            closeRegisterModal();
+            showMessage('注册成功，请登录', 'success');
+            // 自动填充手机号到登录表单
+            if (usernameInput) {
+              usernameInput.value = phone;
+            }
+          }, 1500);
+        } else {
+          showRegisterMessage(response.msg || '注册失败', 'error');
+          registerBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('[Register] Error:', error);
+        showRegisterMessage(error.message || '注册失败，请稍后重试', 'error');
+        registerBtn.disabled = false;
+      }
+    }
+
+    // 注册密码显示/隐藏切换
+    let isRegisterPasswordVisible = false;
+    if (toggleRegisterPasswordBtn) {
+      toggleRegisterPasswordBtn.addEventListener('click', function() {
+        isRegisterPasswordVisible = !isRegisterPasswordVisible;
+        registerPasswordInput.type = isRegisterPasswordVisible ? 'text' : 'password';
+        registerEyeIcon.style.display = isRegisterPasswordVisible ? 'none' : 'block';
+        registerEyeOffIcon.style.display = isRegisterPasswordVisible ? 'block' : 'none';
+      });
+    }
+
+    let isRegisterConfirmPasswordVisible = false;
+    if (toggleRegisterConfirmPasswordBtn) {
+      toggleRegisterConfirmPasswordBtn.addEventListener('click', function() {
+        isRegisterConfirmPasswordVisible = !isRegisterConfirmPasswordVisible;
+        registerConfirmPasswordInput.type = isRegisterConfirmPasswordVisible ? 'text' : 'password';
+        registerConfirmEyeIcon.style.display = isRegisterConfirmPasswordVisible ? 'none' : 'block';
+        registerConfirmEyeOffIcon.style.display = isRegisterConfirmPasswordVisible ? 'block' : 'none';
+      });
+    }
+
+    // 实时验证手机号
+    if (registerPhoneInput) {
+      registerPhoneInput.addEventListener('input', function() {
+        const error = document.getElementById('registerPhoneError');
+        if (error) error.style.display = 'none';
+      });
+    }
+
+    // 实时验证密码强度
+    if (registerPasswordInput) {
+      registerPasswordInput.addEventListener('input', function() {
+        const error = document.getElementById('registerPasswordError');
+        if (error) error.style.display = 'none';
+        updatePasswordStrength(this.value);
+      });
+    }
+
+    // 实时验证确认密码
+    if (registerConfirmPasswordInput) {
+      registerConfirmPasswordInput.addEventListener('input', function() {
+        const error = document.getElementById('registerConfirmPasswordError');
+        if (error) error.style.display = 'none';
+      });
+    }
+
+    // 注册表单提交
+    if (registerForm) {
+      registerForm.addEventListener('submit', handleRegisterSubmit);
+    }
+
+    // 点击注册弹窗遮罩关闭
+    if (registerModal) {
+      registerModal.addEventListener('click', function(e) {
+        if (e.target === registerModal) {
+          closeRegisterModal();
+        }
+      });
+    }
   </script>
 </body>
 </html>

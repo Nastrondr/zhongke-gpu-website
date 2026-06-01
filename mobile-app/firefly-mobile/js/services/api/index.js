@@ -45,7 +45,37 @@ const Api = {
     async register(data) {
       const endpoint = ApiEndpoints.auth.register;
       const url = ApiEndpoints.buildUrl(endpoint.path);
-      return apiClient.post(url, data);
+      // 注册接口也不需要认证
+      return apiClient.post(url, data, {
+        requireAuth: false,
+        headers: {
+          'x-app-key': 'zkgzy-cms'
+        }
+      });
+    },
+
+    async sendCode(data) {
+      const endpoint = ApiEndpoints.auth.sendCode;
+      const url = ApiEndpoints.buildUrl(endpoint.path);
+      // 发送验证码接口不需要认证
+      return apiClient.post(url, data, {
+        requireAuth: false,
+        headers: {
+          'x-app-key': 'zkgzy-cms'
+        }
+      });
+    },
+
+    async verifyCode(data) {
+      const endpoint = ApiEndpoints.auth.verifyCode;
+      const url = ApiEndpoints.buildUrl(endpoint.path);
+      // 验证验证码接口不需要认证
+      return apiClient.post(url, data, {
+        requireAuth: false,
+        headers: {
+          'x-app-key': 'zkgzy-cms'
+        }
+      });
     },
 
     async refreshToken(refreshToken) {
@@ -255,7 +285,12 @@ const Api = {
         applicationName: ''
       };
 
-      console.log('[OPENCLAW] sendChat:', { deviceId, sessionKey, attachments: attachments.length });
+      console.log('[OPENCLAW] sendChat:', { deviceId, message, attachments: attachments.length, deliver });
+      console.log('[OpenClawSend] userInput:', message);
+      console.log('[OpenClawSend] requestId:', requestBody.Parameter.parameter.data.id);
+      console.log('[OpenClawSend] idempotencyKey:', chatParams.idempotencyKey);
+      console.log('[OpenClawSend] deliver:', deliver);
+      console.log('[OpenClawSend] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody);
     },
 
@@ -284,8 +319,9 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] queryRunInfo:', { deviceId });
-
+      console.log('[OPENCLAW] queryRunInfo:', { deviceId, url });
+      console.log('[OpenClawRunInfo] final payload:', JSON.stringify(requestBody, null, 2));
+      
       const response = await apiClient.post(url, requestBody, { suppressLoading: true });
       console.log('[OpenClawRunInfo] raw response:', JSON.stringify(response, null, 2));
       return response;
@@ -318,8 +354,15 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] startWebSocket:', { deviceId, uri });
-
+      const maskedToken = token ? token.slice(0, 6) + '...' + token.slice(-4) : 'null';
+      console.log('[OPENCLAW] startWebSocket:', { deviceId, uri, token: maskedToken });
+      console.log('[OpenClawStartWS] final payload:', JSON.stringify(requestBody, (key, value) => {
+        if (key === 'token' && typeof value === 'string') {
+          return value.slice(0, 6) + '...' + value.slice(-4);
+        }
+        return value;
+      }, 2));
+      
       const response = await apiClient.post(url, requestBody, { suppressLoading: true });
       console.log('[OpenClawStartWS] raw response:', JSON.stringify(response, null, 2));
       return response;
@@ -355,7 +398,8 @@ const Api = {
         applicationName: ''
       };
       
-      console.log('[OPENCLAW] queryEvent:', { deviceId, tsStart, limit });
+      console.log('[OPENCLAW] queryEvent:', { deviceId, tsStart, limit, url });
+      console.log('[OpenClawQueryEvent] final payload:', JSON.stringify(requestBody, null, 2));
       return apiClient.post(url, requestBody, { suppressLoading: true });
     },
 

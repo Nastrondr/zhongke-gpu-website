@@ -8,10 +8,10 @@ const ApiEndpoints = {
   auth: {
     login: { method: 'POST', path: '/open/api/v1/login' },
     logout: { method: 'POST', path: '/auth/logout' },
-    register: { method: 'POST', path: '/auth/register' },
+    register: { method: 'POST', path: '/open/api/v1/register' },
     refreshToken: { method: 'POST', path: '/auth/refresh' },
-    verifyCode: { method: 'POST', path: '/auth/verify-code' },
-    sendCode: { method: 'POST', path: '/auth/send-code' }
+    verifyCode: { method: 'POST', path: '/open/api/v1/verify-code' },
+    sendCode: { method: 'POST', path: '/open/api/v1/send-code' }
   },
 
   // 用户相关

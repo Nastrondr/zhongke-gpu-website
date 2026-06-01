@@ -5,6 +5,10 @@ function getCurrentFilename() {
   if (!filename || filename === '') {
     return 'home.html';
   }
+  // 如果文件名没有扩展名，默认为 home.html
+  if (!filename.includes('.')) {
+    return 'home.html';
+  }
   return filename;
 }
 
@@ -25,6 +29,14 @@ const pageToTabMap = {
   'whale-chat.html': 'whale',
   'profile.html': 'profile',
   'user.html': 'profile'
+};
+
+// tab id 到索引的映射
+const tabIdToIndexMap = {
+  'home': 0,
+  'apps': 1,
+  'whale': 2,
+  'profile': 3
 };
 
 // 图标 SVG（两套：线性 inactive，面性 active）
@@ -77,6 +89,8 @@ let currentActiveIndex = 0;
 
 // 初始化底部导航
 function initBottomNav() {
+  console.log('[BottomNav] initBottomNav called, readyState:', document.readyState);
+  
   const filename = getCurrentFilename();
   
   // 以下页面不显示底部导航栏（次级页面）
@@ -97,13 +111,19 @@ function initBottomNav() {
     return;
   }
   
+  console.log('[BottomNav] Creating bottom nav HTML');
+  
   // 创建底部导航 HTML
   createBottomNavHTML();
+  
+  console.log('[BottomNav] Setting current active tab');
   
   // 普通页面初始化
   setCurrentActiveTab();
   addPageEnterAnimation();
   bindNavEvents();
+  
+  console.log('[BottomNav] Initialization complete');
 }
 
 // 创建底部导航 HTML
@@ -127,47 +147,63 @@ function createBottomNavHTML() {
   const navContainer = document.createElement('div');
   navContainer.innerHTML = navHTML;
   document.body.appendChild(navContainer.firstElementChild);
-  
-  // 先禁用 transition，设置初始位置后再启用，避免第一次加载时的动画
-  const highlight = document.getElementById('navHighlight');
-  if (highlight) {
-    highlight.style.transition = 'none';
-  }
 }
 
 // 设置当前激活的 tab
 function setCurrentActiveTab() {
   const filename = getCurrentFilename();
+  console.log('[BottomNav] setCurrentActiveTab called, filename:', filename);
+  
   let tabId = pageToTabMap[filename] || 'home';
   
   // 如果在home.html，优先检查sessionStorage，然后检查URL参数
   if (filename === 'home.html') {
     const savedTab = sessionStorage.getItem('currentTab');
+    console.log('[BottomNav] sessionStorage currentTab:', savedTab);
+    
     if (savedTab) {
       tabId = savedTab;
+      console.log('[BottomNav] Using saved tab from sessionStorage:', tabId);
     } else {
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
+      console.log('[BottomNav] URL tab param:', tabParam);
       if (tabParam) {
         tabId = tabParam;
+        console.log('[BottomNav] Using tab from URL param:', tabId);
       }
     }
   }
   
-  const navItems = document.querySelectorAll('.bottom-nav-item');
+  console.log('[BottomNav] Determined tabId:', tabId);
+  console.log('[BottomNav] tabIdToIndexMap has property:', tabIdToIndexMap.hasOwnProperty(tabId));
+  console.log('[BottomNav] tabIdToIndexMap value:', tabIdToIndexMap[tabId]);
   
-  bottomNavConfig.items.forEach((item, index) => {
-    if (item.id === tabId) {
-      currentActiveIndex = index;
-    }
-  });
+  // 使用 tabIdToIndexMap 直接获取索引
+  if (tabIdToIndexMap.hasOwnProperty(tabId)) {
+    currentActiveIndex = tabIdToIndexMap[tabId];
+    console.log('[BottomNav] Found index for tabId:', currentActiveIndex);
+  } else {
+    // 如果找不到，遍历配置查找
+    bottomNavConfig.items.forEach((item, index) => {
+      if (item.id === tabId) {
+        currentActiveIndex = index;
+        console.log('[BottomNav] Found index via fallback:', index);
+      }
+    });
+  }
+  
+  console.log('[BottomNav] Final currentActiveIndex:', currentActiveIndex);
   
   // 初始化时立即设置位置，不触发动画
+  console.log('[BottomNav] Calling updateNavState with index:', currentActiveIndex, 'immediate: true');
   updateNavState(currentActiveIndex, true);
 }
 
 // 更新导航状态
 function updateNavState(index, immediate = false) {
+  console.log('[BottomNav] updateNavState called with index:', index, 'immediate:', immediate);
+  
   const nav = document.getElementById('bottomNav');
   const navItems = document.querySelectorAll('.bottom-nav-item');
   const highlight = document.getElementById('navHighlight');
@@ -197,16 +233,33 @@ function updateNavState(index, immediate = false) {
   const minLeft = 10;
   const clampedLeft = Math.max(minLeft, Math.min(maxLeft, highlightLeft));
 
+  console.log('[BottomNav] Setting highlight position:', { highlightWidth, clampedLeft });
+
   if (immediate) {
-    // 立即设置，不触发动画
+    // 初始化时：完全禁用过渡，立即设置位置，然后淡入显示
+    highlight.style.transition = 'none';
     highlight.style.width = `${highlightWidth}px`;
     highlight.style.transform = `translateX(${clampedLeft}px)`;
-    // 重新启用 transition
+    highlight.style.opacity = '0';
+    highlight.style.visibility = 'visible';
+    
+    // 强制重排
+    highlight.offsetHeight;
+    
+    // 使用 requestAnimationFrame 确保位置设置完成后再显示
     requestAnimationFrame(() => {
-      highlight.style.transition = '';
+      highlight.style.transition = 'opacity 180ms ease';
+      highlight.style.opacity = '1';
+      
+      requestAnimationFrame(() => {
+        // 恢复完整的 transition
+        highlight.style.transition = 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1), width 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease';
+      });
     });
   } else {
     // 正常动画
+    highlight.style.visibility = 'visible';
+    highlight.style.opacity = '1';
     highlight.style.width = `${highlightWidth}px`;
     highlight.style.transform = `translateX(${clampedLeft}px)`;
   }

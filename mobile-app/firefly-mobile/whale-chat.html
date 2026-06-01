@@ -1082,7 +1082,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 1000;
+      z-index: 10000;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
       background: linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 60%, transparent 100%);
       transform: translateY(calc(-1 * var(--keyboard-offset, 0px)));
@@ -7242,7 +7242,6 @@ function setupKeyboardAdaptation() {
         <div class="drawer-model-info">
           <div class="drawer-model-label">当前模型</div>
           <div class="drawer-model-name" id="drawerModelName">DeepSeek-V3</div>
-          <div class="drawer-model-sub">用于当前对话与任务执行</div>
         </div>
         <div class="drawer-model-btn">切换</div>
       </div>
@@ -7283,7 +7282,6 @@ function setupKeyboardAdaptation() {
       <button class="model-sheet-cancel-btn">取消</button>
     </div>
   </div>
-  <script src="js/utils/bottom-nav.js"></script>
 </body>
   
   <!-- 萤火虫/智能体加载弹窗 -->
