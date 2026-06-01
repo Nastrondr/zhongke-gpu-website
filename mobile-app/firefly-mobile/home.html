@@ -1548,7 +1548,7 @@
           </svg>
         </div>
         <div style="flex: 1;">
-          <div class="quick-title" id="whaleQuickTitle" style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px;">与设备聊天</div>
+          <div class="quick-title" id="whaleQuickTitle" style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px;">智能体对话</div>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2">
           <path d="M9 18l6-6-6-6"/>
@@ -2107,7 +2107,7 @@
     function updateWhaleStatus(bindStatus, agentName) {
       const currentAgentName = agentName || '智能体';
       const subtitle = currentAgentName === '星崽' ? '智能助手' : '金融助手';
-      const quickTitle = '与设备聊天';
+      const quickTitle = '智能体对话';
 
       if (whaleQuickTitle) {
         whaleQuickTitle.textContent = quickTitle;
