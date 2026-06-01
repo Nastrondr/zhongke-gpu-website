@@ -200,3 +200,25 @@ const Navigation = {
 
 // 导出到全局
 window.Navigation = Navigation;
+
+// 自动清理：页面加载后立即移除过渡遮罩
+(function() {
+  var overlay = document.getElementById('page-transition-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    overlay.remove();
+  }
+  var style = document.getElementById('page-transition-style');
+  if (style) style.remove();
+})();
+
+// DOMContentLoaded 再执行一次确保清理
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    var overlay = document.getElementById('page-transition-overlay');
+    if (overlay) {
+      overlay.style.display = 'none';
+      overlay.remove();
+    }
+  });
+}
