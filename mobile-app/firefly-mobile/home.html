@@ -1415,6 +1415,12 @@
   <script src="js/utils/navigation.js"></script>
   <script>
     // 页面加载完成后隐藏过渡效果
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.Navigation) {
+        window.Navigation.hideTransition();
+      }
+    });
+    // 同时立即尝试一次（处理快速加载情况）
     if (window.Navigation) {
       window.Navigation.hideTransition();
     }
