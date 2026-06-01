@@ -1023,7 +1023,8 @@
         description: '适合将商品卖点转化为5-10秒竖屏广告视频。',
         style: 'warm',
         bgClass: 'warm',
-        tags: ['电商', '短视频']
+        tags: ['电商', '短视频'],
+        videoUrl: '/mock-videos/ecommerce-demo.mp4'
       },
       {
         title: '企业宣传片概念视频',
@@ -1031,7 +1032,8 @@
         description: '适合生成企业级科技风视频。',
         style: 'tech',
         bgClass: 'tech',
-        tags: ['企业', '宣传片']
+        tags: ['企业', '宣传片'],
+        videoUrl: '/mock-videos/company-demo.mp4'
       },
       {
         title: '素材转视频创意',
@@ -1039,9 +1041,13 @@
         description: '适合将已有素材改造成动态短视频创意。',
         style: 'material',
         bgClass: 'material',
-        tags: ['素材', '创意']
+        tags: ['素材', '创意'],
+        videoUrl: '/mock-videos/material-demo.mp4'
       }
     ];
+
+    // 视频加载失败记录
+    const failedVideoMap = {};
 
     // 案例数据
     const cases = [
@@ -1107,13 +1113,41 @@
         const tagsHTML = item.tags.map(tag => `<span class="case-tag-carousel">${tag}</span>`).join('');
         const card = document.createElement('div');
         card.className = 'case-card-carousel';
+        
+        // 检查视频是否加载失败
+        const videoFailed = failedVideoMap[index];
+        const hasVideo = item.videoUrl && !videoFailed;
+        
         card.innerHTML = `
-          <div class="case-placeholder ${item.bgClass}" style="pointer-events: none;">
-            <div class="play-button">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-              </svg>
-            </div>
+          <div class="case-placeholder ${hasVideo ? '' : item.bgClass}" style="pointer-events: none; position: relative; overflow: hidden;">
+            ${hasVideo ? `
+              <video 
+                src="${item.videoUrl}" 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                preload="metadata"
+                class="case-video"
+                data-index="${index}"
+                onerror="handleVideoError(${index})"
+                onloadeddata="this.style.opacity=1"
+                style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.3s;"
+              ></video>
+              <div class="video-play-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.15); pointer-events: none;">
+                <div class="play-button">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+              </div>
+            ` : `
+              <div class="play-button">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+              </div>
+            `}
           </div>
           <div class="case-info">
             <div class="case-title-carousel">${item.title}</div>
@@ -1124,6 +1158,29 @@
         `;
         container.appendChild(card);
       });
+    }
+
+    // 视频加载失败处理
+    function handleVideoError(index) {
+      console.log('[FilmApp] Video failed to load, index:', index);
+      failedVideoMap[index] = true;
+      // 重新渲染该卡片，显示占位图
+      const cards = document.querySelectorAll('.case-card-carousel');
+      if (cards[index]) {
+        const item = featuredCases[index];
+        const placeholder = cards[index].querySelector('.case-placeholder');
+        placeholder.className = `case-placeholder ${item.bgClass}`;
+        placeholder.style.pointerEvents = 'none';
+        placeholder.style.position = 'relative';
+        placeholder.style.overflow = 'hidden';
+        placeholder.innerHTML = `
+          <div class="play-button">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+        `;
+      }
     }
 
     // 设置轮播滚动监听
