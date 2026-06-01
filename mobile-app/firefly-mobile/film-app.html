@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>影视创作 - 萤火虫</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('app_theme_mode');
+      const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'system' ? (systemDark ? 'dark' : 'light') : (savedTheme || 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/services/themeService.js"></script>
+  <script src="js/utils/navigation.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #09090B;
+      --bg-secondary: #18181B;
+      --bg-card: #27272A;
+      --bg-card-hover: #3F3F46;
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #FAFAFA;
+      --text-secondary: #A1A1AA;
+      --text-tertiary: #71717A;
+      --brand-primary: #4A8DFF;
+      --brand-secondary: #6D5DFB;
+      --brand-gradient: linear-gradient(135deg, #4F7CFF 0%, #6D5DFB 45%, #9B5CFF 100%);
+      --success: #10B981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --warning: #D97706;
+      --warning-bg: rgba(217, 119, 6, 0.15);
+      --error: #EF4444;
+      --error-bg: rgba(239, 68, 68, 0.15);
+      --border-radius: 16px;
+      --border-radius-lg: 24px;
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 12px 32px rgba(109, 93, 251, 0.3);
+    }
+
+    html[data-theme="light"] {
+      --bg-primary: #F6FAFF;
+      --bg-secondary: #F5F9FF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FAFCFF;
+      --border-card: #E8F0FF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-tertiary: #6B7A90;
+      --brand-primary: #4A8DFF;
+      --brand-secondary: #6D5DFB;
+      --success: #1BD4A0;
+      --success-bg: rgba(27, 212, 160, 0.15);
+      --warning: #D97706;
+      --warning-bg: #FFF5E8;
+      --error: #DC2626;
+      --error-bg: #FEE2E2;
+      --shadow-card: 0 4px 24px rgba(67, 97, 168, 0.08);
+      --shadow-lg: 0 12px 32px rgba(109, 93, 251, 0.15);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* 顶部导航 */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+
+    html[data-theme="light"] .header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .header-back {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+
+    .header-back svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-primary);
+    }
+
+    .header-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .header-badge {
+      padding: 4px 10px;
+      background: rgba(109, 93, 251, 0.2);
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #A78BFA;
+    }
+
+    /* 主内容区 */
+    .content {
+      padding: 72px 16px 20px;
+    }
+
+    /* Hero区 */
+    .hero-card {
+      background: var(--brand-gradient);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -15%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(192, 132, 252, 0.3) 0%, transparent 70%);
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+    }
+
+    .hero-card .title {
+      position: relative;
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .hero-card .subtitle {
+      position: relative;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 12px;
+    }
+
+    .hero-card .desc {
+      position: relative;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      position: relative;
+      display: inline-flex;
+      padding: 12px 24px;
+      background: white;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6D5DFB;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* 能力概览区 */
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .capability-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .capability-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, rgba(74, 141, 255, 0.15) 0%, rgba(109, 93, 251, 0.15) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .capability-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--brand-primary);
+    }
+
+    .capability-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .capability-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      line-height: 1.4;
+    }
+
+    /* 案例区 */
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .case-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .case-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .case-tag {
+      padding: 3px 8px;
+      background: rgba(74, 141, 255, 0.1);
+      border-radius: 8px;
+      font-size: 10px;
+      color: var(--brand-primary);
+    }
+
+    .case-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .case-prompt {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    }
+
+    .btn-template {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: rgba(74, 141, 255, 0.1);
+      border: 1px solid rgba(74, 141, 255, 0.3);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--brand-primary);
+      cursor: pointer;
+    }
+
+    /* 使用引导区 */
+    .steps-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      background: var(--brand-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    /* 创建区域 */
+    .create-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--brand-primary);
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .form-select option {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .btn-create {
+      width: 100%;
+      padding: 14px;
+      background: var(--brand-gradient);
+      border: none;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(109, 93, 251, 0.3);
+    }
+
+    .btn-secondary-outline {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    /* 成功提示 */
+    .success-message {
+      background: var(--success-bg);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .success-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-icon svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+
+    .success-text {
+      font-size: 13px;
+      color: var(--success);
+    }
+
+    /* Toast提示 */
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 20px;
+      font-size: 13px;
+      color: white;
+      z-index: 1000;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* 响应式 */
+    @media (min-width: 390px) {
+      .content {
+        max-width: 390px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <div class="header">
+    <div class="header-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </div>
+    <div class="header-title">影视创作</div>
+    <div class="header-badge">Beta</div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="content">
+    <!-- Hero区 -->
+    <div class="hero-card">
+      <div class="title">影视创作</div>
+      <div class="subtitle">视频生成 + 内容处理 + Agent</div>
+      <div class="desc">面向短视频、宣传片、素材处理与内容生产场景，提供从脚本、分镜、素材整理到视频生成的智能能力支持。</div>
+      <button class="btn-primary" onclick="scrollToCreate()">开始创建</button>
+    </div>
+
+    <!-- 能力概览区 -->
+    <div>
+      <div class="section-title">能力概览</div>
+      <div class="capability-grid">
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="capability-title">脚本生成</div>
+          <div class="capability-desc">根据商品、主题或场景生成短视频脚本</div>
+        </div>
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <circle cx="15.5" cy="8.5" r="1.5"/>
+              <line x1="3" y1="16" x2="21" y2="16"/>
+            </svg>
+          </div>
+          <div class="capability-title">分镜设计</div>
+          <div class="capability-desc">自动拆解镜头、画面、运镜和节奏</div>
+        </div>
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <div class="capability-title">视频 Prompt</div>
+          <div class="capability-desc">生成适合视频模型的提示词</div>
+        </div>
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="capability-title">素材整理</div>
+          <div class="capability-desc">辅助整理图片、文案、卖点和参考风格</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 快速开始/案例区 -->
+    <div>
+      <div class="section-title">快速开始</div>
+      <div id="casesContainer">
+        <!-- 案例卡片将通过JS生成 -->
+      </div>
+    </div>
+
+    <!-- 使用引导区 -->
+    <div>
+      <div class="section-title">使用步骤</div>
+      <div class="steps-container" id="stepsContainer">
+        <!-- 步骤卡片将通过JS生成 -->
+      </div>
+    </div>
+
+    <!-- 创建区域 -->
+    <div id="createSection">
+      <div class="section-title">创建影视任务</div>
+      <div class="create-section">
+        <div class="form-group">
+          <label class="form-label">商品/主题</label>
+          <input type="text" class="form-input" id="inputProduct" placeholder="请输入商品名称或视频主题">
+        </div>
+        <div class="form-group">
+          <label class="form-label">发布平台</label>
+          <select class="form-select" id="inputPlatform">
+            <option value="">请选择平台</option>
+            <option value="xiaohongshu">小红书</option>
+            <option value="douyin">抖音</option>
+            <option value="taobao">淘宝</option>
+            <option value="weixin">微信视频号</option>
+            <option value="bilibili">B站</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">画面风格</label>
+          <select class="form-select" id="inputStyle">
+            <option value="">请选择风格</option>
+            <option value="warm">温暖</option>
+            <option value="high-end">高级</option>
+            <option value="tech">科技</option>
+            <option value="fresh">清新</option>
+            <option value="business">商务</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">视频时长</label>
+          <select class="form-select" id="inputDuration">
+            <option value="">请选择时长</option>
+            <option value="5">5秒</option>
+            <option value="8">8秒</option>
+            <option value="10">10秒</option>
+            <option value="15">15秒</option>
+            <option value="30">30秒</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">生成的提示词</label>
+          <textarea class="form-input" id="generatedPrompt" rows="4" readonly placeholder="选择模板后，提示词将显示在这里..."></textarea>
+        </div>
+        <button class="btn-create" onclick="handleCreate()">开始创建影视任务</button>
+        <button class="btn-secondary-outline" onclick="scrollToCases()">查看提示词模板</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 案例数据
+    const cases = [
+      {
+        title: '电商商品短视频',
+        scene: '小红书 / 抖音 / 淘宝详情页',
+        description: '适合将商品卖点转化为 5-10 秒竖屏广告视频。',
+        promptTemplate: '帮我生成一条【商品名称】的电商短视频，平台是【小红书/抖音/淘宝】，视频时长【5秒】，画面风格【温暖/高级/科技/清新】，突出卖点【卖点1、卖点2】，比例为【9:16】。',
+        tags: ['电商', '短视频', '竖屏']
+      },
+      {
+        title: '企业宣传片概念视频',
+        scene: '企业介绍 / 展会开场 / 项目路演',
+        description: '适合生成企业级科技风、产业风、产品能力介绍类视频。',
+        promptTemplate: '帮我生成一条【公司/产品名称】的宣传片概念视频，主题是【主题】，风格为【企业级蓝白科技风/高端产业风】，画面包含【核心元素】，时长【8秒】，节奏稳重，适合商务展示。',
+        tags: ['企业', '宣传片', '商务']
+      },
+      {
+        title: '素材转视频创意',
+        scene: '已有图片、产品图、Logo、海报素材',
+        description: '适合将已有素材改造成动态短视频创意。',
+        promptTemplate: '请基于我提供的素材，生成一条适合【平台】发布的视频创意，保持主体不变，风格为【风格】，增加【镜头运动/光影变化/场景氛围】，时长【5秒】，不要改变产品外观和颜色。',
+        tags: ['素材', '创意', '动态']
+      }
+    ];
+
+    // 步骤数据
+    const steps = [
+      {
+        title: '选择场景或模板',
+        description: '从预设案例中选择适合的场景模板'
+      },
+      {
+        title: '补充详细信息',
+        description: '填写商品、平台、风格、时长等参数'
+      },
+      {
+        title: '生成脚本与分镜',
+        description: '系统自动生成脚本、分镜和视频 Prompt'
+      },
+      {
+        title: '提交生成任务',
+        description: '将任务提交到视频生成队列'
+      },
+      {
+        title: '预览与下载',
+        description: '预览效果、下载视频或重新生成'
+      }
+    ];
+
+    // 初始化页面
+    function init() {
+      renderCases();
+      renderSteps();
+    }
+
+    // 渲染案例卡片
+    function renderCases() {
+      const container = document.getElementById('casesContainer');
+      cases.forEach((item, index) => {
+        const tagsHTML = item.tags.map(tag => `<span class="case-tag">${tag}</span>`).join('');
+        const card = document.createElement('div');
+        card.className = 'case-card';
+        card.innerHTML = `
+          <div class="case-header">
+            <div>
+              <div class="case-title">${item.title}</div>
+              <div class="case-tags">${tagsHTML}</div>
+            </div>
+          </div>
+          <div class="case-desc">${item.description}</div>
+          <div class="case-prompt">${item.promptTemplate}</div>
+          <button class="btn-template" onclick="useTemplate(${index})">使用此模板</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 渲染步骤卡片
+    function renderSteps() {
+      const container = document.getElementById('stepsContainer');
+      steps.forEach((item, index) => {
+        const step = document.createElement('div');
+        step.className = 'step-item';
+        step.innerHTML = `
+          <div class="step-number">${index + 1}</div>
+          <div class="step-content">
+            <div class="step-title">${item.title}</div>
+            <div class="step-desc">${item.description}</div>
+          </div>
+        `;
+        container.appendChild(step);
+      });
+    }
+
+    // 使用模板
+    function useTemplate(index) {
+      const template = cases[index].promptTemplate;
+      document.getElementById('generatedPrompt').value = template;
+      showToast('模板已填入');
+      document.getElementById('createSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 滚动到创建区域
+    function scrollToCreate() {
+      document.getElementById('createSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 滚动到案例区域
+    function scrollToCases() {
+      document.getElementById('casesContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 处理创建
+    function handleCreate() {
+      const product = document.getElementById('inputProduct').value;
+      const platform = document.getElementById('inputPlatform').value;
+      const style = document.getElementById('inputStyle').value;
+      const duration = document.getElementById('inputDuration').value;
+
+      if (!product) {
+        showToast('请输入商品/主题');
+        return;
+      }
+
+      // 创建成功提示
+      const content = document.querySelector('.content');
+      const successMsg = document.createElement('div');
+      successMsg.className = 'success-message';
+      successMsg.innerHTML = `
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="success-text">任务已创建，后续将接入视频生成 Skill</div>
+      `;
+      content.insertBefore(successMsg, document.getElementById('createSection'));
+
+      // 清空表单
+      document.getElementById('inputProduct').value = '';
+      document.getElementById('inputPlatform').value = '';
+      document.getElementById('inputStyle').value = '';
+      document.getElementById('inputDuration').value = '';
+      document.getElementById('generatedPrompt').value = '';
+    }
+
+    // 返回上一页
+    function goBack() {
+      window.history.back();
+    }
+
+    // 显示Toast提示
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+      }, 2000);
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
