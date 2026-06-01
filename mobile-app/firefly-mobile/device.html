@@ -2896,6 +2896,7 @@
     syncDeviceModel();
     checkSkillExecutionResult();
     loadInstalledSkills();
+    updateDeviceCard();
     
     window.addEventListener('pageshow', async function(e) {
       log('[DevicePage] pageshow 事件触发');
@@ -3012,12 +3013,13 @@
       
       try {
         const device = DeviceManager.getDevice();
-        if (!device || !device.deviceId) {
+        const deviceId = device?.id || device?.deviceId;
+        if (!device || !deviceId) {
           log('[DevicePage] 未获取到设备信息');
           return;
         }
         
-        const skills = await DeviceManager.getDeviceSkills(device.deviceId);
+        const skills = await DeviceManager.getDeviceSkills(deviceId);
         log('[DevicePage] 获取到技能列表:', skills);
         
         if (skills.length === 0) {

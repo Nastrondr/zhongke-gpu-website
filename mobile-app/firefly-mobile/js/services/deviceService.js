@@ -373,17 +373,18 @@ const DeviceManager = {
    */
   renderDevicePage() {
     const device = this.getDevice();
+    if (!device) return;
 
-    // 更新设备名称
-    const nameEl = document.querySelector('.device-name');
+    // 更新设备名称（支持两种选择器）
+    const nameEl = document.getElementById('deviceCardName') || document.querySelector('.device-name');
     if (nameEl) {
-      nameEl.textContent = device.name;
+      nameEl.textContent = device.name || device.productName || device.model || '未命名设备';
     }
 
-    // 更新设备ID（优先显示序列号 sn）
-    const idEl = document.querySelector('.device-id');
+    // 更新设备ID（优先显示序列号 sn，支持两种选择器）
+    const idEl = document.getElementById('deviceCardId') || document.querySelector('.device-id');
     if (idEl) {
-      idEl.textContent = device.sn || device.deviceId || '--';
+      idEl.textContent = device.sn || device.uuid || device.iotDeviceUuid || device.mac || '--';
     }
 
     // 更新状态 - 使用ID选择器
