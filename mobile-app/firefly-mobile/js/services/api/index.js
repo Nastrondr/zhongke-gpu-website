@@ -487,6 +487,70 @@ const Api = {
       return apiClient.post(url, requestBody);
     },
 
+    // 启用技能
+    async enableSkill(deviceId, skillKey) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+      
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateUUID(),
+              method: 'skills.enable',
+              params: {
+                skill: skillKey
+              }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+      
+      console.log('[OPENCLAW] enableSkill:', { deviceId, skillKey, url });
+      return apiClient.post(url, requestBody);
+    },
+
+    // 停用技能
+    async disableSkill(deviceId, skillKey) {
+      const endpoint = ApiEndpoints.device.openclaw.invork;
+      const path = endpoint.path.replace(':id', deviceId);
+      const url = ApiEndpoints.buildUrl(path);
+      
+      const requestBody = {
+        Plugin_Name: 'com.szsbay.kernel',
+        RPCMethod: 'Post',
+        Parameter: {
+          parameter: {
+            command: 'command',
+            data: {
+              type: 'req',
+              id: this._generateUUID(),
+              method: 'skills.disable',
+              params: {
+                skill: skillKey
+              }
+            }
+          },
+          CmdType: 'systemExtend.OPENCLAW_MANAGER'
+        },
+        expireSeconds: 10,
+        ID: 0,
+        applicationName: ''
+      };
+      
+      console.log('[OPENCLAW] disableSkill:', { deviceId, skillKey, url });
+      return apiClient.post(url, requestBody);
+    },
+
     // 切换模型
     async switchModel(deviceId, model) {
       const endpoint = ApiEndpoints.device.openclaw.invork;

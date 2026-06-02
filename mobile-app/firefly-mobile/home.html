@@ -2537,60 +2537,60 @@
       
       // 防止重复调用
       if (!force && isDeviceCardUpdating) {
-        console.log('[HomeDebug] updateDeviceCard skipped: already running');
         return;
       }
       
       // 5秒内不重复请求（force可跳过）
       if (!force && now - lastDeviceCardUpdateTime < DEVICE_CARD_UPDATE_INTERVAL) {
-        console.log('[HomeDebug] updateDeviceCard skipped: too frequent, reason:', reason);
         return;
       }
       
       isDeviceCardUpdating = true;
       lastDeviceCardUpdateTime = now;
       
-      console.log('[HomeDebug] updateDeviceCard called, reason:', reason);
       try {
-        console.log('[HomeDebug] calling DeviceManager.getDevices()');
         // 从API获取真实设备数据
         const devices = await DeviceManager.getDevices();
-        console.log('[HomeDebug] getDevices returned:', devices);
-        
-        // 调用设备详情API获取更多信息（任务状态等）
-        const firstDevice = devices && devices[0];
-        if (firstDevice && firstDevice.id) {
-          try {
-            const detail = await DeviceManager.getDeviceDetail(firstDevice.id);
-            if (detail) {
-              firstDevice.taskStatus = detail.taskStatus || firstDevice.taskStatus;
-              console.log('[HomeDebug] device detail:', detail);
-            }
-          } catch (e) {
-            console.warn('[HomeDebug] getDeviceDetail failed:', e);
-          }
-
-          // 获取算力消耗数据
-          try {
-            const tcRecords = await DeviceManager.getDeviceTcRecords(firstDevice.id, 1, 1);
-            if (tcRecords && tcRecords.length > 0) {
-              const latest = tcRecords[0];
-              firstDevice.tcBalance = latest.balance;
-              firstDevice.tcAmount = latest.amount;
-            }
-            console.log('[HomeDebug] tc balance fetched:', firstDevice.tcBalance);
-          } catch (e) {
-            console.warn('[HomeDebug] getDeviceTcRecords failed:', e);
-          }
-        }
         
         if (devices && devices.length > 0) {
+          // 获取当前选中的设备，保留用户的选择
+          const currentDevice = Storage.Device.getCurrentDevice();
+          const currentId = Number(currentDevice?.id || currentDevice?.deviceId);
+          
+          // 匹配 selectedDevice
+          const selectedDevice = currentId ? devices.find(d => Number(d.id) === currentId) : null;
+          
+          // 得到 displayDevice
+          const displayDevice = selectedDevice || devices[0];
+          
+          // 对 displayDevice 调用 getDeviceDetail 和 getDeviceTcRecords
+          if (displayDevice && displayDevice.id) {
+            try {
+              const detail = await DeviceManager.getDeviceDetail(displayDevice.id);
+              if (detail) {
+                displayDevice.taskStatus = detail.taskStatus || displayDevice.taskStatus;
+              }
+            } catch (e) {
+              console.warn('[HomeDebug] getDeviceDetail failed:', e);
+            }
+
+            // 获取算力消耗数据
+            try {
+              const tcRecords = await DeviceManager.getDeviceTcRecords(displayDevice.id, 1, 1);
+              if (tcRecords && tcRecords.length > 0) {
+                const latest = tcRecords[0];
+                displayDevice.tcBalance = latest.balance;
+                displayDevice.tcAmount = latest.amount;
+              }
+            } catch (e) {
+              console.warn('[HomeDebug] getDeviceTcRecords failed:', e);
+            }
+          }
+          
           // 更新全局defaultDevice用于兜底
-          DeviceManager.defaultDevice = { ...devices[0] };
+          DeviceManager.defaultDevice = { ...displayDevice };
           DeviceManager.defaultDevice.deviceCount = devices.length;
           DeviceManager.defaultDevice.onlineCount = devices.filter(d => d.isOnline).length;
-          // 同步到Storage用于页面刷新后兜底
-          Storage.Device.setCurrentDevice(DeviceManager.defaultDevice);
         } else {
           // 无设备时显示空状态
           const token = Storage.Auth.getToken();

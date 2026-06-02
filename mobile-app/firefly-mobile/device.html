@@ -26,7 +26,6 @@
     })();
   </script>
   <link rel="stylesheet" href="css/theme-variables.css">
-  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -3739,8 +3738,9 @@
                 const sn = device.sn || device.deviceId || '--';
                 const model = device.currentModel || '--';
                 
+                const deviceIdentifier = device.id || device.deviceId || device.uuid || device.iotDeviceUuid || device.sn;
                 return `
-                  <div class="other-device-card" onclick="switchToDeviceCard('${device.id || device.deviceId}')">
+                  <div class="other-device-card" onclick="switchToDeviceCard('${deviceIdentifier}')">
                     <div class="device-icon">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="4" y="4" width="16" height="16" rx="2"/>
@@ -3903,7 +3903,6 @@
         const freshDevice = await DeviceManager.getDeviceDetail(deviceId);
         if (freshDevice) {
           device = freshDevice;
-          console.log('[DevicePage] 已刷新设备状态:', device.isOnline);
         }
       } catch (e) {
         console.warn('[DevicePage] 刷新设备状态失败，使用缓存:', e);
@@ -3926,12 +3925,53 @@
       showToast('已选择 ' + (device.name || '设备'));
     }
 
-    // 卡片式切换设备（同时刷新设备状态）
+    let pendingDevice = null;
+
+    function showSwitchDeviceModal(device) {
+      pendingDevice = device;
+      const desc = document.getElementById('switchDeviceDesc');
+      if (desc) {
+        desc.textContent = `切换后将使用「${device.name || '设备'}」进行对话和任务执行`;
+      }
+      document.getElementById('switchDeviceModal').classList.add('show');
+    }
+
+    function hideSwitchDeviceModal() {
+      document.getElementById('switchDeviceModal').classList.remove('show');
+      pendingDevice = null;
+    }
+
+    function showOfflineDeviceModal() {
+      document.getElementById('offlineDeviceModal').classList.add('show');
+    }
+
+    function hideOfflineDeviceModal() {
+      document.getElementById('offlineDeviceModal').classList.remove('show');
+    }
+
+    async function confirmSwitchDevice() {
+      if (!pendingDevice) return;
+      
+      const device = pendingDevice;
+      hideSwitchDeviceModal();
+      
+      try {
+        DeviceManager.setDevice(device);
+        DeviceManager.renderDevicePage();
+        initDeviceSwitcher();
+        
+        showToast('已切换到 ' + (device.name || '设备'));
+      } catch (e) {
+        console.error('[DevicePage] 切换设备失败:', e);
+        showToast('切换设备失败');
+      }
+    }
+
     async function switchToDeviceCard(deviceId) {
-      // 查找设备
+      const numDeviceId = Number(deviceId);
       const device = deviceListCache.find(d => {
-        return d.id === deviceId || 
-               d.deviceId === deviceId || 
+        return d.id === numDeviceId || 
+               d.deviceId === numDeviceId || 
                d.uuid === deviceId ||
                d.iotDeviceUuid === deviceId ||
                d.sn === deviceId;
@@ -3942,27 +3982,25 @@
         return;
       }
       
-      // 先刷新设备详情获取最新状态
-      try {
-        const freshDevice = await DeviceManager.getDeviceDetail(deviceId);
-        if (freshDevice) {
-          device = freshDevice;
-          console.log('[DevicePage] 已刷新设备状态:', device.isOnline);
+      let isOnline = device.isOnline || device.status === 'online';
+      
+      if (!isOnline) {
+        try {
+          const freshDevice = await DeviceManager.getDeviceDetail(deviceId);
+          if (freshDevice) {
+            isOnline = freshDevice.isOnline || freshDevice.status === 'online';
+          }
+        } catch (e) {
+          console.warn('[DevicePage] 刷新设备状态失败:', e);
         }
-      } catch (e) {
-        console.warn('[DevicePage] 刷新设备状态失败，使用缓存:', e);
       }
       
-      // 更新当前设备
-      DeviceManager.setDevice(device);
+      if (!isOnline) {
+        showOfflineDeviceModal();
+        return;
+      }
       
-      // 重新渲染页面
-      DeviceManager.renderDevicePage();
-      
-      // 重新渲染其他设备列表
-      initDeviceSwitcher();
-      
-      showToast('已切换到 ' + (device.name || '设备'));
+      showSwitchDeviceModal(device);
     }
 
     function hideAddDeviceModal() {
@@ -4440,11 +4478,12 @@
     document.addEventListener('DOMContentLoaded', async function() {
       ThemeManager.init();
       DeviceManager.init();
-
+      
       // 从真实API获取设备列表
       const loadingToast = Toast.loading('加载设备信息...');
       try {
         await DeviceManager.getDevices();
+        
         loadingToast && loadingToast.remove();
       } catch (e) {
         loadingToast && loadingToast.remove();
@@ -4666,7 +4705,7 @@
   </div>
 
   <!-- 绑定成功弹层 -->
-  <div id="successOverlay" class="success-overlay">
+  <div class="success-overlay" id="successModal">
     <div class="success-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="20 6 9 17 4 12"/>
@@ -4675,6 +4714,26 @@
     <div class="success-title">绑定成功</div>
     <div class="success-desc" id="successDeviceName"></div>
   </div>
-  <script src="js/utils/bottom-nav.js"></script>
+
+  <div class="modal-overlay" id="switchDeviceModal">
+    <div class="modal-content" style="border-radius: 16px; padding: 24px;">
+      <div class="modal-title" style="text-align: center; margin-bottom: 8px;">确定更换至此设备？</div>
+      <div class="modal-desc" style="text-align: center; margin-bottom: 20px;" id="switchDeviceDesc">切换后将使用新设备进行对话和任务执行</div>
+      <div class="modal-footer">
+        <button class="modal-btn cancel" onclick="hideSwitchDeviceModal()">取消</button>
+        <button class="modal-btn primary" onclick="confirmSwitchDevice()">确认切换</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="offlineDeviceModal">
+    <div class="modal-content" style="border-radius: 16px; padding: 24px;">
+      <div class="modal-title" style="text-align: center; margin-bottom: 8px;">提示</div>
+      <div class="modal-desc" style="text-align: center; margin-bottom: 20px;">此设备离线，无法更换</div>
+      <div class="modal-footer">
+        <button class="modal-btn primary" onclick="hideOfflineDeviceModal()">确定</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

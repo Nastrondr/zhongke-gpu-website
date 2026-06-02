@@ -100,9 +100,18 @@ const DeviceManager = {
           console.log('[Trial] first device keys:', Object.keys(devices[0] || {}));
         }
 
-        // 缓存到 Storage
+        // 缓存设备列表（只在必要时覆盖用户选择）
         if (devices.length > 0) {
-          Storage.Device.setCurrentDevice(devices[0]);
+          const currentDevice = Storage.Device.getCurrentDevice();
+          const currentId = Number(currentDevice?.id || currentDevice?.deviceId);
+          
+          // 只有在 Storage 完全没有当前设备，或者当前设备已经不在 API 返回的 devices 列表中时，才允许 setCurrentDevice(devices[0])
+          const currentDeviceExistsInList = devices.some(d => Number(d.id) === currentId);
+          
+          if (!currentId || !currentDeviceExistsInList) {
+            Storage.Device.setCurrentDevice(devices[0]);
+          }
+          
           Storage.Device.setDeviceList(devices);
           this.hasRealData = true;
         }
@@ -221,10 +230,15 @@ const DeviceManager = {
    * @param {Object} deviceData 设备数据
    */
   setDevice(deviceData) {
-    Storage.Device.setCurrentDevice(deviceData);
+    const normalizedDevice = {
+      ...deviceData,
+      id: Number(deviceData.id || deviceData.deviceId),
+      deviceId: Number(deviceData.deviceId || deviceData.id)
+    };
+    Storage.Device.setCurrentDevice(normalizedDevice);
     // 触发设备状态更新事件
     window.dispatchEvent(new CustomEvent('deviceStatusChanged', {
-      detail: deviceData
+      detail: { device: normalizedDevice }
     }));
   },
 

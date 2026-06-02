@@ -1313,15 +1313,170 @@
     // 加载技能列表
     let loadedSkills = [];
     
-    // 技能假数据（fallback）
+    // 技能假数据（仅作为占位，真实数据来自接口）
     const FALLBACK_SKILLS = [
-      { skillKey: 'document', name: '文档处理', description: '支持PDF、Word、Excel等多种文档格式的解析与内容提取', bundled: false, disabled: false },
-      { skillKey: 'data', name: '数据分析', description: '对表格数据进行统计分析、图表生成和可视化展示', bundled: false, disabled: false },
-      { skillKey: 'image', name: '图像识别', description: '识别图片中的物体、场景、文字等内容信息', bundled: false, disabled: false },
-      { skillKey: 'voice', name: '语音识别', description: '将语音内容转换为文字，支持多种语言和口音', bundled: false, disabled: false },
-      { skillKey: 'ocr', name: 'OCR识别', description: '从图片中提取文字信息，支持多语言识别', bundled: false, disabled: false },
-      { skillKey: 'translate', name: '智能翻译', description: '支持多语言互译，涵盖常用语言和专业术语', bundled: true, disabled: false }
+      { skillKey: 'placeholder', name: '暂无技能', description: '暂无可用技能', bundled: false, disabled: false }
     ];
+    
+    // 技能翻译映射表（用于翻译真实接口返回的英文技能）
+    const SKILL_TRANSLATIONS = {
+      names: {
+        // 接口实际返回的技能 - 第一组
+        'browser-automation': '浏览器自动化',
+        'canvas': '画布展示',
+        'diagram-maker': '图表制作',
+        'healthcheck': '健康检查',
+        'meme-maker': '表情包制作',
+        'node-connect': '节点连接',
+        'node-inspect-debugger': 'Node调试器',
+        'notion': 'Notion集成',
+        // 接口实际返回的技能 - 第二组
+        'comfyui-agent-skill-mie': 'ComfyUI代理',
+        'taskflow': '任务流程',
+        'taskflow-inbox-triage': '任务流程分类',
+        'skill-creator': '技能创建器',
+        'spike': '快速原型',
+        'task-management': '任务管理',
+        'weather': '天气查询',
+        // 其他常见技能
+        'document': '文档处理',
+        'data': '数据分析',
+        'image': '图像识别',
+        'voice': '语音识别',
+        'ocr': 'OCR识别',
+        'translate': '智能翻译',
+        'video': '视频处理',
+        'audio': '音频处理',
+        'chat': '智能对话',
+        'knowledge': '知识问答',
+        'summary': '文本摘要',
+        'classification': '文本分类',
+        'sentiment': '情感分析',
+        'ner': '实体识别',
+        'code': '代码生成',
+        'debugging': '代码调试',
+        'database': '数据库查询',
+        'api': 'API调用',
+        'web': '网页浏览',
+        'email': '邮件处理',
+        'calendar': '日程管理',
+        'file': '文件管理',
+        'security': '安全检测',
+        'backup': '数据备份',
+        'sync': '数据同步',
+        'monitoring': '系统监控',
+        'logging': '日志分析'
+      },
+      descriptions: {
+        // 接口实际返回的技能描述 - 第一组
+        'browser-automation': '用于控制Web浏览器自动化操作，支持表单填写、页面导航等任务',
+        'canvas': '在连接的设备上展示HTML画布内容，支持图形绘制和交互',
+        'diagram-maker': '创建SVG/HTML或Excel图表，支持多种图表类型',
+        'healthcheck': '审计和加固OpenClaw主机系统，检查系统健康状态',
+        'meme-maker': '搜索表情包模板，支持自定义制作和分享',
+        'node-connect': '诊断OpenClaw Android设备连接问题',
+        'node-inspect-debugger': '使用Node Inspector调试Node.js应用',
+        'notion': 'Notion CLI/API集成，支持页面管理和数据同步',
+        // 接口实际返回的技能描述 - 第二组
+        'comfyui-agent-skill-mie': '基于ComfyUI的工作流代理，支持图像生成和处理任务',
+        'taskflow': '任务流程编排引擎，支持任务的创建、调度和管理',
+        'taskflow-inbox-triage': '任务流程分类系统，自动分类和处理任务队列',
+        'python-debugpy': '使用pdb、breakpoint等工具调试Python代码',
+        'skill-creator': '创建、编辑、审计和整理技能',
+        'spike': '运行一次性原型，快速验证想法',
+        'task-management': '创建、跟踪和管理任务',
+        'weather': '获取当前天气和天气预报信息',
+        // 其他常见技能描述
+        'document': '支持PDF、Word、Excel等多种文档格式的解析与内容提取',
+        'data': '对表格数据进行统计分析、图表生成和可视化展示',
+        'image': '识别图片中的物体、场景、文字等内容信息',
+        'voice': '将语音内容转换为文字，支持多种语言和口音',
+        'ocr': '从图片中提取文字信息，支持多语言识别',
+        'translate': '支持多语言互译，涵盖常用语言和专业术语',
+        'video': '视频剪辑、转码、特效处理和内容分析',
+        'audio': '音频录制、剪辑、降噪和语音合成',
+        'chat': '智能对话交互，支持多轮对话和上下文理解',
+        'knowledge': '基于知识库的智能问答和信息检索',
+        'summary': '自动提取文本关键信息，生成简洁摘要',
+        'classification': '对文本内容进行分类和标签标注',
+        'sentiment': '分析文本情感倾向，判断正面/负面/中性',
+        'ner': '识别文本中的人名、地名、机构名等实体',
+        'code': '根据需求自动生成代码',
+        'debugging': '分析代码错误，提供修复建议',
+        'database': '构建和执行数据库查询语句',
+        'api': '调用外部API接口获取数据',
+        'web': '浏览网页内容，获取所需信息',
+        'email': '发送、接收和管理邮件',
+        'calendar': '管理日程安排和会议提醒',
+        'file': '文件的上传、下载和管理',
+        'security': '检测系统安全威胁和漏洞',
+        'backup': '备份重要数据和系统配置',
+        'sync': '多设备之间的数据同步',
+        'monitoring': '监控系统性能和状态',
+        'logging': '分析系统日志，排查问题'
+      }
+    };
+    
+    function translateSkillName(name) {
+      if (!name) return name;
+      const normalizedName = name.toLowerCase().trim();
+      if (SKILL_TRANSLATIONS.names[name]) {
+        return SKILL_TRANSLATIONS.names[name];
+      }
+      for (const key of Object.keys(SKILL_TRANSLATIONS.names)) {
+        if (key.toLowerCase() === normalizedName) {
+          return SKILL_TRANSLATIONS.names[key];
+        }
+      }
+      for (const key of Object.keys(SKILL_TRANSLATIONS.names)) {
+        if (name.toLowerCase().includes(key.toLowerCase())) {
+          return SKILL_TRANSLATIONS.names[key];
+        }
+      }
+      return name;
+    }
+    
+    function translateSkillDescription(skillKey, description) {
+      if (!description || description.trim() === '') {
+        const normalizedKey = (skillKey || '').toLowerCase();
+        const exactMatch = SKILL_TRANSLATIONS.descriptions[skillKey] || SKILL_TRANSLATIONS.descriptions[normalizedKey];
+        if (exactMatch) return exactMatch;
+        for (const key of Object.keys(SKILL_TRANSLATIONS.descriptions)) {
+          if (normalizedKey.includes(key)) {
+            return SKILL_TRANSLATIONS.descriptions[key];
+          }
+        }
+        return '暂无描述';
+      }
+      if (/[\u4e00-\u9fa5]/.test(description)) {
+        return description;
+      }
+      const normalizedKey = (skillKey || '').toLowerCase();
+      const translated = SKILL_TRANSLATIONS.descriptions[skillKey] || SKILL_TRANSLATIONS.descriptions[normalizedKey];
+      if (translated) return translated;
+      for (const key of Object.keys(SKILL_TRANSLATIONS.descriptions)) {
+        if (normalizedKey.includes(key)) {
+          return SKILL_TRANSLATIONS.descriptions[key];
+        }
+      }
+      return description;
+    }
+    
+    function translateSkill(skill) {
+      const originalName = skill.name || skill.skillKey;
+      const translatedName = translateSkillName(originalName);
+      const translatedDesc = translateSkillDescription(skill.skillKey || originalName, skill.description);
+      
+      if (translatedName === originalName && !/[\u4e00-\u9fa5]/.test(originalName)) {
+        console.warn('[SkillTranslation] 未翻译的技能:', originalName);
+      }
+      
+      return {
+        ...skill,
+        name: translatedName,
+        description: translatedDesc
+      };
+    }
     
     async function loadSkillList() {
       const currentDevice = Storage.Device.getCurrentDevice();
@@ -1347,6 +1502,10 @@
         // 提取技能数组，过滤掉已停用的技能
         let skills = extractSkillsFromResponse(response);
         skills = skills.filter(skill => !skill.disabled);
+        
+        // 翻译技能数据
+        skills = skills.map(skill => translateSkill(skill));
+        
         loadedSkills = skills;
         console.log('[SkillList] extracted skills:', skills);
         
@@ -1441,11 +1600,16 @@
     function showSkillDetailModal(skillKey) {
       const modal = document.getElementById('skillDetailModal');
       const skill = loadedSkills.find(s => (s.skillKey || s.name) === skillKey);
-      const state = skillStates[skillKey];
+      let state = skillStates[skillKey];
       
       if (!skill) {
         console.warn('[SkillDetail] skill not found:', skillKey);
         return;
+      }
+      
+      if (!state) {
+        state = skill.disabled ? 'disabled' : 'active';
+        skillStates[skillKey] = state;
       }
       
       document.getElementById('skillDetailIcon').innerHTML = getSkillIcon(skillKey);
@@ -1488,7 +1652,6 @@
     function closeSkillDetailModal() {
       const modal = document.getElementById('skillDetailModal');
       modal.classList.remove('show');
-      currentSkillAction = null;
       currentSkillDetail = null;
     }
     
@@ -1506,11 +1669,11 @@
       
       if (state === 'active') {
         title.textContent = '确认停用';
-        desc.textContent = '确定要停用「' + getSkillName(skill) + '」吗？';
+        desc.textContent = '确定要停用「' + translateSkillName(skill) + '」吗？';
         confirmBtn.textContent = '停用';
       } else if (state === 'inactive') {
         title.textContent = '确认启用';
-        desc.textContent = '确定要启用「' + getSkillName(skill) + '」吗？';
+        desc.textContent = '确定要启用「' + translateSkillName(skill) + '」吗？';
         confirmBtn.textContent = '启用';
       } else if (state === 'disabled') {
         AppToast.warning('该技能已禁用，无法操作');
@@ -1535,25 +1698,64 @@
     function closeSkillModal() {
       const modal = document.getElementById('skillModal');
       modal.classList.remove('show');
-      currentSkillAction = null;
+      // 不要在这里清空 currentSkillAction，让 confirmSkillAction 自己处理
     }
     
-    function confirmSkillAction() {
-      if (!currentSkillAction) return;
+    async function confirmSkillAction() {
+      console.log('[SkillToggle] confirmSkillAction called, currentSkillAction:', currentSkillAction);
+      if (!currentSkillAction) {
+        console.log('[SkillToggle] currentSkillAction is null/undefined');
+        return;
+      }
       
       const skill = currentSkillAction;
       const currentState = skillStates[skill];
+      console.log('[SkillToggle] skill:', skill, 'currentState:', currentState);
+      
+      const currentDevice = Storage.Device.getCurrentDevice();
+      const deviceId = currentDevice?.deviceId || currentDevice?.id;
+      console.log('[SkillToggle] deviceId:', deviceId);
+      
+      if (!deviceId) {
+        AppToast.warning('请先选择设备');
+        return;
+      }
+      
+      const doToggleSkill = async (enable) => {
+        try {
+          if (enable) {
+            await Api.OPENCLAW.enableSkill(deviceId, skill);
+          } else {
+            await Api.OPENCLAW.disableSkill(deviceId, skill);
+          }
+          return true;
+        } catch (e) {
+          console.error('[SkillToggle]', enable ? 'enable' : 'disable', 'failed:', e);
+          return false;
+        }
+      };
       
       if (currentState === 'active') {
-        skillStates[skill] = 'inactive';
-        AppToast.success('已停用 ' + getSkillName(skill));
+        const success = await doToggleSkill(false);
+        if (success) {
+          skillStates[skill] = 'inactive';
+          AppToast.success('已停用 ' + translateSkillName(skill));
+        } else {
+          AppToast.error('停用失败，请稍后重试');
+        }
       } else if (currentState === 'inactive') {
-        skillStates[skill] = 'active';
-        AppToast.success('已启用 ' + getSkillName(skill));
+        const success = await doToggleSkill(true);
+        if (success) {
+          skillStates[skill] = 'active';
+          AppToast.success('已启用 ' + translateSkillName(skill));
+        } else {
+          AppToast.error('启用失败，请稍后重试');
+        }
       }
       
       renderSkillStates();
       closeSkillModal();
+      currentSkillAction = null;
     }
     
     function renderSkillStates() {
